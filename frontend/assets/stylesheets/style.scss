@@ -1,5 +1,24 @@
-$color: blue;
+body, html {
+  min-height: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+}
 
-h1.hello-world {
-  color: $color;
+h1, h2, h3, h4, h5, ul {
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  font-family: Tahoma, sans-serif;
+}
+
+#app {
+  height: 100%;
+  display: flex;
+
+  .board {
+    flex-grow: 2;
+  }
 }

@@ -1,0 +1,13 @@
+@import "../../assets/stylesheets/app";
+
+.board {
+  background-color: $blue;
+  padding: 50px 0 10px;
+
+  .column {
+    width: 270px;
+    height: 100%;
+    margin-left: 20px;
+    float: left;
+  }
+}

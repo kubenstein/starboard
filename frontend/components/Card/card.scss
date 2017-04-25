@@ -1,0 +1,16 @@
+@import "../../assets/stylesheets/app";
+
+.card {
+  width: 100%;
+  background-color: $white;
+  border-radius: 3px;
+  box-shadow: 1px 1px 1px rgba(0,0,0,.1);
+
+  .title {
+    color: $black;
+    font-size: 14px;
+    font-weight: normal;
+    display: block;
+    padding: 10px;
+  }
+}
