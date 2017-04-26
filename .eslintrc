@@ -23,7 +23,8 @@
     "no-unused-vars": [1, { "argsIgnorePattern": "^_" }],
     "max-len": [2, {"code": 120, "ignoreComments": true}],
     "no-alert": 0,
-    "arrow-body-style": 0
+    "arrow-body-style": 0,
+    "jsx-a11y/no-static-element-interactions": 0
   },
   "globals": {
     "browser": true,
