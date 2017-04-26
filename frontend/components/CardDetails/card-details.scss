@@ -1,7 +1,7 @@
 @import "../../assets/stylesheets/app";
 
 .card-details {
-  width: 730px;
+  width: 570px;
   min-height: 500px;
   background-color: $grey;
   border-radius: 3px;
@@ -15,7 +15,7 @@
   .sub-title {
     font-size: 13px;
     font-weight: normal;
-    margin: 14px 0;
+    margin: 15px 0 5px 0;
     color: $grey-dark;
   }
 
@@ -23,5 +23,24 @@
 
     color: $black;
     font-size: 14px;
+  }
+}
+
+.card-comment {
+  padding-bottom: 15px;
+  margin-bottom: 15px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+
+  .author {
+    font-size: 16px;
+    color: $black;
+  }
+
+  .content {
+    background-color: $white;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 3px;
+    box-shadow: 1px 1px 1px rgba(0, 0, 0, .1);
   }
 }
