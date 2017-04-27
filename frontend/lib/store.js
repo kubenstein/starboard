@@ -1,9 +1,9 @@
-import  EventBus from 'lib/event-bus.js'
+import EventBus from 'lib/event-bus.js';
 
 export default class Store {
   constructor() {
     this.observers = [];
-    this.data = [];
+    this.data = {};
     this.eventbus = new EventBus();
     this.eventbus.addObserver(this);
   }
@@ -12,15 +12,24 @@ export default class Store {
     this.observers.push(observer);
   }
 
+  bucket(name) {
+    return this.data[name] || [];
+  }
+
+  // private
+
   update() {
-    this.observers.map((observer) => {
-      observer.onStoreUpdate(this.data);
+    this.observers.forEach((observer) => {
+      observer.onStoreUpdate();
     });
   }
 
   onNewEvent(event) {
-    let handlerName = '_' + event.type.toLowerCase() + '_EventHandler';
-    if(this[handlerName]) {
+    const cammecasedEventName = event.type
+                                     .toLowerCase()
+                                     .replace(/_([a-z])/g, (g) => { return g[1].toUpperCase(); });
+    const handlerName = `${cammecasedEventName}EventHandler`;
+    if (this[handlerName]) {
       this[handlerName](event);
       this.update();
     }
@@ -29,24 +38,22 @@ export default class Store {
 
   // Event Handlers
 
-  _add_column_EventHandler(event) {
-    let column = event.data;
-    column.cards = [];
-    this.data.push(column);
+  addColumnEventHandler(event) {
+    this.addDataToBucket('columns', event.data);
   }
 
-  _add_card_EventHandler(event) {
-    let card = event.data;
-    card.comments = [];
-    let columnId = card.columnId;
-    let column = this.data.filter((c) => c.id === columnId)[0];
-    column.cards.push(card);
+  addCardEventHandler(event) {
+    this.addDataToBucket('cards', event.data);
   }
 
-  _add_comment_EventHandler(event) {
-    let comment = event.data;
-    let cardId = comment.cardId;
-    let card = this.data.filter((c) => c.id === cardId)[0];
-    card.comments.push(comment);
+  addCommentEventHandler(event) {
+    this.addDataToBucket('comments', event.data);
+  }
+
+  addDataToBucket(bucketName, data) {
+    if (!this.data[bucketName]) {
+      this.data[bucketName] = [];
+    }
+    this.data[bucketName].push(data);
   }
 }

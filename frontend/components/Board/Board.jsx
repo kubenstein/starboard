@@ -6,7 +6,7 @@ import 'components/Board/board.scss';
 export default class Board extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { columns: []}
+    this.state = { columns: [] };
     this.store = new Store();
   }
 
@@ -14,8 +14,8 @@ export default class Board extends React.Component {
     this.store.addObserver(this);
   }
 
-  onStoreUpdate(newData) {
-    this.setState({ columns: newData })
+  onStoreUpdate() {
+    this.setState({ columns: this.store.bucket('columns') });
   }
 
   render() {
@@ -23,7 +23,7 @@ export default class Board extends React.Component {
     return (
       <div className="board clearfix">
         { columns.map(column =>
-          <Column className="column" key={column.id} data={column} />
+          <Column className="column" key={column.id} data={column} store={this.store} />
         )}
       </div>
     );

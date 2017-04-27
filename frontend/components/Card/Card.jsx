@@ -5,6 +5,7 @@ import 'components/Card/card.scss';
 export default class Card extends React.Component {
   constructor(props) {
     super(props);
+    this.store = this.props.store;
     this.state = {
       detailsOpened: false,
     };
@@ -24,17 +25,18 @@ export default class Card extends React.Component {
 
   render() {
     const cardData = this.props.data;
+    const { title } = cardData;
     const { detailsOpened } = this.state;
     return (
       <div className="card" onClick={() => { this.openDetails(); }}>
-        <h1 className="title">{cardData.title}</h1>
+        <h1 className="title">{title}</h1>
         {detailsOpened ?
           <div
             className="card-details-full-screen-wrapper"
             onClick={(e) => { this.closeDetails(e); }}
             ref={(r) => { this.dismissOverlayElement = r; }}
           >
-            <CardDetails data={cardData} />
+            <CardDetails data={cardData} store={this.store} />
           </div>
         : ''}
       </div>
