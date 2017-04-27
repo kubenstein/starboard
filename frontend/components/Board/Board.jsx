@@ -18,8 +18,13 @@ export default class Board extends React.Component {
     this.setState({ columns: this.store.bucket('columns') });
   }
 
-  render() {
+  sortedColumns() {
     const columns = this.state.columns;
+    return columns.sort((c1, c2) => c1.position - c2.position);
+  }
+
+  render() {
+    const columns = this.sortedColumns();
     return (
       <div className="board clearfix">
         { columns.map(column =>
