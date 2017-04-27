@@ -1,4 +1,5 @@
 import React from 'react';
+import AddCardForm from 'components/AddCardForm/AddCardForm.jsx';
 import Card from 'components/Card/Card.jsx';
 import 'components/Column/column.scss';
 
@@ -6,6 +7,7 @@ export default class Column extends React.Component {
   constructor(props) {
     super(props);
     this.store = this.props.store;
+    this.state = { addFormOpened: false };
   }
 
   getCards() {
@@ -20,8 +22,13 @@ export default class Column extends React.Component {
     return this.getCards().sort((c1, c2) => c1.position - c2.position);
   }
 
+  toggleAddForm() {
+    this.setState({addFormOpened: !this.state.addFormOpened})
+  }
+
   render() {
     const { name } = this.props.data;
+    const { addFormOpened } = this.state;
     const cards = this.sortedCards();
     return (
       <div className="column">
@@ -30,6 +37,20 @@ export default class Column extends React.Component {
           { cards.map(card =>
             <Card key={card.id} data={card} store={this.store} />
           )}
+        </div>
+        <div className="add-card">
+          { addFormOpened ?
+            <AddCardForm
+              onCancel={ () => { this.toggleAddForm(); }}
+              onSuccess={ () => { this.toggleAddForm(); }}
+              store={this.store}
+            />
+          :
+            <p
+              className="bottom-additional clickable"
+              onClick={() => { this.toggleAddForm(); }}
+            >Add a Card...</p>
+          }
         </div>
       </div>
     );
