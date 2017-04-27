@@ -16,9 +16,13 @@ export default class Column extends React.Component {
     });
   }
 
+  sortedCards() {
+    return this.getCards().sort((c1, c2) => c1.position - c2.position);
+  }
+
   render() {
     const { name } = this.props.data;
-    const cards = this.getCards();
+    const cards = this.sortedCards();
     return (
       <div className="column">
         <h3 className="name">{name}</h3>
