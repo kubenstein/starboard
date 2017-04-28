@@ -1,23 +1,17 @@
 import React from 'react';
+import CommentsRepository from 'lib/comments-repository.js';
 import 'components/CardDetails/card-details.scss';
 
 export default class CardDetails extends React.Component {
   constructor(props) {
     super(props);
     this.store = this.props.store;
-  }
-
-  getComments() {
-    const bucket = this.store.bucket('comments');
-    const card = this.props.data;
-    return bucket.filter((c) => {
-      return c.cardId === card.id;
-    });
+    this.repo = new CommentsRepository(this.store);
   }
 
   render() {
-    const { title, description } = this.props.data;
-    const comments = this.getComments();
+    const { title, description, id } = this.props.data;
+    const comments = this.repo.getCommentsForCard(id);
     return (
       <div className="card-details">
         <h1 className="title">{title}</h1>
