@@ -19,20 +19,17 @@ export default class AddCardForm extends React.Component {
     e.preventDefault();
     const { title } = serialize(e.target, { hash: true });
     if (title) {
-
       // add to store...
-
-      console.log(title);
       this.onSuccessCallback();
     }
   }
 
   render() {
     return (
-      <form className="add-card-form" onSubmit={ (e) => { this.submit(e) }}>
+      <form className="add-card-form" onSubmit={(e) => { this.submit(e); }}>
         <textarea className="title" name="title" type="text" placeholder="Type a card title..." autoFocus />
         <input className="btn btn-add" type="submit" value="Add" />
-        <button className="btn btn-cancel" onClick={ (e) => { this.close(e) }}>X</button>
+        <button className="btn btn-cancel" onClick={(e) => { this.close(e); }}>X</button>
       </form>
     );
   }

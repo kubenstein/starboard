@@ -23,7 +23,7 @@ export default class Column extends React.Component {
   }
 
   toggleAddForm() {
-    this.setState({addFormOpened: !this.state.addFormOpened})
+    this.setState({ addFormOpened: !this.state.addFormOpened });
   }
 
   render() {
@@ -41,8 +41,8 @@ export default class Column extends React.Component {
         <div className="add-card">
           { addFormOpened ?
             <AddCardForm
-              onCancel={ () => { this.toggleAddForm(); }}
-              onSuccess={ () => { this.toggleAddForm(); }}
+              onCancel={() => { this.toggleAddForm(); }}
+              onSuccess={() => { this.toggleAddForm(); }}
               store={this.store}
             />
           :
