@@ -1,11 +1,14 @@
 import React from 'react';
 import serialize from 'form-serialize';
+import CardsRepository from 'lib/cards-repository.js';
 import 'components/AddCardForm/add-card-form.scss';
 
 export default class AddCardForm extends React.Component {
   constructor(props) {
     super(props);
     this.store = this.props.store;
+    this.column = this.props.column;
+    this.repo = new CardsRepository(this.store);
     this.onCancelCallback = this.props.onCancel;
     this.onSuccessCallback = this.props.onSuccess;
   }
@@ -19,8 +22,9 @@ export default class AddCardForm extends React.Component {
     e.preventDefault();
     const { title } = serialize(e.target, { hash: true });
     if (title) {
-      // add to store...
-      this.onSuccessCallback();
+      this.repo.addCard(title, this.column.id).then(() => {
+        this.onSuccessCallback();
+      });
     }
   }
 

@@ -1,6 +1,6 @@
 import EventBus from 'lib/event-bus.js';
 
-export default class Store {
+export default class EventStore {
   constructor() {
     this.observers = [];
     this.data = {};
@@ -14,6 +14,10 @@ export default class Store {
 
   bucket(name) {
     return this.data[name] || [];
+  }
+
+  acceptEvent(event) {
+    return this.eventbus.addEvent(event);
   }
 
   // private

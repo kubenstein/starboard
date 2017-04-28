@@ -8,8 +8,14 @@ export default class EventBus {
     this.fakeEventsFetching();
   }
 
-  onNewEvent(event) {
-    this.notify(event);
+  addEvent(event) {
+    return new Promise((resolve, _reject) => {
+      //
+      // TODO: Persist here...
+      //
+      this.notify(event);
+      resolve();
+    });
   }
 
   notify(event) {
@@ -31,7 +37,7 @@ export default class EventBus {
 
     dummyEvents.forEach((event) => {
       setTimeout(() => {
-        this.onNewEvent(event);
+        this.addEvent(event);
       }, 1000);
     });
   }

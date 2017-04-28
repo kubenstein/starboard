@@ -1,13 +1,15 @@
 import React from 'react';
 import Column from 'components/Column/Column.jsx';
-import Store from 'lib/Store.js';
+import EventStore from 'lib/event-store.js';
+import ColumnsRepository from 'lib/columns-repository.js';
 import 'components/Board/board.scss';
 
 export default class Board extends React.Component {
   constructor(props) {
     super(props);
     this.state = { columns: [] };
-    this.store = new Store();
+    this.store = new EventStore();
+    this.repo = new ColumnsRepository(this.store);
   }
 
   componentDidMount() {
@@ -15,16 +17,11 @@ export default class Board extends React.Component {
   }
 
   onStoreUpdate() {
-    this.setState({ columns: this.store.bucket('columns') });
-  }
-
-  sortedColumns() {
-    const columns = this.state.columns;
-    return columns.sort((c1, c2) => c1.position - c2.position);
+    this.setState({ columns: this.repo.getColumns() });
   }
 
   render() {
-    const columns = this.sortedColumns();
+    const columns = this.state.columns;
     return (
       <div className="board clearfix">
         { columns.map(column =>
