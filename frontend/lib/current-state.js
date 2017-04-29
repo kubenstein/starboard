@@ -1,10 +1,12 @@
 import EventBus from 'lib/event-bus.js';
 
 export default class CurrentState {
-  constructor() {
+  constructor(params) {
+    const eventStorage = params.eventSource;
+
     this.observers = [];
     this.data = {};
-    this.eventbus = new EventBus();
+    this.eventbus = new EventBus(eventStorage);
     this.eventbus.addObserver(this, true);
   }
 
@@ -16,18 +18,20 @@ export default class CurrentState {
     return this.data[name] || [];
   }
 
-  acceptEvent(event) {
+  addEvent(event) {
     return this.eventbus.addEvent(event);
   }
 
   // private
 
-  update() {
+  onDataSynced() {
     this.observers.forEach((observer) => {
-      observer.onStoreUpdate();
+      observer.onStateUpdate();
     });
   }
 
+  //
+  // eventbus callback
   onNewEvent(event) {
     const cammecasedEventName = event.type
                                      .toLowerCase()
@@ -35,10 +39,9 @@ export default class CurrentState {
     const handlerName = `${cammecasedEventName}EventHandler`;
     if (this[handlerName]) {
       this[handlerName](event);
-      this.update();
+      this.onDataSynced();
     }
   }
-
 
   // Event Handlers
 

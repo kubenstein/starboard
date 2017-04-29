@@ -1,15 +1,28 @@
 export default class EventBus {
-  constructor() {
+  constructor(eventStorage) {
     this.observers = [];
-    this.eventStorage = undefined;
+    this.eventStorage = eventStorage;
+    this.eventStorage.addObserver(this);
   }
 
   addObserver(observer, notifyObserverAboutAllPastEvents = false) {
-    this.observers.push(observer);
-
     if (notifyObserverAboutAllPastEvents) {
-      this.notifyObserverAboutAllPastEvents(observer);
+      this.notifyObserverAboutAllPastEvents(observer).then(() => {
+        this.observers.push(observer);
+      })
+    } else {
+      this.observers.push(observer);
     }
+  }
+
+  addEvent(event) {
+    return this.eventStorage.addEvent(event);
+  }
+
+  //
+  // eventStorage callback
+  onNewEvent(event) {
+    this.notify(event);
   }
 
   notify(event) {
@@ -23,20 +36,10 @@ export default class EventBus {
   }
 
   notifyObserverAboutAllPastEvents(observer) {
-    this.eventStorage.emitAllPastEvents().then((events) => {
+    return this.eventStorage.getAllPastEvents().then((events) => {
       events.forEach((event) => {
         this.notifyObserver(observer, event);
       });
-    });
-  }
-
-  addEvent(event) {
-    return new Promise((resolve, _reject) => {
-      //
-      // TODO: Persist here...
-      //
-      this.notify(event);
-      resolve();
     });
   }
 }

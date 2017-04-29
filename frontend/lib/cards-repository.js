@@ -22,6 +22,6 @@ export default class CardsRepository {
         id: uuid(), columnId: columnId, position: lastPosition, title: title, description: ''
       }
     };
-    return this.stateManager.acceptEvent(addCardEvent);
+    return this.stateManager.addEvent(addCardEvent);
   }
 }
