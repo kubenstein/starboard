@@ -6,9 +6,9 @@ import 'components/AddCardForm/add-card-form.scss';
 export default class AddCardForm extends React.Component {
   constructor(props) {
     super(props);
-    this.store = this.props.store;
     this.column = this.props.column;
-    this.repo = new CardsRepository(this.store);
+    this.eventStore = this.props.eventStore;
+    this.repo = new CardsRepository(this.eventStore);
     this.onCancelCallback = this.props.onCancel;
     this.onSuccessCallback = this.props.onSuccess;
   }

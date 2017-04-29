@@ -7,9 +7,9 @@ import 'components/Column/column.scss';
 export default class Column extends React.Component {
   constructor(props) {
     super(props);
-    this.store = this.props.store;
+    this.eventStore = this.props.eventStore;
     this.state = { addFormOpened: false };
-    this.repo = new CardsRepository(this.store);
+    this.repo = new CardsRepository(this.eventStore);
   }
 
   toggleAddForm() {
@@ -26,7 +26,7 @@ export default class Column extends React.Component {
         <h3 className="name">{name}</h3>
         <div className="card-list">
           { cards.map(card =>
-            <Card key={card.id} data={card} store={this.store} />
+            <Card key={card.id} data={card} eventStore={this.eventStore} />
           )}
         </div>
 
@@ -36,7 +36,7 @@ export default class Column extends React.Component {
               onCancel={() => { this.toggleAddForm(); }}
               onSuccess={() => { this.toggleAddForm(); }}
               column={columnData}
-              store={this.store}
+              eventStore={this.eventStore}
             />
           :
             <p
