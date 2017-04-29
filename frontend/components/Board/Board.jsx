@@ -13,9 +13,14 @@ export default class Board extends React.Component {
 
   componentDidMount() {
     this.eventStore.addObserver(this);
+    this.syncState();
   }
 
   onStoreUpdate() {
+    this.syncState();
+  }
+
+  syncState() {
     this.setState({ columns: this.repo.getColumns() });
   }
 
