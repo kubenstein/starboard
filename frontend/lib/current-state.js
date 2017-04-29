@@ -1,11 +1,11 @@
 import EventBus from 'lib/event-bus.js';
 
-export default class EventStore {
+export default class CurrentState {
   constructor() {
     this.observers = [];
     this.data = {};
     this.eventbus = new EventBus();
-    this.eventbus.addObserver(this);
+    this.eventbus.addObserver(this, true);
   }
 
   addObserver(observer) {

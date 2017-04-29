@@ -5,8 +5,8 @@ import 'components/CardDetails/card-details.scss';
 export default class CardDetails extends React.Component {
   constructor(props) {
     super(props);
-    this.eventStore = this.props.eventStore;
-    this.repo = new CommentsRepository(this.eventStore);
+    this.stateManager = this.props.stateManager;
+    this.repo = new CommentsRepository(this.stateManager);
   }
 
   render() {

@@ -7,12 +7,12 @@ export default class Board extends React.Component {
   constructor(props) {
     super(props);
     this.state = { columns: [] };
-    this.eventStore = props.eventStore;
-    this.repo = new ColumnsRepository(this.eventStore);
+    this.stateManager = props.stateManager;
+    this.repo = new ColumnsRepository(this.stateManager);
   }
 
   componentDidMount() {
-    this.eventStore.addObserver(this);
+    this.stateManager.addObserver(this);
     this.syncState();
   }
 
@@ -29,7 +29,7 @@ export default class Board extends React.Component {
     return (
       <div className="board clearfix">
         { columns.map(column =>
-          <Column className="column" key={column.id} data={column} eventStore={this.eventStore} />
+          <Column className="column" key={column.id} data={column} stateManager={this.stateManager} />
         )}
       </div>
     );

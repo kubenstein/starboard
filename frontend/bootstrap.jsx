@@ -1,15 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import EventStore from 'lib/event-store.js';
+import CurrentState from 'lib/current-state.js';
 import Board from 'components/Board/Board.jsx';
 import Seeds from 'lib/seeds.js';
 import 'assets/stylesheets/style.scss';
 
-const eventStore = new EventStore();
+const stateManager = new CurrentState();
 
-new Seeds(eventStore).populate();
+new Seeds(stateManager).populate();
 
 ReactDOM.render(
-  <Board eventStore={eventStore} />,
+  <Board stateManager={stateManager} />,
   document.getElementById('app')
 );

@@ -5,7 +5,7 @@ import 'components/Card/card.scss';
 export default class Card extends React.Component {
   constructor(props) {
     super(props);
-    this.eventStore = this.props.eventStore;
+    this.stateManager = this.props.stateManager;
     this.state = {
       detailsOpened: false,
     };
@@ -36,7 +36,7 @@ export default class Card extends React.Component {
             onClick={(e) => { this.closeDetails(e); }}
             ref={(r) => { this.dismissOverlayElement = r; }}
           >
-            <CardDetails data={cardData} eventStore={this.eventStore} />
+            <CardDetails data={cardData} stateManager={this.stateManager} />
           </div>
         : ''}
       </div>

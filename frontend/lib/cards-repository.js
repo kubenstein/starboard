@@ -1,12 +1,12 @@
 import uuid from 'uuid/v4';
 
 export default class CardsRepository {
-  constructor(store) {
-    this.store = store;
+  constructor(stateManager) {
+    this.stateManager = stateManager;
   }
 
   getCardsForColumn(columnId) {
-    const bucket = this.store.bucket('cards');
+    const bucket = this.stateManager.bucket('cards');
     return bucket
       .filter(c => c.columnId === columnId)
       .sort((c1, c2) => c1.position - c2.position);
@@ -22,6 +22,6 @@ export default class CardsRepository {
         id: uuid(), columnId: columnId, position: lastPosition, title: title, description: ''
       }
     };
-    return this.store.acceptEvent(addCardEvent);
+    return this.stateManager.acceptEvent(addCardEvent);
   }
 }

@@ -1,10 +1,10 @@
 export default class CommentsRepository {
-  constructor(store) {
-    this.store = store;
+  constructor(stateManager) {
+    this.stateManager = stateManager;
   }
 
   getCommentsForCard(cardId) {
-    const bucket = this.store.bucket('comments');
+    const bucket = this.stateManager.bucket('comments');
     return bucket.filter(c => c.cardId === cardId);
   }
 }
