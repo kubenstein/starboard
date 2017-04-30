@@ -45,11 +45,6 @@ module.exports = {
 
   devServer: {
     proxy: {
-      '/api/**': {
-        target: 'http://localhost:8081',
-        secure: false
-      },
-
       '/socket.io/**': {
         target: 'http://localhost:8081',
         secure: false
