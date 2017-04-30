@@ -16,14 +16,9 @@ const backendWindow = screenGrid.set(2, 0, 2, 1, Log, {
   label: ' Backend Server ',
 });
 
-const frontendWindow = screenGrid.set(2, 1, 1, 1, Log, {
+const frontendWindow = screenGrid.set(2, 1, 2, 1, Log, {
   fg: 'cyan',
   label: ' Webpack Dev Server ',
-});
-
-const dbWindow = screenGrid.set(3, 1, 1, 1, Log, {
-  fg: 'magenta',
-  label: ' MongoDB Server ',
 });
 
 screen.render();
@@ -31,7 +26,6 @@ screen.render();
 writeToWindow(frontendWindow, 'npm', ['run', 'dev:frontend']);
 writeToWindow(backendWindow, 'npm', ['run', 'dev:backend']);
 writeToWindow(linterWindow, 'npm', ['run', 'dev:linter:ci']);
-writeToWindow(dbWindow, 'npm', ['run', 'dev:db']);
 
 
 // private
