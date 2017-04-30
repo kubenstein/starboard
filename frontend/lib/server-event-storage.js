@@ -4,7 +4,7 @@ export default class ServerEventStorage {
   constructor() {
     this.observers = [];
     this.socket = io();
-    this.socket.on('newEvent', (event) => { this.onNewEventFromServer(event); });
+    this.socket.on('newEvents', (events) => { this.onNewEventsFromServer(events); });
   }
 
   addObserver(observer) {
@@ -26,8 +26,10 @@ export default class ServerEventStorage {
     });
   }
 
-  onNewEventFromServer(event) {
-    this.notify(event);
+  onNewEventsFromServer(events) {
+    events.forEach((event) => {
+      this.notify(event);
+    });
   }
 
   // private
