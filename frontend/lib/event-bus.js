@@ -9,7 +9,7 @@ export default class EventBus {
     if (notifyObserverAboutAllPastEvents) {
       this.notifyObserverAboutAllPastEvents(observer).then(() => {
         this.observers.push(observer);
-      })
+      });
     } else {
       this.observers.push(observer);
     }

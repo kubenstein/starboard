@@ -1,3 +1,5 @@
+/* eslint-disable max-len */
+
 export default class EventSeedGenerator {
   constructor(eventStotage) {
     this.eventStotage = eventStotage;
