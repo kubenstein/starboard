@@ -2,13 +2,14 @@ const webpack = require('webpack');
 const CompressionPlugin = require('compression-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
-const rootDir = `${__dirname}/frontend/`;
+const rootDir = __dirname;
+const frontendDir = `${rootDir}/frontend/`;
 
 module.exports = {
   entry: './frontend/index.js',
 
   output: {
-    path: `${__dirname}/build`,
+    path: `${rootDir}/build`,
     publicPath: '/',
     filename: 'bundle.js'
   },
@@ -24,11 +25,11 @@ module.exports = {
       },
       {
         test: /\.html$/,
-        loader: `file?name=[path][name].[ext]&context=${rootDir}`
+        loader: `file?name=[path][name].[ext]&context=${frontendDir}`
       },
       {
         test: /\.jpe?g$|\.gif$|\.png$|\.svg$|\.woff$|\.ttf$/,
-        loader: `file?name=[path][name]-[hash:6].[ext]&context=${rootDir}`
+        loader: `file?name=[path][name]-[hash:6].[ext]&context=${frontendDir}`
       },
       {
         test: /\.s?css$/,
@@ -39,6 +40,7 @@ module.exports = {
 
   resolve: {
     root: [
+      frontendDir,
       rootDir
     ]
   },

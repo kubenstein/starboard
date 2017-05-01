@@ -1,13 +1,13 @@
 const express = require('express');
 const SocketIo = require('socket.io');
-const GitEventStorage = require('./lib/git-event-storage.js');
-const EventSeedGenerator = require('./lib/event-seed-generator.js');
+const EventStorage = require('../lib/memory-event-storage.js');
+const EventSeedGenerator = require('../lib/event-seed-generator.js');
 
 // ------------- serv setup ---------------
 const app = express();
 const server = app.listen(process.env.PORT || 8081);
 const io = SocketIo(server);
-const eventStotage = new GitEventStorage();
+const eventStotage = new EventStorage();
 
 app.use(express.static('build/'));
 
