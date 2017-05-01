@@ -3,8 +3,12 @@ import io from 'socket.io-client';
 export default class ServerEventStorage {
   constructor() {
     this.observers = [];
+    this.addedEventIDs = []; // To have smooth adding flow,
+                             // we notify on success add,
+                             // and igonre same event comming back
+                             // from server via newEvent channel
     this.socket = io();
-    this.socket.on('newEvents', (events) => { this.onNewEventsFromServer(events); });
+    this.socket.on('newEvent', (event) => { this.onNewEventFromServer(event); });
   }
 
   addObserver(observer) {
@@ -13,6 +17,7 @@ export default class ServerEventStorage {
 
   addEvent(event) {
     return new Promise((resolve, _reject) => {
+      this.addedEventIDs.push(event.id);
       this.socket.emit('addEvent', event, () => {
         this.notify(event);
         resolve();
@@ -26,13 +31,13 @@ export default class ServerEventStorage {
     });
   }
 
-  onNewEventsFromServer(events) {
-    events.forEach((event) => {
-      this.notify(event);
-    });
-  }
-
   // private
+
+  onNewEventFromServer(event) {
+    if (this.addedEventIDs.indexOf(event.id) === -1) {
+      this.notify(event);
+    }
+  }
 
   notify(event) {
     this.observers.forEach((observer) => {

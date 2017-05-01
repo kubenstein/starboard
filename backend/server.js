@@ -1,30 +1,35 @@
 const express = require('express');
 const SocketIo = require('socket.io');
-const GitEventStorage = require('lib/git-event-storage.js');
+const GitEventStorage = require('./lib/git-event-storage.js');
+const EventSeedGenerator = require('./lib/event-seed-generator.js');
 
 // ------------- serv setup ---------------
 const app = express();
 const server = app.listen(process.env.PORT || 8081);
 const io = SocketIo(server);
-const storage = GitEventStorage();
+const eventStotage = new GitEventStorage();
 
 app.use(express.static('build/'));
 
-// -------------- webSockets --------------
+new EventSeedGenerator(eventStotage).generate();
 
+// -------------- webSockets --------------
 io.on('connection', (socket) => {
-  storage.onBackGroundUpdate((newEvents) => {
-    socket.emit('newEvents', newEvents);
-  });
+  const proxyObserver = {
+    onNewEvent: (newEvent) => {
+      socket.emit('newEvent', newEvent);
+    }
+  };
+  eventStotage.addObserver(proxyObserver);
+
 
   socket.on('addEvent', (event, sendBack) => {
-    storage.addEvent(event).then(() => {
-      sendBack(event);
-    })
+    sendBack(event);
+    eventStotage.addEvent(event);
   });
 
   socket.on('getAllPastEvents', (sendBack) => {
-    storage.getAllPastEvents().then((events) => {
+    eventStotage.getAllPastEvents().then((events) => {
       sendBack(events);
     });
   });
