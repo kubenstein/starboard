@@ -17,6 +17,7 @@ export default class CardsRepository {
     const lastPosition = lastCard.position + 1;
 
     const addCardEvent = {
+      id: uuid(),
       type: 'ADD_CARD',
       data: {
         id: uuid(), columnId: columnId, position: lastPosition, title: title, description: ''

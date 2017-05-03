@@ -15,6 +15,7 @@ export default class ColumnsRepository {
     const lastPosition = lastColumn.position + 1;
 
     const addColumnEvent = {
+      id: uuid(),
       type: 'ADD_COLUMN',
       data: {
         id: uuid(), position: lastPosition, name: name
