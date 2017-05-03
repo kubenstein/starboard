@@ -1,0 +1,68 @@
+@import "../../assets/stylesheets/app";
+
+
+.add-column-form {
+  &>.prompt {
+    border: 0;
+    border-radius: 3px;
+    box-sizing: border-box;
+    box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+    background-color: rgba(0, 0, 0, .12);
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    color: $grey;
+    cursor: pointer;
+
+    &:hover {
+      background-color: rgba(0, 0, 0, .32);
+    }
+  }
+
+  .form {
+    border: 0;
+    border-radius: 3px;
+    box-sizing: border-box;
+    background-color: $grey;
+    padding: 10px;
+    box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+
+    &>.title {
+      border: 0;
+      border-radius: 3px;
+      color: $black;
+      font-size: 14px;
+      padding: 10px;
+      margin-bottom: 10px;
+      width: 100%;
+      box-sizing: border-box;
+      box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+    }
+  }
+
+  .btn.btn-add {
+    cursor: pointer;
+    background-color: $green;
+    color: $white;
+    font-weight: bold;
+    font-size: 14px;
+    border: 0;
+    border-radius: 3px;
+    padding: 7px 15px;
+    margin-right: 10px;
+    box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+
+    &:hover {
+      background-color: $green-darker;
+    }
+  }
+
+  .btn.btn-cancel {
+    cursor: pointer;
+    background-color: transparent;
+    font-size: 21px;
+    border: 0;
+    color: $black;
+    vertical-align: middle;
+  }
+}
