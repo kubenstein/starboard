@@ -4,7 +4,7 @@ const EventStorage = require('../lib/git-event-storage.js');
 
 const eventStotage = new EventStorage({
   pathToRepo: process.env.PATH_TO_REPO,
-  tempLocation: `.tmp/db-seed-${process.pid}/`,
+  tempLocation: `/tmp/db-seed-${process.pid}/`,
   pollingIntervalInSeconds: -1
 });
 
