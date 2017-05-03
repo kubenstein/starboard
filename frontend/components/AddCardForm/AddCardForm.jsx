@@ -7,8 +7,8 @@ export default class AddCardForm extends React.Component {
   constructor(props) {
     super(props);
     this.column = this.props.column;
-    this.eventStore = this.props.eventStore;
-    this.repo = new CardsRepository(this.eventStore);
+    this.stateManager = this.props.stateManager;
+    this.repo = new CardsRepository(this.stateManager);
     this.onCancelCallback = this.props.onCancel;
     this.onSuccessCallback = this.props.onSuccess;
   }
@@ -18,9 +18,15 @@ export default class AddCardForm extends React.Component {
     this.onCancelCallback();
   }
 
+  submitFormOnEnter(e) {
+    if (e.key === 'Enter') {
+      this.submit(e);
+    }
+  }
+
   submit(e) {
     e.preventDefault();
-    const { title } = serialize(e.target, { hash: true });
+    const { title } = serialize(this.formElement, { hash: true });
     if (title) {
       this.repo.addCard(title, this.column.id).then(() => {
         this.onSuccessCallback();
@@ -30,8 +36,18 @@ export default class AddCardForm extends React.Component {
 
   render() {
     return (
-      <form className="add-card-form" onSubmit={(e) => { this.submit(e); }}>
-        <textarea className="title" name="title" type="text" placeholder="Type a card title..." autoFocus />
+      <form
+        className="add-card-form"
+        ref={(e) => { this.formElement = e; }}
+        onSubmit={(e) => { this.submit(e); }}
+      >
+        <textarea
+          className="title"
+          name="title"
+          onKeyPress={(e) => { this.submitFormOnEnter(e); }}
+          placeholder="Type a card title..."
+          autoFocus
+        />
         <input className="btn btn-add" type="submit" value="Add" />
         <button className="btn btn-cancel" onClick={(e) => { this.close(e); }}>X</button>
       </form>
