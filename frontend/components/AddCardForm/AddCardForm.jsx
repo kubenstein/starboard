@@ -9,13 +9,17 @@ export default class AddCardForm extends React.Component {
     this.column = this.props.column;
     this.stateManager = this.props.stateManager;
     this.repo = new CardsRepository(this.stateManager);
-    this.onCancelCallback = this.props.onCancel;
-    this.onSuccessCallback = this.props.onSuccess;
+    this.state = {
+      opened: false
+    };
   }
 
-  close(e) {
-    e.preventDefault();
-    this.onCancelCallback();
+  close() {
+    this.setState({ opened: false });
+  }
+
+  open() {
+    this.setState({ opened: true });
   }
 
   submitFormOnEnter(e) {
@@ -29,28 +33,35 @@ export default class AddCardForm extends React.Component {
     const { title } = serialize(this.formElement, { hash: true });
     if (title) {
       this.repo.addCard(title, this.column.id).then(() => {
-        this.onSuccessCallback();
+        this.close();
       });
     }
   }
 
   render() {
+    const formOpened = this.state.opened;
     return (
-      <form
-        className="add-card-form"
-        ref={(e) => { this.formElement = e; }}
-        onSubmit={(e) => { this.submit(e); }}
-      >
-        <textarea
-          className="title"
-          name="title"
-          onKeyPress={(e) => { this.submitFormOnEnter(e); }}
-          placeholder="Type a card title..."
-          autoFocus
-        />
-        <input className="btn btn-add" type="submit" value="Add" />
-        <button className="btn btn-cancel" onClick={(e) => { this.close(e); }}>X</button>
-      </form>
+      <div className="add-card-form">
+        { formOpened ?
+          <form
+            className="form"
+            ref={(e) => { this.formElement = e; }}
+            onSubmit={(e) => { this.submit(e); }}
+          >
+            <textarea
+              className="title"
+              name="title"
+              onKeyPress={(e) => { this.submitFormOnEnter(e); }}
+              placeholder="Type a card title..."
+              autoFocus
+            />
+            <input className="btn btn-add" type="submit" value="Add" />
+            <button className="btn btn-cancel" onClick={(e) => { e.preventDefault(); this.close(); }}>X</button>
+          </form>
+        :
+          <p className="prompt" onClick={() => { this.open(); }}>Add a Card...</p>
+        }
+      </div>
     );
   }
 }

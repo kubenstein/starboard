@@ -8,18 +8,12 @@ export default class Column extends React.Component {
   constructor(props) {
     super(props);
     this.stateManager = this.props.stateManager;
-    this.state = { addFormOpened: false };
     this.repo = new CardsRepository(this.stateManager);
-  }
-
-  toggleAddForm() {
-    this.setState({ addFormOpened: !this.state.addFormOpened });
   }
 
   render() {
     const columnData = this.props.data;
     const { name } = columnData;
-    const { addFormOpened } = this.state;
     const cards = this.repo.getCardsForColumn(columnData.id);
     return (
       <div className="column">
@@ -30,21 +24,10 @@ export default class Column extends React.Component {
           )}
         </div>
 
-        <div className="add-card">
-          { addFormOpened ?
-            <AddCardForm
-              onCancel={() => { this.toggleAddForm(); }}
-              onSuccess={() => { this.toggleAddForm(); }}
-              column={columnData}
-              stateManager={this.stateManager}
-            />
-          :
-            <p
-              className="bottom-additional clickable"
-              onClick={() => { this.toggleAddForm(); }}
-            >Add a Card...</p>
-          }
-        </div>
+        <AddCardForm
+          column={columnData}
+          stateManager={this.stateManager}
+        />
       </div>
     );
   }

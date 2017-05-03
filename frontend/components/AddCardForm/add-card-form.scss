@@ -2,7 +2,16 @@
 
 
 .add-card-form {
-  &>.title {
+  &>.prompt {
+    display: block;
+    cursor: pointer;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .title {
     border: 0;
     border-radius: 3px;
     color: $black;

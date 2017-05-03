@@ -25,16 +25,4 @@
   .card {
     margin-bottom: 10px;
   }
-
-  .bottom-additional {
-    display: block;
-
-    &.clickable {
-      cursor: pointer;
-
-      &:hover {
-        text-decoration: underline;
-      }
-    }
-  }
 }
