@@ -6,22 +6,31 @@ const EventStorage = require('../lib/git-event-storage.js');
 const app = express();
 const server = app.listen(process.env.PORT || 8081);
 const io = SocketIo(server);
+app.use(express.static('build/'));
+
 const eventStotage = new EventStorage({
   pathToRepo: '/Users/Kuba/Desktop/test_repo',
   pollingIntervalInSeconds: 10
 });
 
-app.use(express.static('build/'));
+
+// ----------------- utils ----------------
+const sockets = [];
+const allClientsNotifier = {
+  onNewEvent: (newEvent) => {
+    sockets.forEach((socket) => {
+      socket.emit('newEvent', newEvent);
+    });
+  }
+};
+eventStotage.addObserver(allClientsNotifier);
 
 // -------------- webSockets --------------
 io.on('connection', (socket) => {
-  const proxyObserver = {
-    onNewEvent: (newEvent) => {
-      socket.emit('newEvent', newEvent);
-    }
-  };
-  eventStotage.addObserver(proxyObserver);
-
+  sockets.push(socket);
+  socket.on('disconnect', () => {
+    sockets.splice(sockets.indexOf(socket), 1);
+  });
 
   socket.on('addEvent', (event, sendBack) => {
     sendBack(event);
