@@ -7,7 +7,9 @@ const EventSeedGenerator = require('../lib/event-seed-generator.js');
 const app = express();
 const server = app.listen(process.env.PORT || 8081);
 const io = SocketIo(server);
-const eventStotage = new EventStorage('/Users/Kuba/Desktop/test_repo');
+const eventStotage = new EventStorage({
+  pathToRepo: '/Users/Kuba/Desktop/test_repo'
+});
 
 app.use(express.static('build/'));
 
