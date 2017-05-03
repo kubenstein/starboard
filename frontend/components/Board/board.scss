@@ -3,10 +3,15 @@
 .board {
   background-color: $blue;
   padding: 50px 0 10px;
+  white-space: nowrap;
+  overflow-x: auto;
 
   .column {
     width: 270px;
-    margin-left: 20px;
-    float: left;
+    margin-left: 10px;
+    margin-right: 10px;
+    display: inline-block;
+    vertical-align: top;
+    white-space: initial;
   }
 }

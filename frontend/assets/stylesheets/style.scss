@@ -20,9 +20,9 @@ body {
 
 #app {
   height: 100%;
-  display: flex;
 
   .board {
-    flex-grow: 2;
+    box-sizing: border-box;
+    height: 100%;
   }
 }
