@@ -11,8 +11,9 @@
   "scripts": {
     "dev": "node ./dev-console.js",
     "dev:frontend": "webpack-dev-server",
-    "dev:backend": "nodemon --watch backend/ backend/server.js",
-    "dev:db": "mongod --timeStampFormat=ctime -v --dbpath=./db/development --port 27017",
+    "dev:backend": "PATH_TO_REPO=$(pwd)/db/development/ nodemon --watch backend/ backend/server.js",
+    "dev:db:create": "PATH_TO_REPO=$(pwd)/db/development/ node ./scripts/db-create-development.js",
+    "dev:db:seed": "PATH_TO_REPO=$(pwd)/db/development/ node ./scripts/db-seed.js",
     "dev:linter": "eslint -c .eslintrc \"./*.js\" \"./backend/**\" \"./frontend/**\" \"./spec/**\" \"./lib/**\" || true",
     "dev:linter:ci": "nodemon -e jsx,js --ignore build/ --watch . --exec 'npm run dev:linter'",
     "build": "NODE_ENV=production webpack -p",

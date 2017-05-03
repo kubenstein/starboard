@@ -9,7 +9,7 @@ const io = SocketIo(server);
 app.use(express.static('build/'));
 
 const eventStotage = new EventStorage({
-  pathToRepo: '/Users/Kuba/Desktop/test_repo',
+  pathToRepo: process.env.PATH_TO_REPO,
   pollingIntervalInSeconds: 10
 });
 
