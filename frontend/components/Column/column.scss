@@ -10,11 +10,23 @@
   padding-right: 10px;
   padding-bottom: 10px;
 
-  .name {
+  .name-input {
     color: $black;
     font-size: 14px;
     display: block;
-    padding: 10px;
+    padding: 6px 3px 6px 3px;
+    margin: 4px 0 4px -3px;
+    width: 100%;
+    border: 0;
+    border-radius: 3px;
+    font-weight: bold;
+    background-color: transparent;
+    cursor: pointer;
+
+    &:focus {
+      background-color: $white;
+      cursor: text;
+    }
   }
 
   .card-list {

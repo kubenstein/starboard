@@ -45,6 +45,15 @@ export default class CurrentState {
 
   // Event Handlers
 
+  updateColumnEventHandler(event) {
+    const columnId = event.data.columnId;
+    const changes = event.data.changes;
+    const columnIndex = this.data.columns.findIndex(column => column.id === columnId);
+    const oldData = this.data.columns[columnIndex];
+    const updatedData = Object.assign(oldData, changes);
+    this.data.columns[columnIndex] = updatedData;
+  }
+
   addColumnEventHandler(event) {
     this.addDataToBucket('columns', event.data);
   }

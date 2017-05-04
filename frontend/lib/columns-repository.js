@@ -23,4 +23,16 @@ export default class ColumnsRepository {
     };
     return this.stateManager.addEvent(addColumnEvent);
   }
+
+  updateColumn(id, data) {
+    const updateColumnEvent = {
+      id: uuid(),
+      type: 'UPDATE_COLUMN',
+      data: {
+        columnId: id,
+        changes: data
+      }
+    };
+    return this.stateManager.addEvent(updateColumnEvent);
+  }
 }
