@@ -7,7 +7,7 @@ import Board from 'components/Board/Board.jsx';
 import 'assets/stylesheets/style.scss';
 
 
-const eventStotage = new MemoryEventStorage();
+const eventStotage = new MemoryEventStorage({ logger: console });
 const stateManager = new CurrentState({
   eventSource: eventStotage
 });

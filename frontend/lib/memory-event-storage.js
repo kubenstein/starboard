@@ -1,5 +1,6 @@
 export default class MemoryEventStorage {
-  constructor() {
+  constructor(params = {}) {
+    this.logger = params.logger || { log: () => {} };
     this.events = [];
     this.observers = [];
   }
@@ -12,6 +13,7 @@ export default class MemoryEventStorage {
     return new Promise((resolve, _reject) => {
       this.events.push(event);
       this.notify(event);
+      this.logger.log(event);
       resolve();
     });
   }
