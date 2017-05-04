@@ -14,7 +14,18 @@ export default class Column extends React.Component {
     this.columnData = this.props.data;
   }
 
+  onNameEditPressEnter(e) {
+    if (e.key === 'Enter') {
+      this.nameInput.blur();
+      this.updateName();
+    }
+  }
+
   onNameEditBlur() {
+    this.updateName();
+  }
+
+  updateName() {
     const newName = this.nameInput.value;
     const oldName = this.columnData.name;
     if (newName !== oldName) {
@@ -34,6 +45,7 @@ export default class Column extends React.Component {
           defaultValue={name}
           ref={(e) => { this.nameInput = e; }}
           onBlur={() => { this.onNameEditBlur(); }}
+          onKeyPress={(e) => { this.onNameEditPressEnter(e); }}
         />
         <div className="card-list">
           { cards.map(card =>
