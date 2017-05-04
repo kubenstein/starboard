@@ -10,7 +10,8 @@ app.use(express.static('build/'));
 
 const eventStotage = new EventStorage({
   pathToRepo: process.env.PATH_TO_REPO,
-  pollingIntervalInSeconds: 10
+  pollingIntervalInSeconds: 10,
+  logger: console
 });
 
 
