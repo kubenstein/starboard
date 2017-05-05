@@ -1,3 +1,6 @@
+import uuid from 'uuid/v4';
+
+
 export default class CommentsRepository {
   constructor(stateManager) {
     this.stateManager = stateManager;
@@ -5,6 +8,25 @@ export default class CommentsRepository {
 
   getCommentsForCard(cardId) {
     const bucket = this.stateManager.bucket('comments');
-    return bucket.filter(c => c.cardId === cardId);
+    return bucket
+           .filter(c => c.cardId === cardId)
+           .sort((c1, c2) => c2.createdAt - c1.createdAt);
   }
+
+  addComment(cardId, content) {
+    const addComentEvent = {
+      id: uuid(),
+      type: 'ADD_COMMENT',
+      data: {
+        id: uuid(),
+        createdAt: (Math.floor(Date.now() / 1000)),
+        cardId: cardId,
+        content: content,
+        author: { name: 'Kuba' }
+      }
+    };
+    return this.stateManager.addEvent(addComentEvent);
+  }
+
+
 }

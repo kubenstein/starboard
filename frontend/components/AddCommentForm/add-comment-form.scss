@@ -1,0 +1,35 @@
+@import "../../assets/stylesheets/app";
+
+.add-comment-form {
+  margin: 10px 0;
+
+  &>.content {
+    border: 0;
+    border-radius: 3px;
+    box-sizing: border-box;
+    box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+    background-color: $white;
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    color: $black;
+    margin-bottom: 10px;
+  }
+
+  .btn.btn-add {
+    cursor: pointer;
+    background-color: $green;
+    color: $white;
+    font-weight: bold;
+    font-size: 14px;
+    border: 0;
+    border-radius: 3px;
+    padding: 7px 15px;
+    margin-right: 10px;
+    box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+
+    &:hover {
+      background-color: $green-darker;
+    }
+  }
+}

@@ -3,6 +3,7 @@ import CommentsRepository from 'lib/comments-repository.js';
 import ColumnsRepository from 'lib/columns-repository.js';
 import CardsRepository from 'lib/cards-repository.js';
 import EdditableInput from 'components/EdditableInput/EdditableInput.jsx';
+import AddCommentForm from 'components/AddCommentForm/AddCommentForm.jsx';
 import 'components/CardDetails/card-details.scss';
 
 export default class CardDetails extends React.Component {
@@ -29,6 +30,11 @@ export default class CardDetails extends React.Component {
     }
   }
 
+  formattedDate(timestamp) {
+    const date = new Date(timestamp * 1000);
+    return date.toString();
+  }
+
   render() {
     const { title, description, id, columnId } = this.cardData;
     const comments = this.commentsRepo.getCommentsForCard(id);
@@ -49,12 +55,12 @@ export default class CardDetails extends React.Component {
           ref={(e) => { this.descriptionInput = e; }}
           onChange={(value) => { this.updateDescription(value); }}
         />
-        { comments.length ?
-          <h4 className="sub-title">Comments:</h4>
-        : ''}
+        <h4 className="title">Add Comment</h4>
+        <AddCommentForm cardId={id} stateManager={this.stateManager} />
         { comments.map(comment =>
           <div className="card-comment" key={comment.id}>
             <span className="author">{comment.author.name}</span>
+            <span className="date">{this.formattedDate(comment.createdAt)}</span>
             <p className="content">{comment.content}</p>
           </div>
         )}
