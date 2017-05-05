@@ -10,6 +10,11 @@ export default class ColumnsRepository {
     return columns.sort((c1, c2) => c1.position - c2.position);
   }
 
+  getColumn(columnId) {
+    const columns = this.stateManager.bucket('columns');
+    return columns.filter(column => column.id === columnId)[0];
+  }
+
   addColumn(name) {
     const lastColumn = this.getColumns()[0] || { position: 0 };
     const lastPosition = lastColumn.position + 1;

@@ -18,6 +18,10 @@
     font-weight: normal;
     margin: 15px 0 5px 0;
     color: $grey-dark;
+
+    &.no-top-margin {
+      margin-top: 0;
+    }
   }
 
   .description-input {
