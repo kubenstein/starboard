@@ -47,11 +47,12 @@ export default class CurrentState {
 
   updateColumnEventHandler(event) {
     const columnId = event.data.columnId;
-    const changes = event.data.changes;
-    const columnIndex = this.data.columns.findIndex(column => column.id === columnId);
-    const oldData = this.data.columns[columnIndex];
-    const updatedData = Object.assign(oldData, changes);
-    this.data.columns[columnIndex] = updatedData;
+    this.updateObject('columns', columnId, event.data.changes);
+  }
+
+  updateCardEventHandler(event) {
+    const cardId = event.data.cardId;
+    this.updateObject('cards', cardId, event.data.changes);
   }
 
   addColumnEventHandler(event) {
@@ -71,5 +72,12 @@ export default class CurrentState {
       this.data[bucketName] = [];
     }
     this.data[bucketName].push(data);
+  }
+
+  updateObject(bucketName, objectId, changes) {
+    const objectIndex = this.data[bucketName].findIndex(object => object.id === objectId);
+    const oldData = this.data[bucketName][objectIndex];
+    const updatedData = Object.assign(oldData, changes);
+    this.data[bucketName][objectIndex] = updatedData;
   }
 }

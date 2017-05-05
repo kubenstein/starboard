@@ -25,4 +25,16 @@ export default class CardsRepository {
     };
     return this.stateManager.addEvent(addCardEvent);
   }
+
+  updateCard(id, data) {
+    const updateCardEvent = {
+      id: uuid(),
+      type: 'UPDATE_CARD',
+      data: {
+        cardId: id,
+        changes: data
+      }
+    };
+    return this.stateManager.addEvent(updateCardEvent);
+  }
 }
