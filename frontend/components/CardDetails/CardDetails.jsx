@@ -45,7 +45,9 @@ export default class CardDetails extends React.Component {
           ref={(e) => { this.descriptionInput = e; }}
           onChange={(value) => { this.updateDescription(value); }}
         />
-        <h4 className="sub-title">Comments:</h4>
+        { comments.length ?
+          <h4 className="sub-title">Comments:</h4>
+        : ''}
         { comments.map(comment =>
           <div className="card-comment" key={comment.id}>
             <span className="author">{comment.author.name}</span>
