@@ -28,6 +28,12 @@
     color: $black;
     font-size: 14px;
     min-height: 125px;
+    border-radius: 3px;
+    border: 1px solid transparent;
+
+    &:hover, &:focus {
+      border: 1px solid $grey-dark;
+    }
   }
 }
 
