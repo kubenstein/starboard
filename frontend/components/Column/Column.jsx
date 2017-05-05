@@ -1,6 +1,7 @@
 import React from 'react';
 import AddCardForm from 'components/AddCardForm/AddCardForm.jsx';
 import Card from 'components/Card/Card.jsx';
+import EdditableInput from 'components/EdditableInput/EdditableInput.jsx';
 import CardsRepository from 'lib/cards-repository.js';
 import ColumnsRepository from 'lib/columns-repository.js';
 import 'components/Column/column.scss';
@@ -14,19 +15,7 @@ export default class Column extends React.Component {
     this.columnData = this.props.data;
   }
 
-  onNameEditPressEnter(e) {
-    if (e.key === 'Enter') {
-      this.nameInput.blur();
-      this.updateName();
-    }
-  }
-
-  onNameEditBlur() {
-    this.updateName();
-  }
-
-  updateName() {
-    const newName = this.nameInput.value;
+  updateName(newName) {
     const oldName = this.columnData.name;
     if (newName !== oldName) {
       this.columnsRepo.updateColumn(this.columnData.id, { name: newName });
@@ -39,14 +28,7 @@ export default class Column extends React.Component {
     const cards = this.cardsRepo.getCardsForColumn(columnData.id);
     return (
       <div className="column">
-        <input
-          type="text"
-          className="name-input"
-          defaultValue={name}
-          ref={(e) => { this.nameInput = e; }}
-          onBlur={() => { this.onNameEditBlur(); }}
-          onKeyPress={(e) => { this.onNameEditPressEnter(e); }}
-        />
+        <EdditableInput value={name} onChange={(value) => { this.updateName(value); }} />
         <div className="card-list">
           { cards.map(card =>
             <Card key={card.id} data={card} stateManager={this.stateManager} />
