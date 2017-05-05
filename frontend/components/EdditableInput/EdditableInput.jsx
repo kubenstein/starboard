@@ -5,18 +5,20 @@ export default class EdditableInput extends React.Component {
   constructor(props) {
     super(props);
     this.value = this.props.value;
+    this.type = this.props.type;
     this.otherCssClasses = this.props.className;
     this.changeCallback = this.props.onChange;
+    this.keyPressCallback = this.props.onKeyPress || (() => {});
   }
 
-  onEditPressEnter(e) {
+  onEnterCheck(e) {
     if (e.key === 'Enter') {
       this.input.blur();
       this.onChange();
     }
   }
 
-  onEditBlur() {
+  onBlur() {
     this.onChange();
   }
 
@@ -31,14 +33,25 @@ export default class EdditableInput extends React.Component {
 
   render() {
     return (
-      <input
-        type="text"
-        className={this.cssClasses()}
-        defaultValue={this.value}
-        ref={(e) => { this.input = e; }}
-        onBlur={() => { this.onEditBlur(); }}
-        onKeyPress={(e) => { this.onEditPressEnter(e); }}
-      />
+      <div>
+        { this.type === 'textarea' ?
+          <textarea
+            className={this.cssClasses()}
+            defaultValue={this.value}
+            ref={(e) => { this.input = e; }}
+            onBlur={() => { this.onBlur(); }}
+          />
+        :
+          <input
+            type="text"
+            className={this.cssClasses()}
+            defaultValue={this.value}
+            ref={(e) => { this.input = e; }}
+            onBlur={() => { this.onBlur(); }}
+            onKeyPress={(e) => { this.onEnterCheck(e); }}
+          />
+        }
+      </div>
     );
   }
 }

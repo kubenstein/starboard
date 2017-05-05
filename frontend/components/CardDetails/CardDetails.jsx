@@ -13,10 +13,17 @@ export default class CardDetails extends React.Component {
     this.cardData = this.props.data;
   }
 
-  updateTitle(newTitle) {
-    const oldTitle = this.cardData.title;
-    if (newTitle !== oldTitle) {
-      this.cardsRepo.updateCard(this.cardData.id, { title: newTitle });
+  updateTitle(newValue) {
+    const oldValue = this.cardData.value;
+    if (newValue !== oldValue) {
+      this.cardsRepo.updateCard(this.cardData.id, { title: newValue });
+    }
+  }
+
+  updateDescription(newValue) {
+    const oldValue = this.cardData.description;
+    if (newValue !== oldValue) {
+      this.cardsRepo.updateCard(this.cardData.id, { description: newValue });
     }
   }
 
@@ -25,9 +32,19 @@ export default class CardDetails extends React.Component {
     const comments = this.commentsRepo.getCommentsForCard(id);
     return (
       <div className="card-details">
-        <EdditableInput className="title" value={title} onChange={(value) => { this.updateTitle(value); }}/>
+        <EdditableInput
+          className="title"
+          value={title}
+          onChange={(value) => { this.updateTitle(value); }}
+        />
         <h4 className="sub-title">Description:</h4>
-        <p className="desciption">{description}</p>
+        <EdditableInput
+          className="description-input"
+          type="textarea"
+          value={description}
+          ref={(e) => { this.descriptionInput = e; }}
+          onChange={(value) => { this.updateDescription(value); }}
+        />
         <h4 className="sub-title">Comments:</h4>
         { comments.map(comment =>
           <div className="card-comment" key={comment.id}>
