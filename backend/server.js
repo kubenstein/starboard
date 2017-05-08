@@ -1,12 +1,12 @@
-const express = require('express');
-const SocketIo = require('socket.io');
-const EventStorage = require('../lib/git-event-storage.js');
+import express from 'express';
+import SocketIo from 'socket.io';
+import EventStorage from '../lib/git-event-storage.js';
 
 // ------------- serv setup ---------------
 const app = express();
 const server = app.listen(process.env.PORT || 8081);
 const io = SocketIo(server);
-app.use(express.static('build/'));
+app.use(express.static('frontend/'));
 
 const eventStotage = new EventStorage({
   pathToRepo: process.env.PATH_TO_REPO,

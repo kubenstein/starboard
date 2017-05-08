@@ -6,12 +6,17 @@ const spawn = require('child_process').spawn;
 const screen = blessed.screen();
 const screenGrid = new Grid({ rows: 4, cols: 2, screen: screen });
 
-const linterWindow = screenGrid.set(0, 0, 2, 2, Log, {
+const backendCompilerWindow = screenGrid.set(0, 0, 1, 1, Log, {
+  fg: 'green',
+  label: ' Backend Server Compiler ',
+});
+
+const linterWindow = screenGrid.set(0, 1, 2, 2, Log, {
   fg: 'blue',
   label: ' Linter ',
 });
 
-const backendWindow = screenGrid.set(2, 0, 2, 1, Log, {
+const backendServerWindow = screenGrid.set(1, 0, 3, 1, Log, {
   fg: 'green',
   label: ' Backend Server ',
 });
@@ -24,8 +29,11 @@ const frontendWindow = screenGrid.set(2, 1, 2, 1, Log, {
 screen.render();
 
 writeToWindow(frontendWindow, 'npm', ['run', 'dev:frontend']);
-writeToWindow(backendWindow, 'npm', ['run', 'dev:backend']);
+writeToWindow(backendCompilerWindow, 'npm', ['run', 'dev:backend:es6compiler']);
 writeToWindow(linterWindow, 'npm', ['run', 'dev:linter:ci']);
+setTimeout(() => {
+  writeToWindow(backendServerWindow, 'npm', ['run', 'dev:backend:server']);
+}, 5000);
 
 
 // private

@@ -6,10 +6,10 @@ const rootDir = __dirname;
 const frontendDir = `${rootDir}/frontend/`;
 
 module.exports = {
-  entry: './frontend/index.js',
+  entry: `${frontendDir}/index.js`,
 
   output: {
-    path: `${rootDir}/build`,
+    path: `${rootDir}/build/frontend`,
     publicPath: '/',
     filename: 'bundle.js'
   },
