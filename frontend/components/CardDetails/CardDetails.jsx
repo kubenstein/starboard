@@ -36,6 +36,12 @@ export default class CardDetails extends React.Component {
     }
   }
 
+  removeCard(cardId) {
+    if (confirm('Do you want to remove this card?')) {
+      this.cardsRepo.removeCard(cardId);
+    }
+  }
+
   formattedDate(timestamp) {
     const date = new Date(timestamp * 1000);
     return date.toString();
@@ -61,7 +67,10 @@ export default class CardDetails extends React.Component {
           ref={(e) => { this.descriptionInput = e; }}
           onChange={(value) => { this.updateDescription(value); }}
         />
-        <h4 className="title">Add Comment</h4>
+        <div className="utils-section">
+          <a className="btn btn-delete" onClick={() => { this.removeCard(id); }}>Delete Card</a>
+        </div>
+        <h4 className="title clearfix">Add Comment</h4>
         <AddCommentForm cardId={id} stateManager={this.stateManager} />
         { comments.map(comment =>
           <div className="card-comment" key={comment.id}>
