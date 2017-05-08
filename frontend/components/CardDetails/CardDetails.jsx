@@ -30,6 +30,12 @@ export default class CardDetails extends React.Component {
     }
   }
 
+  removeComment(commentId) {
+    if (confirm('Do you want to remove this comment?')) {
+      this.commentsRepo.removeComment(commentId);
+    }
+  }
+
   formattedDate(timestamp) {
     const date = new Date(timestamp * 1000);
     return date.toString();
@@ -62,6 +68,7 @@ export default class CardDetails extends React.Component {
             <span className="author">{comment.author.name}</span>
             <span className="date">{this.formattedDate(comment.createdAt)}</span>
             <p className="content">{comment.content}</p>
+            <span className="btn-delete" onClick={() => { this.removeComment(comment.id); }}>Delete</span>
           </div>
         )}
       </div>
