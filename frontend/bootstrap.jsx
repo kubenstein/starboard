@@ -5,9 +5,9 @@ import ServerEventStorage from 'lib/server-event-storage.js';
 import Board from 'components/Board/Board.jsx';
 import 'assets/stylesheets/style.scss';
 
-const eventStotage = new ServerEventStorage();
+const eventStorage = new ServerEventStorage();
 const stateManager = new CurrentState({
-  eventSource: eventStotage
+  eventSource: eventStorage
 });
 
 ReactDOM.render(
