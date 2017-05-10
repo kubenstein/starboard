@@ -4,6 +4,7 @@ import ColumnsRepository from 'lib/columns-repository.js';
 import CardsRepository from 'lib/cards-repository.js';
 import EdditableInput from 'components/EdditableInput/EdditableInput.jsx';
 import AddCommentForm from 'components/AddCommentForm/AddCommentForm.jsx';
+import CardComment from 'components/CardComment/CardComment.jsx';
 import 'components/CardDetails/card-details.scss';
 
 export default class CardDetails extends React.Component {
@@ -30,21 +31,10 @@ export default class CardDetails extends React.Component {
     }
   }
 
-  removeComment(commentId) {
-    if (confirm('Do you want to remove this comment?')) {
-      this.commentsRepo.removeComment(commentId);
-    }
-  }
-
   removeCard(cardId) {
     if (confirm('Do you want to remove this card?')) {
       this.cardsRepo.removeCard(cardId);
     }
-  }
-
-  formattedDate(timestamp) {
-    const date = new Date(timestamp * 1000);
-    return date.toString();
   }
 
   render() {
@@ -73,12 +63,7 @@ export default class CardDetails extends React.Component {
         <h4 className="title clearfix">Add Comment</h4>
         <AddCommentForm cardId={id} stateManager={this.stateManager} />
         { comments.map(comment =>
-          <div className="card-comment" key={comment.id}>
-            <span className="author">{comment.author.name}</span>
-            <span className="date">{this.formattedDate(comment.createdAt)}</span>
-            <p className="content">{comment.content}</p>
-            <span className="btn-delete" onClick={() => { this.removeComment(comment.id); }}>Delete</span>
-          </div>
+          <CardComment key={comment.id} comment={comment} stateManager={this.stateManager} />
         )}
       </div>
     );

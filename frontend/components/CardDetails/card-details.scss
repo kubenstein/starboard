@@ -57,44 +57,5 @@
     padding: 7px 15px;
     margin-right: 10px;
     box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
-    display: block;
-  }
-}
-
-.card-comment {
-  padding-bottom: 15px;
-  margin-bottom: 15px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-
-  .author {
-    font-size: 16px;
-    color: $black;
-  }
-
-  .date {
-    display: inline-block;
-    margin-left: 10px;
-    font-size: 12px;
-    color: $grey-dark;
-  }
-
-  .btn-delete {
-    display: inline-block;
-    font-size: 12px;
-    color: $grey-dark;
-    cursor: pointer;
-
-    &:hover {
-      text-decoration: underline;
-    }
-  }
-
-  .content {
-    background-color: $white;
-    padding: 10px;
-    margin: 10px 0;
-    border-radius: 3px;
-    box-shadow: 1px 1px 1px rgba(0, 0, 0, .1);
-    white-space: pre;
   }
 }

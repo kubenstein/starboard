@@ -32,4 +32,18 @@
       background-color: $green-darker;
     }
   }
+
+  .btn-input-file {
+    position: relative;
+    overflow: hidden;
+
+    &.btn-process {
+      cursor: progress;
+    }
+
+    .file-input {
+      position: absolute;
+      top: -1000px;
+    }
+  }
 }
