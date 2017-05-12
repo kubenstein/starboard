@@ -50,6 +50,10 @@ module.exports = {
       '/socket.io/**': {
         target: 'http://localhost:8081',
         secure: false
+      },
+      '/attachments/**': {
+        target: 'http://localhost:8081',
+        secure: false
       }
     }
   },

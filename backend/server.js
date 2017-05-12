@@ -8,8 +8,10 @@ const server = app.listen(process.env.PORT || 8081);
 const io = SocketIo(server);
 app.use(express.static('frontend/'));
 
+const attachmentStorage = '.tmp/tmpRepo/';
 const eventStotage = new EventStorage({
   pathToRepo: process.env.PATH_TO_REPO,
+  tempLocation: attachmentStorage,
   pollingIntervalInSeconds: 10,
   logger: console
 });
@@ -25,6 +27,15 @@ const allClientsNotifier = {
   }
 };
 eventStotage.addObserver(allClientsNotifier);
+
+// ----------------- http -----------------
+
+app.get('/attachments/:fileName', (req, res) => {
+  res.sendFile(req.params.fileName, {
+    dotfiles: 'deny',
+    root: attachmentStorage,
+  });
+});
 
 // -------------- webSockets --------------
 io.on('connection', (socket) => {
