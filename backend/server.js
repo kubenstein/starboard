@@ -1,12 +1,19 @@
 import express from 'express';
 import SocketIo from 'socket.io';
+import bodyParser from 'body-parser';
+import multer from 'multer';
 import EventStorage from '../lib/git-event-storage.js';
+import StoreAttachmentUsecase from '../lib/store-attachment-usecase.js';
 
 // ------------- serv setup ---------------
 const app = express();
 const server = app.listen(process.env.PORT || 8081);
 const io = SocketIo(server);
+const upload = multer({ dest: '.tmp/tempUploads/' });
+
 app.use(express.static('frontend/'));
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 const gitAttachmentStorage = '.tmp/tmpRepo/';
 const eventStotage = new EventStorage({
@@ -14,6 +21,10 @@ const eventStotage = new EventStorage({
   pathToTempLocalRepo: gitAttachmentStorage,
   pollingIntervalInSeconds: 10,
   logger: console
+});
+
+const storeAttachmentUsecase = new StoreAttachmentUsecase(eventStotage, {
+  pathToStorage: gitAttachmentStorage
 });
 
 
@@ -28,14 +39,22 @@ const allClientsNotifier = {
 };
 eventStotage.addObserver(allClientsNotifier);
 
-// ----------------- http -----------------
 
+// ----------------- http -----------------
 app.get('/attachments/:fileName', (req, res) => {
   res.sendFile(req.params.fileName, {
     dotfiles: 'deny',
     root: gitAttachmentStorage,
   });
 });
+
+app.post('/attachments/', upload.single('attachment'), (req, res) => {
+  const filePath = req.attachment.path;
+  storeAttachmentUsecase.addFile(filePath).then((attachmentName) => {
+    res.send({ attachmentName: attachmentName });
+  });
+});
+
 
 // -------------- webSockets --------------
 io.on('connection', (socket) => {

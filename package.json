@@ -10,20 +10,16 @@
   },
   "scripts": {
     "dev": "node ./dev-console.js",
-
     "dev:frontend": "webpack-dev-server --config webpack-frontend.config.js",
     "dev:backend:es6compiler": "webpack --watch --config webpack-backend.config.js",
     "dev:backend:server": "PATH_TO_REPO=$(pwd)/db/development/ nodemon --watch .tmp/backend/ .tmp/backend/bundled-server.js",
     "dev:linter": "eslint -c .eslintrc \"./*.js\" \"./backend/**\" \"./frontend/**\" \"./spec/**\" \"./lib/**\" || true",
     "dev:linter:ci": "nodemon -e jsx,js --ignore build/ --ignore .tmp/ --watch . --exec 'npm run dev:linter'",
-
     "dev:db:create": "PATH_TO_REPO=$(pwd)/db/development/ node ./scripts/db-create-development.js",
     "dev:db:seed": "PATH_TO_REPO=$(pwd)/db/development/ node ./scripts/db-seed.js",
-
     "build": "npm run build:backend && npm run build:frontend",
     "build:frontend": "NODE_ENV=production webpack -p --config webpack-frontend.config.js",
     "build:backend": "NODE_ENV=production webpack --config webpack-backend.config.js",
-
     "postinstall": "npm run build",
     "start": "node backend/server.js"
   },
@@ -34,6 +30,7 @@
     "babel-preset-es2015": "^6.18.0",
     "babel-preset-react": "^6.16.0",
     "babel-preset-stage-0": "^6.16.0",
+    "body-parser": "^1.17.1",
     "compression-webpack-plugin": "^0.3.2",
     "css-loader": "^0.26.1",
     "es6-promise": "^4.1.0",
@@ -41,6 +38,7 @@
     "extract-text-webpack-plugin": "^1.0.1",
     "file-loader": "^0.11.1",
     "form-serialize": "^0.7.1",
+    "multer": "^1.3.0",
     "node-sass": "^4.0.0",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
