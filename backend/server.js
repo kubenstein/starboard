@@ -8,10 +8,10 @@ const server = app.listen(process.env.PORT || 8081);
 const io = SocketIo(server);
 app.use(express.static('frontend/'));
 
-const attachmentStorage = '.tmp/tmpRepo/';
+const gitAttachmentStorage = '.tmp/tmpRepo/';
 const eventStotage = new EventStorage({
   pathToRepo: process.env.PATH_TO_REPO,
-  tempLocation: attachmentStorage,
+  pathToTempLocalRepo: gitAttachmentStorage,
   pollingIntervalInSeconds: 10,
   logger: console
 });
@@ -33,7 +33,7 @@ eventStotage.addObserver(allClientsNotifier);
 app.get('/attachments/:fileName', (req, res) => {
   res.sendFile(req.params.fileName, {
     dotfiles: 'deny',
-    root: attachmentStorage,
+    root: gitAttachmentStorage,
   });
 });
 
