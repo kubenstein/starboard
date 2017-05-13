@@ -27,20 +27,16 @@ export default class AddCommentForm extends React.Component {
   handleFileUpload() {
     this.setState({ uploadingAttachment: true });
     const file = this.fileInput.files[0];
-    const reader = new FileReader();
-    reader.addEventListener('load', () => {
-      const attachmentInfo = {
-        fileName: file.name,
-        fileSize: file.size,
-        fileType: file.type,
-        dataUrl: reader.result,
-      };
+    const attachmentInfo = {
+      name: file.name,
+      size: file.size,
+      type: file.type,
+      blob: file,
+    };
 
-      this.repo.addComment(this.cardId, { attachment: attachmentInfo }).then(() => {
-        this.setState({ uploadingAttachment: false });
-      });
-    }, false);
-    reader.readAsDataURL(file);
+    this.repo.addComment(this.cardId, { attachment: attachmentInfo }).then(() => {
+      this.setState({ uploadingAttachment: false });
+    });
   }
 
   submit(e) {

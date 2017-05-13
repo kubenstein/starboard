@@ -49,9 +49,9 @@ app.get('/attachments/:fileName', (req, res) => {
 });
 
 app.post('/attachments/', upload.single('attachment'), (req, res) => {
-  const filePath = req.attachment.path;
+  const filePath = req.file.path;
   storeAttachmentUsecase.addFile(filePath).then((attachmentName) => {
-    res.send({ attachmentName: attachmentName });
+    res.send({ attachmentUrl: `/attachments/${attachmentName}` });
   });
 });
 

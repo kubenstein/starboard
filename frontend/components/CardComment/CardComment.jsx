@@ -17,7 +17,7 @@ export default class CardComment extends React.Component {
   }
 
   isImage(attachment) {
-    return attachment.fileType.indexOf('image') !== -1;
+    return attachment.type.indexOf('image') !== -1;
   }
 
   formattedDate(timestamp) {
@@ -28,13 +28,13 @@ export default class CardComment extends React.Component {
   attachmentCommentHTML(comment) {
     return this.isImage(comment.attachment) ?
       <a href={comment.attachment.dataUrl} className="attachment" target="_blank" rel="noopener noreferrer">
-        <img src={comment.attachment.dataUrl} alt={comment.attachment.fileName} />
-        <span className="attachment-description">{comment.attachment.fileName}</span>
+        <img src={comment.attachment.dataUrl} alt={comment.attachment.name} />
+        <span className="attachment-description">{comment.attachment.name}</span>
       </a>
     :
       <a href={comment.attachment.dataUrl} className="attachment" target="_blank" rel="noopener noreferrer">
         <span className="attachment-file-wrapper" />
-        <span className="attachment-description">{comment.attachment.fileName}</span>
+        <span className="attachment-description">{comment.attachment.name}</span>
       </a>;
   }
 
