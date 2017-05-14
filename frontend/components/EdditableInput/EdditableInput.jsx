@@ -6,7 +6,7 @@ export default class EdditableInput extends React.Component {
     super(props);
     this.value = this.props.value;
     this.type = this.props.type;
-    this.otherCssClasses = this.props.className;
+    this.otherCssClasses = this.props.className || '';
     this.changeCallback = this.props.onChange;
     this.keyPressCallback = this.props.onKeyPress || (() => {});
   }
