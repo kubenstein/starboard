@@ -6,7 +6,11 @@
   white-space: nowrap;
   overflow-x: auto;
 
-  &>.column, &>.add-column-form {
+  .columns {
+    display: inline-block;
+  }
+
+  .column, .add-column-form {
     width: 270px;
     margin-left: 10px;
     margin-right: 10px;

@@ -1,7 +1,9 @@
 import React from 'react';
+import Dragula from 'dragula';
 import Column from 'components/Column/Column.jsx';
 import AddColumnForm from 'components/AddColumnForm/AddColumnForm.jsx';
 import ColumnsRepository from 'lib/columns-repository.js';
+import CardsRepository from 'lib/cards-repository.js';
 import 'components/Board/board.scss';
 
 export default class Board extends React.Component {
@@ -9,24 +11,112 @@ export default class Board extends React.Component {
     super(props);
     this.state = { columns: [] };
     this.stateManager = props.stateManager;
-    this.repo = new ColumnsRepository(this.stateManager);
-  }
-
-  componentDidMount() {
+    this.columnsRepo = new ColumnsRepository(this.stateManager);
+    this.cardsRepo = new CardsRepository(this.stateManager);
+    this.configureDND();
     this.stateManager.addObserver(this);
   }
 
+  //
+  // stateManager observer callback
   onStateUpdate() {
-    this.setState({ columns: this.repo.getColumns() });
+    this.setState({ columns: this.columnsRepo.getColumnsSortedByPosition() });
   }
+
+  configureDND() {
+    this.configureColumnsDND();
+    this.configureCardsDND();
+  }
+
+  configureColumnsDND() {
+    this.columnsDNDManager = Dragula([], {
+      direction: 'horizontal',
+      moves: (_el, _container, handle) => {
+        return handle.classList.contains('column-DND-handler');
+      }
+    })
+    .on('drop', (el, _target) => {
+      const columnId = el.getAttribute('data-DND-data-column-id');
+      let node = el;
+      let newPosition;
+      for (newPosition = -1; node; newPosition += 1) { node = node.previousSibling; }
+      this.columnsRepo.updateColumn(columnId, { position: newPosition });
+    });
+  }
+
+  configureCardsDND() {
+    this.cardsDNDManager = Dragula([], {
+      moves: (_el, _container, handle) => {
+        return handle.classList.contains('card-DND-handler');
+      },
+      copy: true, // set copy so element still persist in old column,
+                  // it has to stay there so React can clean it in its way
+      copySortSource: true
+    })
+    .on('drag', (el) => {
+      this.originForDraggableEl = el;
+      setTimeout(() => { // we want to apply css that hides copied element
+                         // that is kept in old column, but draggable element
+                         // dimentions is somehow calculated via css,
+                         // so we cant hide element before calculation,
+                         // thats why we postpone adding the class
+        this.originForDraggableEl.classList.add('card-dragging');
+      }, 0);
+    })
+    .on('drop', (el, target, source) => {
+      this.originForDraggableEl.classList.remove('card-dragging');
+      if (!target) return; // prevent any further logic when a card
+                           // is dropped outside of any container.
+                           // Card will go back to original place.
+
+      const cardId = el.getAttribute('data-DND-data-card-id');
+      const newColumnId = target.getAttribute('data-DND-data-column-id');
+      const oldColumnId = this.cardsRepo.getCard(cardId).columnId;
+      let node = el;
+      let newPosition;
+      for (newPosition = -1; node; newPosition += 1) { node = node.previousSibling; }
+      this.cardsRepo.updateCard(cardId, { columnId: newColumnId, position: newPosition });
+
+      // when we move card inside same container,
+      // we reposition original React component based on
+      // droped pure html copy of it, then we remove the dragable copy
+      if (newColumnId === oldColumnId) {
+        el.parentNode.insertBefore(this.originForDraggableEl, el);
+      }
+      el.remove(); // remove cloned non-react html element
+    });
+  }
+
+  addColumnDNDContainer(el) {
+    if (!el) return;
+
+    if (this.DNDContainer) {
+      const i = this.columnsDNDManager.containers.indexOf(this.DNDContainer);
+      this.columnsDNDManager.containers.slice(i, 1);
+    }
+    this.DNDContainer = el;
+    this.columnsDNDManager.containers.push(this.DNDContainer);
+  }
+
 
   render() {
     const columns = this.state.columns;
     return (
       <div className="board clearfix">
-        { columns.map(column =>
-          <Column className="column" key={column.id} data={column} stateManager={this.stateManager} />
-        )}
+        <div
+          className="columns"
+          ref={(e) => { this.addColumnDNDContainer(e); }}
+        >
+          { columns.map(column =>
+            <Column
+              className="column column-DND-handler"
+              key={column.id}
+              data={column}
+              DNDManager={this.cardsDNDManager}
+              stateManager={this.stateManager}
+            />
+          )}
+        </div>
         <AddColumnForm className="add-column-form" stateManager={this.stateManager} />
       </div>
     );

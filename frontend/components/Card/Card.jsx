@@ -25,11 +25,15 @@ export default class Card extends React.Component {
 
   render() {
     const cardData = this.props.data;
-    const { title } = cardData;
+    const { title, id } = cardData;
     const { detailsOpened } = this.state;
     return (
-      <div className="card" onClick={() => { this.openDetails(); }}>
-        <h1 className="title">{title}</h1>
+      <div
+        className="card"
+        data-DND-data-card-id={id}
+        onClick={() => { this.openDetails(); }}
+      >
+        <h1 className="title card-DND-handler">{title}</h1>
         {detailsOpened ?
           <div
             className="card-details-full-screen-wrapper"

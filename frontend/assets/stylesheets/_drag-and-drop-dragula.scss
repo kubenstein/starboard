@@ -1,0 +1,26 @@
+.gu-mirror {
+  position: fixed !important;
+  margin: 0 !important;
+  z-index: 9999 !important;
+  opacity: 0.8;
+  transform: rotate(7deg);
+}
+
+.gu-transit {
+  background-color: rgba(0, 0, 0, 0.12);
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.12);
+
+  & * {
+    visibility: hidden;
+  }
+}
+
+//
+// some utils
+.gu-hide {
+  display: none !important;
+}
+
+.gu-unselectable {
+  user-select: none !important;
+}

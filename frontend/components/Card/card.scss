@@ -40,3 +40,11 @@
     z-index: 25;
   }
 }
+
+.card.card-dragging {
+  display: none;
+
+  &.gu-mirror {
+    display: block;
+  }
+}
