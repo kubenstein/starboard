@@ -2,6 +2,7 @@ import React from 'react';
 import Dragula from 'dragula';
 import Column from 'components/Column/Column.jsx';
 import AddColumnForm from 'components/AddColumnForm/AddColumnForm.jsx';
+import DndSpaceRegistrator from 'components/dndSupport/dnd-space-registrator.js';
 import ColumnsRepository from 'lib/columns-repository.js';
 import CardsRepository from 'lib/cards-repository.js';
 import 'components/Board/board.scss';
@@ -24,12 +25,14 @@ export default class Board extends React.Component {
   }
 
   configureDND() {
-    this.configureColumnsDND();
-    this.configureCardsDND();
+    const columnsDNDManager = this.configureColumnsDND();
+    this.dndSpaceRegistrator = new DndSpaceRegistrator(columnsDNDManager);
+
+    this.cardsDNDManager = this.configureCardsDND();
   }
 
   configureColumnsDND() {
-    this.columnsDNDManager = Dragula([], {
+    return Dragula([], {
       direction: 'horizontal',
       moves: (_el, _container, handle) => {
         return handle.classList.contains('column-DND-handler');
@@ -45,7 +48,7 @@ export default class Board extends React.Component {
   }
 
   configureCardsDND() {
-    this.cardsDNDManager = Dragula([], {
+    return Dragula([], {
       moves: (_el, _container, handle) => {
         return handle.classList.contains('card-DND-handler');
       },
@@ -87,25 +90,13 @@ export default class Board extends React.Component {
     });
   }
 
-  addColumnDNDContainer(el) {
-    if (!el) return;
-
-    if (this.DNDContainer) {
-      const i = this.columnsDNDManager.containers.indexOf(this.DNDContainer);
-      this.columnsDNDManager.containers.slice(i, 1);
-    }
-    this.DNDContainer = el;
-    this.columnsDNDManager.containers.push(this.DNDContainer);
-  }
-
-
   render() {
     const columns = this.state.columns;
     return (
       <div className="board clearfix">
         <div
           className="columns"
-          ref={(e) => { this.addColumnDNDContainer(e); }}
+          ref={(e) => { this.dndSpaceRegistrator.registerRefAsSpace(e); }}
         >
           { columns.map(column =>
             <Column

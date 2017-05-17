@@ -2,6 +2,7 @@ import React from 'react';
 import AddCardForm from 'components/AddCardForm/AddCardForm.jsx';
 import Card from 'components/Card/Card.jsx';
 import EdditableInput from 'components/EdditableInput/EdditableInput.jsx';
+import DndSpaceRegistrator from 'components/dndSupport/dnd-space-registrator.js';
 import CardsRepository from 'lib/cards-repository.js';
 import ColumnsRepository from 'lib/columns-repository.js';
 import 'components/Column/column.scss';
@@ -10,8 +11,8 @@ export default class Column extends React.Component {
   constructor(props) {
     super(props);
     this.stateManager = this.props.stateManager;
-    this.DNDManager = this.props.DNDManager;
     this.otherCssClasses = this.props.className || '';
+    this.dndSpaceRegistrator = new DndSpaceRegistrator(this.props.DNDManager);
     this.cardsRepo = new CardsRepository(this.stateManager);
     this.columnsRepo = new ColumnsRepository(this.stateManager);
     this.columnData = this.props.data;
@@ -22,16 +23,6 @@ export default class Column extends React.Component {
     if (newName !== oldName) {
       this.columnsRepo.updateColumn(this.columnData.id, { name: newName });
     }
-  }
-
-  addCardsDNDContainer(el) {
-    if (!el) return;
-    if (this.DNDContainer) {
-      const i = this.DNDManager.containers.indexOf(this.DNDContainer);
-      this.DNDManager.containers.slice(i, 1);
-    }
-    this.DNDContainer = el;
-    this.DNDManager.containers.push(this.DNDContainer);
   }
 
   cssClasses() {
@@ -55,7 +46,7 @@ export default class Column extends React.Component {
         <div
           className="card-list"
           data-DND-data-column-id={columnData.id}
-          ref={(e) => { this.addCardsDNDContainer(e); }}
+          ref={(e) => { this.dndSpaceRegistrator.registerRefAsSpace(e); }}
         >
           { cards.map(card =>
             <Card key={card.id} data={card} stateManager={this.stateManager} />
