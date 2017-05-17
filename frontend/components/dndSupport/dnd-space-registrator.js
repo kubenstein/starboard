@@ -9,10 +9,16 @@ export default class DndSpaceRegistrator {
 
     const containers = this.dndManager.containers;
     if (this.elRef) {
-      const i = containers.indexOf(this.elRef);
-      containers.slice(i, 1);
+      this.remove(this.elRef, containers);
     }
     this.elRef = el;
     containers.push(this.elRef);
+  }
+
+  // private
+
+  remove(item, collection) {
+    const i = collection.indexOf(item);
+    collection.slice(i, 1);
   }
 }
