@@ -19,3 +19,10 @@
     margin-bottom: 10px;
   }
 }
+
+//
+// make sure there is a space for a cards drop-zone
+// when column is empty
+body.gu-unselectable .column .card-list {
+  min-height: 47px;
+}
