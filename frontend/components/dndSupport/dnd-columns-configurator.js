@@ -1,4 +1,5 @@
 import Dragula from 'dragula';
+import positionAmongDOMSiblings from './position-among-dom-siblings.js';
 
 export default class DndColumnsConfigurator {
   constructor(params) {
@@ -25,14 +26,7 @@ export default class DndColumnsConfigurator {
 
   onDrop(el) {
     const columnId = el.getAttribute(this.dndElColumnIdDataAttr);
-    const newPosition = this.positionAmongDOMSiblings(el);
+    const newPosition = positionAmongDOMSiblings(el);
     this.columnsRepo.updateColumn(columnId, { position: newPosition });
-  }
-
-  positionAmongDOMSiblings(el) {
-    let node = el;
-    let position;
-    for (position = -1; node; position += 1) { node = node.previousSibling; }
-    return position;
   }
 }
