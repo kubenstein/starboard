@@ -1,5 +1,4 @@
 const webpack = require('webpack');
-const CompressionPlugin = require('compression-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 const rootDir = __dirname;
@@ -69,11 +68,6 @@ module.exports = {
       'process.env': {
         NODE_ENV: JSON.stringify(process.env.NODE_ENV),
       },
-    }),
-    new CompressionPlugin({
-      asset: '[path].gz[query]',
-      algorithm: 'gzip',
-      test: /\.js$|\.css$|\.html$/
     })
   ] : [
     new ExtractTextPlugin('application.css'),
