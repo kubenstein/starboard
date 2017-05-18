@@ -13,11 +13,11 @@ function main() {
 # private
 
 function wipeLocalDevelopmentDb() {
-  rm -rf .tmp/
+  rm -rf .tmp/tmpRepo/
 }
 
 function wipeRemoteDevelopmentDb() {
-  rm -rf ./src/db/
+  rm -rf .tmp/fakeDevelopmentRemoteGitRepo/
 }
 
 function recreateRemoteDevelopmentDb() {
