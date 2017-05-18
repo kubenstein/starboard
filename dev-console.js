@@ -46,8 +46,5 @@ function writeToWindow(window, cmd, cmdArgs) {
 
 function writeStreamDataToWindow(window, data) {
   const lines = data.toString().split('\n');
-
-  for (let i = 0; i < lines.length; i += 1) {
-    window.log(lines[i]);
-  }
+  lines.forEach((line) => { window.log(line); });
 }
