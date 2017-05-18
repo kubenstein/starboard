@@ -40,6 +40,14 @@ module.exports = {
     ]
   },
 
+  resolve: {
+    root: [
+      backendDir,
+      srcDir,
+      rootDir
+    ]
+  },
+
   externals: nodeModules,
   plugins: [
     new webpack.NormalModuleReplacementPlugin(/\.css|scss$/, 'node-noop'),

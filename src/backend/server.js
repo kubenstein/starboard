@@ -1,8 +1,8 @@
 import express from 'express';
 import SocketIo from 'socket.io';
 import multer from 'multer';
-import EventStorage from '../lib/git-event-storage.js';
-import StoreAttachmentUsecase from '../lib/store-attachment-usecase.js';
+import EventStorage from 'lib/git-event-storage.js';
+import StoreAttachmentUsecase from 'lib/store-attachment-usecase.js';
 
 // ------------- serv setup ---------------
 const app = express();
