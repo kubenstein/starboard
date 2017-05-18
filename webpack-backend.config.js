@@ -22,7 +22,7 @@ module.exports = {
 
   output: {
     path: (process.env.NODE_ENV === 'production' ?
-          `${rootDir}/build/` :
+          `${rootDir}/dist/` :
           `${rootDir}/.tmp/backend/`),
     publicPath: '/',
     filename: 'bundled-server.js'

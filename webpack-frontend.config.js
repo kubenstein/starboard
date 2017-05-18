@@ -10,7 +10,7 @@ module.exports = {
   entry: `${frontendDir}/index.js`,
 
   output: {
-    path: `${rootDir}/build/frontend`,
+    path: `${rootDir}/dist/frontend`,
     publicPath: '/',
     filename: 'bundle.js'
   },
