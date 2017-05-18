@@ -73,9 +73,17 @@ export function columnUpdatedEvent(columnId, changes) {
 
 export const commentAddedEventType = 'COMMENT_ADDED';
 export function commentAddedEvent(cardId, params) {
-  const { content, attachmentName, attachmentSize, attachmentType, attachmentUrl } = params;
-  let attachment = null;
+  const {
+    content,
+    attachmentName,
+    attachmentSize,
+    attachmentType,
+    attachmentUrl,
+    authorName,
+    authorEmail
+  } = params;
 
+  let attachment = null;
   if (attachmentName) {
     attachment = {
       name: attachmentName,
@@ -92,7 +100,10 @@ export function commentAddedEvent(cardId, params) {
       cardId: cardId,
       content: content,
       attachment: attachment,
-      author: { name: 'Kuba' }, // TODO: Hardcoded for now
+      author: {
+        name: authorName,
+        email: authorEmail
+      },
       createdAt: currentTimestamp()
     },
     id: uuid()

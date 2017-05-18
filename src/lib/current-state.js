@@ -9,6 +9,7 @@ import CommentRemovedEventHandler from './eventHandlers/comment-removed.js';
 export default class CurrentState {
   constructor(params) {
     this.eventStorage = params.eventSource;
+    this.user = params.user;
     this.observers = [];
     this.data = {};
     this.eventHandlers = {};
@@ -37,6 +38,10 @@ export default class CurrentState {
 
   addFile(fileBlob) {
     return this.eventStorage.addFile(fileBlob);
+  }
+
+  currentUser() {
+    return this.user;
   }
 
   bucket(name) {
