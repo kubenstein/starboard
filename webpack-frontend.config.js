@@ -3,7 +3,8 @@ const CompressionPlugin = require('compression-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 const rootDir = __dirname;
-const frontendDir = `${rootDir}/frontend/`;
+const srcDir = `${rootDir}/src/`;
+const frontendDir = `${srcDir}/frontend/`;
 
 module.exports = {
   entry: `${frontendDir}/index.js`,
@@ -41,6 +42,7 @@ module.exports = {
   resolve: {
     root: [
       frontendDir,
+      srcDir,
       rootDir
     ]
   },
