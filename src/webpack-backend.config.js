@@ -1,8 +1,8 @@
 const webpack = require('webpack');
 const fs = require('fs');
 
-const rootDir = __dirname;
-const srcDir = `${rootDir}/src/`;
+const srcDir = __dirname;
+const rootDir = `${srcDir}/../`;
 const backendDir = `${srcDir}/backend/`;
 
 // taken from http://jlongster.com/Backend-Apps-with-Webpack--Part-I

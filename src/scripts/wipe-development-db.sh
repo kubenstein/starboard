@@ -17,7 +17,7 @@ function wipeLocalDevelopmentDb() {
 }
 
 function wipeRemoteDevelopmentDb() {
-  find ./db/development ! -name '.gitkeep' -type f -exec rm -f {} +
+  rm -rf ./src/db/
 }
 
 function recreateRemoteDevelopmentDb() {

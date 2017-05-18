@@ -1,8 +1,8 @@
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
-const rootDir = __dirname;
-const srcDir = `${rootDir}/src/`;
+const srcDir = __dirname;
+const rootDir = `${srcDir}/../`;
 const frontendDir = `${srcDir}/frontend/`;
 
 module.exports = {

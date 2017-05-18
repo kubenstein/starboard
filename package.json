@@ -4,24 +4,24 @@
   "version": "0.1.0",
   "description": "",
   "license": "MIT",
-  "main": "index.js",
   "engines": {
     "node": ">=4.3.2"
   },
+  "bin": {
+    "starboard": "bin/starboard"
+  },
   "scripts": {
     "dev": "node ./src/dev-console.js",
-    "dev:frontend": "webpack-dev-server --config webpack-frontend.config.js",
-    "dev:backend:es6compiler": "webpack --watch --config webpack-backend.config.js",
+    "dev:frontend": "webpack-dev-server --config ./src/webpack-frontend.config.js",
+    "dev:backend:es6compiler": "webpack --watch --config ./src/webpack-backend.config.js",
     "dev:backend:server": "PATH_TO_REPO=$(pwd)/src/db/development/ nodemon --watch .tmp/backend/ .tmp/backend/bundled-server.js",
     "dev:linter": "eslint -c .eslintrc \"./src/*.js\" \"./src/backend/**\" \"./src/frontend/**\" \"./src/spec/**\" \"./src/lib/**\" || true",
     "dev:linter:ci": "nodemon -e jsx,js --watch ./src/ --exec 'npm run dev:linter'",
-    "dev:db:create": "PATH_TO_REPO=$(pwd)/src/db/development/ node ./src/scripts/db-create-development.js",
+    "dev:db:create": "node ./src/scripts/db-create-development.js",
     "dev:db:seed": "PATH_TO_REPO=$(pwd)/src/db/development/ node ./src/scripts/db-seed.js",
     "build": "npm run build:backend && npm run build:frontend",
-    "build:frontend": "NODE_ENV=production webpack -p --config webpack-frontend.config.js",
-    "build:backend": "NODE_ENV=production webpack --config webpack-backend.config.js",
-    "postinstall": "npm run build",
-    "start": "node backend/server.js"
+    "build:frontend": "NODE_ENV=production webpack -p --config ./src/webpack-frontend.config.js",
+    "build:backend": "NODE_ENV=production webpack --config ./src/webpack-backend.config.js"
   },
   "dependencies": {
     "axios": "^0.16.1",
