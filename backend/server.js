@@ -1,6 +1,5 @@
 import express from 'express';
 import SocketIo from 'socket.io';
-import bodyParser from 'body-parser';
 import multer from 'multer';
 import EventStorage from '../lib/git-event-storage.js';
 import StoreAttachmentUsecase from '../lib/store-attachment-usecase.js';
@@ -12,8 +11,6 @@ const io = SocketIo(server);
 const upload = multer({ dest: '.tmp/tempUploads/' });
 
 app.use(express.static('frontend/'));
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
 
 const gitAttachmentStorage = '.tmp/tmpRepo/';
 const eventStotage = new EventStorage({
