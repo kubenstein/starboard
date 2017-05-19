@@ -6,7 +6,7 @@ const rootDir = `${srcDir}/../`;
 const frontendDir = `${srcDir}/frontend/`;
 
 module.exports = {
-  entry: `${frontendDir}/index.js`,
+  entry: `${frontendDir}/index.jsx`,
 
   output: {
     path: `${rootDir}/dist/frontend`,
