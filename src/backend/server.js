@@ -5,6 +5,7 @@ import SocketIo from 'socket.io';
 import multer from 'multer';
 import EventStorage from 'lib/git-event-storage.js';
 import StoreAttachmentUsecase from 'lib/store-attachment-usecase.js';
+import NullLogger from 'lib/null-logger.js';
 
 
 // ---------------- config ----------------
@@ -13,9 +14,21 @@ const env = process.env;
 const serverPort                = env.PORT || 8081;
 const remoteRepoUrl             = env.REPO_URL;
 const remoteRepoPollingInterval = env.POLLING_INTERVAL || 30;
+const logger                    = env.DEBUG ? console : new NullLogger();
 const tempDir                   = env.TEMP_DIR || '.tmp';
 const tempUploadsDir            = env.TEMP_UPLOADS_DIR || `${tempDir}/tmpUploads/`;
 const tempRepoDir               = env.TEMP_REPO_DIR || `${tempDir}/tmpRepo/`;
+
+// ---------------- banner ----------------
+// eslint-disable-next-line no-console
+console.log(`
+|
+| Starting Starboard...
+| Source repo set to: ${remoteRepoUrl}
+|
+| Board available at: http://localhost:${serverPort}/
+|
+`);
 
 // ------------- serv setup ---------------
 const app    = express();
@@ -29,7 +42,7 @@ const eventStorage = new EventStorage({
   remoteRepoUrl: remoteRepoUrl,
   pathToTempLocalRepo: tempRepoDir,
   pollingIntervalInSeconds: remoteRepoPollingInterval,
-  logger: console
+  logger: logger
 });
 
 const storeAttachmentUsecase = new StoreAttachmentUsecase(eventStorage, {
