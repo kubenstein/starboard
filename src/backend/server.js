@@ -1,3 +1,5 @@
+/* eslint-disable no-multi-spaces */
+
 import express from 'express';
 import SocketIo from 'socket.io';
 import multer from 'multer';
@@ -6,31 +8,32 @@ import StoreAttachmentUsecase from 'lib/store-attachment-usecase.js';
 
 
 // ---------------- config ----------------
-const serverPort = process.env.PORT || 8081;
-const remoteRepoUrl = process.env.REPO_URL;
-const remoteRepoPollingInterval = process.env.POLLING_INTERVAL || 30;
-const tempDir = '.tmp';
-const tempUploadsPath = `${tempDir}/tmpUploads/`;
-const tempRepoPath = `${tempDir}/tmpRepo/`;
+const env = process.env;
 
+const serverPort                = env.PORT || 8081;
+const remoteRepoUrl             = env.REPO_URL;
+const remoteRepoPollingInterval = env.POLLING_INTERVAL || 30;
+const tempDir                   = env.TEMP_DIR || '.tmp';
+const tempUploadsDir            = env.TEMP_UPLOADS_DIR || `${tempDir}/tmpUploads/`;
+const tempRepoDir               = env.TEMP_REPO_DIR || `${tempDir}/tmpRepo/`;
 
 // ------------- serv setup ---------------
-const app = express();
+const app    = express();
 const server = app.listen(serverPort);
-const io = SocketIo(server);
-const upload = multer({ dest: tempUploadsPath });
+const io     = SocketIo(server);
+const upload = multer({ dest: tempUploadsDir });
 
 app.use(express.static('frontend/'));
 
 const eventStotage = new EventStorage({
   remoteRepoUrl: remoteRepoUrl,
-  pathToTempLocalRepo: tempRepoPath,
+  pathToTempLocalRepo: tempRepoDir,
   pollingIntervalInSeconds: remoteRepoPollingInterval,
   logger: console
 });
 
 const storeAttachmentUsecase = new StoreAttachmentUsecase(eventStotage, {
-  pathToStorage: tempRepoPath
+  pathToStorage: tempRepoDir
 });
 
 
@@ -50,7 +53,7 @@ eventStotage.addObserver(allClientsNotifier);
 app.get('/attachments/:fileName', (req, res) => {
   res.sendFile(req.params.fileName, {
     dotfiles: 'deny',
-    root: tempRepoPath,
+    root: tempRepoDir,
   });
 });
 
