@@ -9,7 +9,7 @@ const swallowErrors = () => {};
 
 export default class GitEventStorage {
   constructor(params) {
-    this.pathToRepo = params.pathToRepo;
+    this.remoteRepoUrl = params.remoteRepoUrl;
     this.dataBranchName = params.dataBranchName || '__starboard-data';
     this.pathToTempLocalRepo = params.pathToTempLocalRepo || '.tmp/tmpRepo/'; // path HAS to end with /
     this.pollingIntervalInSeconds = params.pollingIntervalInSeconds || 30;
@@ -128,7 +128,7 @@ export default class GitEventStorage {
   }
 
   gitAddRemote() {
-    return this.execute(`git -C ${this.pathToTempLocalRepo} remote add origin ${this.pathToRepo}`)
+    return this.execute(`git -C ${this.pathToTempLocalRepo} remote add origin ${this.remoteRepoUrl}`)
     .catch(swallowErrors);
   }
 

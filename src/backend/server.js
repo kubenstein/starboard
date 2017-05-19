@@ -4,24 +4,33 @@ import multer from 'multer';
 import EventStorage from 'lib/git-event-storage.js';
 import StoreAttachmentUsecase from 'lib/store-attachment-usecase.js';
 
+
+// ---------------- config ----------------
+const serverPort = process.env.PORT || 8081;
+const remoteRepoUrl = process.env.REPO_URL;
+const remoteRepoPollingInterval = process.env.POLLING_INTERVAL || 30;
+const tempDir = '.tmp';
+const tempUploadsPath = `${tempDir}/tmpUploads/`;
+const tempRepoPath = `${tempDir}/tmpRepo/`;
+
+
 // ------------- serv setup ---------------
 const app = express();
-const server = app.listen(process.env.PORT || 8081);
+const server = app.listen(serverPort);
 const io = SocketIo(server);
-const upload = multer({ dest: '.tmp/tempUploads/' });
+const upload = multer({ dest: tempUploadsPath });
 
 app.use(express.static('frontend/'));
 
-const gitAttachmentStorage = '.tmp/tmpRepo/';
 const eventStotage = new EventStorage({
-  pathToRepo: process.env.PATH_TO_REPO,
-  pathToTempLocalRepo: gitAttachmentStorage,
-  pollingIntervalInSeconds: 10,
+  remoteRepoUrl: remoteRepoUrl,
+  pathToTempLocalRepo: tempRepoPath,
+  pollingIntervalInSeconds: remoteRepoPollingInterval,
   logger: console
 });
 
 const storeAttachmentUsecase = new StoreAttachmentUsecase(eventStotage, {
-  pathToStorage: gitAttachmentStorage
+  pathToStorage: tempRepoPath
 });
 
 
@@ -41,7 +50,7 @@ eventStotage.addObserver(allClientsNotifier);
 app.get('/attachments/:fileName', (req, res) => {
   res.sendFile(req.params.fileName, {
     dotfiles: 'deny',
-    root: gitAttachmentStorage,
+    root: tempRepoPath,
   });
 });
 
