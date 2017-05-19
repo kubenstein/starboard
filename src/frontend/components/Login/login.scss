@@ -1,0 +1,53 @@
+@import "../../assets/stylesheets/app";
+
+.login {
+  width: 100%;
+  height: 100%;
+  background-color: $blue;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .form {
+    width: 400px;
+    background-color: $white;
+    padding: 20px;
+    border-radius: 3px;
+    box-shadow: 1px 1px 1px rgba(0,0,0,.5);
+  }
+
+  .title {
+    color: $black;
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+
+  .input {
+    width: 100%;
+    border: 1px solid $grey;
+    height: 35px;
+    font-size: 18px;
+    display: block;
+    padding: 0 5px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+  }
+
+  .btn.btn-login {
+    cursor: pointer;
+    background-color: $green;
+    color: $white;
+    font-weight: bold;
+    font-size: 14px;
+    border: 0;
+    border-radius: 3px;
+    padding: 7px 15px;
+    margin-right: 10px;
+    box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+
+    &:hover {
+      background-color: $green-darker;
+    }
+  }
+}
+
