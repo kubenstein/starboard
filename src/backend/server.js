@@ -25,14 +25,14 @@ const upload = multer({ dest: tempUploadsDir });
 
 app.use(express.static('frontend/'));
 
-const eventStotage = new EventStorage({
+const eventStorage = new EventStorage({
   remoteRepoUrl: remoteRepoUrl,
   pathToTempLocalRepo: tempRepoDir,
   pollingIntervalInSeconds: remoteRepoPollingInterval,
   logger: console
 });
 
-const storeAttachmentUsecase = new StoreAttachmentUsecase(eventStotage, {
+const storeAttachmentUsecase = new StoreAttachmentUsecase(eventStorage, {
   pathToStorage: tempRepoDir
 });
 
@@ -46,7 +46,7 @@ const allClientsNotifier = {
     });
   }
 };
-eventStotage.addObserver(allClientsNotifier);
+eventStorage.addObserver(allClientsNotifier);
 
 
 // ----------------- http -----------------
@@ -73,11 +73,11 @@ io.on('connection', (socket) => {
 
   socket.on('addEvent', (event, sendBack) => {
     sendBack(event);
-    eventStotage.addEvent(event);
+    eventStorage.addEvent(event);
   });
 
   socket.on('getAllPastEvents', (sendBack) => {
-    eventStotage.getAllPastEvents().then((events) => {
+    eventStorage.getAllPastEvents().then((events) => {
       sendBack(events);
     });
   });
