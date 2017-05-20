@@ -19,7 +19,10 @@ fs.readdirSync('node_modules')
 module.exports = {
   entry: `${backendDir}/server.js`,
   target: 'node',
-
+  node: {
+    __dirname: false,
+    __filename: false,
+  },
   output: {
     path: (process.env.NODE_ENV === 'production' ?
           `${rootDir}/dist/` :

@@ -36,7 +36,7 @@ const server = app.listen(serverPort);
 const io     = SocketIo(server);
 const upload = multer({ dest: tempUploadsDir });
 
-app.use(express.static('frontend/'));
+app.use(express.static(`${__dirname}/frontend/`));
 
 const eventStorage = new EventStorage({
   remoteRepoUrl: remoteRepoUrl,

@@ -19,6 +19,7 @@
     "dev:linter:ci": "nodemon -e jsx,js --watch ./src/ --exec 'npm run dev:linter'",
     "dev:db:create": "node ./src/scripts/db-create-development.js",
     "dev:db:clear": "./src/scripts/wipe-development-db.sh",
+    "dev:localRelease": "./src/scripts/local-release.sh",
     "build": "rm -rf ./dist && npm run build:backend && npm run build:frontend",
     "build:frontend": "NODE_ENV=production webpack -p --config ./src/webpack-frontend.config.js",
     "build:backend": "NODE_ENV=production webpack --config ./src/webpack-backend.config.js"
