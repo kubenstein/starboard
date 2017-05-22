@@ -14,7 +14,6 @@ export default class EdditableInput extends React.Component {
   onEnterCheck(e) {
     if (e.key === 'Enter') {
       this.input.blur();
-      this.onChange();
     }
   }
 
