@@ -11,15 +11,11 @@ export default class Topbar extends React.Component {
   }
 
   updateBoardName(name) {
-    if (name) {
-      this.repo.setBoardName(name);
-    }
+    this.repo.setBoardName(name);
   }
 
   updatePageTitle(title) {
-    if (title) {
-      document.title = `${title} - Starboard`;
-    }
+    document.title = title || 'Starboard';
   }
 
   render() {
