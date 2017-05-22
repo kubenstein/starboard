@@ -43,12 +43,14 @@ export default class CardDetails extends React.Component {
     const columnName = this.columnsRepo.getColumn(columnId).name;
     return (
       <div className="card-details">
-        <EdditableInput
-          className="title"
-          value={title}
-          onChange={(value) => { this.updateTitle(value); }}
-        />
-        <h4 className="sub-title no-top-margin">{`In Column: ${columnName}`}</h4>
+        <div className="title-wrapper">
+          <EdditableInput
+            className="title"
+            value={title}
+            onChange={(value) => { this.updateTitle(value); }}
+          />
+        </div>
+        <h4 className="sub-title">{`In Column: ${columnName}`}</h4>
         <h4 className="sub-title">Description:</h4>
         <EdditableInput
           className="description-input"
@@ -58,9 +60,9 @@ export default class CardDetails extends React.Component {
           onChange={(value) => { this.updateDescription(value); }}
         />
         <div className="utils-section">
-          <a className="btn btn-delete" onClick={() => { this.removeCard(id); }}>Delete Card</a>
+          <a className="btn btn-danger btn-small" onClick={() => { this.removeCard(id); }}>Delete Card</a>
         </div>
-        <h4 className="title clearfix">Add Comment</h4>
+        <h4 className="section-title clearfix">Comments:</h4>
         <AddCommentForm cardId={id} stateManager={this.stateManager} />
         { comments.map(comment =>
           <CardComment key={comment.id} comment={comment} stateManager={this.stateManager} />

@@ -47,15 +47,15 @@ export default class AddColumnForm extends React.Component {
             ref={(e) => { this.formElement = e; }}
             onSubmit={(e) => { this.submit(e); }}
           >
-            <textarea
-              className="title"
+            <input
+              className="column-title"
               name="title"
               onKeyPress={(e) => { this.submitFormOnEnter(e); }}
               placeholder="Type a column name..."
               autoFocus
             />
-            <input className="btn btn-add" type="submit" value="Add Column" />
-            <button className="btn btn-cancel" onClick={(e) => { e.preventDefault(); this.close(); }}>X</button>
+            <input className="btn btn-success" type="submit" value="Add Column" />
+            <button className="btn btn-raw-icon" onClick={(e) => { e.preventDefault(); this.close(); }}>X</button>
           </form>
         :
           <p className="prompt" onClick={() => { this.open(); }}>Add a Column...</p>

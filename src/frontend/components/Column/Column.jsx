@@ -39,7 +39,7 @@ export default class Column extends React.Component {
         data-DND-data-column-id={columnData.id}
       >
         <EdditableInput
-          className="column-DND-handler"
+          className="column-title column-DND-handler"
           value={name}
           onChange={(value) => { this.updateName(value); }}
         />

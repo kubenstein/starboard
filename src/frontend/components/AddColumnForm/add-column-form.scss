@@ -1,68 +1,33 @@
-@import "../../assets/stylesheets/app";
+@import "../../assets/stylesheets/style";
 
 
 .add-column-form {
+  width: 270px;
+  padding: 10px 10px 0 10px;
+
   &>.prompt {
-    border: 0;
-    border-radius: 3px;
-    box-sizing: border-box;
-    box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+    @include rounded-box;
     background-color: rgba(0, 0, 0, .12);
-    width: 100%;
-    padding: 10px;
+    padding: 0 4px;
+    line-height: 30px;
     font-size: 14px;
-    color: $grey;
+    color: $tundora;
     cursor: pointer;
 
     &:hover {
+      color: $iron;
       background-color: rgba(0, 0, 0, .32);
     }
   }
 
-  .form {
-    border: 0;
-    border-radius: 3px;
-    box-sizing: border-box;
-    background-color: $grey;
-    padding: 10px;
-    box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
-
-    &>.title {
-      border: 0;
-      border-radius: 3px;
-      color: $black;
-      font-size: 14px;
-      padding: 10px;
-      margin-bottom: 10px;
-      width: 100%;
-      box-sizing: border-box;
-      box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
-    }
+  .column-title {
+    @include editable-input;
+    font-weight: normal;
+    background-color: $white;
+    margin-bottom: 10px;
   }
 
-  .btn.btn-add {
-    cursor: pointer;
-    background-color: $green;
-    color: $white;
-    font-weight: bold;
-    font-size: 14px;
-    border: 0;
-    border-radius: 3px;
-    padding: 7px 15px;
+  .btn-success {
     margin-right: 10px;
-    box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
-
-    &:hover {
-      background-color: $green-darker;
-    }
-  }
-
-  .btn.btn-cancel {
-    cursor: pointer;
-    background-color: transparent;
-    font-size: 21px;
-    border: 0;
-    color: $black;
-    vertical-align: middle;
   }
 }

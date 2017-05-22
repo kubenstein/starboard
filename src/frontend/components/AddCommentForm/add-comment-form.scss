@@ -1,13 +1,10 @@
-@import "../../assets/stylesheets/app";
+@import "../../assets/stylesheets/style";
 
 .add-comment-form {
-  margin: 10px 0;
+  padding: 10px 0;
 
-  &>.content {
-    border: 0;
-    border-radius: 3px;
-    box-sizing: border-box;
-    box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+  .content {
+    @include rounded-box;
     background-color: $white;
     width: 100%;
     padding: 10px;
@@ -16,34 +13,15 @@
     margin-bottom: 10px;
   }
 
-  .btn.btn-add {
-    cursor: pointer;
-    background-color: $green;
-    color: $white;
-    font-weight: bold;
-    font-size: 14px;
-    border: 0;
-    border-radius: 3px;
-    padding: 7px 15px;
+  .btn {
     margin-right: 10px;
-    box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
-
-    &:hover {
-      background-color: $green-darker;
-    }
   }
 
-  .btn-input-file {
-    position: relative;
-    overflow: hidden;
+  .btn-process {
+    cursor: progress;
+  }
 
-    &.btn-process {
-      cursor: progress;
-    }
-
-    .file-input {
-      position: absolute;
-      top: -1000px;
-    }
+  .file-input {
+    display: none;
   }
 }

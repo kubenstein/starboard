@@ -1,0 +1,48 @@
+.btn {
+  @include rounded-box;
+  display: inline-block;
+  white-space: nowrap;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 14px;
+  padding: 7px 15px;
+  background-color: transparent;
+}
+
+.btn-success {
+  background-color: $green;
+  color: $white;
+
+  &:hover {
+    background-color: $green-slightly-darker;
+  }
+}
+
+.btn-danger {
+  background-color: $mexican-red;
+  color: $white;
+  font-weight: bold;
+}
+
+.btn-raw-icon {
+  box-shadow: none;
+  font-weight: normal;
+  color: $black;
+  vertical-align: middle;
+  font-size: 21px;
+}
+
+.btn-link {
+  color: $grey;
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.btn-small {
+  font-size: 12px;
+  font-weight: normal;
+}
+

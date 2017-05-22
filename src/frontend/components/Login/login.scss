@@ -1,4 +1,4 @@
-@import "../../assets/stylesheets/app";
+@import "../../assets/stylesheets/style";
 
 .login {
   width: 100%;
@@ -24,7 +24,7 @@
 
   .input {
     width: 100%;
-    border: 1px solid $grey;
+    border: 1px solid $iron;
     height: 35px;
     font-size: 18px;
     display: block;
@@ -46,7 +46,7 @@
     box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
 
     &:hover {
-      background-color: $green-darker;
+      background-color: $green-slightly-darker;
     }
   }
 }

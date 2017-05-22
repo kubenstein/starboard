@@ -1,41 +1,49 @@
-@import "../../assets/stylesheets/app";
+@import "../../assets/stylesheets/style";
 
 .card-details {
   width: 570px;
-  min-height: 500px;
-  background-color: $grey;
-  border-radius: 3px;
-  padding: 15px;
+  background-color: $iron;
+  padding: 0 10px 10px 10px;
   cursor: initial;
 
+  .title-wrapper {
+    background-color: $iron-slightly-darker;
+    margin: 0 -10px;
+    padding: 10px 6px 2px 6px;
+  }
+
   .title {
-    font-size: 16px;
-    color: $black;
+    @include card-details-header;
+    line-height: 30px;
   }
 
   .sub-title {
-    font-size: 13px;
-    font-weight: normal;
-    margin: 15px 0 5px 0;
-    color: $grey-dark;
+    @include card-details-sub-header;
+  }
 
-    &.no-top-margin {
-      margin-top: 0;
-    }
+  .section-title {
+    padding-top: 20px;
+    color: $black;
   }
 
   .description-input {
     color: $black;
     font-size: 14px;
+    font-weight: normal;
     min-height: 125px;
-    box-sizing: border-box;
-    border-radius: 3px;
-    border: 1px solid transparent;
     float: left;
     width: 80%;
+    border: 1px solid transparent;
 
-    &:hover, &:focus {
-      border: 1px solid $grey-dark;
+    &:hover:not(:focus) {
+      @include rounded-box;
+      box-shadow: none;
+      border: 1px solid $silver;
+    }
+
+    &:focus {
+      @include rounded-box;
+      border: 1px solid transparent;
     }
   }
 
@@ -44,18 +52,5 @@
     float: left;
     padding-left: 5px;
     box-sizing: border-box;
-  }
-
-  .btn-delete {
-    cursor: pointer;
-    background-color: $red;
-    color: $white;
-    font-weight: bold;
-    font-size: 11px;
-    border: 0;
-    border-radius: 3px;
-    padding: 7px 15px;
-    margin-right: 10px;
-    box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
   }
 }

@@ -1,21 +1,31 @@
-@import "../../assets/stylesheets/app";
+@import "../../assets/stylesheets/style";
+
+$background-color: rgba(222, 222, 222, 0.95);
 
 .board {
   background-color: $blue;
-  padding: 50px 0 10px;
-  white-space: nowrap;
   overflow-x: auto;
 
-  .columns {
-    display: inline-block;
+  .bg-wrapper {
+    background-color: $background-color;
+    display: flex;
   }
 
-  .column, .add-column-form {
-    width: 270px;
-    margin-left: 10px;
-    margin-right: 10px;
-    display: inline-block;
-    vertical-align: top;
-    white-space: initial;
+  .columns {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
   }
+
+  .column {
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+//
+// draggable element
+.column.gu-mirror {
+  background-color: $background-color;
 }

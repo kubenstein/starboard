@@ -1,7 +1,10 @@
-@import "../../assets/stylesheets/app";
+@import "../../assets/stylesheets/style";
 
 
 .add-card-form {
+  padding: 10px 0;
+  border-top: 1px solid $silver;
+
   &>.prompt {
     display: block;
     cursor: pointer;
@@ -12,40 +15,15 @@
   }
 
   .title {
-    border: 0;
-    border-radius: 3px;
+    @include rounded-box;
+    padding: 10px;
     color: $black;
     font-size: 14px;
-    padding: 10px;
     margin-bottom: 10px;
     width: 100%;
-    box-sizing: border-box;
-    box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
   }
 
-  .btn.btn-add {
-    cursor: pointer;
-    background-color: $green;
-    color: $white;
-    font-weight: bold;
-    font-size: 14px;
-    border: 0;
-    border-radius: 3px;
-    padding: 7px 15px;
+  .btn-success {
     margin-right: 10px;
-    box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
-
-    &:hover {
-      background-color: $green-darker;
-    }
-  }
-
-  .btn.btn-cancel {
-    cursor: pointer;
-    background-color: transparent;
-    font-size: 21px;
-    border: 0;
-    color: $black;
-    vertical-align: middle;
   }
 }

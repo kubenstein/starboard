@@ -21,21 +21,24 @@ export default class CardComment extends React.Component {
   }
 
   formattedDate(timestamp) {
-    const date = new Date(timestamp * 1000);
-    return date.toString();
+    const d = new Date(timestamp * 1000);
+    return `
+      ${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}
+      ${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}
+    `;
   }
 
   attachmentCommentHTML(comment) {
-    return this.isImage(comment.attachment) ?
+    return (
       <a href={comment.attachment.dataUrl} className="attachment" target="_blank" rel="noopener noreferrer">
-        <img src={comment.attachment.dataUrl} alt={comment.attachment.name} />
+        { this.isImage(comment.attachment) ?
+          <img src={comment.attachment.dataUrl} alt={comment.attachment.name} />
+        :
+          <span className="attachment-file-wrapper" />
+        }
         <span className="attachment-description">{comment.attachment.name}</span>
       </a>
-    :
-      <a href={comment.attachment.dataUrl} className="attachment" target="_blank" rel="noopener noreferrer">
-        <span className="attachment-file-wrapper" />
-        <span className="attachment-description">{comment.attachment.name}</span>
-      </a>;
+    );
   }
 
   render() {
@@ -48,7 +51,7 @@ export default class CardComment extends React.Component {
           { comment.attachment && this.attachmentCommentHTML(comment) }
           {comment.content}
         </p>
-        <span className="btn-delete" onClick={() => { this.removeComment(comment.id); }}>Delete</span>
+        <span className="btn-link btn-small" onClick={() => { this.removeComment(comment.id); }}>Delete</span>
       </div>
     );
   }

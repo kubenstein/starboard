@@ -48,15 +48,16 @@ export default class AddCardForm extends React.Component {
             ref={(e) => { this.formElement = e; }}
             onSubmit={(e) => { this.submit(e); }}
           >
-            <textarea
+            <input
               className="title"
               name="title"
+              autoComplete="off"
               onKeyPress={(e) => { this.submitFormOnEnter(e); }}
               placeholder="Type a card title..."
               autoFocus
             />
-            <input className="btn btn-add" type="submit" value="Add" />
-            <button className="btn btn-cancel" onClick={(e) => { e.preventDefault(); this.close(); }}>X</button>
+            <input className="btn btn-success" type="submit" value="Add" />
+            <button className="btn btn-raw-icon" onClick={(e) => { e.preventDefault(); this.close(); }}>X</button>
           </form>
         :
           <p className="prompt" onClick={() => { this.open(); }}>Add a Card...</p>

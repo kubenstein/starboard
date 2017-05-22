@@ -1,17 +1,24 @@
-@import "../../assets/stylesheets/app";
+@import "../../assets/stylesheets/style";
 
 .column {
-  width: 100%;
-  background-color: $grey;
-  border-radius: 3px;
-  box-shadow: 1px 1px 1px rgba(0,0,0,.5);
+  width: 270px;
+  padding: 10px 10px 0 10px;
+
   overflow: hidden;
-  padding-left: 10px;
-  padding-right: 10px;
-  padding-bottom: 10px;
+  border-right: 1px solid $silver;
+
+  &.gu-transit {
+    border-right: 1px solid transparent;
+  }
+
+  .column-title {
+    padding: 0 3px;
+    margin-bottom: 4px;
+    line-height: 30px;
+  }
 
   .card-list {
-    height: 100%;
+    margin-top: 2px;
     overflow-y: auto;
   }
 
