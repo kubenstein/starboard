@@ -130,3 +130,15 @@ export function fileAddedEvent(filePath) {
     id: uuid()
   };
 }
+
+export const settingsUpdatedEventType = 'SETTINGS_UPDATED';
+export function settingsUpdatedEvent(key, value) {
+  return {
+    type: settingsUpdatedEventType,
+    data: {
+      key: key,
+      value: value
+    },
+    id: uuid()
+  };
+}
