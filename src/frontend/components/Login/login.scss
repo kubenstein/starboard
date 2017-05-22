@@ -3,7 +3,7 @@
 .login {
   width: 100%;
   height: 100%;
-  background-color: $blue;
+  background-color: $malachite;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -33,21 +33,8 @@
     box-sizing: border-box;
   }
 
-  .btn.btn-login {
-    cursor: pointer;
-    background-color: $green;
-    color: $white;
-    font-weight: bold;
-    font-size: 14px;
-    border: 0;
-    border-radius: 3px;
-    padding: 7px 15px;
+  .btn-success {
     margin-right: 10px;
-    box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
-
-    &:hover {
-      background-color: $green-slightly-darker;
-    }
   }
 }
 

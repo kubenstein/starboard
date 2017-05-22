@@ -27,7 +27,7 @@ export default class Login extends React.Component {
           <h1 className="title">Set your Identity:</h1>
           <input className="input" name="username" type="text" placeholder="User name..." />
           <input className="input" name="email" type="text" placeholder="Email..." />
-          <input className="btn btn-login" type="submit" value="login" />
+          <input className="btn btn-success" type="submit" value="login" />
         </form>
       </div>
     );

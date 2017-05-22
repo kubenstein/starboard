@@ -10,11 +10,11 @@
 }
 
 .btn-success {
-  background-color: $green;
+  background-color: $malachite; // will be reapplied by theme css
   color: $white;
 
   &:hover {
-    background-color: $green-slightly-darker;
+    opacity: 0.8;
   }
 }
 

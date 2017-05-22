@@ -21,16 +21,26 @@ input, textarea, button {
 #app {
   height: 100%;
 
+  .board-wrapper {
+    height: 100%;
+  }
+
   .board {
+    $topbar-height: 45px;
+
     box-sizing: border-box;
     height: 100%;
     position: relative;
 
     .bg-wrapper {
       position: absolute;
-      top: 0;
+      top: $topbar-height;
       bottom: 0;
       min-width: 100%;
+    }
+
+    .topbar {
+      height: $topbar-height;
     }
   }
 }
