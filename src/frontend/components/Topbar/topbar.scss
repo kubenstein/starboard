@@ -1,8 +1,14 @@
 @import "../../assets/stylesheets/style";
 
 .topbar {
-  height: 50px;
+  height: 45px;
   position: fixed;
   left: 0;
   right: 0;
+
+  .boardName {
+    margin: 5px 0 0 10px;
+    font-size: 20px;
+    width: 50%
+  }
 }

@@ -136,7 +136,7 @@ export function settingsUpdatedEvent(key, value) {
   return {
     type: settingsUpdatedEventType,
     data: {
-      key: key,
+      id: key,
       value: value
     },
     id: uuid()

@@ -8,6 +8,12 @@ export default class ColumnAdded {
   }
 
   execute(event) {
-    this.currentState.bucket('settings').push(event.data);
+    const data = event.data;
+    const settings = this.currentState.objectData('settings', data.id);
+    if (settings) {
+      settings.value = data.value;
+    } else {
+      this.currentState.bucket('settings').push(event.data);
+    }
   }
 }

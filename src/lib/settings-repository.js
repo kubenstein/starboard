@@ -6,14 +6,31 @@ export default class SettingsRepository {
   }
 
   getThemeColor() {
-    const bucket = this.stateManager.bucket('settings');
-    const settings = bucket.filter(c => c.key === 'themeColor')[0];
-    const nullSettings = { value: '' };
-    return (settings || nullSettings).value;
+    return this.get('themeColor', '');
   }
 
   setThemeColor(hexColor) {
-    const event = settingsUpdatedEvent('themeColor', hexColor);
+    return this.set('themeColor', hexColor);
+  }
+
+  getBoardName() {
+    return this.get('boardName', '');
+  }
+
+  setBoardName(name) {
+    return this.set('boardName', name);
+  }
+
+  // private
+
+  get(key, defautValue) {
+    const settings = this.stateManager.objectData('settings', key);
+    const nullSettings = { value: defautValue };
+    return (settings || nullSettings).value;
+  }
+
+  set(key, value) {
+    const event = settingsUpdatedEvent(key, value);
     return this.stateManager.addEvent(event);
   }
 }

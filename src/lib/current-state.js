@@ -1,3 +1,4 @@
+import SettingsUpdatedEventHandler from './eventHandlers/settings-updated.js';
 import ColumnAddedEventHandler from './eventHandlers/column-added.js';
 import ColumnUpdatedEventHandler from './eventHandlers/column-updated.js';
 import CardAddedEventHandler from './eventHandlers/card-added.js';
@@ -15,6 +16,7 @@ export default class CurrentState {
     this.eventHandlers = {};
 
     this.registerEventHandlers([
+      SettingsUpdatedEventHandler,
       ColumnAddedEventHandler,
       ColumnUpdatedEventHandler,
       CardAddedEventHandler,
