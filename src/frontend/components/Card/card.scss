@@ -16,6 +16,20 @@
     padding: 10px;
     word-wrap: break-word;
   }
+
+  .labels {
+    float: right;
+    list-style-type: none;
+  }
+
+  .label {
+    @include rounded-box;
+    display: block;
+    width: 12px;
+    height: 12px;
+    margin-left: 2px;
+    float: left;
+  }
 }
 
 .card-details-full-screen-wrapper {
