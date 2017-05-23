@@ -28,6 +28,18 @@ export default class Topbar extends React.Component {
           value={boardName}
           onChange={(value) => { this.updateBoardName(value); }}
         />
+
+        <div className="menu-zone">
+          <label className="side-menu-trigger" htmlFor="side-menu-trigger-checkbox">☰</label>
+          <input
+            type="checkbox"
+            className="side-menu-trigger-checkbox"
+            id="side-menu-trigger-checkbox"
+          />
+          <div className="side-menu">
+            <p>Menu</p>
+          </div>
+        </div>
       </div>
     );
   }

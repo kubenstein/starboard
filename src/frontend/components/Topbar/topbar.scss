@@ -1,14 +1,49 @@
 @import "../../assets/stylesheets/style";
 
 .topbar {
-  height: 45px;
   position: fixed;
   left: 0;
   right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 10px;
+  z-index: 40;
 
   .boardName {
-    margin: 5px 0 0 10px;
     font-size: 20px;
     width: 50%
+  }
+
+  .side-menu-trigger {
+    color: $black;
+    font-size: 20px;
+    cursor: pointer;
+    position: relative;
+
+    &:before {
+      content: " ";
+      display: block;
+      width: 1px;
+      height: 27px;
+      background-color: rgba(0, 0, 0, 0.14);
+      position: absolute;
+      top: -1px;
+      left: -9px;
+    }
+  }
+
+  .side-menu-trigger-checkbox, .side-menu {
+    display: none;
+  }
+
+  .side-menu-trigger-checkbox:checked + .side-menu {
+    display: block;
+    position: fixed;
+    z-index: 70;
+    top: $topbar-height;
+    width: 230px;
+    height: 100%;
+    right: 0;
   }
 }

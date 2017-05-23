@@ -43,30 +43,37 @@ export default class EdditableInput extends React.Component {
     return `edditable-input ${this.otherCssClasses}`;
   }
 
+  textareaJSX(value) {
+    return (
+      <textarea
+        className={this.cssClasses()}
+        value={value}
+        ref={(e) => { this.input = e; }}
+        onBlur={() => { this.onBlur(); }}
+        onChange={(e) => { this.onInputChange(e); }}
+      />
+    );
+  }
+
+  inputJSX(value) {
+    return (
+      <input
+        type="text"
+        className={this.cssClasses()}
+        value={value}
+        ref={(e) => { this.input = e; }}
+        onBlur={() => { this.onBlur(); }}
+        onKeyPress={(e) => { this.onEnterCheck(e); }}
+        onChange={(e) => { this.onInputChange(e); }}
+      />
+    );
+  }
+
   render() {
     const value = this.state.value;
-    return (
-      <div>
-        { this.type === 'textarea' ?
-          <textarea
-            className={this.cssClasses()}
-            value={value}
-            ref={(e) => { this.input = e; }}
-            onBlur={() => { this.onBlur(); }}
-            onChange={(e) => { this.onInputChange(e); }}
-          />
-        :
-          <input
-            type="text"
-            className={this.cssClasses()}
-            value={value}
-            ref={(e) => { this.input = e; }}
-            onBlur={() => { this.onBlur(); }}
-            onKeyPress={(e) => { this.onEnterCheck(e); }}
-            onChange={(e) => { this.onInputChange(e); }}
-          />
-        }
-      </div>
-    );
+    return (this.type === 'textarea') ?
+      this.textareaJSX(value)
+    :
+      this.inputJSX(value);
   }
 }
