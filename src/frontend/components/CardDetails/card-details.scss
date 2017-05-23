@@ -53,4 +53,17 @@
     padding-left: 5px;
     box-sizing: border-box;
   }
+
+  .labels {
+    @extend .clearfix;
+
+    .label {
+      @include rounded-box;
+      @include outlined-text;
+      display: block;
+      padding: 5px;
+      margin: 0 10px 10px 0;
+      float: left;
+    }
+  }
 }

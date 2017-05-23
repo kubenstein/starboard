@@ -46,8 +46,7 @@
     height: 100%;
 
     &:not(:focus) {
-      color: $white;
-      text-shadow: 0 0 5px rgba(0,0,0,.2), 0 0 2px $black;
+      @include outlined-text;
     }
   }
 }

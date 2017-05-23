@@ -2,6 +2,7 @@ import React from 'react';
 import CommentsRepository from 'lib/comments-repository.js';
 import ColumnsRepository from 'lib/columns-repository.js';
 import CardsRepository from 'lib/cards-repository.js';
+import SettingsRepository from 'lib/settings-repository.js';
 import EdditableInput from 'components/EdditableInput/EdditableInput.jsx';
 import AddCommentForm from 'components/AddCommentForm/AddCommentForm.jsx';
 import CardComment from 'components/CardComment/CardComment.jsx';
@@ -14,20 +15,25 @@ export default class CardDetails extends React.Component {
     this.columnsRepo = new ColumnsRepository(this.stateManager);
     this.commentsRepo = new CommentsRepository(this.stateManager);
     this.cardsRepo = new CardsRepository(this.stateManager);
-    this.cardData = this.props.data;
+    this.settingsRepo = new SettingsRepository(this.stateManager);
+    this.card = this.props.data;
+  }
+
+  textForLabel(color) {
+    return this.settingsRepo.getTextForLabel(color);
   }
 
   updateTitle(newValue) {
-    const oldValue = this.cardData.value;
+    const oldValue = this.card.value;
     if (newValue !== oldValue) {
-      this.cardsRepo.updateCard(this.cardData.id, { title: newValue });
+      this.cardsRepo.updateCard(this.card.id, { title: newValue });
     }
   }
 
   updateDescription(newValue) {
-    const oldValue = this.cardData.description;
+    const oldValue = this.card.description;
     if (newValue !== oldValue) {
-      this.cardsRepo.updateCard(this.cardData.id, { description: newValue });
+      this.cardsRepo.updateCard(this.card.id, { description: newValue });
     }
   }
 
@@ -38,7 +44,7 @@ export default class CardDetails extends React.Component {
   }
 
   render() {
-    const { title, description, id, columnId } = this.cardData;
+    const { title, description, id, columnId, labels } = this.card;
     const comments = this.commentsRepo.getCommentsForCard(id);
     const columnName = this.columnsRepo.getColumn(columnId).name;
     return (
@@ -51,6 +57,17 @@ export default class CardDetails extends React.Component {
           />
         </div>
         <h4 className="sub-title">{`In Column: ${columnName}`}</h4>
+        <ul className="labels">
+          { (labels || []).map(label =>
+            <li
+              key={label}
+              className="label"
+              style={{ backgroundColor: label }}
+            >
+              {this.textForLabel(label)}
+            </li>
+          )}
+        </ul>
         <h4 className="sub-title">Description:</h4>
         <EdditableInput
           className="description-input"

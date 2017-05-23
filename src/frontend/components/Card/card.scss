@@ -17,17 +17,17 @@
     word-wrap: break-word;
   }
 
-  .labels {
+  &>.labels {
     float: right;
-  }
 
-  .label {
-    @include rounded-box;
-    display: block;
-    width: 12px;
-    height: 12px;
-    margin-left: 2px;
-    float: left;
+    .label {
+      @include rounded-box;
+      display: block;
+      width: 12px;
+      height: 12px;
+      margin-left: 2px;
+      float: left;
+    }
   }
 }
 

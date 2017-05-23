@@ -27,12 +27,12 @@ export default class SettingsRepository {
     return this.set('boardName', name);
   }
 
-  getValueForLabel(color) {
+  getTextForLabel(color) {
     const key = `label-${color}`;
     return this.get(key, '');
   }
 
-  setValueForLabel(color, value) {
+  setTextForLabel(color, value) {
     const key = `label-${color}`;
     return this.set(key, value);
   }

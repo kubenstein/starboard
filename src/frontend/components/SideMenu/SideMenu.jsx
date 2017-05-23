@@ -10,8 +10,8 @@ export default class SideMenu extends React.Component {
     this.repo = new SettingsRepository(this.stateManager);
   }
 
-  valueForLabel(color) {
-    return this.repo.getValueForLabel(color);
+  textForLabel(color) {
+    return this.repo.getTextForLabel(color);
   }
 
   updateThemeColor(color) {
@@ -19,7 +19,7 @@ export default class SideMenu extends React.Component {
   }
 
   updateLabelText(color, value) {
-    this.repo.setValueForLabel(color, value);
+    this.repo.setTextForLabel(color, value);
   }
 
   render() {
@@ -46,7 +46,7 @@ export default class SideMenu extends React.Component {
             { availableColors.map(color =>
               <div key={color} className="label" style={{ backgroundColor: color }}>
                 <EdditableInput
-                  value={this.valueForLabel(color)}
+                  value={this.textForLabel(color)}
                   onChange={(value) => { this.updateLabelText(color, value); }}
                 />
               </div>
