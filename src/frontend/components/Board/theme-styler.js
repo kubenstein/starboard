@@ -10,7 +10,7 @@ export default class ThemeStyler {
     const themeColor = this.repo.getThemeColor();
     if (!themeColor) return '';
     return `
-      .btn-success, .topbar {
+      .btn-success, .board {
         background-color: ${themeColor};
       }
     `;

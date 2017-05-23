@@ -20,6 +20,11 @@
     font-size: 20px;
     cursor: pointer;
     position: relative;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
 
     &:before {
       content: " ";
@@ -33,11 +38,11 @@
     }
   }
 
-  .side-menu-trigger-checkbox, .side-menu {
+  .side-menu-trigger-checkbox, .side-menu-wrapper {
     display: none;
   }
 
-  .side-menu-trigger-checkbox:checked + .side-menu {
+  .side-menu-trigger-checkbox:checked + .side-menu-wrapper {
     display: block;
     position: fixed;
     z-index: 70;

@@ -1,0 +1,30 @@
+@import "../../assets/stylesheets/style";
+
+.side-menu {
+  background-color: $porcelain;
+  height: 100%;
+  padding: 10px;
+  box-shadow: -1px 0px 1px rgba(0, 0, 0, 0.1);
+  color: $black;
+
+  .section-title {
+    font-weight: normal;
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+}
+
+.color-picker {
+
+
+  .color {
+    @include rounded-box;
+    cursor: pointer;
+    float: left;
+    display: block;
+    width: 25px;
+    height: 25px;
+    margin-right: 5px;
+    background-color: red;
+  }
+}

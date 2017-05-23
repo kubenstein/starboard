@@ -1,5 +1,6 @@
 import React from 'react';
 import EdditableInput from 'components/EdditableInput/EdditableInput.jsx';
+import SideMenu from 'components/SideMenu/SideMenu.jsx';
 import SettingsRepository from 'lib/settings-repository.js';
 import 'components/Topbar/topbar.scss';
 
@@ -36,8 +37,8 @@ export default class Topbar extends React.Component {
             className="side-menu-trigger-checkbox"
             id="side-menu-trigger-checkbox"
           />
-          <div className="side-menu">
-            <p>Menu</p>
+          <div className="side-menu-wrapper">
+            <SideMenu stateManager={this.stateManager} />
           </div>
         </div>
       </div>
