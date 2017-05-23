@@ -30,9 +30,7 @@ export default class GitEventStorage {
   addEvent(event) {
     return new Promise((resolve, _reject) => {
       this.queue = this.queue
-      .then(() => { return this.gitCommit(JSON.stringify(event)); })
-      .then(() => { return this.gitPushChangesWithEventualRebase(); })
-      .then(() => { return this.notify(event); })
+      .then(() => { return this.applyEvent(event); })
       .then(() => { resolve(); });
     });
   }
@@ -42,9 +40,7 @@ export default class GitEventStorage {
       const event = fileAddedEvent(filePath);
       this.queue = this.queue
       .then(() => { return this.gitAddFile(filePath); })
-      .then(() => { return this.gitCommit(JSON.stringify(event)); })
-      .then(() => { return this.gitPushChangesWithEventualRebase(); })
-      .then(() => { return this.notify(event); })
+      .then(() => { return this.applyEvent(event); })
       .then(() => { resolve(filePath); });
     });
   }
@@ -54,9 +50,7 @@ export default class GitEventStorage {
       const event = fileRemovedEvent(filePath);
       this.queue = this.queue
       .then(() => { return this.gitRemoveFile(filePath); })
-      .then(() => { return this.gitCommit(JSON.stringify(event)); })
-      .then(() => { return this.gitPushChangesWithEventualRebase(); })
-      .then(() => { return this.notify(event); })
+      .then(() => { return this.applyEvent(event); })
       .then(() => { resolve(filePath); });
     });
   }
@@ -120,6 +114,12 @@ export default class GitEventStorage {
       this.queue = this.queue
       .then(this.gatherNewEvents.bind(this));
     }, pollingIntervalInSeconds * 1000);
+  }
+
+  applyEvent(event) {
+    return this.gitCommit(JSON.stringify(event))
+    .then(() => { return this.gitPushChangesWithEventualRebase(); })
+    .then(() => { return this.notify(event); });
   }
 
   // git commands
