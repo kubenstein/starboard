@@ -35,6 +35,10 @@ export default class ServerEventStorage {
     });
   }
 
+  removeFile(_filePath) {
+    // Do nothing... Server will clear attachments.
+  }
+
   getAllPastEvents() {
     return new Promise((resolve, _reject) => {
       this.socket.emit('getAllPastEvents', resolve);

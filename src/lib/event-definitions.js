@@ -131,6 +131,17 @@ export function fileAddedEvent(filePath) {
   };
 }
 
+export const fileRemovedEventType = 'FILE_REMOVED';
+export function fileRemovedEvent(filePath) {
+  return {
+    type: fileRemovedEventType,
+    data: {
+      filePath: filePath
+    },
+    id: uuid()
+  };
+}
+
 export const settingsUpdatedEventType = 'SETTINGS_UPDATED';
 export function settingsUpdatedEvent(key, value) {
   return {

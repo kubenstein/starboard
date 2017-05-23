@@ -4,7 +4,9 @@ import express from 'express';
 import SocketIo from 'socket.io';
 import multer from 'multer';
 import EventStorage from 'lib/git-event-storage.js';
-import StoreAttachmentUsecase from 'lib/store-attachment-usecase.js';
+import StoreFileUsecase from 'lib/store-file-usecase.js';
+import CleanFilesUsecase from 'lib/clean-files-usecase.js';
+import CurrentState from 'lib/current-state.js';
 import NullLogger from 'lib/null-logger.js';
 
 
@@ -45,10 +47,16 @@ const eventStorage = new EventStorage({
   logger: logger
 });
 
-const storeAttachmentUsecase = new StoreAttachmentUsecase(eventStorage, {
+const currentState = new CurrentState({ eventSource: eventStorage });
+
+const storeFileUsecase = new StoreFileUsecase(currentState, {
   pathToStorage: tempRepoDir
 });
 
+const cleanFilesUsecase = new CleanFilesUsecase(currentState, {
+  pathToStorage: tempRepoDir,
+  fileNamePrefix: '/attachments/'
+});
 
 // ----------------- utils ----------------
 const sockets = [];
@@ -71,8 +79,8 @@ app.get('/attachments/:fileName', (req, res) => {
 });
 
 app.post('/attachments/', upload.single('attachment'), (req, res) => {
-  storeAttachmentUsecase.addFile(req.file).then((attachmentName) => {
-    res.send({ attachmentUrl: `/attachments/${attachmentName}` });
+  storeFileUsecase.addFile(req.file).then((fileName) => {
+    res.send({ attachmentUrl: `/attachments/${fileName}` });
   });
 });
 
@@ -85,6 +93,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on('addEvent', (event, sendBack) => {
+    cleanFilesUsecase.cleanWhenNeeded(event);
     sendBack(event);
     eventStorage.addEvent(event);
   });

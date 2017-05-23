@@ -35,6 +35,10 @@ export default class MemoryEventStorage {
     });
   }
 
+  removeFile(_filePath) {
+    // Do nothing... Files are stored directly in url to them (as base64)
+  }
+
   getAllPastEvents() {
     return new Promise((resolve, _reject) => {
       resolve(this.events);

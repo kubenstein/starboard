@@ -2,7 +2,8 @@ import mkdirp from 'mkdirp';
 import { exec } from 'child_process';
 import {
   noopEvent,
-  fileAddedEvent
+  fileAddedEvent,
+  fileRemovedEvent
 } from './event-definitions.js';
 
 const swallowErrors = () => {};
@@ -41,6 +42,18 @@ export default class GitEventStorage {
       const event = fileAddedEvent(filePath);
       this.queue = this.queue
       .then(() => { return this.gitAddFile(filePath); })
+      .then(() => { return this.gitCommit(JSON.stringify(event)); })
+      .then(() => { return this.gitPushChangesWithEventualRebase(); })
+      .then(() => { return this.notify(event); })
+      .then(() => { resolve(filePath); });
+    });
+  }
+
+  removeFile(filePath) {
+    return new Promise((resolve, _reject) => {
+      const event = fileRemovedEvent(filePath);
+      this.queue = this.queue
+      .then(() => { return this.gitRemoveFile(filePath); })
       .then(() => { return this.gitCommit(JSON.stringify(event)); })
       .then(() => { return this.gitPushChangesWithEventualRebase(); })
       .then(() => { return this.notify(event); })
@@ -166,6 +179,10 @@ export default class GitEventStorage {
 
   gitAddFile(filePath) {
     return this.execute(`git -C ${this.pathToTempLocalRepo} add "${filePath}"`);
+  }
+
+  gitRemoveFile(filePath) {
+    return this.execute(`git -C ${this.pathToTempLocalRepo} rm "${filePath}"`);
   }
 
   gitPushEmptySetupCommit() {

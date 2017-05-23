@@ -1,14 +1,15 @@
 import uuid from 'uuid/v4';
 import fs from 'fs';
 
-export default class StoreAttachmentUsecase {
+export default class StoreFileUsecase {
   constructor(eventStorage, params) {
     this.eventStorage = eventStorage;
     this.pathToStorage = params.pathToStorage;
   }
 
   addFile(file) {
-    const attachmentName = `${uuid()}---${file.originalname}`;
+    const originalName = file.originalname;
+    const attachmentName = `${uuid()}---${originalName}`;
     const attachmentPath = `${this.pathToStorage}${attachmentName}`;
     const tempPath = file.path;
     return new Promise((resolve, reject) => {
