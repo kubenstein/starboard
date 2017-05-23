@@ -6,6 +6,7 @@
   font-weight: bold;
   font-size: 14px;
   padding: 7px 15px;
+  text-align: center;
   background-color: transparent;
 }
 
@@ -22,6 +23,10 @@
   background-color: $mexican-red;
   color: $white;
   font-weight: bold;
+
+  &:hover {
+    opacity: 0.8;
+  }
 }
 
 .btn-raw-icon {

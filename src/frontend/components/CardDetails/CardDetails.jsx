@@ -78,6 +78,7 @@ export default class CardDetails extends React.Component {
         />
         <div className="utils-section">
           <a className="btn btn-danger btn-small" onClick={() => { this.removeCard(id); }}>Delete Card</a>
+          <a className="btn btn-success btn-small" onClick={() => {}}>Add Label</a>
         </div>
         <h4 className="section-title clearfix">Comments:</h4>
         <AddCommentForm cardId={id} stateManager={this.stateManager} />
