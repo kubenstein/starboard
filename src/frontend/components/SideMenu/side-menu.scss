@@ -39,10 +39,15 @@
     height: 25px;
     padding: 1px;
     margin-bottom: 5px;
+  }
 
-    .edditable-input {
-      padding: 1px 3px;
-      height: 100%;
+  .edditable-input {
+    padding: 1px 3px;
+    height: 100%;
+
+    &:not(:focus) {
+      color: $white;
+      text-shadow: 0 0 5px rgba(0,0,0,.2), 0 0 2px $black;
     }
   }
 }
