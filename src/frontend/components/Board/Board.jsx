@@ -73,8 +73,8 @@ export default class Board extends React.Component {
                   stateManager={this.stateManager}
                 />
               )}
-              <AddColumnForm className="column add-column-form" stateManager={this.stateManager} />
             </div>
+            <AddColumnForm className="column add-column-form" stateManager={this.stateManager} />
           </div>
         </div>
       </div>
