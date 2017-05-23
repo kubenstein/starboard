@@ -57,7 +57,7 @@ export default class AddCardForm extends React.Component {
               autoFocus
             />
             <input className="btn btn-success" type="submit" value="Add" />
-            <button className="btn btn-raw-icon" onClick={(e) => { e.preventDefault(); this.close(); }}>X</button>
+            <button className="btn btn-raw-icon" onClick={(e) => { e.preventDefault(); this.close(); }}>✕</button>
           </form>
         :
           <p className="prompt" onClick={() => { this.open(); }}>Add a Card...</p>

@@ -55,7 +55,7 @@ export default class AddColumnForm extends React.Component {
               autoFocus
             />
             <input className="btn btn-success" type="submit" value="Add Column" />
-            <button className="btn btn-raw-icon" onClick={(e) => { e.preventDefault(); this.close(); }}>X</button>
+            <button className="btn btn-raw-icon" onClick={(e) => { e.preventDefault(); this.close(); }}>✕</button>
           </form>
         :
           <p className="prompt" onClick={() => { this.open(); }}>Add a Column...</p>
