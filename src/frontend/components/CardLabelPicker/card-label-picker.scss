@@ -12,8 +12,10 @@
   }
 
   .label {
+    @include rounded-box;
     cursor: pointer;
     width: 100%;
+    min-height: 29px;
     overflow-x: auto;
 
     &:hover {
