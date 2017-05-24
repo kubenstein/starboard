@@ -3,7 +3,7 @@ import CommentsRepository from 'lib/comments-repository.js';
 import ColumnsRepository from 'lib/columns-repository.js';
 import CardsRepository from 'lib/cards-repository.js';
 import SettingsRepository from 'lib/settings-repository.js';
-import EdditableInput from 'components/EdditableInput/EdditableInput.jsx';
+import EditableInput from 'components/EditableInput/EditableInput.jsx';
 import AddCommentForm from 'components/AddCommentForm/AddCommentForm.jsx';
 import CardComment from 'components/CardComment/CardComment.jsx';
 import CardLabelPicker from 'components/CardLabelPicker/CardLabelPicker.jsx';
@@ -55,7 +55,7 @@ export default class CardDetails extends React.Component {
     return (
       <div className="card-details">
         <div className="title-wrapper">
-          <EdditableInput
+          <EditableInput
             className="title"
             value={title}
             onChange={(value) => { this.updateTitle(value); }}
@@ -74,7 +74,7 @@ export default class CardDetails extends React.Component {
           )}
         </ul>
         <h4 className="sub-title">Description:</h4>
-        <EdditableInput
+        <EditableInput
           className="description-input"
           type="textarea"
           value={description}

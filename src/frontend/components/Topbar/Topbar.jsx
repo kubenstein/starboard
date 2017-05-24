@@ -1,5 +1,5 @@
 import React from 'react';
-import EdditableInput from 'components/EdditableInput/EdditableInput.jsx';
+import EditableInput from 'components/EditableInput/EditableInput.jsx';
 import SideMenu from 'components/SideMenu/SideMenu.jsx';
 import SettingsRepository from 'lib/settings-repository.js';
 import 'components/Topbar/topbar.scss';
@@ -24,7 +24,7 @@ export default class Topbar extends React.Component {
     this.updatePageTitle(boardName);
     return (
       <div className="topbar">
-        <EdditableInput
+        <EditableInput
           className="boardName"
           value={boardName}
           onChange={(value) => { this.updateBoardName(value); }}

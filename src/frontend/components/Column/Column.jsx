@@ -1,7 +1,7 @@
 import React from 'react';
 import AddCardForm from 'components/AddCardForm/AddCardForm.jsx';
 import Card from 'components/Card/Card.jsx';
-import EdditableInput from 'components/EdditableInput/EdditableInput.jsx';
+import EditableInput from 'components/EditableInput/EditableInput.jsx';
 import DndSpaceRegistrator from 'components/dndSupport/dnd-space-registrator.js';
 import CardsRepository from 'lib/cards-repository.js';
 import ColumnsRepository from 'lib/columns-repository.js';
@@ -38,7 +38,7 @@ export default class Column extends React.Component {
         className={this.cssClasses()}
         data-DND-data-column-id={columnData.id}
       >
-        <EdditableInput
+        <EditableInput
           className="column-title column-DND-handler"
           value={name}
           onChange={(value) => { this.updateName(value); }}

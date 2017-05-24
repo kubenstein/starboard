@@ -1,5 +1,5 @@
 import React from 'react';
-import EdditableInput from 'components/EdditableInput/EdditableInput.jsx';
+import EditableInput from 'components/EditableInput/EditableInput.jsx';
 import SettingsRepository from 'lib/settings-repository.js';
 import 'components/SideMenu/side-menu.scss';
 
@@ -45,7 +45,7 @@ export default class SideMenu extends React.Component {
           <div className="label-editor">
             { availableColors.map(color =>
               <div key={color} className="label" style={{ backgroundColor: color }}>
-                <EdditableInput
+                <EditableInput
                   value={this.textForLabel(color)}
                   onChange={(value) => { this.updateLabelText(color, value); }}
                 />

@@ -1,7 +1,7 @@
 import React from 'react';
-import 'components/EdditableInput/edditable-input.scss';
+import 'components/EditableInput/editable-input.scss';
 
-export default class EdditableInput extends React.Component {
+export default class EditableInput extends React.Component {
   constructor(props) {
     super(props);
     this.value = this.props.value || '';
@@ -40,7 +40,7 @@ export default class EdditableInput extends React.Component {
   }
 
   cssClasses() {
-    return `edditable-input ${this.otherCssClasses}`;
+    return `editable-input ${this.otherCssClasses}`;
   }
 
   textareaJSX(value) {
