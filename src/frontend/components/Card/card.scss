@@ -17,11 +17,12 @@
     word-wrap: break-word;
   }
 
-  &>.labels {
+  &>.title .labels {
     float: right;
 
     .label {
       @include rounded-box;
+      box-shadow: none;
       display: block;
       width: 12px;
       height: 12px;

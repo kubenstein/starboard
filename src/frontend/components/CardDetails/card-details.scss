@@ -66,6 +66,8 @@
       @include rounded-box;
       @include outlined-text;
       display: block;
+      overflow-x: auto;
+      max-width: 100%;
       padding: 5px;
       margin: 0 10px 10px 0;
       float: left;
@@ -92,5 +94,11 @@
   .label-picker-wrapper {
     position: relative;
     z-index: 60;
+
+    .label-picker {
+      position: absolute;
+      top: 0;
+      right: 0;
+    }
   }
 }

@@ -35,6 +35,18 @@ export function cardUpdatedEvent(cardId, changes) {
   };
 }
 
+export const cardLabelToggledEventType = 'CARD_LABEL_TOGGLED';
+export function cardLabelToggledEvent(cardId, label) {
+  return {
+    type: cardLabelToggledEventType,
+    data: {
+      cardId: cardId,
+      label: label
+    },
+    id: uuid()
+  };
+}
+
 export const cardRemovedEventType = 'CARD_REMOVED';
 export function cardRemovedEvent(cardId) {
   return {

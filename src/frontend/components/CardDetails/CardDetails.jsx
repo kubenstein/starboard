@@ -6,6 +6,7 @@ import SettingsRepository from 'lib/settings-repository.js';
 import EdditableInput from 'components/EdditableInput/EdditableInput.jsx';
 import AddCommentForm from 'components/AddCommentForm/AddCommentForm.jsx';
 import CardComment from 'components/CardComment/CardComment.jsx';
+import CardLabelPicker from 'components/CardLabelPicker/CardLabelPicker.jsx';
 import 'components/CardDetails/card-details.scss';
 
 export default class CardDetails extends React.Component {
@@ -35,6 +36,10 @@ export default class CardDetails extends React.Component {
     if (newValue !== oldValue) {
       this.cardsRepo.updateCard(this.card.id, { description: newValue });
     }
+  }
+
+  updateLabels(toggledLabel) {
+    this.cardsRepo.toggleLabel(this.card.id, toggledLabel);
   }
 
   removeCard(cardId) {
@@ -79,12 +84,17 @@ export default class CardDetails extends React.Component {
         <div className="utils-section">
           <a className="btn btn-danger btn-small" onClick={() => { this.removeCard(id); }}>Delete Card</a>
 
-          <label htmlFor='label-picker-checkbox' className="btn btn-success btn-small">Add Label</label>
+          <label htmlFor="label-picker-checkbox" className="btn btn-success btn-small">Manage Labels</label>
           <input type="checkbox" id="label-picker-checkbox" className="label-picker-checkbox" />
-          <label htmlFor='label-picker-checkbox' className="label-picker-visible off-trigger" />
-          <p className="label-picker-visible label-picker-wrapper">
-            label picker here
-          </p>
+          <label htmlFor="label-picker-checkbox" className="label-picker-visible off-trigger" />
+          <div className="label-picker-visible label-picker-wrapper">
+            <CardLabelPicker
+              className="label-picker"
+              data={this.card}
+              stateManager={this.stateManager}
+              onLabelPicked={(label) => { this.updateLabels(label); }}
+            />
+          </div>
 
         </div>
         <h4 className="section-title clearfix">Comments:</h4>
