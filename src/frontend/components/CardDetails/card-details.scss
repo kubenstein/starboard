@@ -71,4 +71,26 @@
       float: left;
     }
   }
+
+  .label-picker-checkbox, .label-picker-visible {
+    display: none;
+  }
+
+  .label-picker-checkbox:checked ~ .label-picker-visible {
+    display: block;
+  }
+
+  .label-picker-visible.off-trigger {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    cursor: pointer;
+  }
+
+  .label-picker-wrapper {
+    position: relative;
+    z-index: 60;
+  }
 }

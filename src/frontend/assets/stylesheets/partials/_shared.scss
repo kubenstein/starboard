@@ -35,3 +35,11 @@
   color: $white;
   text-shadow: 0 0 5px rgba(0, 0, 0, .2), 0 0 2px $black;
 }
+
+@mixin unselectable-text {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}

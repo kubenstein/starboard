@@ -78,7 +78,14 @@ export default class CardDetails extends React.Component {
         />
         <div className="utils-section">
           <a className="btn btn-danger btn-small" onClick={() => { this.removeCard(id); }}>Delete Card</a>
-          <a className="btn btn-success btn-small" onClick={() => {}}>Add Label</a>
+
+          <label htmlFor='label-picker-checkbox' className="btn btn-success btn-small">Add Label</label>
+          <input type="checkbox" id="label-picker-checkbox" className="label-picker-checkbox" />
+          <label htmlFor='label-picker-checkbox' className="label-picker-visible off-trigger" />
+          <p className="label-picker-visible label-picker-wrapper">
+            label picker here
+          </p>
+
         </div>
         <h4 className="section-title clearfix">Comments:</h4>
         <AddCommentForm cardId={id} stateManager={this.stateManager} />

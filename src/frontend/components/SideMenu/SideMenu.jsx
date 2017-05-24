@@ -42,7 +42,7 @@ export default class SideMenu extends React.Component {
 
         <div className="section">
           <h3 className="section-title">Labels:</h3>
-          <div className="label-picker">
+          <div className="label-editor">
             { availableColors.map(color =>
               <div key={color} className="label" style={{ backgroundColor: color }}>
                 <EdditableInput
