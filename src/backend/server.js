@@ -17,8 +17,8 @@ const serverPort                = env.PORT || 8081;
 const remoteRepoUrl             = env.REPO_URL || (() => { throw new Error('REPO_URL env has to be set'); })();
 const pathToSshPrivateKey       = env.SSH_KEY_PATH || '';
 const repoCommiterName          = env.REPO_COMMITER_NAME || 'Starboard BOT';
-const repoCommiterEmail          = env.REPO_COMMITER_EMAIL || 'starboardbot@localhost';
-const remoteRepoPollingInterval = env.POLLING_INTERVAL || 30;
+const repoCommiterEmail         = env.REPO_COMMITER_EMAIL || 'starboardbot@localhost';
+const remoteRepoSyncingInterval = env.SYNCING_INTERVAL || 30;
 const logger                    = env.DEBUG ? console : new NullLogger();
 const tempDir                   = env.TEMP_DIR || '.tmp';
 const tempUploadsDir            = env.TEMP_UPLOADS_DIR || `${tempDir}/tmpUploads/`;
@@ -49,7 +49,7 @@ const eventStorage = new EventStorage({
   pathToTempLocalRepo: tempRepoDir,
   commiterEmail: repoCommiterEmail,
   commiterUsername: repoCommiterName,
-  pollingIntervalInSeconds: remoteRepoPollingInterval,
+  syncingIntervalInSeconds: remoteRepoSyncingInterval,
   logger: logger
 });
 

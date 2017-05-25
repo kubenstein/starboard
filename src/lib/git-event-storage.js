@@ -16,7 +16,7 @@ export default class GitEventStorage {
     this.commiterEmail = params.commiterEmail || 'starboardbot@localhost';
     this.dataBranchName = params.dataBranchName || '__starboard-data';
     this.pathToTempLocalRepo = params.pathToTempLocalRepo || '.tmp/tmpRepo/'; // path HAS to end with /
-    this.pollingIntervalInSeconds = params.pollingIntervalInSeconds || 30;
+    this.syncingIntervalInSeconds = params.syncingIntervalInSeconds || 30;
     this.logger = params.logger || { log: () => {} };
     this.observers = [];
     this.queue = Promise.resolve();
@@ -83,7 +83,7 @@ export default class GitEventStorage {
     .then(this.gitSetupLocalRepo.bind(this))
     .then(this.gatherNewEvents.bind(this));
 
-    this.pollingLoopTimer = this.startPollingLoop(this.pollingIntervalInSeconds);
+    this.syncingLoopTimer = this.startPollingLoop(this.syncingIntervalInSeconds);
   }
 
   notify(event) {
@@ -117,15 +117,15 @@ export default class GitEventStorage {
     return events;
   }
 
-  startPollingLoop(pollingIntervalInSeconds) {
-    if (pollingIntervalInSeconds <= 0) {
+  startPollingLoop(syncingIntervalInSeconds) {
+    if (syncingIntervalInSeconds <= 0) {
       return null;
     }
 
     return setInterval(() => {
       this.queue = this.queue
       .then(this.gatherNewEvents.bind(this));
-    }, pollingIntervalInSeconds * 1000);
+    }, syncingIntervalInSeconds * 1000);
   }
 
   applyEvent(event) {
