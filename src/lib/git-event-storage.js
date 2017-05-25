@@ -12,6 +12,8 @@ export default class GitEventStorage {
   constructor(params) {
     this.remoteRepoUrl = params.remoteRepoUrl;
     this.pathToSshPrivateKey = params.pathToSshPrivateKey;
+    this.commiterUsername = params.commiterUsername || 'Starboard BOT';
+    this.commiterEmail = params.commiterEmail || 'starboardbot@localhost';
     this.dataBranchName = params.dataBranchName || '__starboard-data';
     this.pathToTempLocalRepo = params.pathToTempLocalRepo || '.tmp/tmpRepo/'; // path HAS to end with /
     this.pollingIntervalInSeconds = params.pollingIntervalInSeconds || 30;
@@ -20,7 +22,6 @@ export default class GitEventStorage {
     this.queue = Promise.resolve();
 
     mkdirp.sync(this.pathToTempLocalRepo);
-    this.configureGitPrivateKeyIfNeeded();
     this.start();
   }
 
@@ -76,6 +77,8 @@ export default class GitEventStorage {
   }
 
   start() {
+    this.configureGitPrivateKeyIfNeeded();
+
     this.queue = this.queue
     .then(this.gitSetupLocalRepo.bind(this))
     .then(this.gatherNewEvents.bind(this));
@@ -141,7 +144,14 @@ export default class GitEventStorage {
   }
 
   gitInitRepo() {
-    return this.execute(`git init ${this.pathToTempLocalRepo}`);
+    return this.execute(`git init ${this.pathToTempLocalRepo}`)
+    .then(() => { return this.gitAddUser(); });
+  }
+
+  gitAddUser() {
+    return Promise.resolve()
+    .then(() => { return this.execute(`git -C ${this.pathToTempLocalRepo} config user.name "${this.commiterUsername}"`); })
+    .then(() => { return this.execute(`git -C ${this.pathToTempLocalRepo} config user.email "${this.commiterEmail}"`); });
   }
 
   gitCheckoutDataBranch() {
