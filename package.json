@@ -14,7 +14,7 @@
     "dev": "node ./src/scripts/dev-console.js",
     "dev:frontend": "webpack-dev-server --config ./src/webpack-frontend.config.js",
     "dev:backend:es6compiler": "webpack --watch --config ./src/webpack-backend.config.js",
-    "dev:backend:server": "REPO_URL=$(pwd)/.tmp/fakeDevelopmentRemoteGitRepo/ DEBUG=true nodemon --watch .tmp/backend/ .tmp/backend/bundled-server.js",
+    "dev:backend:server": "REPO_URL=$(pwd)/.tmp/fakeDevelopmentRemoteGitRepo/ DEBUG=true nodemon --inspect --debug --watch .tmp/backend/ .tmp/backend/bundled-server.js",
     "dev:linter": "eslint -c .eslintrc \"./src/*.js\" \"./src/backend/**\" \"./src/frontend/**\" \"./src/spec/**\" \"./src/lib/**\" || true",
     "dev:linter:ci": "nodemon -e jsx,js --watch ./src/ --exec 'npm run dev:linter'",
     "dev:db:create": "node ./src/scripts/db-create-development.js",

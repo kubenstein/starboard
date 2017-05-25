@@ -18,7 +18,7 @@ const linterWindow = screenGrid.set(0, 1, 2, 2, Log, {
 
 const backendServerWindow = screenGrid.set(1, 0, 3, 1, Log, {
   fg: 'green',
-  label: ' Backend Server ',
+  label: ' Backend Server (debugger: chrome://inspect/#devices) ',
 });
 
 const frontendWindow = screenGrid.set(2, 1, 2, 1, Log, {
