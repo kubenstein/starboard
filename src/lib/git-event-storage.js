@@ -150,8 +150,12 @@ export default class GitEventStorage {
 
   gitAddUser() {
     return Promise.resolve()
-    .then(() => { return this.execute(`git -C ${this.pathToTempLocalRepo} config user.name "${this.commiterUsername}"`); })
-    .then(() => { return this.execute(`git -C ${this.pathToTempLocalRepo} config user.email "${this.commiterEmail}"`); });
+    .then(() => {
+      return this.execute(`git -C ${this.pathToTempLocalRepo} config user.name "${this.commiterUsername}"`);
+    })
+    .then(() => {
+      return this.execute(`git -C ${this.pathToTempLocalRepo} config user.email "${this.commiterEmail}"`);
+    });
   }
 
   gitCheckoutDataBranch() {
