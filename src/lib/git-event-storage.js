@@ -11,6 +11,7 @@ const swallowErrors = () => {};
 export default class GitEventStorage {
   constructor(params) {
     this.remoteRepoUrl = params.remoteRepoUrl;
+    this.pathToSshPrivateKey = params.pathToSshPrivateKey;
     this.dataBranchName = params.dataBranchName || '__starboard-data';
     this.pathToTempLocalRepo = params.pathToTempLocalRepo || '.tmp/tmpRepo/'; // path HAS to end with /
     this.pollingIntervalInSeconds = params.pollingIntervalInSeconds || 30;
@@ -19,7 +20,7 @@ export default class GitEventStorage {
     this.queue = Promise.resolve();
 
     mkdirp.sync(this.pathToTempLocalRepo);
-
+    this.configureGitPrivateKeyIfNeeded();
     this.start();
   }
 
@@ -65,6 +66,14 @@ export default class GitEventStorage {
   }
 
   // private
+
+  configureGitPrivateKeyIfNeeded() {
+    if (!this.pathToSshPrivateKey) return;
+    //
+    // taken from:
+    // https://superuser.com/a/912281
+    process.env.GIT_SSH_COMMAND = `ssh -i ${this.pathToSshPrivateKey} -F /dev/null`;
+  }
 
   start() {
     this.queue = this.queue
@@ -204,7 +213,7 @@ export default class GitEventStorage {
 
   execute(command) {
     return new Promise((resolve, reject) => {
-      exec(command, (error, stdout, _stderr) => {
+      exec(command, { env: process.env }, (error, stdout, _stderr) => {
         this.logger.log(command);
         if (error) {
           return reject(error);

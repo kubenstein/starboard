@@ -15,6 +15,7 @@ const env = process.env;
 
 const serverPort                = env.PORT || 8081;
 const remoteRepoUrl             = env.REPO_URL || (() => { throw new Error('REPO_URL env has to be set'); })();
+const pathToSshPrivateKey       = env.SSH_KEY_PATH || '';
 const remoteRepoPollingInterval = env.POLLING_INTERVAL || 30;
 const logger                    = env.DEBUG ? console : new NullLogger();
 const tempDir                   = env.TEMP_DIR || '.tmp';
@@ -42,6 +43,7 @@ app.use(express.static(`${__dirname}/frontend/`));
 
 const eventStorage = new EventStorage({
   remoteRepoUrl: remoteRepoUrl,
+  pathToSshPrivateKey: pathToSshPrivateKey,
   pathToTempLocalRepo: tempRepoDir,
   pollingIntervalInSeconds: remoteRepoPollingInterval,
   logger: logger
