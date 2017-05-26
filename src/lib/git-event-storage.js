@@ -19,6 +19,7 @@ export default class GitEventStorage {
     this.syncingIntervalInSeconds = params.syncingIntervalInSeconds || 30;
     this.logger = params.logger || { log: () => {} };
     this.observers = [];
+    this.lastSyncedCommit = undefined;
     this.queue = Promise.resolve();
 
     mkdirp.sync(this.pathToTempLocalRepo);
@@ -80,10 +81,22 @@ export default class GitEventStorage {
     this.configureGitPrivateKeyIfNeeded();
 
     this.queue = this.queue
-    .then(this.gitSetupLocalRepo.bind(this))
-    .then(this.gatherNewEvents.bind(this));
+    .then(this.setupLocalRepo.bind(this));
 
     this.syncingLoopTimer = this.startPollingLoop(this.syncingIntervalInSeconds);
+  }
+
+  setupLocalRepo() {
+    return this.gitInitRepo()
+    .then(this.gitAddUser.bind(this))
+    .then(this.gitAddRemote.bind(this))
+    .then(this.setupLocalAndRemoteBranch.bind(this));
+  }
+
+  setupLocalAndRemoteBranch() {
+    return this.gitCreateDataBranch()
+    .then(this.gitPullChanges.bind(this))
+    .catch(this.gitPushEmptySetupCommit.bind(this));
   }
 
   notify(event) {
@@ -95,8 +108,15 @@ export default class GitEventStorage {
   sync() {
     return new Promise((resolve, _reject) => {
       this.queue = this.queue
-      .then(this.gitPushChangesWithEventualRebase.bind(this))
-      .then(this.gatherNewEvents.bind(this))
+      .then(this.gitPushChangesWithEventualRebase.bind(this)) // Push With Eventual Rebase will
+                                                              // fetch data if needed.
+                                                              // After rebase some old events
+                                                              // will be applied again. Possible
+                                                              // new data overwrite!!!
+                                                              // If it wont fetch it means nothing
+                                                              // new were in the remote.
+      .then(this.gatherUnsyncedEvents.bind(this))
+      .then(this.updateLastSyncedCommit.bind(this))
       .then(resolve);
     });
   }
@@ -106,14 +126,10 @@ export default class GitEventStorage {
     .then(() => { return this.notify(event); });
   }
 
-  gatherNewEvents() {
-    return this.gitFetchChanges()
-    .then(() => {
-      return this.gitCalculateDiffCommitMessages()
-      .then(this.extractEventsFromCommits.bind(this))
-      .then((events) => { events.forEach((event) => { this.notify(event); }); });
-    })
-    .catch(swallowErrors);
+  gatherUnsyncedEvents() {
+    return this.gitCalculateDiffCommitMessages()
+    .then(this.extractEventsFromCommits.bind(this))
+    .then((events) => { events.forEach((event) => { this.notify(event); }); });
   }
 
   extractEventsFromCommits(textWithCommits) {
@@ -130,9 +146,14 @@ export default class GitEventStorage {
     return events;
   }
 
+  updateLastSyncedCommit() {
+    return this.gitCommitHash()
+    .then((hash) => { this.lastSyncedCommit = hash; });
+  }
+
   startPollingLoop(syncingIntervalInSeconds) {
     if (syncingIntervalInSeconds <= 0) return null;
-
+    this.sync();
     return setInterval(() => {
       this.sync();
     }, syncingIntervalInSeconds * 1000);
@@ -140,16 +161,8 @@ export default class GitEventStorage {
 
   // git commands
 
-  gitSetupLocalRepo() {
-    return this.gitInitRepo()
-    .then(this.gitAddRemote.bind(this))
-    .then(this.gitCheckoutDataBranch.bind(this))
-    .then(this.gitFetchChangesWithEmptyRepoFallback.bind(this));
-  }
-
   gitInitRepo() {
-    return this.execute(`git init ${this.pathToTempLocalRepo}`)
-    .then(this.gitAddUser.bind(this));
+    return this.execute(`git init ${this.pathToTempLocalRepo}`);
   }
 
   gitAddUser() {
@@ -162,7 +175,7 @@ export default class GitEventStorage {
     });
   }
 
-  gitCheckoutDataBranch() {
+  gitCreateDataBranch() {
     return this.execute(`git -C ${this.pathToTempLocalRepo} checkout -b ${this.dataBranchName}`)
     .catch(swallowErrors);
   }
@@ -172,26 +185,20 @@ export default class GitEventStorage {
     .catch(swallowErrors);
   }
 
-  gitFetchChanges() {
-    return this.execute(`git -C ${this.pathToTempLocalRepo} fetch origin ${this.dataBranchName}`);
-  }
-
-  gitFetchChangesWithEmptyRepoFallback() {
-    return this.gitFetchChanges()
-    .catch(this.gitPushEmptySetupCommit.bind(this));
+  gitCommitHash() {
+    return this.execute(`git -C ${this.pathToTempLocalRepo} rev-parse ${this.dataBranchName}`);
   }
 
   gitCalculateDiffCommitMessages() {
-    return this.execute(`git -C ${this.pathToTempLocalRepo} log --oneline \
-                         ${this.dataBranchName}...origin/${this.dataBranchName}`)
-    //
-    // when there is nothing in local branch
-    // we ask for everything
-    .catch(this.gitGetAllCommitMessages.bind(this));
+    if (this.lastSyncedCommit) {
+      return this.execute(`git -C ${this.pathToTempLocalRepo} log --oneline \
+                           ${this.lastSyncedCommit}...${this.dataBranchName}`);
+    }
+    return this.gitGetAllCommitMessages();
   }
 
   gitGetAllCommitMessages() {
-    return this.execute(`git -C ${this.pathToTempLocalRepo} log --oneline origin/${this.dataBranchName}`);
+    return this.execute(`git -C ${this.pathToTempLocalRepo} log --oneline ${this.dataBranchName}`);
   }
 
   gitPullChanges() {
@@ -236,7 +243,7 @@ export default class GitEventStorage {
         if (error) {
           return reject(error);
         }
-        return resolve(stdout);
+        return resolve(stdout.trim());
       });
     });
   }
