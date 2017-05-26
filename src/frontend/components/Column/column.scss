@@ -15,6 +15,19 @@
     padding: 0 3px;
     margin-bottom: 4px;
     line-height: 30px;
+    width: 248px;
+    float: left;
+  }
+
+  .btn-remove {
+    float: right;
+    padding: 0 0 0 5px;
+    font-size: 15px;
+    line-height: 30px;
+    color: $silver;
+    &:hover {
+      color: $black;
+    }
   }
 
   .card-list {

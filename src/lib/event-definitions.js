@@ -83,6 +83,17 @@ export function columnUpdatedEvent(columnId, changes) {
   };
 }
 
+export const columnRemovedEventType = 'COLUMN_REMOVED';
+export function columnRemovedEvent(columnId) {
+  return {
+    type: columnRemovedEventType,
+    data: {
+      columnId: columnId
+    },
+    id: uuid()
+  };
+}
+
 export const commentAddedEventType = 'COMMENT_ADDED';
 export function commentAddedEvent(cardId, params) {
   const {

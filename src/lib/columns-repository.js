@@ -1,6 +1,7 @@
 import {
   columnAddedEvent,
-  columnUpdatedEvent
+  columnUpdatedEvent,
+  columnRemovedEvent
 } from './event-definitions.js';
 
 export default class ColumnsRepository {
@@ -31,6 +32,11 @@ export default class ColumnsRepository {
 
   updateColumn(id, changes) {
     const event = columnUpdatedEvent(id, changes);
+    return this.stateManager.addEvent(event);
+  }
+
+  removeColumn(id) {
+    const event = columnRemovedEvent(id);
     return this.stateManager.addEvent(event);
   }
 }

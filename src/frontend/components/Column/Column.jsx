@@ -25,24 +25,33 @@ export default class Column extends React.Component {
     }
   }
 
+  removeColumn(id) {
+    if (confirm('Do you want to remove this column?')) {
+      this.columnsRepo.removeColumn(id);
+    }
+  }
+
   cssClasses() {
     return `column ${this.otherCssClasses}`;
   }
 
   render() {
     const columnData = this.columnData;
-    const { name } = this.columnData;
+    const { name, id } = this.columnData;
     const cards = this.cardsRepo.getCardsSortedByPosition(columnData.id);
     return (
       <div
         className={this.cssClasses()}
         data-DND-data-column-id={columnData.id}
       >
-        <EditableInput
-          className="column-title column-DND-handler"
-          value={name}
-          onChange={(value) => { this.updateName(value); }}
-        />
+        <div>
+          <EditableInput
+            className="column-title column-DND-handler"
+            value={name}
+            onChange={(value) => { this.updateName(value); }}
+          />
+          <button className="btn btn-remove btn-raw-icon" onClick={() => { this.removeColumn(id); }}>✕</button>
+        </div>
         <div
           className="card-list"
           data-DND-data-column-id={columnData.id}
