@@ -9,12 +9,12 @@ export default class ColumnUpdated {
 
   execute(event) {
     const columnId = event.data.columnId;
+    const column = this.currentState.objectData('columns', columnId);
     const changes = event.data.changes;
     const newPosition = changes.position;
 
     if (newPosition !== undefined) {
-      const oldPosition = this.currentState.objectData('columns', columnId).position;
-      this.updatePositionOfOtherColumns(columnId, oldPosition, newPosition);
+      this.updatePositionOfOtherColumns(column, newPosition);
     }
 
     this.currentState.updateObject('columns', columnId, changes);
@@ -22,7 +22,9 @@ export default class ColumnUpdated {
 
   // private
 
-  updatePositionOfOtherColumns(movedColumnId, oldPosition, newPosition) {
+  updatePositionOfOtherColumns(movedColumn, newPosition) {
+    const movedColumnId = movedColumn.id;
+    const oldPosition = movedColumn.position;
     const columns = this.currentState.bucket('columns')
                     .filter(c => c.id !== movedColumnId);
 

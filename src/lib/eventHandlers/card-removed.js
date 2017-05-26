@@ -9,25 +9,32 @@ export default class CardRemoved {
   }
 
   execute(event) {
-    const cardId = event.data.cardId;
-    const cardsBucket = this.currentState.bucket('cards');
-    const commentsBucket = this.currentState.bucket('comments');
+    const card = this.currentState.objectData('cards', event.data.cardId);
+    this.repositionOtherCards(card);
+    this.removeComments(card);
+    this.removeCard(card);
+  }
 
-    const card = cardsBucket.filter(c => c.id === cardId)[0];
+  // private
 
-    const cardIndex = cardsBucket.findIndex(c => c.id === cardId);
-    cardsBucket.splice(cardIndex, 1);
-
+  repositionOtherCards(card) {
     updatePositionOfOtherCardsAfterCardRemoval(
       this.currentState,
       card.columnId,
       card.position
     );
+  }
 
+  removeComments(card) {
+    const commentsBucket = this.currentState.bucket('comments');
     commentsBucket.forEach((comment, commentIndex) => {
-      if (comment.cardId === cardId) {
+      if (comment.cardId === card.Id) {
         commentsBucket.splice(commentIndex, 1);
       }
     });
+  }
+
+  removeCard(card) {
+    this.currentState.removeObject('cards', card.Id);
   }
 }

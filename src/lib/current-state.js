@@ -66,6 +66,12 @@ export default class CurrentState {
     this.bucket(bucketName)[objectIndex] = updatedData;
   }
 
+  removeObject(bucketName, objectId) {
+    const bucket = this.bucket(bucketName);
+    const objectIndex = bucket.findIndex(object => object.id === objectId);
+    bucket.splice(objectIndex, 1);
+  }
+
   objectData(bucketName, objectId) {
     const objectIndex = this.bucket(bucketName).findIndex(object => object.id === objectId);
     return this.data[bucketName][objectIndex];
