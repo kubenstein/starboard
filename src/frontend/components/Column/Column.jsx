@@ -44,7 +44,7 @@ export default class Column extends React.Component {
         className={this.cssClasses()}
         data-DND-data-column-id={columnData.id}
       >
-        <div>
+        <div className="clearfix">
           <EditableInput
             className="column-title column-DND-handler"
             value={name}
