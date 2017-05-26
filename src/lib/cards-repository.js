@@ -2,7 +2,7 @@ import {
   cardAddedEvent,
   cardUpdatedEvent,
   cardRemovedEvent,
-  cardLabelToggledEvent
+  cardLabelUpdatedEvent
 } from './event-definitions.js';
 
 export default class CardsRepository {
@@ -39,8 +39,8 @@ export default class CardsRepository {
     return this.stateManager.addEvent(event);
   }
 
-  toggleLabel(cardId, label) {
-    const event = cardLabelToggledEvent(cardId, label);
+  updateLabel(cardId, label, labelWillBeSet) {
+    const event = cardLabelUpdatedEvent(cardId, label, labelWillBeSet);
     return this.stateManager.addEvent(event);
   }
 

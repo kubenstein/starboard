@@ -35,13 +35,14 @@ export function cardUpdatedEvent(cardId, changes) {
   };
 }
 
-export const cardLabelToggledEventType = 'CARD_LABEL_TOGGLED';
-export function cardLabelToggledEvent(cardId, label) {
+export const cardLabelUpdatedEventType = 'CARD_LABEL_UPDATED';
+export function cardLabelUpdatedEvent(cardId, label, shouldBeSet) {
   return {
-    type: cardLabelToggledEventType,
+    type: cardLabelUpdatedEventType,
     data: {
       cardId: cardId,
-      label: label
+      label: label,
+      set: shouldBeSet
     },
     id: uuid()
   };

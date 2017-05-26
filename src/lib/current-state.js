@@ -5,7 +5,7 @@ import ColumnRemovedEventHandler from './eventHandlers/column-removed.js';
 import CardAddedEventHandler from './eventHandlers/card-added.js';
 import CardUpdatedEventHandler from './eventHandlers/card-updated.js';
 import CardRemovedEventHandler from './eventHandlers/card-removed.js';
-import CardLabelToggledEventHandler from './eventHandlers/card-label-toggled.js';
+import CardLabelUpdatedEventHandler from './eventHandlers/card-label-updated.js';
 import CommentAddedEventHandler from './eventHandlers/comment-added.js';
 import CommentRemovedEventHandler from './eventHandlers/comment-removed.js';
 
@@ -25,7 +25,7 @@ export default class CurrentState {
       CardAddedEventHandler,
       CardUpdatedEventHandler,
       CardRemovedEventHandler,
-      CardLabelToggledEventHandler,
+      CardLabelUpdatedEventHandler,
       CommentAddedEventHandler,
       CommentRemovedEventHandler
     ]);

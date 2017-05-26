@@ -39,7 +39,9 @@ export default class CardDetails extends React.Component {
   }
 
   updateLabels(toggledLabel) {
-    this.cardsRepo.toggleLabel(this.card.id, toggledLabel);
+    const labels = this.card.labels || [];
+    const shouldBeSet = (labels.indexOf(toggledLabel) === -1);
+    this.cardsRepo.updateLabel(this.card.id, toggledLabel, shouldBeSet);
   }
 
   removeCard(cardId) {
