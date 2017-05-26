@@ -44,6 +44,7 @@
   .editable-input {
     padding: 1px 3px;
     height: 100%;
+    cursor: text;
 
     &:not(:focus) {
       @include outlined-text;
