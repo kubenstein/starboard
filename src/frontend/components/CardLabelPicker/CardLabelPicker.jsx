@@ -16,7 +16,7 @@ export default class CardLabelPicker extends React.Component {
   }
 
   textForLabel(color) {
-    return this.repo.getTextForLabel(color);
+    return this.repo.textForLabel(color);
   }
 
   render() {

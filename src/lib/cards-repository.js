@@ -10,12 +10,12 @@ export default class CardsRepository {
     this.stateManager = stateManager;
   }
 
-  getCard(id) {
+  get(id) {
     const bucket = this.stateManager.bucket('cards');
     return bucket.filter(c => c.id === id)[0];
   }
 
-  getCardsSortedByPosition(columnId) {
+  cardsSortedByPosition(columnId) {
     const bucket = this.stateManager.bucket('cards');
     return bucket
       .filter(c => c.columnId === columnId)
@@ -23,7 +23,7 @@ export default class CardsRepository {
   }
 
   addCard(title, columnId) {
-    const lastCard = this.getCardsSortedByPosition(columnId).reverse()[0] || { position: -1 };
+    const lastCard = this.cardsSortedByPosition(columnId).reverse()[0] || { position: -1 };
     const lastPosition = lastCard.position + 1;
 
     const event = cardAddedEvent({

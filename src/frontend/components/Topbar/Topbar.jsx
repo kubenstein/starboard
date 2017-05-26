@@ -20,7 +20,7 @@ export default class Topbar extends React.Component {
   }
 
   render() {
-    const boardName = this.repo.getBoardName();
+    const boardName = this.repo.boardName();
     this.updatePageTitle(boardName);
     return (
       <div className="topbar">

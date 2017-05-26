@@ -47,7 +47,7 @@ export default class DndCardsConfigurator {
 
     const cardId = el.getAttribute(this.dndElCardIdDataAttr);
     const newColumnId = target.getAttribute(this.dndSpaceColumnIdDataAttr);
-    const oldColumnId = this.cardsRepo.getCard(cardId).columnId;
+    const oldColumnId = this.cardsRepo.get(cardId).columnId;
     const newPosition = positionAmongDOMSiblings(el);
     this.cardsRepo.updateCard(cardId, { columnId: newColumnId, position: newPosition });
 

@@ -21,7 +21,7 @@ export default class CardDetails extends React.Component {
   }
 
   textForLabel(color) {
-    return this.settingsRepo.getTextForLabel(color);
+    return this.settingsRepo.textForLabel(color);
   }
 
   updateTitle(newValue) {
@@ -52,8 +52,8 @@ export default class CardDetails extends React.Component {
 
   render() {
     const { title, description, id, columnId, labels } = this.card;
-    const comments = this.commentsRepo.getCommentsForCard(id);
-    const columnName = this.columnsRepo.getColumn(columnId).name;
+    const comments = this.commentsRepo.commentsForCard(id);
+    const columnName = this.columnsRepo.get(columnId).name;
     return (
       <div className="card-details">
         <div className="title-wrapper">

@@ -25,7 +25,7 @@ export default class Board extends React.Component {
   //
   // stateManager observer callback
   onStateUpdate() {
-    this.setState({ columns: this.columnsRepo.getColumnsSortedByPosition() });
+    this.setState({ columns: this.columnsRepo.columnsSortedByPosition() });
   }
 
   configureDND() {

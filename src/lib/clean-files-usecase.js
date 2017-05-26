@@ -27,7 +27,7 @@ export default class CleanFilesUsecase {
   // private
 
   removeColumnRelatedFiles(columnId) {
-    const cards = this.cardsRepo.getCardsSortedByPosition(columnId);
+    const cards = this.cardsRepo.cardsSortedByPosition(columnId);
     const promises = cards.map((card) => {
       return this.removeCardRelatedFiles(card.id);
     });
@@ -35,7 +35,7 @@ export default class CleanFilesUsecase {
   }
 
   removeCardRelatedFiles(cardId) {
-    const comments = this.commentsRepo.getCommentsForCard(cardId);
+    const comments = this.commentsRepo.commentsForCard(cardId);
     const promises = comments.map((comment) => {
       return this.removeAttachment(comment);
     });

@@ -58,7 +58,7 @@ export default class GitEventStorage {
     });
   }
 
-  getAllPastEvents() {
+  allPastEvents() {
     return new Promise((resolve, _reject) => {
       this.queue = this.queue
       .then(this.gitGetAllCommitMessages.bind(this))

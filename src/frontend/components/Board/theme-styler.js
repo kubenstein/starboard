@@ -7,7 +7,7 @@ export default class ThemeStyler {
   }
 
   generateCss() {
-    const themeColor = this.repo.getThemeColor();
+    const themeColor = this.repo.themeColor();
     if (!themeColor) return '';
     return `
       .btn-success, .board {

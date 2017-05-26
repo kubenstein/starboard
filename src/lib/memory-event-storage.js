@@ -39,7 +39,7 @@ export default class MemoryEventStorage {
     // Do nothing... Files are stored directly in url to them (as base64)
   }
 
-  getAllPastEvents() {
+  allPastEvents() {
     return new Promise((resolve, _reject) => {
       resolve(this.events);
     });

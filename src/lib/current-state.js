@@ -88,7 +88,7 @@ export default class CurrentState {
   }
 
   processAllPastEvents() {
-    this.eventStorage.getAllPastEvents().then((events) => {
+    this.eventStorage.allPastEvents().then((events) => {
       events.forEach((event) => {
         this.onNewEvent(event, false);
       });

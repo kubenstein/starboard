@@ -11,7 +11,7 @@ export default class SettingsRepository {
     ];
   }
 
-  getThemeColor() {
+  themeColor() {
     return this.get('themeColor', '');
   }
 
@@ -19,7 +19,7 @@ export default class SettingsRepository {
     return this.set('themeColor', hexColor);
   }
 
-  getBoardName() {
+  boardName() {
     return this.get('boardName', '');
   }
 
@@ -27,7 +27,7 @@ export default class SettingsRepository {
     return this.set('boardName', name);
   }
 
-  getTextForLabel(color) {
+  textForLabel(color) {
     const key = `label-${color}`;
     return this.get(key, '');
   }

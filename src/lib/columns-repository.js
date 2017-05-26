@@ -9,18 +9,18 @@ export default class ColumnsRepository {
     this.stateManager = stateManager;
   }
 
-  getColumnsSortedByPosition() {
-    const columns = this.stateManager.bucket('columns');
-    return columns.sort((c1, c2) => c1.position - c2.position);
-  }
-
-  getColumn(columnId) {
+  get(columnId) {
     const columns = this.stateManager.bucket('columns');
     return columns.filter(column => column.id === columnId)[0];
   }
 
+  columnsSortedByPosition() {
+    const columns = this.stateManager.bucket('columns');
+    return columns.sort((c1, c2) => c1.position - c2.position);
+  }
+
   addColumn(name) {
-    const lastColumn = this.getColumnsSortedByPosition().reverse()[0] || { position: -1 };
+    const lastColumn = this.columnsSortedByPosition().reverse()[0] || { position: -1 };
     const lastPosition = lastColumn.position + 1;
 
     const event = columnAddedEvent({

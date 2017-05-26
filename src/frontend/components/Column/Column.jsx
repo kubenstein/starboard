@@ -38,7 +38,7 @@ export default class Column extends React.Component {
   render() {
     const columnData = this.columnData;
     const { name, id } = this.columnData;
-    const cards = this.cardsRepo.getCardsSortedByPosition(columnData.id);
+    const cards = this.cardsRepo.cardsSortedByPosition(columnData.id);
     return (
       <div
         className={this.cssClasses()}

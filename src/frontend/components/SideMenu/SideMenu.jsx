@@ -11,7 +11,7 @@ export default class SideMenu extends React.Component {
   }
 
   textForLabel(color) {
-    return this.repo.getTextForLabel(color);
+    return this.repo.textForLabel(color);
   }
 
   updateThemeColor(color) {

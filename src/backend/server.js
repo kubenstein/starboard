@@ -105,7 +105,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on('getAllPastEvents', (sendBack) => {
-    eventStorage.getAllPastEvents().then((events) => {
+    eventStorage.allPastEvents().then((events) => {
       sendBack(events);
     });
   });
