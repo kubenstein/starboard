@@ -93,9 +93,12 @@ export default class GitEventStorage {
   }
 
   sync() {
-    return this.queue = this.queue
-    .then(this.gitPushChangesWithEventualRebase.bind(this))
-    .then(this.gatherNewEvents.bind(this));
+    return new Promise((resolve, _reject) => {
+      this.queue = this.queue
+      .then(this.gitPushChangesWithEventualRebase.bind(this))
+      .then(this.gatherNewEvents.bind(this))
+      .then(resolve);
+    });
   }
 
   applyEvent(event) {
