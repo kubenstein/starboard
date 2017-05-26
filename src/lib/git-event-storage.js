@@ -33,7 +33,7 @@ export default class GitEventStorage {
     return new Promise((resolve, _reject) => {
       this.queue = this.queue
       .then(() => { return this.applyEvent(event); })
-      .then(() => { resolve(); });
+      .then(resolve);
     });
   }
 
@@ -92,6 +92,17 @@ export default class GitEventStorage {
     });
   }
 
+  sync() {
+    return this.queue = this.queue
+    .then(this.gitPushChangesWithEventualRebase.bind(this))
+    .then(this.gatherNewEvents.bind(this));
+  }
+
+  applyEvent(event) {
+    return this.gitCommit(JSON.stringify(event))
+    .then(() => { return this.notify(event); });
+  }
+
   gatherNewEvents() {
     return this.gitFetchChanges()
     .then(() => {
@@ -117,24 +128,11 @@ export default class GitEventStorage {
   }
 
   startPollingLoop(syncingIntervalInSeconds) {
-    if (syncingIntervalInSeconds <= 0) {
-      return null;
-    }
+    if (syncingIntervalInSeconds <= 0) return null;
 
     return setInterval(() => {
       this.sync();
     }, syncingIntervalInSeconds * 1000);
-  }
-
-  applyEvent(event) {
-    return this.gitCommit(JSON.stringify(event))
-    .then(() => { return this.notify(event); });
-  }
-
-  sync() {
-    return this.queue = this.queue
-    .then(this.gitPushChangesWithEventualRebase.bind(this))
-    .then(this.gatherNewEvents.bind(this));
   }
 
   // git commands
@@ -148,7 +146,7 @@ export default class GitEventStorage {
 
   gitInitRepo() {
     return this.execute(`git init ${this.pathToTempLocalRepo}`)
-    .then(() => { return this.gitAddUser(); });
+    .then(this.gitAddUser.bind(this));
   }
 
   gitAddUser() {
@@ -177,9 +175,7 @@ export default class GitEventStorage {
 
   gitFetchChangesWithEmptyRepoFallback() {
     return this.gitFetchChanges()
-    .catch(() => {
-      return this.gitPushEmptySetupCommit();
-    });
+    .catch(this.gitPushEmptySetupCommit.bind(this));
   }
 
   gitCalculateDiffCommitMessages() {
