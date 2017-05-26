@@ -1,6 +1,7 @@
 import SettingsUpdatedEventHandler from './eventHandlers/settings-updated.js';
 import ColumnAddedEventHandler from './eventHandlers/column-added.js';
 import ColumnUpdatedEventHandler from './eventHandlers/column-updated.js';
+import ColumnRemovedEventHandler from './eventHandlers/column-removed.js';
 import CardAddedEventHandler from './eventHandlers/card-added.js';
 import CardUpdatedEventHandler from './eventHandlers/card-updated.js';
 import CardRemovedEventHandler from './eventHandlers/card-removed.js';
@@ -20,6 +21,7 @@ export default class CurrentState {
       SettingsUpdatedEventHandler,
       ColumnAddedEventHandler,
       ColumnUpdatedEventHandler,
+      ColumnRemovedEventHandler,
       CardAddedEventHandler,
       CardUpdatedEventHandler,
       CardRemovedEventHandler,
