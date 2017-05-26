@@ -97,8 +97,7 @@ export default class GitEventStorage {
     .then(() => {
       return this.gitCalculateDiffCommitMessages()
       .then(this.extractEventsFromCommits.bind(this))
-      .then((events) => { events.forEach((event) => { this.notify(event); }); })
-      .then(this.gitPullChanges.bind(this));
+      .then((events) => { events.forEach((event) => { this.notify(event); }); });
     })
     .catch(swallowErrors);
   }
@@ -123,15 +122,19 @@ export default class GitEventStorage {
     }
 
     return setInterval(() => {
-      this.queue = this.queue
-      .then(this.gatherNewEvents.bind(this));
+      this.sync();
     }, syncingIntervalInSeconds * 1000);
   }
 
   applyEvent(event) {
     return this.gitCommit(JSON.stringify(event))
-    .then(() => { return this.gitPushChangesWithEventualRebase(); })
     .then(() => { return this.notify(event); });
+  }
+
+  sync() {
+    return this.queue = this.queue
+    .then(this.gitPushChangesWithEventualRebase.bind(this))
+    .then(this.gatherNewEvents.bind(this));
   }
 
   // git commands
@@ -215,9 +218,11 @@ export default class GitEventStorage {
   }
 
   gitPushChangesWithEventualRebase() {
-    return this.gitPullChanges()
-    .catch(swallowErrors)
-    .then(this.gitPushChanges.bind(this));
+    return this.gitPushChanges()
+    .catch(() => {
+      return this.gitPullChanges()
+      .then(this.gitPushChanges.bind(this));
+    });
   }
 
   gitCommit(message) {
