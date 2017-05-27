@@ -1,5 +1,6 @@
 import React from 'react';
 import CommentsRepository from 'lib/comments-repository.js';
+import { formattedDate } from 'lib/utils.js';
 import 'components/CardComment/card-comment.scss';
 
 export default class CardComment extends React.Component {
@@ -20,14 +21,6 @@ export default class CardComment extends React.Component {
     return attachment.type.indexOf('image') !== -1;
   }
 
-  formattedDate(timestamp) {
-    const d = new Date(timestamp * 1000);
-    return `
-      ${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}
-      ${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}
-    `;
-  }
-
   attachmentCommentHTML(comment) {
     return (
       <a href={comment.attachment.dataUrl} className="attachment" target="_blank" rel="noopener noreferrer">
@@ -46,7 +39,7 @@ export default class CardComment extends React.Component {
     return (
       <div className="card-comment" key={comment.id}>
         <span className="author">{comment.author.name}</span>
-        <span className="date">{this.formattedDate(comment.createdAt)}</span>
+        <span className="date">{formattedDate(comment.createdAt)}</span>
         <p className="content">
           { comment.attachment && this.attachmentCommentHTML(comment) }
           {comment.content}
