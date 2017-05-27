@@ -34,10 +34,10 @@ export default class EditableInput extends React.Component {
 
   onBlur() {
     this.setState({ currentlyEdditing: false });
-    this.onChange();
+    this.onFinalizedEditing();
   }
 
-  onChange() {
+  onFinalizedEditing() {
     const value = this.input.value;
     this.changeCallback(value);
   }
