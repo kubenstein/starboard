@@ -1,7 +1,7 @@
 import uuid from 'uuid/v4';
 import { currentTimestamp } from './utils.js';
 
-export const noopEventType = 'NOOP_EVENT';
+export const noopEventType = 'NOOP';
 export function noopEvent() {
   return { type: noopEventType, id: uuid() };
 }
