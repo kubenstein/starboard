@@ -5,16 +5,19 @@ export default class EditableInput extends React.Component {
   constructor(props) {
     super(props);
     this.value = this.props.value || '';
-    this.state = { value: this.value };
     this.type = this.props.type;
     this.otherCssClasses = this.props.className || '';
     this.changeCallback = this.props.onChange;
     this.keyPressCallback = this.props.onKeyPress || (() => {});
+    this.state = {
+      value: this.value,
+      currentlyEdditing: false
+    };
   }
 
   componentWillReceiveProps(nextProps) {
     const value = nextProps.value;
-    if (value) {
+    if (value && !this.state.currentlyEdditing) {
       this.setState({ value: value });
     }
   }
@@ -25,7 +28,12 @@ export default class EditableInput extends React.Component {
     }
   }
 
+  onFocus() {
+    this.setState({ currentlyEdditing: true });
+  }
+
   onBlur() {
+    this.setState({ currentlyEdditing: false });
     this.onChange();
   }
 
@@ -50,6 +58,7 @@ export default class EditableInput extends React.Component {
         value={value}
         ref={(e) => { this.input = e; }}
         onBlur={() => { this.onBlur(); }}
+        onFocus={() => { this.onFocus(); }}
         onChange={(e) => { this.onInputChange(e); }}
       />
     );
@@ -63,6 +72,7 @@ export default class EditableInput extends React.Component {
         value={value}
         ref={(e) => { this.input = e; }}
         onBlur={() => { this.onBlur(); }}
+        onFocus={() => { this.onFocus(); }}
         onKeyPress={(e) => { this.onEnterCheck(e); }}
         onChange={(e) => { this.onInputChange(e); }}
       />
