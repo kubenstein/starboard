@@ -14,3 +14,7 @@ export function formattedDate(timestamp) {
   const year = pad(d.getYear());
   return `${hours}:${minutes}:${seconds} ${day}/${month}/${year}`;
 }
+
+export function hasToBeSet(key) {
+  throw new Error(`${key} has to be set`);
+}

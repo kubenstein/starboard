@@ -1,3 +1,16 @@
 #!/usr/bin/env node
 
-require('../dist/bundled-server');
+const Starboard = require('../dist/starboard').default;
+
+const env = process.env;
+
+new Starboard({
+  port:                       env.PORT                || 8081,
+  remoteRepoUrl:              env.REPO_URL            || (() => { throw new Error('REPO_URL env has to be set'); })(),
+  pathToSshPrivateKey:        env.SSH_KEY_PATH        || '',
+  repoCommiterName:           env.REPO_COMMITER_NAME  || 'Starboard BOT',
+  repoCommiterEmail:          env.REPO_COMMITER_EMAIL || 'starboardbot@localhost',
+  remoteRepoSyncingInterval:  env.SYNCING_INTERVAL    || 30,
+  tempDir:                    env.TEMP_DIR            || '.tmp',
+  logger:                     env.DEBUG               && console
+}).start();

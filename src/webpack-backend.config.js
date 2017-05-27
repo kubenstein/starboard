@@ -1,4 +1,3 @@
-const webpack = require('webpack');
 const fs = require('fs');
 
 const srcDir = __dirname;
@@ -8,27 +7,37 @@ const backendDir = `${srcDir}/backend/`;
 // taken from http://jlongster.com/Backend-Apps-with-Webpack--Part-I
 const nodeModules = {};
 fs.readdirSync('node_modules')
-  .filter((x) => {
-    return ['.bin'].indexOf(x) === -1;
-  })
-  .forEach((mod) => {
-    nodeModules[mod] = `commonjs ${mod}`;
-  });
+  .filter((x) => { return ['.bin'].indexOf(x) === -1; })
+  .forEach((mod) => { nodeModules[mod] = `commonjs ${mod}`; });
 
+let entry;
+let output;
+if (process.env.NODE_ENV === 'production') {
+  entry = `${backendDir}/server.js`;
+  output = {
+    path: `${rootDir}/dist/`,
+    publicPath: '/',
+    filename: 'starboard.js',
+    library: 'starboard',
+    libraryTarget: 'umd',
+    umdNamedDefine: true
+  };
+} else {
+  entry = `${backendDir}/dev-server-runner.js`;
+  output = {
+    path: `${rootDir}/.tmp/backend/`,
+    publicPath: '/',
+    filename: 'bundled-server.js'
+  };
+}
 
 module.exports = {
-  entry: `${backendDir}/server.js`,
   target: 'node',
+  entry: entry,
+  output: output,
   node: {
     __dirname: false,
     __filename: false,
-  },
-  output: {
-    path: (process.env.NODE_ENV === 'production' ?
-          `${rootDir}/dist/` :
-          `${rootDir}/.tmp/backend/`),
-    publicPath: '/',
-    filename: 'bundled-server.js'
   },
 
   module: {
@@ -37,7 +46,7 @@ module.exports = {
         test: /(\.jsx|\.js)$/,
         loader: 'babel',
         query: {
-          presets: ['stage-0', 'es2015', 'react']
+          presets: ['stage-0', 'es2015']
         }
       }
     ]
@@ -51,8 +60,5 @@ module.exports = {
     ]
   },
 
-  externals: nodeModules,
-  plugins: [
-    new webpack.NormalModuleReplacementPlugin(/\.css|scss$/, 'node-noop'),
-  ]
+  externals: nodeModules
 };
