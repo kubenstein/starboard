@@ -12,7 +12,8 @@ export default class DndCardsConfigurator {
   configure() {
     return this.setup()
                .on('drag', (el) => { this.onDragStart(el); })
-               .on('drop', (el, target) => { this.onDrop(el, target); });
+               .on('drop', (el, target) => { this.onDrop(el, target); })
+               .on('cancel', (el) => { this.onCancel(el); });
   }
 
   // private
@@ -68,6 +69,18 @@ export default class DndCardsConfigurator {
     // 1) it is just a html element and not React component
     // 2) a card data was updated to refect the move,
     //    so React will insert that card during next rerender
+    el.remove();
+  }
+
+  onCancel(el) {
+    this.sourceDraggedEl.classList.remove('card-dragging');
+
+    //
+    // onCancel is fired when card was moved to the same position.
+    // It is some kind of edge case becase it is not always fired.
+    // When it is though, we reinsert react component (this.sourceDraggedEl)
+    // and remove dragula pure html copy.
+    el.parentNode.insertBefore(this.sourceDraggedEl, el);
     el.remove();
   }
 }
