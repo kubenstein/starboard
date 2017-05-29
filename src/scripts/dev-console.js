@@ -23,7 +23,7 @@ const backendServerWindow = screenGrid.set(1, 0, 3, 1, Log, {
 
 const frontendWindow = screenGrid.set(2, 1, 2, 1, Log, {
   fg: 'cyan',
-  label: ' Webpack Dev Server ',
+  label: ' Frontend Server (http://localhost:8080/) ',
 });
 
 screen.render();
