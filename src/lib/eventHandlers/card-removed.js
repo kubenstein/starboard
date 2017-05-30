@@ -1,5 +1,5 @@
 import { cardRemovedEventType } from '../event-definitions.js';
-import updatePositionOfOtherCardsAfterCardRemoval from './support/update-position-of-other-cards-after-card-removal.js';
+import updatePositionsOfCards from './support/update-positions-of-other-cards.js';
 
 export default class CardRemoved {
   static forEvent() { return cardRemovedEventType; }
@@ -10,31 +10,30 @@ export default class CardRemoved {
 
   execute(event) {
     const card = this.currentState.objectData('cards', event.data.cardId);
-    this.repositionOtherCards(card);
     this.removeComments(card);
     this.removeCard(card);
+    this.repositionOtherCards(card);
   }
 
   // private
 
-  repositionOtherCards(card) {
-    updatePositionOfOtherCardsAfterCardRemoval(
-      this.currentState,
-      card.columnId,
-      card.position
-    );
-  }
-
   removeComments(card) {
     const commentsBucket = this.currentState.bucket('comments');
     commentsBucket.forEach((comment, commentIndex) => {
-      if (comment.cardId === card.Id) {
+      if (comment.cardId === card.id) {
         commentsBucket.splice(commentIndex, 1);
       }
     });
   }
 
   removeCard(card) {
-    this.currentState.removeObject('cards', card.Id);
+    this.currentState.removeObject('cards', card.id);
+  }
+
+  repositionOtherCards(card) {
+    updatePositionsOfCards(
+      this.currentState,
+      card.columnId
+    );
   }
 }

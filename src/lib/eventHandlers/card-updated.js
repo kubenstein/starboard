@@ -1,5 +1,5 @@
 import { cardUpdatedEventType } from '../event-definitions.js';
-import updatePositionOfOtherCardsAfterCardRemoval from './support/update-position-of-other-cards-after-card-removal.js';
+import updatePositionsOfCards from './support/update-positions-of-other-cards.js';
 
 export default class CardUpdated {
   static forEvent() { return cardUpdatedEventType; }
@@ -70,10 +70,9 @@ export default class CardUpdated {
       });
 
       // All cards in an old column, update like the moved card was removed
-      updatePositionOfOtherCardsAfterCardRemoval(
+      updatePositionsOfCards(
         this.currentState,
-        oldColumnId,
-        oldPosition
+        oldColumnId
       );
     }
   }

@@ -1,3 +1,4 @@
+import updatePositionsOfCards from './support/update-positions-of-other-cards.js';
 import { cardAddedEventType } from '../event-definitions.js';
 
 export default class CardAdded {
@@ -8,6 +9,8 @@ export default class CardAdded {
   }
 
   execute(event) {
-    this.currentState.bucket('cards').push(event.data);
+    const card = event.data;
+    this.currentState.bucket('cards').push(card);
+    updatePositionsOfCards(this.currentState, card.columnId);
   }
 }
