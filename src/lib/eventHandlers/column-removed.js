@@ -1,7 +1,5 @@
 import CardRemovedEventHandler from './card-removed.js';
-import updatePositionOfOtherColumnsAfterColumnRemoval
-  from './support/update-position-of-other-columns-after-column-removal.js';
-
+import updatePositionsOfColumns from './support/update-positions-of-other-columns.js';
 import {
   columnRemovedEventType,
   cardRemovedEvent
@@ -15,11 +13,10 @@ export default class ColumnRemoved {
   }
 
   execute(event) {
-    const columnId = event.data.columnId;
-    const column = this.currentState.objectData('columns', columnId);
+    const column = this.currentState.objectData('columns', event.data.columnId);
     this.removeAllCards(column);
-    this.repositionAllOtherColumns(column);
     this.removeColumn(column);
+    updatePositionsOfColumns(this.currentState);
   }
 
   // private
@@ -36,12 +33,5 @@ export default class ColumnRemoved {
 
   removeColumn(column) {
     this.currentState.removeObject('columns', column.id);
-  }
-
-  repositionAllOtherColumns(column) {
-    updatePositionOfOtherColumnsAfterColumnRemoval(
-      this.currentState,
-      column.position
-    );
   }
 }
