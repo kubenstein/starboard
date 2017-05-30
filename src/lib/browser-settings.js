@@ -12,4 +12,8 @@ export default class BrowserSettings {
   setMainUrl() {
     window.location = '#';
   }
+
+  setTitle(title) {
+    document.title = title;
+  }
 }

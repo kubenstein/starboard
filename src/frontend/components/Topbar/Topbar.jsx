@@ -1,4 +1,5 @@
 import React from 'react';
+import BrowserSettings from 'lib/browser-settings.js';
 import EditableInput from 'components/EditableInput/EditableInput.jsx';
 import SideMenu from 'components/SideMenu/SideMenu.jsx';
 import SettingsRepository from 'lib/settings-repository.js';
@@ -8,6 +9,7 @@ export default class Topbar extends React.Component {
   constructor(props) {
     super(props);
     this.stateManager = this.props.stateManager;
+    this.browserSettings = new BrowserSettings();
     this.repo = new SettingsRepository(this.stateManager);
   }
 
@@ -16,7 +18,7 @@ export default class Topbar extends React.Component {
   }
 
   updatePageTitle(title) {
-    document.title = title || 'Starboard';
+    this.browserSettings.setTitle(title || 'Starboard');
   }
 
   render() {
