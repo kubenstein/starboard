@@ -1,5 +1,5 @@
 import { cardRemovedEventType } from '../event-definitions.js';
-import updatePositionsOfCards from './support/update-positions-of-other-cards.js';
+import repositionAllCards from './support/reposition-all-cards.js';
 
 export default class CardRemoved {
   static forEvent() { return cardRemovedEventType; }
@@ -31,7 +31,7 @@ export default class CardRemoved {
   }
 
   repositionOtherCards(card) {
-    updatePositionsOfCards(
+    repositionAllCards(
       this.currentState,
       card.columnId
     );

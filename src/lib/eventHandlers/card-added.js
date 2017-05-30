@@ -1,4 +1,4 @@
-import updatePositionsOfCards from './support/update-positions-of-other-cards.js';
+import repositionAllCards from './support/reposition-all-cards.js';
 import { cardAddedEventType } from '../event-definitions.js';
 
 export default class CardAdded {
@@ -11,6 +11,6 @@ export default class CardAdded {
   execute(event) {
     const card = event.data;
     this.currentState.bucket('cards').push(card);
-    updatePositionsOfCards(this.currentState, card.columnId);
+    repositionAllCards(this.currentState, card.columnId);
   }
 }
