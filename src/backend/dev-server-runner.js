@@ -1,4 +1,4 @@
-import Starboard from './server.js';
+import { Starboard } from '../lib.js';
 
 new Starboard({
   port: process.env.PORT,

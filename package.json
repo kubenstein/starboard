@@ -10,19 +10,20 @@
   "bin": {
     "starboard": "bin/starboard"
   },
+  "main": "dist/starboard.js",
   "scripts": {
     "dev": "node ./src/scripts/dev-console.js",
     "dev:frontend": "webpack-dev-server --config ./src/webpack-frontend.config.js",
-    "dev:backend:es6compiler": "webpack --watch --config ./src/webpack-backend.config.js",
-    "dev:backend:server": "REPO_URL=$(pwd)/.tmp/fakeDevelopmentRemoteGitRepo/ DEBUG=true nodemon --inspect --debug --watch .tmp/backend/ .tmp/backend/bundled-server.js",
+    "dev:backend:es6compiler": "webpack --watch --config ./src/webpack-lib.config.js",
+    "dev:backend:server": "REPO_URL=$(pwd)/.tmp/fakeDevelopmentRemoteGitRepo/ DEBUG=true nodemon --inspect --debug --watch .tmp/backend/ .tmp/backend/bundled-server-runner.js",
     "dev:linter": "eslint -c .eslintrc \"./src/*.js\" \"./src/backend/**\" \"./src/frontend/**\" \"./src/spec/**\" \"./src/lib/**\" || true",
     "dev:linter:ci": "nodemon -e jsx,js --watch ./src/ --exec 'npm run dev:linter'",
     "dev:db:create": "node ./src/scripts/db-create-development.js",
     "dev:db:clear": "./src/scripts/wipe-development-db.sh",
     "dev:localRelease": "./src/scripts/local-release.sh",
-    "build": "rm -rf ./dist && npm run build:backend && npm run build:frontend",
+    "build": "rm -rf ./dist && npm run build:lib && npm run build:frontend",
     "build:frontend": "NODE_ENV=production webpack -p --config ./src/webpack-frontend.config.js",
-    "build:backend": "NODE_ENV=production webpack --config ./src/webpack-backend.config.js"
+    "build:lib": "NODE_ENV=production webpack --config ./src/webpack-lib.config.js"
   },
   "dependencies": {
     "axios": "^0.16.1",

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-const Starboard = require('../dist/starboard').default;
+const Starboard = require('../dist/starboard').Starboard;
 
 const env = process.env;
 

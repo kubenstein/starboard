@@ -13,7 +13,7 @@ fs.readdirSync('node_modules')
 let entry;
 let output;
 if (process.env.NODE_ENV === 'production') {
-  entry = `${backendDir}/server.js`;
+  entry = `${srcDir}/lib.js`;
   output = {
     path: `${rootDir}/dist/`,
     publicPath: '/',
@@ -27,7 +27,7 @@ if (process.env.NODE_ENV === 'production') {
   output = {
     path: `${rootDir}/.tmp/backend/`,
     publicPath: '/',
-    filename: 'bundled-server.js'
+    filename: 'bundled-server-runner.js'
   };
 }
 
