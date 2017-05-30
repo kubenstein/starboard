@@ -1,6 +1,7 @@
 import React from 'react';
 import CardDetails from 'components/CardDetails/CardDetails.jsx';
 import BrowserSettings from 'lib/browser-settings.js';
+import SettingsRepository from 'lib/settings-repository.js';
 import CommentsRepository from 'lib/comments-repository.js';
 import 'components/Card/card.scss';
 
@@ -9,6 +10,7 @@ export default class Card extends React.Component {
     super(props);
     this.card = this.props.data;
     this.stateManager = this.props.stateManager;
+    this.settingsRepo = new SettingsRepository(this.stateManager);
     this.commentsRepo = new CommentsRepository(this.stateManager);
     this.browserSettings = new BrowserSettings();
     this.state = {
@@ -20,6 +22,10 @@ export default class Card extends React.Component {
     if (this.card.id === this.browserSettings.urlCardId()) {
       this.openDetails();
     }
+  }
+
+  textForLabel(color) {
+    return this.settingsRepo.textForLabel(color);
   }
 
   openDetails() {
@@ -50,6 +56,7 @@ export default class Card extends React.Component {
               <li
                 key={label}
                 className="label"
+                title={this.textForLabel(label)}
                 style={{ backgroundColor: label }}
               />
             )}
