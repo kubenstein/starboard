@@ -3,6 +3,7 @@ import CommentsRepository from 'lib/comments-repository.js';
 import ColumnsRepository from 'lib/columns-repository.js';
 import CardsRepository from 'lib/cards-repository.js';
 import SettingsRepository from 'lib/settings-repository.js';
+import BrowserSettings from 'lib/browser-settings.js';
 import EditableInput from 'components/EditableInput/EditableInput.jsx';
 import AddCommentForm from 'components/AddCommentForm/AddCommentForm.jsx';
 import CardComment from 'components/CardComment/CardComment.jsx';
@@ -17,7 +18,16 @@ export default class CardDetails extends React.Component {
     this.commentsRepo = new CommentsRepository(this.stateManager);
     this.cardsRepo = new CardsRepository(this.stateManager);
     this.settingsRepo = new SettingsRepository(this.stateManager);
+    this.browserSettings = new BrowserSettings();
     this.card = this.props.data;
+  }
+
+  componentDidMount() {
+    this.browserSettings.setUrlForCard(this.card);
+  }
+
+  componentWillUnmount() {
+    this.browserSettings.setMainUrl();
   }
 
   textForLabel(color) {

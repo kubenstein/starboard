@@ -1,5 +1,6 @@
 import React from 'react';
 import CardDetails from 'components/CardDetails/CardDetails.jsx';
+import BrowserSettings from 'lib/browser-settings.js';
 import CommentsRepository from 'lib/comments-repository.js';
 import 'components/Card/card.scss';
 
@@ -9,9 +10,16 @@ export default class Card extends React.Component {
     this.card = this.props.data;
     this.stateManager = this.props.stateManager;
     this.commentsRepo = new CommentsRepository(this.stateManager);
+    this.browserSettings = new BrowserSettings();
     this.state = {
       detailsOpened: false,
     };
+  }
+
+  componentDidMount() {
+    if (this.card.id === this.browserSettings.urlCardId()) {
+      this.openDetails();
+    }
   }
 
   openDetails() {
