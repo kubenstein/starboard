@@ -50,7 +50,7 @@ export default class CurrentState {
     return this.eventStorage.removeFile(fileName);
   }
 
-  currentUser() {
+  getUser() {
     return this.user;
   }
 
