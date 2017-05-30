@@ -13,6 +13,13 @@ export default class CommentsRepository {
     return bucket.filter(c => c.id === id)[0];
   }
 
+  commentsCountForCard(cardId) {
+    const bucket = this.stateManager.bucket('comments');
+    return bucket
+           .filter(c => c.cardId === cardId)
+           .length;
+  }
+
   commentsForCard(cardId) {
     const bucket = this.stateManager.bucket('comments');
     return bucket

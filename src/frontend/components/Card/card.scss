@@ -30,6 +30,13 @@
       float: left;
     }
   }
+
+  .comment-counter {
+    display: block;
+    font-size: 10px;
+    color: $silver;
+    margin-top: 5px;
+  }
 }
 
 .card-details-full-screen-wrapper {
