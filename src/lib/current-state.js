@@ -42,8 +42,8 @@ export default class CurrentState {
     return this.eventStorage.addEvent(event);
   }
 
-  addFile(fileBlob) {
-    return this.eventStorage.addFile(fileBlob);
+  addFile(attr) {
+    return this.eventStorage.addFile(attr);
   }
 
   removeFile(fileName) {

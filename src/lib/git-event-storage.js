@@ -16,7 +16,7 @@ export default class GitEventStorage {
     this.commiterEmail = params.commiterEmail || 'starboardbot@localhost';
     this.dataBranchName = params.dataBranchName || '__starboard-data';
     this.pathToTempLocalRepo = params.pathToTempLocalRepo || '.tmp/tmpRepo/'; // path HAS to end with /
-    this.syncingIntervalInSeconds = params.syncingIntervalInSeconds || 30;
+    this.syncingInterval = params.syncingInterval || 30;
     this.logger = params.logger || { log: () => {} };
     this.observers = [];
     this.lastSyncedCommit = undefined;
@@ -24,6 +24,10 @@ export default class GitEventStorage {
 
     mkdirp.sync(this.pathToTempLocalRepo);
     this.start();
+  }
+
+  welcomeInfo() {
+    return `Source repo set to: ${this.remoteRepoUrl}`;
   }
 
   addObserver(observer) {
@@ -38,23 +42,23 @@ export default class GitEventStorage {
     });
   }
 
-  addFile(filePath) {
+  addFile(fileNameInGitFolder) {
     return new Promise((resolve, _reject) => {
-      const event = fileAddedEvent(filePath);
+      const event = fileAddedEvent(fileNameInGitFolder);
       this.queue = this.queue
-      .then(() => { return this.gitAddFile(filePath); })
+      .then(() => { return this.gitAddFile(fileNameInGitFolder); })
       .then(() => { return this.applyEvent(event); })
-      .then(() => { resolve(filePath); });
+      .then(() => { resolve(fileNameInGitFolder); });
     });
   }
 
-  removeFile(filePath) {
+  removeFile(fileNameInGitFolder) {
     return new Promise((resolve, _reject) => {
-      const event = fileRemovedEvent(filePath);
+      const event = fileRemovedEvent(fileNameInGitFolder);
       this.queue = this.queue
-      .then(() => { return this.gitRemoveFile(filePath); })
+      .then(() => { return this.gitRemoveFile(fileNameInGitFolder); })
       .then(() => { return this.applyEvent(event); })
-      .then(() => { resolve(filePath); });
+      .then(() => { resolve(fileNameInGitFolder); });
     });
   }
 
@@ -83,7 +87,7 @@ export default class GitEventStorage {
     this.queue = this.queue
     .then(this.setupLocalRepo.bind(this));
 
-    this.syncingLoopTimer = this.startPollingLoop(this.syncingIntervalInSeconds);
+    this.syncingLoopTimer = this.startPollingLoop(this.syncingInterval);
   }
 
   setupLocalRepo() {
@@ -151,12 +155,12 @@ export default class GitEventStorage {
     .then((hash) => { this.lastSyncedCommit = hash; });
   }
 
-  startPollingLoop(syncingIntervalInSeconds) {
-    if (syncingIntervalInSeconds <= 0) return null;
+  startPollingLoop(syncingInterval) {
+    if (syncingInterval <= 0) return null;
     this.sync();
     return setInterval(() => {
       this.sync();
-    }, syncingIntervalInSeconds * 1000);
+    }, syncingInterval * 1000);
   }
 
   // git commands

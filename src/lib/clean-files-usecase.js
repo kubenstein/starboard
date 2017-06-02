@@ -1,6 +1,7 @@
 import fs from 'fs';
 import CommentsRepository from './comments-repository.js';
 import CardsRepository from './cards-repository.js';
+import { hasToBeSet } from './utils.js';
 import {
   columnRemovedEventType,
   cardRemovedEventType,
@@ -8,10 +9,10 @@ import {
 } from './event-definitions.js';
 
 export default class CleanFilesUsecase {
-  constructor(currentState, params) {
+  constructor(currentState, params = {}) {
     this.currentState = currentState;
-    this.pathToStorage = params.pathToStorage;
-    this.fileNamePrefix = params.fileNamePrefix;
+    this.fileNamePrefix = params.fileNamePrefix || '';
+    this.pathToStorage = params.pathToStorage || hasToBeSet('pathToStorage');
     this.commentsRepo = new CommentsRepository(this.currentState);
     this.cardsRepo = new CardsRepository(this.currentState);
   }
@@ -52,13 +53,15 @@ export default class CleanFilesUsecase {
 
     const filePublicUrl = comment.attachment.dataUrl;
     const fileName = filePublicUrl.replace(this.fileNamePrefix, '');
-    const filePath = `${this.pathToStorage}/${fileName}`;
 
+    return this.removeFile(fileName)
+    .then(() => { this.currentState.removeFile(fileName); });
+  }
+
+  removeFile(fileName) {
+    const filePath = `${this.pathToStorage}/${fileName}`;
     return new Promise((resolve, reject) => {
       fs.unlink(filePath, (err) => { return err ? reject(err) : resolve(); });
-    })
-    .then(() => {
-      return this.currentState.removeFile(fileName);
     });
   }
 }

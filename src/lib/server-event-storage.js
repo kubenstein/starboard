@@ -2,14 +2,19 @@ import axios from 'axios';
 import io from 'socket.io-client';
 
 export default class ServerEventStorage {
-  constructor() {
+  constructor(params = {}) {
+    const uri = params.uri || undefined; // same domain
     this.observers = [];
     this.addedEventIDs = []; // To have smooth adding flow,
                              // we notify on success add,
                              // and ignore that event comming back
                              // from server (via newEvent channel)
-    this.socket = io();
+    this.socket = io(uri);
     this.socket.on('newEvent', (event) => { this.onNewEventFromServer(event); });
+  }
+
+  welcomeInfo() {
+    return `Using SocketIO proxy Storage (${this.socket.io.uri})`;
   }
 
   addObserver(observer) {
@@ -35,7 +40,7 @@ export default class ServerEventStorage {
     });
   }
 
-  removeFile(_filePath) {
+  removeFile(_fileName) {
     // Do nothing... Server will clear attachments.
   }
 

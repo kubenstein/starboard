@@ -1,10 +1,16 @@
 import { fileAddedEvent } from './event-definitions.js';
+import { hasToBeSet } from './utils.js';
 
 export default class MemoryEventStorage {
   constructor(params = {}) {
+    this.addFileHandler = params.addFileHandler || hasToBeSet('addFileHandler');
     this.logger = params.logger || { log: () => {} };
     this.events = [];
     this.observers = [];
+  }
+
+  welcomeInfo() {
+    return 'Using Memory Storage';
   }
 
   addObserver(observer) {
@@ -20,23 +26,17 @@ export default class MemoryEventStorage {
     });
   }
 
-  addFile(fileBlob) {
-    return new Promise((resolve, _reject) => {
-      const reader = new FileReader();
-      reader.addEventListener('load', () => { resolve(reader.result); }, false);
-      reader.readAsDataURL(fileBlob);
-    })
-    .then((base64url) => {
-      const event = fileAddedEvent(base64url);
+  addFile(fileBlobOrFilePath) {
+    return this.addFileHandler(fileBlobOrFilePath)
+    .then((fileUrl) => {
+      const event = fileAddedEvent(fileUrl);
       return this.addEvent(event)
-      .then(() => {
-        return base64url;
-      });
+      .then(() => { return fileUrl; });
     });
   }
 
-  removeFile(_filePath) {
-    // Do nothing... Files are stored directly in url to them (as base64)
+  removeFile(_fileName) {
+    // Do nothing... Files are stored directly in url (as base64)
   }
 
   allPastEvents() {

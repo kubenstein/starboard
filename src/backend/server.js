@@ -3,7 +3,6 @@
 import express from 'express';
 import SocketIo from 'socket.io';
 import multer from 'multer';
-import EventStorage from 'lib/git-event-storage.js';
 import StoreFileUsecase from 'lib/store-file-usecase.js';
 import CleanFilesUsecase from 'lib/clean-files-usecase.js';
 import CurrentState from 'lib/current-state.js';
@@ -12,16 +11,10 @@ import { hasToBeSet } from 'lib/utils.js';
 
 export default class Server {
   constructor(params) {
-    this.serverPort                = params.port                || 8081;
-    this.remoteRepoUrl             = params.remoteRepoUrl       || hasToBeSet('remoteRepoUrl');
-    this.pathToSshPrivateKey       = params.pathToSshPrivateKey || '';
-    this.repoCommiterName          = params.repoCommiterName    || 'Starboard BOT';
-    this.repoCommiterEmail         = params.repoCommiterEmail   || 'starboardbot@localhost';
-    this.tempDir                   = params.tempDir             || '.tmp';
-    this.tempUploadsDir            = params.tempUploadsDir      || `${this.tempDir}/tmpUploads/`;
-    this.tempRepoDir               = params.tempRepoDir         || `${this.tempDir}/tmpRepo/`;
-    this.logger                    = params.logger              || new NullLogger();
-    this.remoteRepoSyncingInterval = params.remoteRepoSyncingInterval || 30;
+    this.eventStorage = params.eventStorage || hasToBeSet('eventStorage');
+    this.serverPort   = params.port         || 8081;
+    this.uploadsDir   = params.uploadsDir   || '.tmp/tmpUploads/';
+    this.logger       = params.logger       || new NullLogger();
   }
 
   displayBanner() {
@@ -29,7 +22,7 @@ export default class Server {
     console.log(`
     |
     | Starting Starboard...
-    | Source repo set to: ${this.remoteRepoUrl}
+    | ${this.eventStorage.welcomeInfo()}
     |
     | Board available at: http://localhost:${this.serverPort}/
     |
@@ -42,28 +35,17 @@ export default class Server {
     const app    = express();
     const server = app.listen(this.serverPort);
     const io     = SocketIo(server);
-    const upload = multer({ dest: this.tempUploadsDir });
+    const upload = multer({ dest: this.uploadsDir });
 
     app.use(express.static(`${__dirname}/frontend/`));
 
-    const eventStorage = new EventStorage({
-      remoteRepoUrl: this.remoteRepoUrl,
-      pathToSshPrivateKey: this.pathToSshPrivateKey,
-      pathToTempLocalRepo: this.tempRepoDir,
-      commiterEmail: this.repoCommiterEmail,
-      commiterUsername: this.repoCommiterName,
-      syncingIntervalInSeconds: this.remoteRepoSyncingInterval,
-      logger: this.logger
-    });
-
-    const currentState = new CurrentState({ eventSource: eventStorage });
+    const currentState = new CurrentState({ eventSource: this.eventStorage });
 
     const storeFileUsecase = new StoreFileUsecase(currentState, {
-      pathToStorage: this.tempRepoDir
+      storedFilesDir: this.uploadsDir
     });
-
     const cleanFilesUsecase = new CleanFilesUsecase(currentState, {
-      pathToStorage: this.tempRepoDir,
+      pathToStorage: this.uploadsDir,
       fileNamePrefix: '/attachments/'
     });
 
@@ -76,14 +58,14 @@ export default class Server {
         });
       }
     };
-    eventStorage.addObserver(allClientsNotifier);
+    this.eventStorage.addObserver(allClientsNotifier);
 
 
     // ----------------- http -----------------
     app.get('/attachments/:fileName', (req, res) => {
       res.sendFile(req.params.fileName, {
         dotfiles: 'deny',
-        root: this.tempRepoDir,
+        root: this.uploadsDir,
       });
     });
 
@@ -104,11 +86,11 @@ export default class Server {
       socket.on('addEvent', (event, sendBack) => {
         cleanFilesUsecase.cleanWhenNeeded(event);
         sendBack(event);
-        eventStorage.addEvent(event);
+        this.eventStorage.addEvent(event);
       });
 
       socket.on('getAllPastEvents', (sendBack) => {
-        eventStorage.allPastEvents().then((events) => {
+        this.eventStorage.allPastEvents().then((events) => {
           sendBack(events);
         });
       });

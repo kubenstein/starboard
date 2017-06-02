@@ -1,16 +1,31 @@
 #!/usr/bin/env node
 
-const Starboard = require('../dist/starboard').Starboard;
+const Starboard       = require('../dist/starboard').Starboard;
+const GitEventStorage = require('../dist/starboard').GitEventStorage;
 
 const env = process.env;
+const port                      = env.PORT                || 8081;
+const remoteRepoUrl             = env.REPO_URL            || (() => { throw new Error('REPO_URL env has to be set'); })();
+const pathToSshPrivateKey       = env.SSH_KEY_PATH        || '';
+const repoCommiterName          = env.REPO_COMMITER_NAME  || 'Starboard BOT';
+const repoCommiterEmail         = env.REPO_COMMITER_EMAIL || 'starboardbot@localhost';
+const remoteRepoSyncingInterval = env.SYNCING_INTERVAL    || 30;
+const pathToGitTempLocalRepo    = env.LOCAL_REPO_DIR      || '.tmp/tmpRepo/';
+const logger                    = env.DEBUG               && console
+
+const storage = new GitEventStorage({
+  remoteRepoUrl:       remoteRepoUrl,
+  pathToSshPrivateKey: pathToSshPrivateKey,
+  pathToTempLocalRepo: pathToGitTempLocalRepo,
+  commiterUsername:    repoCommiterName,
+  commiterEmail:       repoCommiterEmail,
+  syncingInterval:     remoteRepoSyncingInterval,
+  logger:              logger
+});
 
 new Starboard({
-  port:                       env.PORT                || 8081,
-  remoteRepoUrl:              env.REPO_URL            || (() => { throw new Error('REPO_URL env has to be set'); })(),
-  pathToSshPrivateKey:        env.SSH_KEY_PATH        || '',
-  repoCommiterName:           env.REPO_COMMITER_NAME  || 'Starboard BOT',
-  repoCommiterEmail:          env.REPO_COMMITER_EMAIL || 'starboardbot@localhost',
-  remoteRepoSyncingInterval:  env.SYNCING_INTERVAL    || 30,
-  tempDir:                    env.TEMP_DIR            || '.tmp',
-  logger:                     env.DEBUG               && console
+  port:         port,
+  uploadsDir:   pathToGitTempLocalRepo,
+  logger:       logger,
+  eventStorage: storage
 }).start();
