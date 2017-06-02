@@ -56,7 +56,7 @@ export default class Board extends React.Component {
     const columns = this.state.columns;
     return (
       <div className="board-wrapper">
-        <style>{this.themeStyler.generateCss()}</style>
+        <style>{this.themeStyler.generateStyle()}</style>
         <div className="board">
           <Topbar stateManager={this.stateManager} />
           <div className="bg-wrapper">

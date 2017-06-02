@@ -7,7 +7,7 @@ export default class SettingsRepository {
 
   availableColors() {
     return [
-      '#00e6ff', '#3CB500', '#FAD900', '#FF9F19', '#EB4646', '#A632DB', '#0079BF'
+      '#00E6FF', '#3CB500', '#FAD900', '#FF9F19', '#EB4646', '#A632DB', '#0079BF'
     ];
   }
 

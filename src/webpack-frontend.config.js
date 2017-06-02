@@ -28,8 +28,12 @@ module.exports = {
         loader: `file?name=[path][name].[ext]&context=${frontendDir}`
       },
       {
-        test: /\.jpe?g$|\.gif$|\.png$|\.svg$|\.woff$|\.ttf$/,
+        test: /\.jpe?g$|\.gif$|\.svg$|\.woff$|\.ttf$/,
         loader: `file?name=[path][name]-[hash:6].[ext]&context=${frontendDir}`
+      },
+      {
+        test: /\.png$/,
+        loader: `file?name=favicons/[name].[ext]&context=${frontendDir}`
       },
       {
         test: /\.s?css$/,
