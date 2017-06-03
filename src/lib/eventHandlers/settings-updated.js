@@ -1,6 +1,6 @@
 import { settingsUpdatedEventType } from '../event-definitions.js';
 
-export default class ColumnAdded {
+export default class SettingsUpdated {
   static forEvent() { return settingsUpdatedEventType; }
 
   constructor(currentState) {
