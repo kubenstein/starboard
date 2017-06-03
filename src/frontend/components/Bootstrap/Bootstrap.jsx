@@ -28,7 +28,7 @@ export default class Bootstrap extends React.Component {
   configureAppForLoggedInUser() {
     this.stateManager = new CurrentState({
       eventSource: new EventStorage(),
-      userEmail: loginEmail()
+      userId: loginEmail()
     });
   }
 

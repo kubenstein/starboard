@@ -33,8 +33,8 @@ export default class AddCommentForm extends React.Component {
       type: file.type,
       blob: file,
     };
-    const userEmail = this.stateManager.getUser().email;
-    this.repo.addComment(this.cardId, { attachment: attachmentInfo, authorId: userEmail }).then(() => {
+    const userId = this.stateManager.getUserId();
+    this.repo.addComment(this.cardId, { attachment: attachmentInfo, authorId: userId }).then(() => {
       this.setState({ uploadingAttachment: false });
     });
   }
@@ -43,8 +43,8 @@ export default class AddCommentForm extends React.Component {
     e.preventDefault();
     const { content } = serialize(this.form, { hash: true });
     if (content) {
-      const userEmail = this.stateManager.getUser().email;
-      this.repo.addComment(this.cardId, { content: content, authorId: userEmail }).then(() => {
+      const userId = this.stateManager.getUserId();
+      this.repo.addComment(this.cardId, { content: content, authorId: userId }).then(() => {
         this.clear();
       });
     }
