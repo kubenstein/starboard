@@ -8,7 +8,7 @@ import UserSession from 'components/Bootstrap/user-session.js';
 export default class Bootstrap extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { loggedIn: false };
+    this.state = { loggedIn: false, loginError: false };
     this.session = new UserSession();
 
     if (this.session.isLoggedIn()) {
@@ -21,7 +21,10 @@ export default class Bootstrap extends React.Component {
     this.session.login(email, password)
     .then(() => {
       this.configureAppForLoggedInUser();
-      this.setState({ loggedIn: true });
+      this.setState({ loggedIn: true, loginError: false });
+    })
+    .catch(() => {
+      this.setState({ loginError: true });
     });
   }
 
@@ -36,9 +39,13 @@ export default class Bootstrap extends React.Component {
   }
 
   render() {
-    return this.state.loggedIn ?
+    const { loggedIn, loginError } = this.state;
+    return loggedIn ?
       <Board stateManager={this.stateManager} />
     :
-      <Login onLogIn={(email, password) => { this.logIn(email, password); }} />;
+      <Login
+        displayError={loginError}
+        onLogIn={(email, password) => { this.logIn(email, password); }}
+      />;
   }
 }

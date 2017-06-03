@@ -35,6 +35,14 @@
 
   .btn-success {
     margin-right: 10px;
+    float: left;
+  }
+
+  .error-msg {
+    line-height: 30px;
+    color: $red;
+    text-align: right;
+    font-size: 15px;
   }
 }
 

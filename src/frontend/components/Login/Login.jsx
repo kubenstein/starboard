@@ -6,6 +6,11 @@ export default class Login extends React.Component {
   constructor(props) {
     super(props);
     this.onLogIn = this.props.onLogIn;
+    this.state = { displayError: this.props.displayError };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({ displayError: nextProps.displayError });
   }
 
   submit(e) {
@@ -17,6 +22,7 @@ export default class Login extends React.Component {
   }
 
   render() {
+    const { displayError } = this.state;
     return (
       <div className="login">
         <form
@@ -28,6 +34,9 @@ export default class Login extends React.Component {
           <input className="input" name="email" type="text" placeholder="Email..." />
           <input className="input" name="password" type="password" placeholder="password..." />
           <input className="btn btn-success" type="submit" value="login" />
+          { displayError &&
+            <p className="error-msg">Unable to log in with given credentials.</p>
+          }
         </form>
       </div>
     );
