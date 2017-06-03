@@ -5,13 +5,15 @@ export default class ServerEventStorage {
   constructor(params = {}) {
     const uri = params.uri || undefined; // same domain
     this.token = params.token;
+    this.queue = Promise.resolve();
     this.observers = [];
     this.addedEventIDs = []; // To have smooth adding flow,
                              // we notify on success add,
                              // and ignore that event comming back
                              // from server (via newEvent channel)
-    this.socket = io(uri, { token: this.token });
-    this.socket.on('newEvent', (event) => { this.onNewEventFromServer(event); });
+    this.socket = io(uri, { query: `token=${this.token}` });
+
+    this.start();
   }
 
   welcomeInfo() {
@@ -48,11 +50,28 @@ export default class ServerEventStorage {
 
   allPastEvents() {
     return new Promise((resolve, _reject) => {
-      this.socket.emit('getAllPastEvents', resolve);
+      this.queue = this.queue.then(() => {
+        this.socket.emit('getAllPastEvents', resolve);
+      });
     });
   }
 
   // private
+
+  start() {
+    this.queue = this.queue.then(() => {
+      return new Promise((resolve, _reject) => {
+        this.socket.on('accessGranted', () => {
+          this.startListeningForEvents();
+          resolve();
+        });
+      });
+    });
+  }
+
+  startListeningForEvents() {
+    this.socket.on('newEvent', (event) => { this.onNewEventFromServer(event); });
+  }
 
   onNewEventFromServer(event) {
     if (this.addedEventIDs.indexOf(event.id) === -1) {

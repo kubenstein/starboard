@@ -4,10 +4,10 @@ import express from 'express';
 import SocketIo from 'socket.io';
 import multer from 'multer';
 import bodyParser from 'body-parser';
-import uuid from 'uuid/v4';
 import StoreFileUsecase from 'lib/store-file-usecase.js';
 import CleanFilesUsecase from 'lib/clean-files-usecase.js';
 import CurrentState from 'lib/current-state.js';
+import AllowEveryoneAuth from 'lib/allow-everyone-auth.js';
 import NullLogger from 'lib/null-logger.js';
 import { hasToBeSet } from 'lib/utils.js';
 
@@ -17,6 +17,15 @@ export default class Server {
     this.serverPort   = params.port         || 8081;
     this.uploadsDir   = params.uploadsDir   || '.tmp/tmpUploads/';
     this.logger       = params.logger       || new NullLogger();
+    this.auth         = params.auth         || new AllowEveryoneAuth();
+
+    this.sockets           = [];
+    this.currentState      = new CurrentState({ eventSource: this.eventStorage });
+    this.storeFileUsecase  = new StoreFileUsecase(this.currentState, { storedFilesDir: this.uploadsDir });
+    this.cleanFilesUsecase = new CleanFilesUsecase(this.currentState, {
+      pathToStorage: this.uploadsDir,
+      fileNamePrefix: '/attachments/'
+    });
   }
 
   displayBanner() {
@@ -25,6 +34,7 @@ export default class Server {
     |
     | Starting Starboard...
     | ${this.eventStorage.welcomeInfo()}
+    | ${this.auth.welcomeInfo()}
     |
     | Board available at: http://localhost:${this.serverPort}/
     |
@@ -42,27 +52,6 @@ export default class Server {
     app.use(express.static(`${__dirname}/frontend/`));
     app.use(bodyParser.json());
 
-    const currentState = new CurrentState({ eventSource: this.eventStorage });
-
-    const storeFileUsecase = new StoreFileUsecase(currentState, {
-      storedFilesDir: this.uploadsDir
-    });
-    const cleanFilesUsecase = new CleanFilesUsecase(currentState, {
-      pathToStorage: this.uploadsDir,
-      fileNamePrefix: '/attachments/'
-    });
-
-    // ----------------- utils ----------------
-    const sockets = [];
-    const allClientsNotifier = {
-      onNewEvent: (newEvent) => {
-        sockets.forEach((socket) => {
-          socket.emit('newEvent', newEvent);
-        });
-      }
-    };
-    this.eventStorage.addObserver(allClientsNotifier);
-
 
     // ----------------- http -----------------
     app.get('/attachments/:fileName', (req, res) => {
@@ -73,33 +62,64 @@ export default class Server {
     });
 
     app.post('/attachments/', upload.single('attachment'), (req, res) => {
-      storeFileUsecase.addFile(req.file).then((fileName) => {
+      this.storeFileUsecase.addFile(req.file).then((fileName) => {
         res.send({ attachmentUrl: `/attachments/${fileName}` });
       });
     });
 
     app.post('/login/', (req, res) => {
-      res.send({ userId: req.body.email, token: uuid() });
+      const email = req.body.email;
+      const password = req.body.password;
+      this.auth.accept(email, password).then((authData) => {
+        res.send({ userId: authData.userId, token: authData.token });
+      }).catch(() => {
+        res.send(403, 'access denied');
+      });
     });
+
+
+    // ----------- websockets utils -----------
+    const allClientsNotifier = {
+      onNewEvent: (newEvent) => {
+        this.sockets.forEach((socket) => {
+          socket.emit('newEvent', newEvent);
+        });
+      }
+    };
+    this.eventStorage.addObserver(allClientsNotifier);
 
 
     // -------------- webSockets --------------
     io.on('connection', (socket) => {
-      sockets.push(socket);
-      socket.on('disconnect', () => {
-        sockets.splice(sockets.indexOf(socket), 1);
+      this.auth.allow(socket.handshake.query.token)
+      .then(() => {
+        this.configureSocket(socket);
+        socket.emit('accessGranted');
+      })
+      .catch(() => {
+        socket.emit('accessDenied');
+        socket.disconnect();
       });
+    });
+  }
 
-      socket.on('addEvent', (event, sendBack) => {
-        cleanFilesUsecase.cleanWhenNeeded(event);
-        sendBack(event);
-        this.eventStorage.addEvent(event);
-      });
+  // private
 
-      socket.on('getAllPastEvents', (sendBack) => {
-        this.eventStorage.allPastEvents().then((events) => {
-          sendBack(events);
-        });
+  configureSocket(socket) {
+    this.sockets.push(socket);
+    socket.on('disconnect', () => {
+      this.sockets.splice(this.sockets.indexOf(socket), 1);
+    });
+
+    socket.on('addEvent', (event, sendBack) => {
+      this.cleanFilesUsecase.cleanWhenNeeded(event);
+      sendBack(event);
+      this.eventStorage.addEvent(event);
+    });
+
+    socket.on('getAllPastEvents', (sendBack) => {
+      this.eventStorage.allPastEvents().then((events) => {
+        sendBack(events);
       });
     });
   }
