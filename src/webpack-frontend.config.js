@@ -59,6 +59,10 @@ module.exports = {
       '/attachments/**': {
         target: 'http://localhost:8081',
         secure: false
+      },
+      '/login/': {
+        target: 'http://localhost:8081',
+        secure: false
       }
     }
   },

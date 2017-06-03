@@ -3,6 +3,8 @@
 import express from 'express';
 import SocketIo from 'socket.io';
 import multer from 'multer';
+import bodyParser from 'body-parser';
+import uuid from 'uuid/v4';
 import StoreFileUsecase from 'lib/store-file-usecase.js';
 import CleanFilesUsecase from 'lib/clean-files-usecase.js';
 import CurrentState from 'lib/current-state.js';
@@ -38,6 +40,7 @@ export default class Server {
     const upload = multer({ dest: this.uploadsDir });
 
     app.use(express.static(`${__dirname}/frontend/`));
+    app.use(bodyParser.json());
 
     const currentState = new CurrentState({ eventSource: this.eventStorage });
 
@@ -73,6 +76,10 @@ export default class Server {
       storeFileUsecase.addFile(req.file).then((fileName) => {
         res.send({ attachmentUrl: `/attachments/${fileName}` });
       });
+    });
+
+    app.post('/login/', (req, res) => {
+      res.send({ userId: req.body.email, token: uuid() });
     });
 
 

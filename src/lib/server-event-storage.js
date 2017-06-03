@@ -4,12 +4,13 @@ import io from 'socket.io-client';
 export default class ServerEventStorage {
   constructor(params = {}) {
     const uri = params.uri || undefined; // same domain
+    this.token = params.token;
     this.observers = [];
     this.addedEventIDs = []; // To have smooth adding flow,
                              // we notify on success add,
                              // and ignore that event comming back
                              // from server (via newEvent channel)
-    this.socket = io(uri);
+    this.socket = io(uri, { token: this.token });
     this.socket.on('newEvent', (event) => { this.onNewEventFromServer(event); });
   }
 
@@ -34,6 +35,7 @@ export default class ServerEventStorage {
   addFile(fileBlob) {
     const data = new FormData();
     data.append('attachment', fileBlob);
+    data.append('token', this.token);
     return axios.post('/attachments/', data)
     .then((response) => {
       return response.data.attachmentUrl;
