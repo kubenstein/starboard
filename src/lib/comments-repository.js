@@ -1,5 +1,6 @@
 import {
   commentAddedEvent,
+  commentUpdatedEvent,
   commentRemovedEvent
 } from './event-definitions.js';
 
@@ -34,6 +35,11 @@ export default class CommentsRepository {
     }
 
     return this.addCommentWithoutAttachment(cardId, params);
+  }
+
+  updateComment(id, changes) {
+    const event = commentUpdatedEvent(id, changes);
+    return this.stateManager.addEvent(event);
   }
 
   removeComment(commentId) {

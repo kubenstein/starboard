@@ -130,6 +130,18 @@ export function commentAddedEvent(cardId, params) {
   };
 }
 
+export const commentUpdatedEventType = 'COMMENT_UPDATED';
+export function commentUpdatedEvent(commentId, changes) {
+  return {
+    type: commentUpdatedEventType,
+    data: {
+      commentId: commentId,
+      changes: changes
+    },
+    id: uuid()
+  };
+}
+
 export const commentRemovedEventType = 'COMMENT_REMOVED';
 export function commentRemovedEvent(commentId) {
   return {

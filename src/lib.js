@@ -1,5 +1,9 @@
 exports.Starboard = require('backend/server.js').default;
+exports.CurrentState = require('lib/current-state.js').default;
 exports.GitEventStorage = require('lib/git-event-storage.js').default;
 exports.MemoryEventStorage = require('lib/memory-event-storage.js').default;
 exports.MemoryEventStorageFactory = require('lib/memory-event-storage/factory.js').default;
 exports.ServerEventStorage = require('lib/server-event-storage.js').default;
+exports.CardsRepository = require('lib/cards-repository.js').default;
+exports.ColumnsRepository = require('lib/columns-repository.js').default;
+exports.CommentsRepository = require('lib/comments-repository.js').default;
