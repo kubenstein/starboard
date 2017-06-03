@@ -1,4 +1,4 @@
-import Cookies from 'js-cookie';
+import BrowserSettings from 'lib/browser-settings.js';
 
 export function alreadyLoggedIn() {
   const data = loginData();
@@ -6,13 +6,15 @@ export function alreadyLoggedIn() {
 }
 
 export function storeLoginData(username, email) {
-  Cookies.set('username', username);
-  Cookies.set('email', email);
+  const bs = new BrowserSettings();
+  bs.setCookie('username', username)
+    .setCookie('email', email);
 }
 
 export function loginData() {
+  const bs = new BrowserSettings();
   return {
-    username: Cookies.set('username'),
-    email: Cookies.set('email')
+    username: bs.cookie('username'),
+    email: bs.cookie('email')
   };
 }

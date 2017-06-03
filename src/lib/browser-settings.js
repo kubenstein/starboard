@@ -1,3 +1,4 @@
+import Cookies from 'js-cookie';
 import { currentTimestamp } from './utils.js';
 
 export default class BrowserSettings {
@@ -25,5 +26,14 @@ export default class BrowserSettings {
     link.rel = 'icon';
     link.href = `/favicons/favicon_${id}.png?refresher=${currentTimestamp()}`;
     document.getElementsByTagName('head')[0].appendChild(link);
+  }
+
+  cookie(name) {
+    return Cookies.get(name);
+  }
+
+  setCookie(name, value) {
+    Cookies.set(name, value);
+    return this;
   }
 }
