@@ -21,6 +21,10 @@ export default class CardComment extends React.Component {
     return attachment.type.indexOf('image') !== -1;
   }
 
+  authorName(authorId) {
+    return authorId;
+  }
+
   attachmentCommentHTML(comment) {
     return (
       <a href={comment.attachment.dataUrl} className="attachment" target="_blank" rel="noopener noreferrer">
@@ -38,7 +42,7 @@ export default class CardComment extends React.Component {
     const comment = this.comment;
     return (
       <div className="card-comment" key={comment.id}>
-        <span className="author">{comment.author.name}</span>
+        <span className="author">{this.authorName(comment.authorId)}</span>
         <span className="date">{formattedDate(comment.createdAt)}</span>
         <p className="content">
           { comment.attachment && this.attachmentCommentHTML(comment) }

@@ -103,8 +103,7 @@ export function commentAddedEvent(cardId, params) {
     attachmentSize,
     attachmentType,
     attachmentUrl,
-    authorName,
-    authorEmail
+    authorId
   } = params;
 
   let attachment = null;
@@ -124,10 +123,7 @@ export function commentAddedEvent(cardId, params) {
       cardId: cardId,
       content: content,
       attachment: attachment,
-      author: {
-        name: authorName,
-        email: authorEmail
-      },
+      authorId: authorId,
       createdAt: currentTimestamp()
     },
     id: uuid()

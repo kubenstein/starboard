@@ -45,14 +45,13 @@ export default class CommentsRepository {
   // private
 
   addCommentWithAttachment(cardId, params) {
-    const { content, attachment, author } = params;
+    const { content, attachment, authorId } = params;
 
     return this.stateManager.addFile(attachment.blob)
     .then((attachmentUrl) => {
       const event = commentAddedEvent(cardId, {
         content: content,
-        authorName: author.name,
-        authorEmail: author.email,
+        authorId: authorId,
         attachmentName: attachment.name,
         attachmentSize: attachment.size,
         attachmentType: attachment.type,
@@ -63,12 +62,11 @@ export default class CommentsRepository {
   }
 
   addCommentWithoutAttachment(cardId, params) {
-    const { content, author } = params;
+    const { content, authorId } = params;
 
     const event = commentAddedEvent(cardId, {
       content: content,
-      authorName: author.name,
-      authorEmail: author.email,
+      authorId: authorId,
     });
     return this.stateManager.addEvent(event);
   }
