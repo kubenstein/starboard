@@ -31,9 +31,9 @@ export default class Login extends React.Component {
           onSubmit={(e) => { this.submit(e); }}
         >
           <h1 className="title">Login:</h1>
-          <input className="input" name="email" type="text" placeholder="Email..." />
+          <input className="input" name="email" type="email" placeholder="Email..." />
           <input className="input" name="password" type="password" placeholder="password..." />
-          <input className="btn btn-success" type="submit" value="login" />
+          <input className="btn btn-success" type="submit" value="log in" />
           { displayError &&
             <p className="error-msg">Unable to log in with given credentials.</p>
           }
