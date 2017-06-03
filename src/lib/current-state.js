@@ -13,7 +13,7 @@ import CommentRemovedEventHandler from './eventHandlers/comment-removed.js';
 export default class CurrentState {
   constructor(params) {
     this.eventStorage = params.eventSource;
-    this.user = params.user;
+    this.userEmail = params.userEmail;
     this.observers = [];
     this.data = {};
     this.eventHandlers = {};
@@ -52,8 +52,8 @@ export default class CurrentState {
     return this.eventStorage.removeFile(fileName);
   }
 
-  getUser() {
-    return this.user;
+  getUserEmail() {
+    return this.userEmail;
   }
 
   bucket(name) {

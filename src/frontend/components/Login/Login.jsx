@@ -10,9 +10,9 @@ export default class Login extends React.Component {
 
   submit(e) {
     e.preventDefault();
-    const { username, email } = serialize(this.formElement, { hash: true });
-    if (username && email) {
-      this.onLogIn(username, email);
+    const { email } = serialize(this.formElement, { hash: true });
+    if (email) {
+      this.onLogIn(email);
     }
   }
 
@@ -25,7 +25,6 @@ export default class Login extends React.Component {
           onSubmit={(e) => { this.submit(e); }}
         >
           <h1 className="title">Set your Identity:</h1>
-          <input className="input" name="username" type="text" placeholder="User name..." />
           <input className="input" name="email" type="text" placeholder="Email..." />
           <input className="btn btn-success" type="submit" value="login" />
         </form>

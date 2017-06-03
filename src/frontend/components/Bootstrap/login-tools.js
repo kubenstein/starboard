@@ -1,20 +1,15 @@
 import BrowserSettings from 'lib/browser-settings.js';
 
 export function alreadyLoggedIn() {
-  const data = loginData();
-  return (data.username && data.email);
+  return (loginEmail() !== undefined);
 }
 
-export function storeLoginData(username, email) {
+export function storeLoginEmail(email) {
   const bs = new BrowserSettings();
-  bs.setCookie('username', username)
-    .setCookie('email', email);
+  bs.setCookie('email', email);
 }
 
-export function loginData() {
+export function loginEmail() {
   const bs = new BrowserSettings();
-  return {
-    username: bs.cookie('username'),
-    email: bs.cookie('email')
-  };
+  return bs.cookie('email');
 }

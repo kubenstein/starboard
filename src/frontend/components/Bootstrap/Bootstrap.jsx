@@ -5,8 +5,8 @@ import Board from 'components/Board/Board.jsx';
 import Login from 'components/Login/Login.jsx';
 import {
   alreadyLoggedIn,
-  storeLoginData,
-  loginData
+  storeLoginEmail,
+  loginEmail
 } from 'components/Bootstrap/login-tools.js';
 
 export default class Bootstrap extends React.Component {
@@ -19,21 +19,16 @@ export default class Bootstrap extends React.Component {
     }
   }
 
-  logIn(username, email) {
-    storeLoginData(username, email);
+  logIn(email) {
+    storeLoginEmail(email);
     this.configureAppForLoggedInUser();
     this.setState({ loggedIn: true });
   }
 
   configureAppForLoggedInUser() {
-    const user = loginData();
-
     this.stateManager = new CurrentState({
       eventSource: new EventStorage(),
-      user: {
-        name: user.username,
-        email: user.email
-      }
+      userEmail: loginEmail()
     });
   }
 
@@ -41,6 +36,6 @@ export default class Bootstrap extends React.Component {
     return this.state.loggedIn ?
       <Board stateManager={this.stateManager} />
     :
-      <Login onLogIn={(user, email) => { this.logIn(user, email); }} />;
+      <Login onLogIn={(email) => { this.logIn(email); }} />;
   }
 }
