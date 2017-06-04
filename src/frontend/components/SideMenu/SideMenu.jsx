@@ -1,6 +1,7 @@
 import React from 'react';
 import EditableInput from 'components/EditableInput/EditableInput.jsx';
 import SettingsRepository from 'lib/settings-repository.js';
+import UserLogoutUsecase from 'lib/user-logout-usecase.js';
 import 'components/SideMenu/side-menu.scss';
 
 export default class SideMenu extends React.Component {
@@ -22,10 +23,23 @@ export default class SideMenu extends React.Component {
     this.repo.setTextForLabel(color, value);
   }
 
+  logout() {
+    new UserLogoutUsecase().logout();
+  }
+
   render() {
     const availableColors = this.repo.availableColors();
     return (
       <div className="side-menu">
+        <div className="section user-section">
+          <h3 className="section-title">User:</h3>
+          <input
+            className="btn-link btn-small btn-logout"
+            type="button"
+            value="log out"
+            onClick={() => { this.logout(); }}
+          />
+        </div>
         <div className="section">
           <h3 className="section-title">Board Color:</h3>
           <ul className="color-picker">

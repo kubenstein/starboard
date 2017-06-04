@@ -1,5 +1,5 @@
 import axios from 'axios';
-import BrowserSettings from 'lib/browser-settings.js';
+import BrowserSettings from './browser-settings.js';
 
 export default class UserSession {
   constructor() {
@@ -26,5 +26,11 @@ export default class UserSession {
       .setCookie('userId', r.userId)
       .setCookie('token', r.token);
     });
+  }
+
+  logout() {
+    this.browserSettings
+    .setCookie('userId', undefined)
+    .setCookie('token', undefined);
   }
 }

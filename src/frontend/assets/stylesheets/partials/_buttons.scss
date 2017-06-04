@@ -41,6 +41,9 @@
 .btn-link {
   color: $grey;
   cursor: pointer;
+  background-color: transparent;
+  border-color: transparent;
+  box-shadow: none;
 
   &:hover {
     text-decoration: underline;

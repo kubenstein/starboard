@@ -3,7 +3,7 @@ import CurrentState from 'lib/current-state.js';
 import ServerEventStorage from 'lib/server-event-storage.js';
 import Board from 'components/Board/Board.jsx';
 import Login from 'components/Login/Login.jsx';
-import UserSession from 'components/Bootstrap/user-session.js';
+import UserSession from 'lib/user-session.js';
 
 export default class Bootstrap extends React.Component {
   constructor(props) {

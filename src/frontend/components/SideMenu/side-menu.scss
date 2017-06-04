@@ -17,6 +17,16 @@
     font-size: 16px;
     margin-bottom: 10px;
   }
+
+  .section.user-section {
+    .section-title {
+      float: left;
+    }
+
+    .btn-logout {
+      float: right;
+    }
+  }
 }
 
 .color-picker {

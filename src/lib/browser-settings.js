@@ -16,6 +16,10 @@ export default class BrowserSettings {
     window.location = '#';
   }
 
+  reloadPage() {
+    window.location = '/';
+  }
+
   setTitle(title) {
     document.title = title;
   }
@@ -33,7 +37,11 @@ export default class BrowserSettings {
   }
 
   setCookie(name, value) {
-    Cookies.set(name, value);
+    if (value) {
+      Cookies.set(name, value);
+    } else {
+      Cookies.remove(name);
+    }
     return this;
   }
 }
