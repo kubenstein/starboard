@@ -1,6 +1,6 @@
 export default class AllowEveryoneAuth {
   welcomeInfo() {
-    return `Auth: allow everyone`;
+    return 'Auth: allow everyone';
   }
 
   accept(email, _password) {
