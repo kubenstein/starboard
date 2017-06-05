@@ -5,6 +5,7 @@ export default class EditableInput extends React.Component {
   constructor(props) {
     super(props);
     this.value = this.props.value || '';
+    this.placeholder = this.props.placeholder || '';
     this.type = this.props.type;
     this.otherCssClasses = this.props.className || '';
     this.changeCallback = this.props.onChange;
@@ -56,6 +57,7 @@ export default class EditableInput extends React.Component {
       <textarea
         className={this.cssClasses()}
         value={value}
+        placeholder={this.placeholder}
         ref={(e) => { this.input = e; }}
         onBlur={() => { this.onBlur(); }}
         onFocus={() => { this.onFocus(); }}
@@ -70,6 +72,7 @@ export default class EditableInput extends React.Component {
         type="text"
         className={this.cssClasses()}
         value={value}
+        placeholder={this.placeholder}
         ref={(e) => { this.input = e; }}
         onBlur={() => { this.onBlur(); }}
         onFocus={() => { this.onFocus(); }}

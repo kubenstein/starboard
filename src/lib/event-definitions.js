@@ -185,3 +185,15 @@ export function settingsUpdatedEvent(key, value) {
     id: uuid()
   };
 }
+
+export const userUpdatedEventType = 'USER_UPDATED';
+export function userUpdatedEvent(userId, changes) {
+  return {
+    type: userUpdatedEventType,
+    data: {
+      id: userId,
+      changes: changes
+    },
+    id: uuid()
+  };
+}

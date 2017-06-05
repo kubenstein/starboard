@@ -1,5 +1,6 @@
 import React from 'react';
 import CommentsRepository from 'lib/comments-repository.js';
+import UsersRepository from 'lib/users-repository.js';
 import { formattedDate } from 'lib/utils.js';
 import 'components/CardComment/card-comment.scss';
 
@@ -9,6 +10,7 @@ export default class CardComment extends React.Component {
     this.comment = this.props.comment;
     this.stateManager = this.props.stateManager;
     this.commentsRepo = new CommentsRepository(this.stateManager);
+    this.usersRepo = new UsersRepository(this.stateManager);
   }
 
   removeComment(commentId) {
@@ -22,7 +24,7 @@ export default class CardComment extends React.Component {
   }
 
   authorName(authorId) {
-    return authorId;
+    return this.usersRepo.userNickname(authorId) || authorId;
   }
 
   attachmentCommentHTML(comment) {

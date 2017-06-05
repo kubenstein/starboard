@@ -19,6 +19,7 @@
   }
 
   .section.user-section {
+    text-align: center;
     .section-title {
       float: left;
     }
@@ -26,6 +27,17 @@
     .btn-logout {
       float: right;
     }
+  }
+
+  .input-nickname {
+    text-align: center;
+    font-size: 12px;
+    font-weight: normal;
+  }
+
+  .user-id {
+    color: $grey;
+    font-size: 10px;
   }
 }
 

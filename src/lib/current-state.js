@@ -9,6 +9,7 @@ import CardLabelUpdatedEventHandler from './eventHandlers/card-label-updated.js'
 import CommentAddedEventHandler from './eventHandlers/comment-added.js';
 import CommentUpdatedEventHandler from './eventHandlers/comment-updated.js';
 import CommentRemovedEventHandler from './eventHandlers/comment-removed.js';
+import UserUpdatedEventHandler from './eventHandlers/user-updated.js';
 
 export default class CurrentState {
   constructor(params) {
@@ -29,7 +30,8 @@ export default class CurrentState {
       CardLabelUpdatedEventHandler,
       CommentAddedEventHandler,
       CommentUpdatedEventHandler,
-      CommentRemovedEventHandler
+      CommentRemovedEventHandler,
+      UserUpdatedEventHandler
     ]);
 
     this.eventStorage.addObserver(this);
