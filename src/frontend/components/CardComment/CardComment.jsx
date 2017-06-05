@@ -23,8 +23,9 @@ export default class CardComment extends React.Component {
     return attachment.type.indexOf('image') !== -1;
   }
 
-  authorName(authorId) {
-    return this.usersRepo.userNickname(authorId) || authorId;
+  authorNameHtml(authorId) {
+    const nickname = this.usersRepo.userNickname(authorId) || authorId;
+    return <span className="author" title={authorId}>{nickname}</span>;
   }
 
   attachmentCommentHTML(comment) {
@@ -44,7 +45,7 @@ export default class CardComment extends React.Component {
     const comment = this.comment;
     return (
       <div className="card-comment" key={comment.id}>
-        <span className="author">{this.authorName(comment.authorId)}</span>
+        {this.authorNameHtml(comment.authorId)}
         <span className="date">{formattedDate(comment.createdAt)}</span>
         <p className="content">
           { comment.attachment && this.attachmentCommentHTML(comment) }
