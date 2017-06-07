@@ -27,7 +27,7 @@ export default class Topbar extends React.Component {
     return (
       <div className="topbar">
         <EditableInput
-          className="boardName"
+          className="board-name"
           value={boardName}
           onChange={(value) => { this.updateBoardName(value); }}
         />

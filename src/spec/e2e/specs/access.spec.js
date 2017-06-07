@@ -2,8 +2,8 @@ const expect = require('chai').expect;
 const server = require('../components.js').server;
 
 describe('User', () => {
-  before(() => { return server.start(); });
-  after(() => { return server.stop(); });
+  before(() => { server.start(); });
+  after(() => { server.stop(); });
   afterEach(() => { browser.deleteCookie(); });
 
   it('can log in', () => {

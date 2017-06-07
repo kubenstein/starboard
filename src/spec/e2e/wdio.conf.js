@@ -1,5 +1,17 @@
 /* eslint-disable */
-
+//
+//
+//
+// In case of error:
+// "ERROR: The driver executable does not exist: **/node_projects/starboard/node_modules/selenium-standalone/.selenium/chromedriver/2.27-x64-chromedriver
+//
+// run:
+// ./node_modules/selenium-standalone/bin/selenium-standalone install
+//
+//
+//
+//
+//
 const chai = require('chai');
 
 exports.config = {
@@ -19,6 +31,7 @@ exports.config = {
   exclude: [
     // 'path/to/excluded/files'
   ],
+  maxInstances: 1,
   //
   // ============
   // Capabilities
@@ -38,7 +51,7 @@ exports.config = {
   // Services take over a specfic job you don't want to take care of. They enhance
   // your test setup with almost no self effort. Unlike plugins they don't add new
   // commands but hook themself up into the test process.
-  services: ['selenium-standalone'], // selenium-standalone / phantomjs
+  services: [], // '' / phantomjs
   //
   // Level of logging verbosity: silent | verbose | command | data | result | error
   // logLevel: 'verbose',
@@ -51,7 +64,7 @@ exports.config = {
   //
   // Set a base URL in order to shorten url command calls. If your url parameter starts
   // with "/", the base url gets prepended.
-  baseUrl: 'http://localhost:' + process.env.PORT,
+  baseUrl: 'http://localhost:4444',
   //
   // Default timeout for all waitForXXX commands.
   waitforTimeout: 10000,
