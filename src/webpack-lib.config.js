@@ -1,5 +1,7 @@
 const fs = require('fs');
+const WebpackCleanupPlugin = require('webpack-cleanup-plugin');
 
+const env = process.env.NODE_ENV;
 const srcDir = __dirname;
 const rootDir = `${srcDir}/../`;
 const backendDir = `${srcDir}/backend/`;
@@ -12,10 +14,20 @@ fs.readdirSync('node_modules')
 
 let entry;
 let output;
-if (process.env.NODE_ENV === 'production') {
+if (env === 'production') {
   entry = `${srcDir}/lib.js`;
   output = {
     path: `${rootDir}/dist/`,
+    publicPath: '/',
+    filename: 'starboard.js',
+    library: 'starboard',
+    libraryTarget: 'umd',
+    umdNamedDefine: true
+  };
+} else if (env === 'test') {
+  entry = `${srcDir}/lib.js`;
+  output = {
+    path: `${rootDir}/.tmp/specs/src/`,
     publicPath: '/',
     filename: 'starboard.js',
     library: 'starboard',
@@ -60,5 +72,9 @@ module.exports = {
     ]
   },
 
-  externals: nodeModules
+  externals: nodeModules,
+
+  plugins: [
+    new WebpackCleanupPlugin()
+  ]
 };

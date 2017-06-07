@@ -1,15 +1,24 @@
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const WebpackCleanupPlugin = require('webpack-cleanup-plugin');
 
+const env = process.env.NODE_ENV;
 const srcDir = __dirname;
 const rootDir = `${srcDir}/../`;
 const frontendDir = `${srcDir}/frontend/`;
+
+let path;
+if (env === 'production') {
+  path = `${rootDir}/dist/frontend`;
+} else if (env === 'test') {
+  path = `${rootDir}/.tmp/specs/src/frontend`;
+}
 
 module.exports = {
   entry: `${frontendDir}/index.jsx`,
 
   output: {
-    path: `${rootDir}/dist/frontend`,
+    path: path,
     publicPath: '/',
     filename: 'bundle.js'
   },
@@ -68,8 +77,9 @@ module.exports = {
   },
 
   stats: { children: false },
-  plugins: process.env.NODE_ENV === 'production' ? [
+  plugins: (env === 'production' || env === 'test') ? [
     new ExtractTextPlugin('application.css'),
+    new WebpackCleanupPlugin(),
     new webpack.optimize.DedupePlugin(),
     new webpack.optimize.OccurrenceOrderPlugin(),
     new webpack.optimize.UglifyJsPlugin({
@@ -79,10 +89,11 @@ module.exports = {
     }),
     new webpack.DefinePlugin({
       'process.env': {
-        NODE_ENV: JSON.stringify(process.env.NODE_ENV),
+        NODE_ENV: JSON.stringify('production'),
       },
     })
   ] : [
     new ExtractTextPlugin('application.css'),
+    new WebpackCleanupPlugin()
   ],
 };

@@ -21,9 +21,12 @@
     "dev:db:create": "node ./src/scripts/db-create-development.js",
     "dev:db:clear": "./src/scripts/wipe-development-db.sh",
     "dev:localRelease": "./src/scripts/local-release.sh",
-    "build": "rm -rf ./dist && npm run build:lib && npm run build:frontend",
-    "build:frontend": "NODE_ENV=production webpack -p --config ./src/webpack-frontend.config.js",
-    "build:lib": "NODE_ENV=production webpack --config ./src/webpack-lib.config.js"
+    "specs:e2e": "npm run specs:build && wdio ./src/spec/e2e/wdio.conf.js",
+    "specs:e2e-without-rebuild": "wdio ./src/spec/e2e/wdio.conf.js",
+    "specs:build": "NODE_ENV=test npm run build:lib && NODE_ENV=test npm run build:frontend",
+    "build": "NODE_ENV=production npm run build:lib && NODE_ENV=production npm run build:frontend",
+    "build:frontend": "webpack -p --config ./src/webpack-frontend.config.js",
+    "build:lib": "webpack --config ./src/webpack-lib.config.js"
   },
   "dependencies": {
     "body-parser": "^1.17.2",
@@ -43,6 +46,7 @@
     "babel-preset-stage-0": "^6.16.0",
     "blessed": "^0.1.81",
     "blessed-contrib": "^4.7.5",
+    "chai": "^3.5.0",
     "css-loader": "^0.26.1",
     "dragula": "^3.7.2",
     "es6-promise": "^4.1.0",
@@ -56,14 +60,22 @@
     "file-loader": "^0.11.1",
     "form-serialize": "^0.7.1",
     "js-cookie": "^2.1.4",
+    "mocha": "^3.4.2",
     "node-sass": "^4.0.0",
     "nodemon": "^1.11.0",
+    "phantomjs-prebuilt": "^2.1.14",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
     "sass-loader": "^4.1.0",
     "socket.io-client": "^2.0.1",
     "style-loader": "^0.13.1",
+    "wdio-mocha-framework": "^0.5.10",
+    "wdio-phantomjs-service": "^0.2.2",
+    "wdio-selenium-standalone-service": "0.0.7",
+    "wdio-spec-reporter": "0.1.0",
+    "webdriverio": "^4.8.0",
     "webpack": "^1.13.3",
+    "webpack-cleanup-plugin": "^0.5.1",
     "webpack-dev-server": "^1.16.2"
   }
 }

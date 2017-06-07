@@ -28,6 +28,8 @@
   },
   "globals": {
     "browser": true,
+    "before": true,
+    "after": true,
     "$": true
   }
 }

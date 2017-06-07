@@ -18,7 +18,9 @@ export default class Server {
     this.uploadsDir   = params.uploadsDir   || '.tmp/tmpUploads/';
     this.logger       = params.logger       || new NullLogger();
     this.auth         = params.auth         || new AllowEveryoneAuth();
+    this.noBanner     = params.noBanner     || false;
 
+    this.server            = null;
     this.sockets           = [];
     this.currentState      = new CurrentState({ eventSource: this.eventStorage });
     this.storeFileUsecase  = new StoreFileUsecase(this.currentState, { storedFilesDir: this.uploadsDir });
@@ -42,12 +44,16 @@ export default class Server {
   }
 
   start() {
-    this.displayBanner();
+    if (!this.noBanner) {
+      this.displayBanner();
+    }
 
     const app    = express();
     const server = app.listen(this.serverPort);
     const io     = SocketIo(server);
     const upload = multer({ dest: this.uploadsDir });
+
+    this.server = server;
 
     app.use(express.static(`${__dirname}/frontend/`));
     app.use(bodyParser.json());
@@ -101,6 +107,11 @@ export default class Server {
         socket.disconnect();
       });
     });
+  }
+
+  stop() {
+    this.server.close();
+    this.server = null;
   }
 
   // private
