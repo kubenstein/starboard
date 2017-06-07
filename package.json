@@ -26,7 +26,6 @@
     "build:lib": "NODE_ENV=production webpack --config ./src/webpack-lib.config.js"
   },
   "dependencies": {
-    "axios": "^0.16.1",
     "body-parser": "^1.17.2",
     "express": "^4.15.2",
     "mkdirp": "^0.5.1",
@@ -35,6 +34,7 @@
     "uuid": "^3.0.1"
   },
   "devDependencies": {
+    "axios": "^0.16.1",
     "babel": "^6.5.2",
     "babel-core": "^6.18.2",
     "babel-loader": "^6.2.8",
