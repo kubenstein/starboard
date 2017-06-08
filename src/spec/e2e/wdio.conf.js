@@ -51,7 +51,7 @@ exports.config = {
   // Services take over a specfic job you don't want to take care of. They enhance
   // your test setup with almost no self effort. Unlike plugins they don't add new
   // commands but hook themself up into the test process.
-  services: [], // '' / phantomjs
+  services: ['selenium-standalone'], // '' / phantomjs
   //
   // Level of logging verbosity: silent | verbose | command | data | result | error
   // logLevel: 'verbose',

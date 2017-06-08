@@ -19,15 +19,40 @@ describe('Board', () => {
     userCanSeeBoardTitle('dev board');
   });
 
-  // private
+  it('properly keeps a user id', () => {
+    whenOpenSideMenu();
+    userCanSee('test@test.pl');
+  });
 
-  function userCantSeeBoardTitle(text) {
-    userCanNotSee(text);
-  }
+  it('properly keeps a user nickname', () => {
+    whenVisitingMainPage();
+    whenOpenSideMenu();
+    whenUserSetNickname('Kuba');
+    userCanSeeNickname('Kuba');
+  });
+
+  // private
 
   function whenUserSetBoardTitle(text) {
     browser.setValue('input.board-name', text);
     browser.keys(["Enter"]);
+  }
+
+  function whenOpenSideMenu() {
+    const sidemenuTrigger = browser.$('.side-menu-trigger');
+    sidemenuTrigger.click();
+  }
+
+  function whenUserSetNickname(text) {
+    browser.setValue('input.input-nickname', text);
+    browser.keys(["Enter"]);
+  }
+
+  function userCanSeeNickname(text) {
+    browser.url('/');
+    whenOpenSideMenu();
+    const nickname = browser.getValue('input.input-nickname');
+    expect(nickname).to.eq(text);
   }
 
   function userCanSeeBoardTitle(text) {
@@ -36,6 +61,9 @@ describe('Board', () => {
     expect(boardName).to.eq(text);
   }
 
+  function userCantSeeBoardTitle(text) {
+    userCanNotSee(text);
+  }
 
   // utils
 

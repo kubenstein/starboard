@@ -34,10 +34,14 @@ describe('User', () => {
   }
 
   function whenClickingLogout() {
-    const sidemenuTrigger = browser.$('.side-menu-trigger');
-    sidemenuTrigger.click();
+    whenOpenSideMenu();
     const logoutButton = browser.$('.btn-logout');
     logoutButton.click();
+  }
+
+  function whenOpenSideMenu() {
+    const sidemenuTrigger = browser.$('.side-menu-trigger');
+    sidemenuTrigger.click();
   }
 
   function userCanSeeLoginPage() {
