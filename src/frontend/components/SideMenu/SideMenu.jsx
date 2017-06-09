@@ -33,6 +33,16 @@ export default class SideMenu extends React.Component {
     new UserLogoutUsecase().logout();
   }
 
+  labelCssClasses(color) {
+    const labelId = color.replace('#', '');
+    return `label-input-${labelId}`;
+  }
+
+  colorPickerCssClasses(color) {
+    const pickerId = color.replace('#', '');
+    return `color theme-color-picker-input-${pickerId}`;
+  }
+
   render() {
     const availableColors = this.settingsRepo.availableColors();
     const userId = this.usersRepo.currentUserId();
@@ -63,8 +73,8 @@ export default class SideMenu extends React.Component {
               <li
                 key={color}
                 style={{ backgroundColor: color }}
+                className={this.colorPickerCssClasses(color)}
                 onClick={() => { this.updateThemeColor(color); }}
-                className="color"
               />
             )}
           </ul>
@@ -76,6 +86,7 @@ export default class SideMenu extends React.Component {
             { availableColors.map(color =>
               <div key={color} className="label" style={{ backgroundColor: color }}>
                 <EditableInput
+                  className={this.labelCssClasses(color)}
                   value={this.textForLabel(color)}
                   onChange={(value) => { this.updateLabelText(color, value); }}
                 />

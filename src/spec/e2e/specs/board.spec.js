@@ -24,13 +24,35 @@ describe('Board', () => {
     userCanSee('test@test.pl');
   });
 
-  it('properly keeps a user nickname', () => {
+  it('allows to change user nickname', () => {
     whenVisitingMainPage();
     whenOpenSideMenu();
     whenUserSetNickname('Kuba');
     userCanSeeNickname('Kuba');
   });
 
+  it('allows to change label texts', () => {
+    const labelsToSet = [
+      { color: '3CB500', value: 'label-green'},
+      { color: 'FF9F19', value: 'label-orange'},
+      { color: '0079BF', value: 'label-blue'}
+    ];
+    whenVisitingMainPage();
+    whenOpenSideMenu();
+    whenUserSetLabels(labelsToSet);
+    userCanSeeLabels(labelsToSet);
+  });
+
+  it('allows to change theme color', () => {
+    const color = {
+      hex: '0079BF',
+      rgba: 'rgba(0, 121, 191, 1)'
+    };
+    whenVisitingMainPage();
+    whenOpenSideMenu();
+    whenUserChangeThemeColor(color.hex);
+    userCanSeeBoardInColor(color.rgba);
+  });
   // private
 
   function whenUserSetBoardTitle(text) {
@@ -46,6 +68,35 @@ describe('Board', () => {
   function whenUserSetNickname(text) {
     browser.setValue('input.input-nickname', text);
     browser.keys(["Enter"]);
+  }
+
+  function whenUserSetLabels(labelsToSet) {
+    labelsToSet.forEach((labelData) => {
+      const cssSelector = `input.label-input-${labelData.color}`;
+      browser.setValue(cssSelector, labelData.value);
+      browser.keys(["Enter"]);
+    });
+  }
+
+  function whenUserChangeThemeColor(colorInHex) {
+    const colorTrigger = browser.$(`.theme-color-picker-input-${colorInHex}`);
+    colorTrigger.click();
+  }
+
+  function userCanSeeBoardInColor(colorInRgba) {
+    const board = browser.$('.board');
+    const themeColor = browser.elementIdCssProperty(board.element().value.ELEMENT, 'background-color');
+    expect(themeColor.value).to.eq(colorInRgba);
+  }
+
+  function userCanSeeLabels(setLabels) {
+    browser.url('/');
+    whenOpenSideMenu();
+    setLabels.forEach((labelData) => {
+      const cssSelector = `input.label-input-${labelData.color}`;
+      const label = browser.getValue(cssSelector);
+      expect(label).to.eq(labelData.value);
+    });
   }
 
   function userCanSeeNickname(text) {
