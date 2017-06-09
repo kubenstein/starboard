@@ -1,37 +1,39 @@
 const expect = require('chai').expect;
 module.exports = function() {
-  this.whenVisitingMainPage = function() {
+  this.when = this.and = this.then = when = and = then = this;
+
+  when.visitingMainPage = function() {
     browser.url('/');
   }
 
-  this.whenLogingIn = function(email, password) {
+  when.logingIn = function(email, password) {
     browser.setValue('input[name=email]', email);
     browser.setValue('input[name=password]', password);
     browser.$('.btn').click();
   }
 
-  this.whenClickingLogout = function() {
-    whenOpenSideMenu();
+  when.clickingLogout = function() {
+    openingSideMenu();
     const logoutButton = browser.$('.btn-logout');
     logoutButton.click();
   }
 
-  this.whenOpenSideMenu = function() {
+  when.openingSideMenu = function() {
     const sidemenuTrigger = browser.$('.side-menu-trigger');
     sidemenuTrigger.click();
   }
 
-  this.whenUserSetBoardTitle = function(text) {
+  when.settingBoardTitle = function(text) {
     browser.setValue('input.board-name', text);
     browser.keys(["Enter"]);
   }
 
-  this.whenUserSetNickname = function(text) {
+  when.settingNickname = function(text) {
     browser.setValue('input.input-nickname', text);
     browser.keys(["Enter"]);
   }
 
-  this.whenUserSetLabels = function(labelsToSet) {
+  when.settingLabels = function(labelsToSet) {
     labelsToSet.forEach((labelData) => {
       const cssSelector = `input.label-input-${labelData.color}`;
       browser.setValue(cssSelector, labelData.value);
@@ -39,21 +41,20 @@ module.exports = function() {
     });
   }
 
-  this.whenUserChangeThemeColor = function(colorInHex) {
+  when.changingThemeColor = function(colorInHex) {
     const colorTrigger = browser.$(`.theme-color-picker-input-${colorInHex}`);
     colorTrigger.click();
   }
 
-
-this.userCanSeeBoardInColor = function(colorInRgba) {
+  then.userCanSeeBoardInColor = function(colorInRgba) {
     const board = browser.$('.board');
     const themeColor = browser.elementIdCssProperty(board.element().value.ELEMENT, 'background-color');
     expect(themeColor.value).to.eq(colorInRgba);
   }
 
-  this.userCanSeeLabels = function(setLabels) {
-    browser.url('/');
-    whenOpenSideMenu();
+  then.userCanSeeLabels = function(setLabels) {
+    when.visitingMainPage();
+    and.openingSideMenu();
     setLabels.forEach((labelData) => {
       const cssSelector = `input.label-input-${labelData.color}`;
       const label = browser.getValue(cssSelector);
@@ -61,36 +62,36 @@ this.userCanSeeBoardInColor = function(colorInRgba) {
     });
   }
 
-  this.userCanSeeNickname = function(text) {
-    browser.url('/');
-    whenOpenSideMenu();
+  then.userCanSeeNickname = function(text) {
+    when.visitingMainPage();
+    and.openingSideMenu();
     const nickname = browser.getValue('input.input-nickname');
     expect(nickname).to.eq(text);
   }
 
-  this.userCanSeeBoardTitle = function(text) {
-    browser.url('/');
+  then.userCanSeeBoardTitle = function(text) {
+    when.visitingMainPage();
     const boardName = browser.getValue('input.board-name');
     expect(boardName).to.eq(text);
   }
 
-  this.userCantSeeBoardTitle = function(text) {
+  then.userCantSeeBoardTitle = function(text) {
     userCanNotSee(text);
   }
 
-  this.userCanSeeLoginPage = function() {
+  then.userCanSeeLoginPage = function() {
     userCanSee('Login:');
   }
 
-  this.userCanSeeBoard = function() {
+  then.userCanSeeBoard = function() {
     userCanSee('Add a Column...');
   }
 
-  this.userCanSee = function(text) {
+  then.userCanSee = function(text) {
     expect($('body').getText()).to.include(text);
   }
 
-  this.userCanNotSee = function(text) {
+  then.userCanNotSee = function(text) {
     expect($('body').getText()).not.to.include(text);
   }
 };

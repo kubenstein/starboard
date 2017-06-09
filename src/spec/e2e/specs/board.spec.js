@@ -15,19 +15,19 @@ describe('Board', () => {
 
   it('can have a title', () => {
     userCantSeeBoardTitle('dev board');
-    whenUserSetBoardTitle('dev board');
+    when.settingBoardTitle('dev board');
     userCanSeeBoardTitle('dev board');
   });
 
   it('properly keeps a user id', () => {
-    whenOpenSideMenu();
+    when.openingSideMenu();
     userCanSee('test@test.pl');
   });
 
   it('allows to change user nickname', () => {
-    whenVisitingMainPage();
-    whenOpenSideMenu();
-    whenUserSetNickname('Kuba');
+    when.visitingMainPage();
+    and.openingSideMenu();
+    and.settingNickname('Kuba');
     userCanSeeNickname('Kuba');
   });
 
@@ -37,9 +37,9 @@ describe('Board', () => {
       { color: 'FF9F19', value: 'label-orange'},
       { color: '0079BF', value: 'label-blue'}
     ];
-    whenVisitingMainPage();
-    whenOpenSideMenu();
-    whenUserSetLabels(labelsToSet);
+    when.visitingMainPage();
+    and.openingSideMenu();
+    and.settingLabels(labelsToSet);
     userCanSeeLabels(labelsToSet);
   });
 
@@ -48,9 +48,9 @@ describe('Board', () => {
       hex: '0079BF',
       rgba: 'rgba(0, 121, 191, 1)'
     };
-    whenVisitingMainPage();
-    whenOpenSideMenu();
-    whenUserChangeThemeColor(color.hex);
+    when.visitingMainPage();
+    and.openingSideMenu();
+    and.changingThemeColor(color.hex);
     userCanSeeBoardInColor(color.rgba);
   });
 });

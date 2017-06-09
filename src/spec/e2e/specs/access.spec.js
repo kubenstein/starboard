@@ -7,16 +7,16 @@ describe('User', () => {
   afterEach(() => { browser.deleteCookie(); });
 
   it('can log in', () => {
-    whenVisitingMainPage();
+    when.visitingMainPage();
     userCanSeeLoginPage();
-    whenLogingIn('test@test.pl', 'abcd');
+    when.logingIn('test@test.pl', 'abcd');
     userCanSeeBoard();
   });
 
   it('can log out', () => {
-    whenVisitingMainPage();
-    whenLogingIn('test@test.pl', 'abcd');
-    whenClickingLogout();
+    when.visitingMainPage();
+    and.logingIn('test@test.pl', 'abcd');
+    and.clickingLogout();
     userCanSeeLoginPage();
   });
 });
