@@ -1,6 +1,6 @@
-const expect = require('chai').expect;
 const server = require('../components.js').server;
-const login = require('./support.js').login;
+const login = require('./support/utils.js').login;
+require('./support/steps.js')();
 
 describe('Board', () => {
   before(() => {
@@ -53,86 +53,4 @@ describe('Board', () => {
     whenUserChangeThemeColor(color.hex);
     userCanSeeBoardInColor(color.rgba);
   });
-  // private
-
-  function whenUserSetBoardTitle(text) {
-    browser.setValue('input.board-name', text);
-    browser.keys(["Enter"]);
-  }
-
-  function whenOpenSideMenu() {
-    const sidemenuTrigger = browser.$('.side-menu-trigger');
-    sidemenuTrigger.click();
-  }
-
-  function whenUserSetNickname(text) {
-    browser.setValue('input.input-nickname', text);
-    browser.keys(["Enter"]);
-  }
-
-  function whenUserSetLabels(labelsToSet) {
-    labelsToSet.forEach((labelData) => {
-      const cssSelector = `input.label-input-${labelData.color}`;
-      browser.setValue(cssSelector, labelData.value);
-      browser.keys(["Enter"]);
-    });
-  }
-
-  function whenUserChangeThemeColor(colorInHex) {
-    const colorTrigger = browser.$(`.theme-color-picker-input-${colorInHex}`);
-    colorTrigger.click();
-  }
-
-  function userCanSeeBoardInColor(colorInRgba) {
-    const board = browser.$('.board');
-    const themeColor = browser.elementIdCssProperty(board.element().value.ELEMENT, 'background-color');
-    expect(themeColor.value).to.eq(colorInRgba);
-  }
-
-  function userCanSeeLabels(setLabels) {
-    browser.url('/');
-    whenOpenSideMenu();
-    setLabels.forEach((labelData) => {
-      const cssSelector = `input.label-input-${labelData.color}`;
-      const label = browser.getValue(cssSelector);
-      expect(label).to.eq(labelData.value);
-    });
-  }
-
-  function userCanSeeNickname(text) {
-    browser.url('/');
-    whenOpenSideMenu();
-    const nickname = browser.getValue('input.input-nickname');
-    expect(nickname).to.eq(text);
-  }
-
-  function userCanSeeBoardTitle(text) {
-    browser.url('/');
-    const boardName = browser.getValue('input.board-name');
-    expect(boardName).to.eq(text);
-  }
-
-  function userCantSeeBoardTitle(text) {
-    userCanNotSee(text);
-  }
-
-  // utils
-
-  function whenVisitingMainPage() {
-    browser.url('/');
-  }
-
-  function whenLogingIn(email, password) {
-    browser.setValue('input[name=email]', email);
-    browser.setValue('input[name=password]', password);
-    browser.$('.btn').click();
-  }
-
-  function userCanSee(text) {
-    expect($('body').getText()).to.include(text);
-  }
-
-  function userCanNotSee(text) {
-    expect($('body').getText()).to.not.include(text);
-  }
 });

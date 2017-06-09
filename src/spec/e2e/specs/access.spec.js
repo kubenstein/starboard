@@ -1,5 +1,5 @@
-const expect = require('chai').expect;
 const server = require('../components.js').server;
+require('./support/steps.js')();
 
 describe('User', () => {
   before(() => { server.start(); });
@@ -19,40 +19,4 @@ describe('User', () => {
     whenClickingLogout();
     userCanSeeLoginPage();
   });
-
-
-  // private
-
-  function whenVisitingMainPage() {
-    browser.url('/');
-  }
-
-  function whenLogingIn(email, password) {
-    browser.setValue('input[name=email]', email);
-    browser.setValue('input[name=password]', password);
-    browser.$('.btn').click();
-  }
-
-  function whenClickingLogout() {
-    whenOpenSideMenu();
-    const logoutButton = browser.$('.btn-logout');
-    logoutButton.click();
-  }
-
-  function whenOpenSideMenu() {
-    const sidemenuTrigger = browser.$('.side-menu-trigger');
-    sidemenuTrigger.click();
-  }
-
-  function userCanSeeLoginPage() {
-    userCanSee('Login:');
-  }
-
-  function userCanSeeBoard() {
-    userCanSee('Add a Column...');
-  }
-
-  function userCanSee(text) {
-    expect($('body').getText()).to.include(text);
-  }
 });
