@@ -1,3 +1,5 @@
+/* eslint no-undef: 0 */
+
 const server = require('../components.js').server;
 const utils = require('./support/utils.js');
 require('./support/steps.js')();
@@ -33,9 +35,9 @@ describe('Board', () => {
 
   it('allows to change label texts', () => {
     const labelsToSet = [
-      { color: '3CB500', value: 'label-green'},
-      { color: 'FF9F19', value: 'label-orange'},
-      { color: '0079BF', value: 'label-blue'}
+      { color: '3CB500', value: 'label-green' },
+      { color: 'FF9F19', value: 'label-orange' },
+      { color: '0079BF', value: 'label-blue' }
     ];
     when.visitingMainPage();
     and.openingSideMenu();

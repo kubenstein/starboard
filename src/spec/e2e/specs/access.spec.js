@@ -1,3 +1,5 @@
+/* eslint no-undef: 0 */
+
 const server = require('../components.js').server;
 require('./support/steps.js')();
 

@@ -1,8 +1,11 @@
+/* eslint no-undef: 0 */
+
 const server = require('../components.js').server;
 const currentState = require('../components.js').currentState;
 const utils = require('./support/utils.js');
-const createColumn = utils.createColumn;
 require('./support/steps.js')();
+
+const createColumn = utils.createColumn;
 
 describe('Column', () => {
   before(() => {
