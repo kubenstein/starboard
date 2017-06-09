@@ -1,11 +1,11 @@
 const expect = require('chai').expect;
 const server = require('../components.js').server;
+const login = require('./support.js').login;
 
 describe('Board', () => {
   before(() => {
     server.start();
-    whenVisitingMainPage();
-    whenLogingIn('test@test.pl', 'abcd');
+    login('test@test.pl');
   });
 
   after(() => {
