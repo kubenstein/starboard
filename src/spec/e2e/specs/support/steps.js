@@ -110,7 +110,7 @@ module.exports = function steps() {
     expect(boardName).to.eq(text);
   };
 
-  then.userCantSeeBoardTitle = function (text) {
+  then.userCanNotSeeBoardTitle = function (text) {
     userCanNotSee(text);
   };
 

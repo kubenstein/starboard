@@ -16,7 +16,7 @@ describe('Board', () => {
   });
 
   it('can have a title', () => {
-    userCantSeeBoardTitle('dev board');
+    userCanNotSeeBoardTitle('dev board');
     when.settingBoardTitle('dev board');
     userCanSeeBoardTitle('dev board');
   });
