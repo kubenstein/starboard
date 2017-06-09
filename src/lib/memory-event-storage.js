@@ -40,9 +40,12 @@ export default class MemoryEventStorage {
   }
 
   allPastEvents() {
-    return new Promise((resolve, _reject) => {
-      resolve(this.events);
-    });
+    return Promise.resolve(this.events);
+  }
+
+  purge() {
+    this.events = [];
+    return Promise.resolve();
   }
 
   // private

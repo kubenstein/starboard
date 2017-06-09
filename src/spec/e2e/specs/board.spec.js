@@ -1,15 +1,15 @@
 const server = require('../components.js').server;
-const login = require('./support/utils.js').login;
+const utils = require('./support/utils.js');
 require('./support/steps.js')();
 
 describe('Board', () => {
   before(() => {
     server.start();
-    login('test@test.pl');
+    utils.login('test@test.pl');
   });
 
   after(() => {
-    browser.deleteCookie();
+    utils.logout();
     server.stop();
   });
 

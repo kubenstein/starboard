@@ -2,6 +2,7 @@ const lib = require('../../../.tmp/specs/src/starboard.js');
 
 const Starboard = lib.Starboard;
 const storage = (new lib.MemoryEventStorageFactory()).forBackendWithStoredFiles();
+const currentState = new lib.CurrentState({ eventSource: storage });
 
 const server = new Starboard({
   port: 4444,
@@ -11,4 +12,4 @@ const server = new Starboard({
 });
 
 exports.server = server;
-exports.storage = storage;
+exports.currentState = currentState;
