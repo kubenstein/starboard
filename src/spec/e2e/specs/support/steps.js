@@ -81,6 +81,13 @@ module.exports = function steps() {
     });
   };
 
+  when.creatingCard = function (title) {
+    const addCardPrompt = browser.$('.add-card-form .prompt');
+    addCardPrompt.click();
+    browser.setValue('.add-card-form input.card-title', title);
+    browser.$('.add-card-form .btn').click();
+  };
+
   then.userCanSeeBoardInColor = function (colorInRgba) {
     const board = browser.$('.board');
     const themeColor = browser.elementIdCssProperty(board.element().value.ELEMENT, 'background-color');
@@ -133,6 +140,21 @@ module.exports = function steps() {
 
     const columnName = browser.getValue('input.column-title');
     expect(columnName).not.to.eq(title);
+  };
+
+  then.userCanSeeCardWithLabels = function (cardTitle, labelsInRGB) {
+    const cards = browser.$$('.card');
+    for (let i = 0; i < cards.length; i += 1) {
+      const card = cards[i];
+      if (card.getText('.title') === cardTitle) {
+        const colors = card.$$('.label').map((label) => {
+          return browser.elementIdCssProperty(label.element().value.ELEMENT, 'background-color').value;
+        });
+        expect(colors).to.eql(labelsInRGB);
+        return;
+      }
+    }
+    expect('card not found').to.eq('this assertion should never happen');
   };
 
   then.userCanSee = function (text) {

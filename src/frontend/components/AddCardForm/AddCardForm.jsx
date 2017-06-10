@@ -49,7 +49,7 @@ export default class AddCardForm extends React.Component {
             onSubmit={(e) => { this.submit(e); }}
           >
             <input
-              className="title"
+              className="card-title"
               name="title"
               autoComplete="off"
               onKeyPress={(e) => { this.submitFormOnEnter(e); }}

@@ -46,11 +46,11 @@ export default class Card extends React.Component {
     const commentCounter = this.commentsRepo.commentsCountForCard(id);
     return (
       <div
-        className="card"
+        className="card-wrapper"
         data-DND-data-card-id={id}
         onClick={() => { this.openDetails(); }}
       >
-        <div className="title card-DND-handler">
+        <div className="card card-DND-handler">
           <ul className="labels">
             { (labels || []).map(label =>
               <li
@@ -61,7 +61,7 @@ export default class Card extends React.Component {
               />
             )}
           </ul>
-          {title}
+          <span className="title">{title}</span>
           { commentCounter > 0 &&
             <span className="comment-counter card-DND-handler">☰ {commentCounter}</span>
           }

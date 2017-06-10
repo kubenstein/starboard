@@ -1,6 +1,6 @@
 @import "../../assets/stylesheets/import";
 
-.card {
+.card-wrapper {
   @include rounded-box;
   background-color: $white;
   cursor: pointer;
@@ -9,7 +9,7 @@
     background-color: $porcelain;
   }
 
-  &>.title {
+  .card {
     color: $black;
     font-size: 14px;
     font-weight: normal;
@@ -17,7 +17,7 @@
     word-wrap: break-word;
   }
 
-  &>.title .labels {
+  &>.labels {
     float: right;
 
     .label {
@@ -54,7 +54,7 @@
   }
 }
 
-.card.card-dragging {
+.card-wrapper.card-dragging {
   display: none;
 
   &.gu-mirror {
