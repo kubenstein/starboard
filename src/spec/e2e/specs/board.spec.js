@@ -15,7 +15,7 @@ describe('Board', () => {
     server.stop();
   });
 
-  it('can have a title', () => {
+  it('have a changeable title', () => {
     userCanNotSeeBoardTitle('dev board');
     when.settingBoardTitle('dev board');
     userCanSeeBoardTitle('dev board');
