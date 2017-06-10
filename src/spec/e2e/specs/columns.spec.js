@@ -5,8 +5,6 @@ const currentState = require('../components.js').currentState;
 const utils = require('./support/utils.js');
 require('./support/steps.js')();
 
-const createColumn = utils.createColumn;
-
 describe('Column', () => {
   before(() => {
     server.start();
@@ -16,11 +14,7 @@ describe('Column', () => {
   after(() => {
     utils.logout();
     server.stop();
-  });
-
-  beforeEach(() => {
     currentState.purge();
-    and.reload();
   });
 
   it('can be created', () => {
@@ -30,7 +24,7 @@ describe('Column', () => {
   });
 
   it('can be renamed', () => {
-    createColumn('old column title', currentState);
+    utils.createColumn('old column title', currentState);
 
     following.renamingColumn('old column title', 'new column title');
     userCanSeeColumn('new column title');
@@ -38,7 +32,7 @@ describe('Column', () => {
   });
 
   it('can be removed', () => {
-    createColumn('column to remove', currentState);
+    utils.createColumn('column to remove', currentState);
 
     following.removingColumn('column to remove');
     userCanNotSeeColumn('column to remove');

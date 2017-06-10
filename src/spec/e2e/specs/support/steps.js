@@ -123,8 +123,8 @@ module.exports = function steps() {
   };
 
   then.userCanSeeColumn = function (title) {
-    const columnName = browser.getValue('input.column-title');
-    expect(columnName).to.eq(title);
+    const columnNames = browser.getValue('input.column-title');
+    expect(columnNames).to.include(title);
   };
 
   then.userCanNotSeeColumn = function (title) {
