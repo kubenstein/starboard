@@ -1,5 +1,4 @@
 const fs = require('fs');
-const WebpackCleanupPlugin = require('webpack-cleanup-plugin');
 
 const env = process.env.NODE_ENV;
 const srcDir = __dirname;
@@ -72,9 +71,5 @@ module.exports = {
     ]
   },
 
-  externals: nodeModules,
-
-  plugins: [
-    new WebpackCleanupPlugin()
-  ]
+  externals: nodeModules
 };
