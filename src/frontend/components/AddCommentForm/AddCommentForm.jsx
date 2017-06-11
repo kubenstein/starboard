@@ -64,7 +64,7 @@ export default class AddCommentForm extends React.Component {
           placeholder="Write a comment..."
           ref={(e) => { this.input = e; }}
         />
-        <input className="btn btn-success" type="submit" value="Add Comment" />
+        <input className="btn btn-success btn-submit-text" type="submit" value="Add Comment" />
         { uploadingAttachment ?
           <span className="btn btn-success btn-input-file btn-process">
             Processing...

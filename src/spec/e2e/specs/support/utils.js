@@ -31,3 +31,16 @@ exports.createCard = function (name, options, stateManager) {
 exports.setTextForLabel = function (color, text, stateManager) {
   new lib.SettingsRepository(stateManager).setTextForLabel(color, text);
 };
+
+exports.addComment = function (cardTitle, authorId, commentBody, stateManager) {
+  const cardsRepo = new lib.CardsRepository(stateManager);
+  const commentsRepo = new lib.CommentsRepository(stateManager);
+  const firstColumn = new lib.ColumnsRepository(stateManager).columnsSortedByPosition()[0];
+  const card = cardsRepo.cardsSortedByPosition(firstColumn.id).find((c) => {
+    return c.title === cardTitle;
+  });
+  commentsRepo.addComment(card.id, {
+    content: commentBody,
+    authorId: authorId
+  });
+};

@@ -140,6 +140,11 @@ module.exports = function steps() {
     expect('label not found').to.eq(`togglingLabel() could not find label with text: ${labelText}`);
   };
 
+  when.postingTextComment = function (commentBody) {
+    browser.setValue('.add-comment-form .content', commentBody);
+    browser.$('.add-comment-form .btn-submit-text').click();
+  };
+
   then.userCanSeeBoardInColor = function (colorInRgba) {
     const board = browser.$('.board');
     const themeColor = browser.elementIdCssProperty(board.element().value.ELEMENT, 'background-color');
@@ -211,6 +216,37 @@ module.exports = function steps() {
 
   then.userCanSeeDescription = function (text) {
     expect($('.card-details .description-input').getValue()).to.include(text);
+  };
+
+  then.removingComment = function (content) {
+    const comments = browser.$$('.card-comment');
+    for (let i = 0; i < comments.length; i += 1) {
+      const comment = comments[i];
+      const commentBody = comment.$('.content').getText();
+      if (commentBody === content) {
+        comment.$('.btn-remove-comment').click();
+        browser.alertAccept();
+        return;
+      }
+    }
+    expect('comment not found').to.eq(`removingComment() could not find comment: ${content}`);
+  };
+
+  then.userCanSeeCommentCounter = function (cardTitle, counter) {
+    const cards = browser.$$('.card');
+    for (let i = 0; i < cards.length; i += 1) {
+      const card = cards[i];
+      if (card.getText('.title') === cardTitle) {
+        if (counter > 0) {
+          expect(card.getText()).to.include(`☰ ${counter}`);
+        } else {
+          expect(card.getText()).not.to.include(`☰ ${counter}`);
+        }
+
+        return;
+      }
+    }
+    expect('card not found').to.eq(`userCanSeeCommentCounter() could not find card: ${cardTitle}`);
   };
 
   then.userCanSee = function (text) {

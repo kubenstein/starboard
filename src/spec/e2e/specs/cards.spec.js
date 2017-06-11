@@ -34,6 +34,16 @@ describe('Card', () => {
     userCanSeeCardWithLabels('card with labels', labels.rgba);
   });
 
+  it('displays amount of comments', () => {
+    const card = 'card with comment Counter';
+    utils.createCard(card, {}, currentState);
+    userCanSeeCommentCounter(card, 0);
+    utils.addComment(card, 'test@test.pl', 'comment 1', currentState);
+    utils.addComment(card, 'test@test.pl', 'comment 2', currentState);
+    utils.addComment(card, 'test@test.pl', 'comment 3', currentState);
+    userCanSeeCommentCounter(card, 3);
+  });
+
   describe('Details', () => {
     before(() => {
       utils.createCard('card title', {}, currentState);

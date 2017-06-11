@@ -51,7 +51,10 @@ export default class CardComment extends React.Component {
           { comment.attachment && this.attachmentCommentHTML(comment) }
           {comment.content}
         </p>
-        <span className="btn-link btn-small" onClick={() => { this.removeComment(comment.id); }}>Delete</span>
+        <span
+          className="btn-link btn-small btn-remove-comment"
+          onClick={() => { this.removeComment(comment.id); }}
+        >Delete</span>
       </div>
     );
   }
