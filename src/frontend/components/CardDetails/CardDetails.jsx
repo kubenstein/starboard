@@ -14,6 +14,7 @@ export default class CardDetails extends React.Component {
   constructor(props) {
     super(props);
     this.stateManager = this.props.stateManager;
+    this.onCloseBtnPressed = this.props.onCloseBtnPressed;
     this.columnsRepo = new ColumnsRepository(this.stateManager);
     this.commentsRepo = new CommentsRepository(this.stateManager);
     this.cardsRepo = new CardsRepository(this.stateManager);
@@ -67,6 +68,10 @@ export default class CardDetails extends React.Component {
     return (
       <div className="card-details">
         <div className="title-wrapper">
+          <button
+            className="btn btn-raw-icon btn-close"
+            onClick={() => { this.onCloseBtnPressed(); }}
+          >✕</button>
           <EditableInput
             className="title"
             value={title}
@@ -94,9 +99,14 @@ export default class CardDetails extends React.Component {
           onChange={(value) => { this.updateDescription(value); }}
         />
         <div className="utils-section">
-          <a className="btn btn-danger btn-small" onClick={() => { this.removeCard(id); }}>Delete Card</a>
-
-          <label htmlFor="label-picker-checkbox" className="btn btn-success btn-small">Manage Labels</label>
+          <a
+            className="btn btn-danger btn-small btn-remove-card"
+            onClick={() => { this.removeCard(id); }}
+          >Delete Card</a>
+          <label
+            className="btn btn-success btn-small btn-manage-labels"
+            htmlFor="label-picker-checkbox"
+          >Manage Labels</label>
           <input type="checkbox" id="label-picker-checkbox" className="label-picker-checkbox" />
           <label htmlFor="label-picker-checkbox" className="label-picker-visible off-trigger" />
           <div className="label-picker-visible label-picker-wrapper">

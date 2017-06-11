@@ -32,12 +32,16 @@ export default class Card extends React.Component {
     this.setState({ detailsOpened: true });
   }
 
-  closeDetails(e) {
+  clickedOverlay(e) {
     if (e.target === this.dismissOverlayElement) {
-      setTimeout(() => {
-        this.setState({ detailsOpened: false });
-      }, 0);
+      this.closeDetails();
     }
+  }
+
+  closeDetails() {
+    setTimeout(() => {
+      this.setState({ detailsOpened: false });
+    }, 0);
   }
 
   render() {
@@ -69,10 +73,14 @@ export default class Card extends React.Component {
         {detailsOpened ?
           <div
             className="card-details-full-screen-wrapper"
-            onClick={(e) => { this.closeDetails(e); }}
+            onClick={(e) => { this.clickedOverlay(e); }}
             ref={(r) => { this.dismissOverlayElement = r; }}
           >
-            <CardDetails data={this.card} stateManager={this.stateManager} />
+            <CardDetails
+              data={this.card}
+              onCloseBtnPressed={() => { this.closeDetails(); }}
+              stateManager={this.stateManager}
+            />
           </div>
         : ''}
       </div>

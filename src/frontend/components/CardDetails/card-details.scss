@@ -12,9 +12,20 @@
     padding: 10px 6px 1px 6px;
   }
 
+  .btn-close {
+    float: right;
+    padding: 0 5px 5px;
+    color: $silver;
+
+    &:hover {
+      color: $grey;
+    }
+  }
+
   .title {
     @include card-details-header;
     line-height: 30px;
+    width: 545px;
   }
 
   .sub-title {

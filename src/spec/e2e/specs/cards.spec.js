@@ -33,4 +33,54 @@ describe('Card', () => {
 
     userCanSeeCardWithLabels('card with labels', labels.rgba);
   });
+
+  describe('Details', () => {
+    before(() => {
+      utils.createCard('card title', {}, currentState);
+    });
+
+    afterEach(() => {
+      reloading();
+    });
+
+    it('allows to change a title', () => {
+      utils.createCard('card to rename', {}, currentState);
+
+      following.openingCardDetails('card to rename');
+      when.changingCardTitle('changed title');
+      and.closingCardDetails();
+      userCanSee('changed title');
+    });
+
+    it('allows to change a description', () => {
+      following.openingCardDetails('card title');
+      when.changingCardDescription('new desc');
+      and.closingCardDetails();
+      and.openingCardDetails('card title');
+      userCanSeeDescription('new desc');
+    });
+
+    it('allows to remove a card', () => {
+      utils.createCard('card to delete', {}, currentState);
+
+      following.openingCardDetails('card to delete');
+      and.removingCard();
+      userCanNotSee('card to delete');
+    });
+
+    it('allows to manage labels of a card', () => {
+      utils.createCard('card with labels - details', { labels: ['#00E6FF', '#3CB500'] }, currentState);
+      utils.labelText('#00E6FF', 'blue label', currentState);
+      utils.labelText('#3CB500', 'green label', currentState);
+      utils.labelText('#EB4646', 'red label', currentState);
+
+      following.openingCardDetails('card with labels - details');
+      userCanSee('blue label\ngreen label');
+
+      then.when.openingLabelPicker();
+      and.togglingLabel('red label');
+      and.togglingLabel('blue label');
+      userCanSee('green label\nred label');
+    });
+  });
 });

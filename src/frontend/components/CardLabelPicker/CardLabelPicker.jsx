@@ -11,10 +11,6 @@ export default class CardLabelPicker extends React.Component {
     this.repo = new SettingsRepository(this.stateManager);
   }
 
-  cssClasses() {
-    return `card-label-picker ${this.otherCssClasses}`;
-  }
-
   textForLabel(color) {
     return this.repo.textForLabel(color);
   }
@@ -22,7 +18,7 @@ export default class CardLabelPicker extends React.Component {
   render() {
     const availableColors = this.repo.availableColors();
     return (
-      <div className={this.cssClasses()}>
+      <div className={`card-label-picker ${this.otherCssClasses}`}>
         <h1 className="title">Toggle a label for this card:</h1>
         <ul className="labels">
           { availableColors.map(color =>

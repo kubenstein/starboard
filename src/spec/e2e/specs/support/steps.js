@@ -9,7 +9,7 @@ module.exports = function steps() {
     browser.url('/');
   };
 
-  when.reload = function () {
+  when.reloading = function () {
     visitingMainPage();
   };
 
@@ -88,6 +88,58 @@ module.exports = function steps() {
     browser.$('.add-card-form .btn').click();
   };
 
+  when.openingCardDetails = function (cardTitle) {
+    const cards = browser.$$('.card');
+    for (let i = 0; i < cards.length; i += 1) {
+      const card = cards[i];
+      if (card.getText('.title') === cardTitle) {
+        card.click();
+        return;
+      }
+    }
+    expect('card not found').to.eq(`openingCardDetails() could not find card: ${cardTitle}`);
+  };
+
+  when.changingCardTitle = function (newTitle) {
+    browser.setValue('.card-details input.title', newTitle);
+    browser.keys(['Enter']);
+  };
+
+  when.changingCardDescription = function (desc) {
+    browser.setValue('.card-details .description-input', desc);
+
+    // clicking elsewhere to submit description
+    browser.click('.sub-title');
+  };
+
+  when.removingCard = function () {
+    const removeBtn = browser.$('.card-details .btn-remove-card');
+    removeBtn.click();
+    browser.alertAccept();
+  };
+
+  when.closingCardDetails = function () {
+    const closeBtn = browser.$('.card-details .btn-close');
+    closeBtn.click();
+  };
+
+  when.openingLabelPicker = function () {
+    const labelPicker = browser.$('.card-details .btn-manage-labels');
+    labelPicker.click();
+  };
+
+  when.togglingLabel = function (labelText) {
+    const labels = browser.$$('.label-picker .label');
+    for (let i = 0; i < labels.length; i += 1) {
+      const label = labels[i];
+      if (label.getText() === labelText) {
+        label.click();
+        return;
+      }
+    }
+    expect('label not found').to.eq(`togglingLabel() could not find label with text: ${labelText}`);
+  };
+
   then.userCanSeeBoardInColor = function (colorInRgba) {
     const board = browser.$('.board');
     const themeColor = browser.elementIdCssProperty(board.element().value.ELEMENT, 'background-color');
@@ -154,7 +206,11 @@ module.exports = function steps() {
         return;
       }
     }
-    expect('card not found').to.eq('this assertion should never happen');
+    expect('card not found').to.eq(`userCanSeeCardWithLabels() could not find card: ${cardTitle}`);
+  };
+
+  then.userCanSeeDescription = function (text) {
+    expect($('.card-details .description-input').getValue()).to.include(text);
   };
 
   then.userCanSee = function (text) {
