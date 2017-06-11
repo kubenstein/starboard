@@ -145,6 +145,10 @@ module.exports = function steps() {
     browser.$('.add-comment-form .btn-submit-text').click();
   };
 
+  when.postingAttachmentComment = function (filePath) {
+    browser.chooseFile('.add-comment-form .file-input', filePath);
+  };
+
   then.userCanSeeBoardInColor = function (colorInRgba) {
     const board = browser.$('.board');
     const themeColor = browser.elementIdCssProperty(board.element().value.ELEMENT, 'background-color');
@@ -247,6 +251,18 @@ module.exports = function steps() {
       }
     }
     expect('card not found').to.eq(`userCanSeeCommentCounter() could not find card: ${cardTitle}`);
+  };
+
+  then.userCanSeePictureComment = function (imageName) {
+    userCanSee(imageName); // image description
+    const img = browser.$(`.card-details img[src*="${imageName}"]`);
+    expect(img).not.to.eq(undefined);
+  };
+
+  then.userCanSeeFileComment = function (fileName) {
+    userCanSee(fileName); // file description
+    const link = browser.$(`.card-details a.attachment[href*="${fileName}"]`);
+    expect(link).not.to.eq(undefined);
   };
 
   then.userCanSee = function (text) {

@@ -8,3 +8,4 @@ exports.SettingsRepository = require('lib/settings-repository.js').default;
 exports.CardsRepository = require('lib/cards-repository.js').default;
 exports.ColumnsRepository = require('lib/columns-repository.js').default;
 exports.CommentsRepository = require('lib/comments-repository.js').default;
+exports.UsersRepository = require('lib/users-repository.js').default;

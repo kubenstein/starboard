@@ -7,7 +7,7 @@ const currentState = new lib.CurrentState({ eventSource: storage });
 const server = new Starboard({
   port: 4444,
   eventStorage: storage,
-  uploadsDir: './.tmp/specs/uploads',
+  uploadsDir: './.tmp/specs/uploads/',
   noBanner: true
 });
 

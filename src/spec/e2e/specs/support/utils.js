@@ -44,3 +44,7 @@ exports.addComment = function (cardTitle, authorId, commentBody, stateManager) {
     authorId: authorId
   });
 };
+
+exports.setNickname = function (userId, nickname, stateManager) {
+  new lib.UsersRepository(stateManager).setUserNickname(userId, nickname);
+};

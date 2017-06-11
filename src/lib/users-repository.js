@@ -24,4 +24,9 @@ export default class UsersRepository {
     const event = userUpdatedEvent(id, { nickname: nickname });
     return this.stateManager.addEvent(event);
   }
+
+  setUserNickname(userId, nickname) {
+    const event = userUpdatedEvent(userId, { nickname: nickname });
+    return this.stateManager.addEvent(event);
+  }
 }
