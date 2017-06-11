@@ -70,9 +70,9 @@ describe('Card', () => {
 
     it('allows to manage labels of a card', () => {
       utils.createCard('card with labels - details', { labels: ['#00E6FF', '#3CB500'] }, currentState);
-      utils.labelText('#00E6FF', 'blue label', currentState);
-      utils.labelText('#3CB500', 'green label', currentState);
-      utils.labelText('#EB4646', 'red label', currentState);
+      utils.setTextForLabel('#00E6FF', 'blue label', currentState);
+      utils.setTextForLabel('#3CB500', 'green label', currentState);
+      utils.setTextForLabel('#EB4646', 'red label', currentState);
 
       following.openingCardDetails('card with labels - details');
       userCanSee('blue label\ngreen label');

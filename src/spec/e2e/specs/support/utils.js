@@ -28,6 +28,6 @@ exports.createCard = function (name, options, stateManager) {
   });
 };
 
-exports.labelText = function (color, text, stateManager) {
+exports.setTextForLabel = function (color, text, stateManager) {
   new lib.SettingsRepository(stateManager).setTextForLabel(color, text);
 };
