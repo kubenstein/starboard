@@ -151,7 +151,7 @@ export default class GitEventStorage {
                      .reverse();        // change order to earliest first
 
     const events = messages.map((message) => {
-      const extractedJson = message.split(' ').slice(1).join(' ');
+      const extractedJson = message.split(' ').slice(1).join(' '); // remove commit hash from message
       const event = JSON.parse(extractedJson);
       return event;
     });
