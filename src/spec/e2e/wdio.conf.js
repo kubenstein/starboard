@@ -3,7 +3,7 @@
 //
 //
 // In case of error:
-// "ERROR: The driver executable does not exist: **/node_projects/starboard/node_modules/selenium-standalone/.selenium/chromedriver/2.27-x64-chromedriver
+// "ERROR: The driver executable does not exist: ./node_modules/selenium-standalone/.selenium/chromedriver/2.27-x64-chromedriver
 //
 // run:
 // ./node_modules/selenium-standalone/bin/selenium-standalone install
