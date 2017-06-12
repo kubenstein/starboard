@@ -59,13 +59,13 @@ export default class Card extends React.Component {
             { (labels || []).map(label =>
               <li
                 key={label}
-                className="label"
+                className="label card-DND-handler"
                 title={this.textForLabel(label)}
                 style={{ backgroundColor: label }}
               />
             )}
           </ul>
-          <span className="title">{title}</span>
+          <span className="title card-DND-handler">{title}</span>
           { commentCounter > 0 &&
             <span className="comment-counter card-DND-handler">☰ {commentCounter}</span>
           }
