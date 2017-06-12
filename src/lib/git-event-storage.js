@@ -18,8 +18,10 @@ export default class GitEventStorage {
     this.pathToTempLocalRepo = params.pathToTempLocalRepo || '.tmp/tmpRepo/'; // path HAS to end with /
     this.syncingInterval = params.syncingInterval || 30;
     this.logger = params.logger || { log: () => {} };
+
     this.observers = [];
     this.lastSyncedCommit = undefined;
+    this.eventIdsSinceLastSync = [];
     this.queue = Promise.resolve();
 
     mkdirp.sync(this.pathToTempLocalRepo);
@@ -115,8 +117,9 @@ export default class GitEventStorage {
       .then(this.gitPushChangesWithEventualRebase.bind(this)) // Push With Eventual Rebase will
                                                               // fetch data if needed.
                                                               // After rebase some old events
-                                                              // will be applied again. Possible
-                                                              // new data overwrite!!!
+                                                              // will reappear again, however those events
+                                                              // wont be applied again because of
+                                                              // eventIdsSinceLastSync guarding mechanism
                                                               // If it wont fetch it means nothing
                                                               // new were in the remote.
       .then(this.gatherUnsyncedEvents.bind(this))
@@ -127,13 +130,18 @@ export default class GitEventStorage {
 
   applyEvent(event) {
     return this.gitCommit(JSON.stringify(event))
+    .then(() => { this.eventIdsSinceLastSync.push(event.id); })
     .then(() => { return this.notify(event); });
   }
 
   gatherUnsyncedEvents() {
     return this.gitCalculateDiffCommitMessages()
     .then(this.extractEventsFromCommits.bind(this))
-    .then((events) => { events.forEach((event) => { this.notify(event); }); });
+    .then((events) => {
+      events
+      .filter((event) => { return this.eventIdsSinceLastSync.indexOf(event.id) === -1; })
+      .forEach((event) => { this.notify(event); });
+    });
   }
 
   extractEventsFromCommits(textWithCommits) {
@@ -151,6 +159,7 @@ export default class GitEventStorage {
   }
 
   updateLastSyncedCommit() {
+    this.eventIdsSinceLastSync = [];
     return this.gitCommitHash()
     .then((hash) => { this.lastSyncedCommit = hash; });
   }
