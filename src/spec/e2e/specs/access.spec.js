@@ -11,13 +11,13 @@ describe('User', () => {
   it('can log in', () => {
     when.visitingMainPage();
     userCanSeeLoginPage();
-    when.logingIn('test@test.pl', 'abcd');
+    when.loggingIn('test@test.pl', 'abcd');
     userCanSeeBoard();
   });
 
   it('can log out', () => {
     when.visitingMainPage();
-    and.logingIn('test@test.pl', 'abcd');
+    and.loggingIn('test@test.pl', 'abcd');
     and.clickingLogout();
     userCanSeeLoginPage();
   });

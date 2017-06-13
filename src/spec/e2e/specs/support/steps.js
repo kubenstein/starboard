@@ -13,7 +13,7 @@ module.exports = function steps() {
     visitingMainPage();
   };
 
-  when.logingIn = function (email, password) {
+  when.loggingIn = function (email, password) {
     browser.setValue('input[name=email]', email);
     browser.setValue('input[name=password]', password);
     browser.$('.btn').click();
