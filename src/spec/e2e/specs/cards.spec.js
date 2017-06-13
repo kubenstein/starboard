@@ -15,7 +15,6 @@ describe('Card', () => {
   after(() => {
     utils.logout();
     server.stop();
-    currentState.purge();
   });
 
   it('can be created', () => {

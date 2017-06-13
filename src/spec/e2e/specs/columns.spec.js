@@ -14,7 +14,6 @@ describe('Column', () => {
   after(() => {
     utils.logout();
     server.stop();
-    currentState.purge();
   });
 
   it('can be created', () => {

@@ -65,13 +65,6 @@ export default class CurrentState {
     return this.data[name];
   }
 
-  purge() {
-    this.eventStorage.purge().then(() => {
-      this.data = {};
-      this.onDataSynced();
-    });
-  }
-
   updateObject(bucketName, objectId, changes) {
     const objectIndex = this.bucket(bucketName).findIndex(object => object.id === objectId);
     const oldData = this.bucket(bucketName)[objectIndex];

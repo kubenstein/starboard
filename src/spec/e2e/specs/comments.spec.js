@@ -18,7 +18,6 @@ describe('Comment', () => {
   after(() => {
     utils.logout();
     server.stop();
-    currentState.purge();
   });
 
   it('can be added with an image attachment', () => {
