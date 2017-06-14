@@ -5,10 +5,27 @@ export default class SettingsRepository {
     this.stateManager = stateManager;
   }
 
+  availableColorSpecs() {
+    return {
+      '#00E6FF': { isDark: false },
+      '#3CB500': { isDark: true },
+      '#FAD900': { isDark: false },
+      '#FF9F19': { isDark: false },
+      '#EB4646': { isDark: true },
+      '#A632DB': { isDark: true },
+      '#0079BF': { isDark: true }
+    };
+  }
+
   availableColors() {
-    return [
-      '#00E6FF', '#3CB500', '#FAD900', '#FF9F19', '#EB4646', '#A632DB', '#0079BF'
-    ];
+    return Object.keys(this.availableColorSpecs());
+  }
+
+  isThemeColorDark() {
+    const color = this.themeColor();
+    if (!color) return false;
+
+    return this.availableColorSpecs()[color].isDark;
   }
 
   themeColor() {

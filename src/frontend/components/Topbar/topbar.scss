@@ -12,7 +12,12 @@
 
   .board-name {
     font-size: 20px;
-    width: 50%
+    width: 50%;
+
+    &.dark-theme:not(.edditing) {
+      @include outlined-text;
+      letter-spacing: 0.5px;
+    }
   }
 
   .side-menu-trigger {
@@ -31,6 +36,10 @@
       position: absolute;
       top: -1px;
       left: -9px;
+    }
+
+    &.dark-theme {
+      @include outlined-text;
     }
   }
 

@@ -21,6 +21,11 @@ export default class EditableInput extends React.Component {
     if (value && !this.state.currentlyEdditing) {
       this.setState({ value: value });
     }
+
+    const className = nextProps.className;
+    if (className) {
+      this.otherCssClasses = className;
+    }
   }
 
   onEnterCheck(e) {
@@ -49,7 +54,8 @@ export default class EditableInput extends React.Component {
   }
 
   cssClasses() {
-    return `editable-input ${this.otherCssClasses}`;
+    const edditingCssClass = this.state.currentlyEdditing ? 'edditing' : '';
+    return `editable-input ${this.otherCssClasses} ${edditingCssClass}`;
   }
 
   textareaJSX(value) {
