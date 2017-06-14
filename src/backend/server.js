@@ -10,6 +10,7 @@ import CurrentState from 'lib/current-state.js';
 import AllowEveryoneAuth from 'lib/allow-everyone-auth.js';
 import NullLogger from 'lib/null-logger.js';
 import { hasToBeSet } from 'lib/utils.js';
+import { permissionDeniedEvent } from 'lib/event-definitions.js';
 
 export default class Server {
   constructor(params) {
@@ -76,7 +77,7 @@ export default class Server {
     app.post('/login/', (req, res) => {
       const email = req.body.email;
       const password = req.body.password;
-      this.auth.accept(email, password).then((authData) => {
+      this.auth.grantAccessWithCredentials(email, password).then((authData) => {
         res.send({ userId: authData.userId, token: authData.token });
       }).catch(() => {
         res.send(403, 'access denied');
@@ -97,7 +98,7 @@ export default class Server {
 
     // -------------- webSockets --------------
     io.on('connection', (socket) => {
-      this.auth.allow(socket.handshake.query.token)
+      this.auth.grantAccess(socket.handshake.query.token)
       .then(() => {
         this.configureSocket(socket);
         socket.emit('accessGranted');
@@ -123,9 +124,13 @@ export default class Server {
     });
 
     socket.on('addEvent', (event, sendBack) => {
-      this.cleanFilesUsecase.cleanWhenNeeded(event);
-      sendBack(event);
-      this.eventStorage.addEvent(event);
+      this.auth.allowEvent(event, socket.handshake.query.token)
+      .then(() => {
+        this.cleanFilesUsecase.cleanWhenNeeded(event);
+        sendBack(event);
+        this.eventStorage.addEvent(event);
+      })
+      .catch(() => { sendBack(permissionDeniedEvent(event)); });
     });
 
     socket.on('getAllPastEvents', (sendBack) => {

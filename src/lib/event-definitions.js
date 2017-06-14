@@ -6,6 +6,15 @@ export function noopEvent() {
   return { type: noopEventType, id: uuid() };
 }
 
+export const permissionDeniedEventType = 'PERMISSION_DENIED';
+export function permissionDeniedEvent(originalEvent) {
+  return {
+    type: permissionDeniedEventType,
+    originalEvent: originalEvent,
+    id: uuid()
+  };
+}
+
 export const cardAddedEventType = 'CARD_ADDED';
 export function cardAddedEvent(params) {
   const { columnId, position, title } = params;
