@@ -16,24 +16,25 @@ describe('Column', () => {
     server.stop();
   });
 
+  before(() => { when.visitingPage(); });
+
   it('can be created', () => {
-    userCanNotSee('column title');
-    following.creatingColumn('column title');
-    userCanSeeColumn('column title');
+    userCanNotSee('created column');
+    then.when.creatingColumn('created column');
+    userCanSeeColumn('created column');
   });
 
   it('can be renamed', () => {
     utils.createColumn('old column title', currentState);
 
-    following.renamingColumn('old column title', 'new column title');
+    when.renamingColumn('old column title', 'new column title');
     userCanSeeColumn('new column title');
     and.userCanNotSeeColumn('old column title');
   });
 
   it('can be removed', () => {
     utils.createColumn('column to remove', currentState);
-
-    following.removingColumn('column to remove');
+    when.removingColumn('column to remove');
     userCanNotSeeColumn('column to remove');
   });
 });

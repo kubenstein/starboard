@@ -3,14 +3,10 @@
 const expect = require('chai').expect;
 
 module.exports = function steps() {
-  this.when = this.and = this.then = this.following = when = and = then = following = this; // eslint-disable-line no-multi-assign
+  this.when = this.and = this.then = this.following = this.again = when = then = this; // eslint-disable-line no-multi-assign
 
-  when.visitingMainPage = function () {
+  when.visitingPage = function () {
     browser.url('/');
-  };
-
-  when.reloading = function () {
-    visitingMainPage();
   };
 
   when.loggingIn = function (email, password) {
@@ -19,19 +15,24 @@ module.exports = function steps() {
     browser.$('.btn').click();
   };
 
-  when.clickingLogout = function () {
-    openingSideMenu();
+  when.loggingOut = function () {
+    when.openingSideMenu();
+
     const logoutButton = browser.$('.btn-logout');
     logoutButton.click();
   };
 
   when.openingSideMenu = function () {
-    const sidemenuTrigger = browser.$('.side-menu-trigger');
+    const selector = '.side-menu-trigger';
+    browser.waitForExist(selector, 3000);
+    const sidemenuTrigger = browser.$(selector);
     sidemenuTrigger.click();
   };
 
   when.settingBoardTitle = function (text) {
-    browser.setValue('input.board-name', text);
+    const selector = 'input.board-name';
+    browser.waitForExist(selector, 3000);
+    browser.setValue(selector, text);
     browser.keys(['Enter']);
   };
 
@@ -61,24 +62,33 @@ module.exports = function steps() {
   };
 
   when.renamingColumn = function (oldName, newName) {
+    userCanSeeColumn(oldName);
+
     const inputs = browser.$$('.columns input.column-title');
-    inputs.forEach((input) => {
+    for (let i = 0; i < inputs.length; i += 1) {
+      const input = inputs[i];
       if (input.getValue() === oldName) {
         input.setValue(newName);
         browser.keys(['Enter']);
+        return;
       }
-    });
+    }
   };
 
-  when.removingColumn = function (name) {
-    const columns = browser.$$('.columns');
-    columns.forEach((column) => {
-      if (column.$('input.column-title').getValue() === name) {
+  when.removingColumn = function (columnTitle) {
+    userCanSeeColumn(columnTitle);
+
+    const columns = browser.$$('.columns .column');
+    for (let i = 0; i < columns.length; i += 1) {
+      const column = columns[i];
+      const columnTitleEl = column.$('input.column-title');
+      if (columnTitleEl.getValue() === columnTitle) {
         const removeTrigger = column.$('.btn-remove');
         removeTrigger.click();
         browser.alertAccept();
+        return;
       }
-    });
+    }
   };
 
   when.creatingCard = function (title) {
@@ -89,6 +99,8 @@ module.exports = function steps() {
   };
 
   when.openingCardDetails = function (cardTitle) {
+    userCanSee(cardTitle);
+
     const cards = browser.$$('.card');
     for (let i = 0; i < cards.length; i += 1) {
       const card = cards[i];
@@ -97,7 +109,6 @@ module.exports = function steps() {
         return;
       }
     }
-    expect('card not found').to.eq(`openingCardDetails() could not find card: ${cardTitle}`);
   };
 
   when.changingCardTitle = function (newTitle) {
@@ -113,7 +124,10 @@ module.exports = function steps() {
   };
 
   when.removingCard = function () {
-    const removeBtn = browser.$('.card-details .btn-remove-card');
+    const selector = '.card-details .btn-remove-card';
+    browser.waitForExist(selector, 3000);
+
+    const removeBtn = browser.$(selector);
     removeBtn.click();
     browser.alertAccept();
   };
@@ -129,6 +143,8 @@ module.exports = function steps() {
   };
 
   when.togglingLabel = function (labelText) {
+    userCanSee(labelText);
+
     const labels = browser.$$('.label-picker .label');
     for (let i = 0; i < labels.length; i += 1) {
       const label = labels[i];
@@ -137,7 +153,6 @@ module.exports = function steps() {
         return;
       }
     }
-    expect('label not found').to.eq(`togglingLabel() could not find label with text: ${labelText}`);
   };
 
   when.postingTextComment = function (commentBody) {
@@ -156,7 +171,7 @@ module.exports = function steps() {
   };
 
   then.userCanSeeLabels = function (setLabels) {
-    when.visitingMainPage();
+    when.visitingPage();
     and.openingSideMenu();
     setLabels.forEach((labelData) => {
       const cssSelector = `input.label-input-${labelData.color}`;
@@ -166,20 +181,22 @@ module.exports = function steps() {
   };
 
   then.userCanSeeNickname = function (text) {
-    when.visitingMainPage();
+    when.visitingPage();
     and.openingSideMenu();
     const nickname = browser.getValue('input.input-nickname');
     expect(nickname).to.eq(text);
   };
 
   then.userCanSeeBoardTitle = function (text) {
-    when.visitingMainPage();
-    const boardName = browser.getValue('input.board-name');
-    expect(boardName).to.eq(text);
+    browser.waitUntil(() => {
+      return browser.getValue('input.board-name') === text;
+    }, 3000, `Expect board title to be: ${text}`);
   };
 
   then.userCanNotSeeBoardTitle = function (text) {
-    userCanNotSee(text);
+    browser.waitUntil(() => {
+      return browser.getValue('input.board-name') !== text;
+    }, 3000, `Expect board title NOT to be: ${text}`);
   };
 
   then.userCanSeeLoginPage = function () {
@@ -190,24 +207,31 @@ module.exports = function steps() {
     userCanSee('Add a Column...');
   };
 
-  then.userCanSeeColumn = function (title) {
-    const columnNames = browser.getValue('input.column-title');
-    expect(columnNames).to.include(title);
+  then.userCanSeeColumn = function (columnTitle) {
+    browser.waitUntil(() => {
+      const columnNames = browser.getValue('input.column-title');
+      return columnNames.includes(columnTitle);
+    }, 3000, `Expect to find a column with a title: ${columnTitle}`);
   };
 
-  then.userCanNotSeeColumn = function (title) {
-    const columns = browser.$$('.columns .column');
-    if (columns.length === 0) return;
-
-    const columnName = browser.getValue('input.column-title');
-    expect(columnName).not.to.eq(title);
+  then.userCanNotSeeColumn = function (columnTitle) {
+    browser.waitUntil(() => {
+      const columnNames = browser.getValue('input.column-title');
+      return !columnNames.includes(columnTitle);
+    }, 3000, `Expect NOT to find a column with a title: ${columnTitle}`);
   };
 
   then.userCanSeeCardWithLabels = function (cardTitle, labelsInRGB) {
+    userCanSee(cardTitle);
+
     const cards = browser.$$('.card');
     for (let i = 0; i < cards.length; i += 1) {
       const card = cards[i];
       if (card.getText('.title') === cardTitle) {
+        browser.waitUntil(() => {
+          return card.$$('.label').length === labelsInRGB.length;
+        }, 3000, `Expect card: ${cardTitle} to have ${labelsInRGB.length} labels`);
+
         const colors = card.$$('.label').map((label) => {
           return browser.elementIdCssProperty(label.element().value.ELEMENT, 'background-color').value;
         });
@@ -215,14 +239,17 @@ module.exports = function steps() {
         return;
       }
     }
-    expect('card not found').to.eq(`userCanSeeCardWithLabels() could not find card: ${cardTitle}`);
   };
 
   then.userCanSeeDescription = function (text) {
-    expect($('.card-details .description-input').getValue()).to.include(text);
+    const selector = '.card-details .description-input';
+    browser.waitForExist(selector, 3000);
+    expect($(selector).getValue()).to.include(text);
   };
 
   then.removingComment = function (content) {
+    userCanSee(content);
+
     const comments = browser.$$('.card-comment');
     for (let i = 0; i < comments.length; i += 1) {
       const comment = comments[i];
@@ -233,10 +260,11 @@ module.exports = function steps() {
         return;
       }
     }
-    expect('comment not found').to.eq(`removingComment() could not find comment: ${content}`);
   };
 
   then.userCanSeeCommentCounter = function (cardTitle, counter) {
+    userCanSee(cardTitle);
+
     const cards = browser.$$('.card');
     for (let i = 0; i < cards.length; i += 1) {
       const card = cards[i];
@@ -246,30 +274,38 @@ module.exports = function steps() {
         } else {
           expect(card.getText()).not.to.include(`☰ ${counter}`);
         }
-
         return;
       }
     }
-    expect('card not found').to.eq(`userCanSeeCommentCounter() could not find card: ${cardTitle}`);
   };
 
   then.userCanSeePictureComment = function (imageName) {
+    const selector = `.card-details img[src*="${imageName}"]`;
+    browser.waitForExist(selector, 3000);
+
+    const img = browser.$(selector);
     userCanSee(imageName); // image description
-    const img = browser.$(`.card-details img[src*="${imageName}"]`);
     expect(img).not.to.eq(undefined);
   };
 
   then.userCanSeeFileComment = function (fileName) {
+    const selector = `.card-details a.attachment[href*="${fileName}"]`;
+    browser.waitForExist(selector, 3000);
+
+    const link = browser.$(selector);
     userCanSee(fileName); // file description
-    const link = browser.$(`.card-details a.attachment[href*="${fileName}"]`);
     expect(link).not.to.eq(undefined);
   };
 
   then.userCanSee = function (text) {
-    expect($('body').getText()).to.include(text);
+    browser.waitUntil(() => {
+      return browser.getText('body').includes(text);
+    }, 3000, `Expect page to have text: ${text}`);
   };
 
   then.userCanNotSee = function (text) {
-    expect($('body').getText()).not.to.include(text);
+    browser.waitUntil(() => {
+      return !browser.getText('body').includes(text);
+    }, 3000, `Expect page NOT to have text: ${text}`);
   };
 };

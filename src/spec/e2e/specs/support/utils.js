@@ -13,23 +13,26 @@ exports.logout = function () {
 };
 
 exports.createColumn = function (name, stateManager) {
-  new lib.ColumnsRepository(stateManager).addColumn(name);
+  return new lib.ColumnsRepository(stateManager).addColumn(name);
 };
 
 exports.createCard = function (name, options, stateManager) {
   const cardsRepo = new lib.CardsRepository(stateManager);
   const firstColumn = new lib.ColumnsRepository(stateManager).columnsSortedByPosition()[0];
-  cardsRepo.addCard(name, firstColumn.id);
-  const card = cardsRepo.cardsSortedByPosition(firstColumn.id).reverse()[0];
+  return cardsRepo.addCard(name, firstColumn.id)
+  .then(() => {
+    const card = cardsRepo.cardsSortedByPosition(firstColumn.id).reverse()[0];
+    const labels = options.labels || [];
+    const labelUpdates = labels.map((label) => {
+      return cardsRepo.updateLabel(card.id, label, true);
+    });
 
-  const labels = options.labels || [];
-  labels.forEach((label) => {
-    cardsRepo.updateLabel(card.id, label, true);
+    return Promise.all(labelUpdates);
   });
 };
 
 exports.setTextForLabel = function (color, text, stateManager) {
-  new lib.SettingsRepository(stateManager).setTextForLabel(color, text);
+  return new lib.SettingsRepository(stateManager).setTextForLabel(color, text);
 };
 
 exports.addComment = function (cardTitle, authorId, commentBody, stateManager) {
@@ -39,12 +42,16 @@ exports.addComment = function (cardTitle, authorId, commentBody, stateManager) {
   const card = cardsRepo.cardsSortedByPosition(firstColumn.id).find((c) => {
     return c.title === cardTitle;
   });
-  commentsRepo.addComment(card.id, {
+  return commentsRepo.addComment(card.id, {
     content: commentBody,
     authorId: authorId
   });
 };
 
 exports.setNickname = function (userId, nickname, stateManager) {
-  new lib.UsersRepository(stateManager).setUserNickname(userId, nickname);
+  return new lib.UsersRepository(stateManager).setUserNickname(userId, nickname);
+};
+
+exports.setNickname = function (userId, nickname, stateManager) {
+  return new lib.UsersRepository(stateManager).setUserNickname(userId, nickname);
 };

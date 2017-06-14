@@ -1,15 +1,23 @@
+const path = require('path');
+const cleanTestRepos = require('./specs/support/clean-test-repos.js');
 const lib = require('../../../.tmp/specs/src/starboard.js');
 
-const Starboard = lib.Starboard;
-const storage = (new lib.MemoryEventStorageFactory()).forBackendWithStoredFiles();
-const currentState = new lib.CurrentState({ eventSource: storage });
+const pathToGitTempLocalRepo = path.join(__dirname, '../../../.tmp/specs/uploads/');
+const pathToGitRemoteRepo = path.join(pathToGitTempLocalRepo, '../fakeRemoteRepo');
 
-const server = new Starboard({
+cleanTestRepos(pathToGitTempLocalRepo, pathToGitRemoteRepo);
+
+const storage = new lib.GitEventStorage({
+  remoteRepoUrl: pathToGitRemoteRepo,
+  pathToTempLocalRepo: pathToGitTempLocalRepo,
+  syncingInterval: 10000
+});
+
+exports.server = new lib.Starboard({
   port: 4444,
   eventStorage: storage,
-  uploadsDir: './.tmp/specs/uploads/',
+  uploadsDir: pathToGitTempLocalRepo,
   noBanner: true
 });
 
-exports.server = server;
-exports.currentState = currentState;
+exports.currentState = new lib.CurrentState({ eventSource: storage });

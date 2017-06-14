@@ -7,18 +7,19 @@ describe('User', () => {
   before(() => { server.start(); });
   after(() => { server.stop(); });
   afterEach(() => { browser.deleteCookie(); });
+  beforeEach(() => {
+    when.visitingPage();
+    userCanSeeLoginPage();
+  });
 
   it('can log in', () => {
-    when.visitingMainPage();
-    userCanSeeLoginPage();
     when.loggingIn('test@test.pl', 'abcd');
     userCanSeeBoard();
   });
 
   it('can log out', () => {
-    when.visitingMainPage();
-    and.loggingIn('test@test.pl', 'abcd');
-    and.clickingLogout();
+    when.loggingIn('test@test.pl', 'abcd');
+    and.then.loggingOut();
     userCanSeeLoginPage();
   });
 });
