@@ -50,7 +50,11 @@ export default class Column extends React.Component {
             value={name}
             onChange={(value) => { this.updateName(value); }}
           />
-          <button className="btn btn-remove btn-raw-icon" onClick={() => { this.removeColumn(id); }}>✕</button>
+          <button
+            className="btn btn-remove btn-raw-icon"
+            title="remove column"
+            onClick={() => { this.removeColumn(id); }}
+          >✕</button>
         </div>
         <div
           className="card-list"
