@@ -11,7 +11,7 @@ const storage = new GitEventStorage({
 });
 
 new Starboard({
-  port: process.env.PORT,
+  port: 8081,
   uploadsDir: pathToGitTempLocalRepo,
   logger: logger,
   eventStorage: storage

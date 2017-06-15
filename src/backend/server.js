@@ -15,7 +15,7 @@ import { permissionDeniedEvent } from 'lib/event-definitions.js';
 export default class Server {
   constructor(params) {
     this.eventStorage = params.eventStorage || hasToBeSet('eventStorage');
-    this.serverPort   = params.port         || 8081;
+    this.serverPort   = params.port         || 9000;
     this.uploadsDir   = params.uploadsDir   || '.tmp/tmpUploads/';
     this.logger       = params.logger       || new NullLogger();
     this.auth         = params.auth         || new AllowEveryoneAuth();
