@@ -2,7 +2,7 @@
   "name": "starboard",
   "author": "Jakub Niewczas",
   "version": "0.1.0",
-  "description": "",
+  "description": "Keep all aspects of a project in one place together! A card-based management tool that stores its data in a git repo.",
   "license": "MIT",
   "engines": {
     "node": ">=4.3.2"
