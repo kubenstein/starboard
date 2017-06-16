@@ -238,10 +238,13 @@ export default class GitEventStorage {
   }
 
   gitPushChangesWithEventualRebase() {
+    //
+    // try to push till it success,
+    // on fail: pull changes and try again
     return this.gitPushChanges()
     .catch(() => {
       return this.gitPullChanges()
-      .then(this.gitPushChanges.bind(this));
+      .then(this.gitPushChangesWithEventualRebase.bind(this));
     });
   }
 
