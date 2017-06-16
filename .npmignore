@@ -1,3 +1,7 @@
 .tmp/
+.nvmrc
+.eslint*
+src/scripts/
+src/spec/
 starboard-*.tgz
 starboard-screenshot.jpg
