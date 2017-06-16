@@ -245,8 +245,8 @@ export default class GitEventStorage {
   }
 
   gitCommit(message) {
-    const escapedMessage = message.replace(/"/g, '\\"');
-    return this.execute(`git -C ${this.pathToTempLocalRepo} commit --allow-empty -m "${escapedMessage}"`);
+    const escapedMessage = message.replace(/'/g, '\'"\'"\''); // replace ' -> '"'"'
+    return this.execute(`git -C ${this.pathToTempLocalRepo} commit --allow-empty -m '${escapedMessage}'`);
   }
 
   execute(command) {
