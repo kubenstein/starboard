@@ -13,7 +13,7 @@ export default class SettingsUpdated {
     if (settings) {
       settings.value = data.value;
     } else {
-      this.currentState.bucket('settings').push(event.data);
+      this.currentState.addObject('settings', event.data);
     }
   }
 }

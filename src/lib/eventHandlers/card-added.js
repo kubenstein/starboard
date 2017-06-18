@@ -10,7 +10,7 @@ export default class CardAdded {
 
   execute(event) {
     const card = event.data;
-    this.currentState.bucket('cards').push(card);
+    this.currentState.addObject('cards', card);
     repositionAllCards(this.currentState, card.columnId);
   }
 }

@@ -8,6 +8,6 @@ export default class CommentAdded {
   }
 
   execute(event) {
-    this.currentState.bucket('comments').push(event.data);
+    this.currentState.addObject('comments', event.data);
   }
 }

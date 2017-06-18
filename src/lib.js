@@ -9,3 +9,4 @@ exports.CardsRepository = require('lib/cards-repository.js').default;
 exports.ColumnsRepository = require('lib/columns-repository.js').default;
 exports.CommentsRepository = require('lib/comments-repository.js').default;
 exports.UsersRepository = require('lib/users-repository.js').default;
+exports.eventDefinitions = require('lib/event-definitions.js');

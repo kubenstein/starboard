@@ -24,9 +24,10 @@
     "specs": "npm run specs:build && npm run specs:unit-without-rebuild && npm run specs:e2e-without-rebuild",
     "specs:e2e": "npm run specs:build && npm run specs:e2e-without-rebuild",
     "specs:e2e-without-rebuild": "wdio ./src/spec/e2e/wdio.conf.js",
-    "specs:unit": "npm run specs:build && npm run specs:unit-without-rebuild",
+    "specs:unit": "npm run specs:build:lib && npm run specs:unit-without-rebuild",
     "specs:unit-without-rebuild": "wdio ./src/spec/unit/wdio.conf.js",
-    "specs:build": "NODE_ENV=test npm run build:lib && NODE_ENV=test npm run build:frontend",
+    "specs:build": "npm run specs:build:lib && NODE_ENV=test npm run build:frontend",
+    "specs:build:lib": "NODE_ENV=test npm run build:lib",
     "build": "NODE_ENV=production npm run build:lib && NODE_ENV=production npm run build:frontend",
     "build:frontend": "webpack -p --config ./src/webpack-frontend.config.js",
     "build:lib": "webpack --config ./src/webpack-lib.config.js"

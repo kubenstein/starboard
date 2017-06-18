@@ -43,6 +43,11 @@ export default class MemoryEventStorage {
     return Promise.resolve(this.events);
   }
 
+  purge() {
+    this.events = [];
+    return Promise.resolve();
+  }
+
   // private
 
   notify(event) {

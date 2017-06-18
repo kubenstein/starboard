@@ -9,7 +9,7 @@ export default class ColumnAdded {
   }
 
   execute(event) {
-    this.currentState.bucket('columns').push(event.data);
+    this.currentState.addObject('columns', event.data);
     repositionAllColumns(this.currentState);
   }
 }

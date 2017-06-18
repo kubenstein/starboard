@@ -13,7 +13,7 @@ export default class UserUpdated {
     if (user) {
       user.nickname = data.changes.nickname;
     } else {
-      this.currentState.bucket('users').push({
+      this.currentState.addObject('users', {
         id: data.id,
         nickname: data.changes.nickname
       });

@@ -42,6 +42,13 @@ export default class CurrentState {
     this.observers.push(observer);
   }
 
+  purge() {
+    this.eventStorage.purge().then(() => {
+      this.data = {};
+      this.onDataSynced();
+    });
+  }
+
   addEvent(event) {
     return this.eventStorage.addEvent(event);
   }
@@ -58,22 +65,32 @@ export default class CurrentState {
     return this.userId;
   }
 
-  bucket(name) {
-    if (!this.data[name]) {
-      this.data[name] = [];
+  //
+  // this method is read only getter
+  bucket(bucketName) {
+    if (!this.data[bucketName]) {
+      this.data[bucketName] = [];
     }
-    return this.data[name];
+    return this.data[bucketName]
+           .slice(0);
+  }
+
+  addObject(bucketName, object) {
+    if (!this.data[bucketName]) {
+      this.data[bucketName] = [];
+    }
+    this.data[bucketName].push(object);
   }
 
   updateObject(bucketName, objectId, changes) {
     const objectIndex = this.bucket(bucketName).findIndex(object => object.id === objectId);
     const oldData = this.bucket(bucketName)[objectIndex];
     const updatedData = Object.assign(oldData, changes);
-    this.bucket(bucketName)[objectIndex] = updatedData;
+    this.data[bucketName][objectIndex] = updatedData;
   }
 
   removeObject(bucketName, objectId) {
-    const bucket = this.bucket(bucketName);
+    const bucket = this.data[bucketName];
     const objectIndex = bucket.findIndex(object => object.id === objectId);
     bucket.splice(objectIndex, 1);
   }

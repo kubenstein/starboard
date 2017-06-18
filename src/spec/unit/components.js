@@ -5,3 +5,4 @@ const storage = (new lib.MemoryEventStorageFactory()).forBackendWithStoredFiles(
 exports.currentState = new lib.CurrentState({ eventSource: storage });
 exports.storage = storage;
 exports.lib = lib;
+exports.eventDefinitions = lib.eventDefinitions;
