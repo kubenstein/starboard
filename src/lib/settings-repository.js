@@ -23,13 +23,11 @@ export default class SettingsRepository {
 
   isThemeColorDark() {
     const color = this.themeColor();
-    if (!color) return false;
-
     return this.availableColorSpecs()[color].isDark;
   }
 
   themeColor() {
-    return this.get('themeColor', '');
+    return this.get('themeColor', '#3CB500');
   }
 
   setThemeColor(hexColor) {
