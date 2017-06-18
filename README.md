@@ -66,7 +66,7 @@ Current version uses `AllowEveryone` Policy so any email is allowed and any text
 ### Tests
 
 ```
-npm run specs:e2e
+npm run specs
 ```
 
 ### License

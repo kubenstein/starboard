@@ -24,13 +24,13 @@ exports.config = {
   // directory is where your package.json resides, so `wdio` will be called from there.
   //
   specs: [
-    './src/spec/e2e/**/*.spec.js'
+    './src/spec/unit/**/*.spec.js'
   ],
   // Patterns to exclude.
   exclude: [
     // 'path/to/excluded/files'
   ],
-  maxInstances: 1,
+  maxInstances: 5,
   //
   // ============
   // Capabilities
@@ -63,7 +63,7 @@ exports.config = {
   //
   // Set a base URL in order to shorten url command calls. If your url parameter starts
   // with "/", the base url gets prepended.
-  baseUrl: 'http://localhost:4444',
+  // baseUrl: 'http://localhost:4444',
   //
   // Default timeout for all waitForXXX commands.
   waitforTimeout: 10000,
