@@ -9,14 +9,16 @@ export default class UserUpdated {
 
   execute(event) {
     const data = event.data;
-    const user = this.currentState.objectData('users', data.id);
-    if (user) {
-      user.nickname = data.changes.nickname;
+    const existedUser = this.currentState.objectData('users', data.id);
+    const userData = existedUser || {};
+
+    userData[data.key] = data.value;
+    userData.id = data.id;
+
+    if (existedUser) {
+      this.currentState.updateObject('users', data.id, userData);
     } else {
-      this.currentState.addObject('users', {
-        id: data.id,
-        nickname: data.changes.nickname
-      });
+      this.currentState.addObject('users', userData);
     }
   }
 }

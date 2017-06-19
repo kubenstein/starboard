@@ -196,12 +196,13 @@ export function settingsUpdatedEvent(key, value) {
 }
 
 export const userUpdatedEventType = 'USER_UPDATED';
-export function userUpdatedEvent(userId, changes) {
+export function userUpdatedEvent(userId, key, value) {
   return {
     type: userUpdatedEventType,
     data: {
       id: userId,
-      changes: changes
+      key: key,
+      value: value
     },
     id: uuid()
   };
