@@ -43,7 +43,7 @@ export default class CurrentState {
   }
 
   purge() {
-    this.eventStorage.purge().then(() => {
+    return this.eventStorage.purge().then(() => {
       this.data = {};
       this.onDataSynced();
     });

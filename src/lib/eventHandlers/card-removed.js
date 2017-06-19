@@ -19,9 +19,9 @@ export default class CardRemoved {
 
   removeComments(card) {
     const commentsBucket = this.currentState.bucket('comments');
-    commentsBucket.forEach((comment, commentIndex) => {
+    commentsBucket.forEach((comment) => {
       if (comment.cardId === card.id) {
-        commentsBucket.splice(commentIndex, 1);
+        this.currentState.removeObject('comments', card.id);
       }
     });
   }
