@@ -7,7 +7,6 @@ import CardUpdatedEventHandler from './eventHandlers/card-updated.js';
 import CardRemovedEventHandler from './eventHandlers/card-removed.js';
 import CardLabelUpdatedEventHandler from './eventHandlers/card-label-updated.js';
 import CommentAddedEventHandler from './eventHandlers/comment-added.js';
-import CommentUpdatedEventHandler from './eventHandlers/comment-updated.js';
 import CommentRemovedEventHandler from './eventHandlers/comment-removed.js';
 import UserUpdatedEventHandler from './eventHandlers/user-updated.js';
 
@@ -29,7 +28,6 @@ export default class CurrentState {
       CardRemovedEventHandler,
       CardLabelUpdatedEventHandler,
       CommentAddedEventHandler,
-      CommentUpdatedEventHandler,
       CommentRemovedEventHandler,
       UserUpdatedEventHandler
     ]);
