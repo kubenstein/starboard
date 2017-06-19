@@ -1,4 +1,3 @@
-/* eslint no-undef: 0 */
 const expect = require('chai').expect;
 const currentState = require('../components.js').currentState;
 const e = require('../components.js').eventDefinitions;
