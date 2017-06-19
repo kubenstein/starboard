@@ -3,7 +3,7 @@ Starboard [![Build Status](https://travis-ci.org/kubenstein/starboard.png?branch
 
 Keep all aspects of a project in one place together! A card-based management tool that stores data in a git repo.
 
-[![Starboard Screenshot](https://github.com/kubenstein/starboard/blob/master/starboard-screenshot.jpg)](https://vimeo.com/221797050)
+[![Starboard Screenshot](https://raw.githubusercontent.com/kubenstein/starboard/master/starboard-screenshot.jpg)](https://vimeo.com/221797050)
 Click the image for a demo video.
 
 ### Reasoning
