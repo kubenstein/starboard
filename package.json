@@ -1,7 +1,7 @@
 {
   "name": "starboard",
   "author": "Jakub Niewczas",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "Keep all aspects of a project in one place together! A card-based management tool that stores its data in a git repo.",
   "license": "MIT",
   "engines": {
@@ -19,7 +19,7 @@
     "dev:linter:ci": "nodemon -e jsx,js --watch ./src/ --exec 'npm run specs:linter --silent'",
     "dev:db:create": "node ./src/scripts/db-create-development.js",
     "dev:db:clear": "./src/scripts/wipe-development-db.sh",
-    "dev:localRelease": "npm run specs && ./src/scripts/local-release.sh",
+    "dev:localRelease": "./src/scripts/local-release.sh",
     "specs": "npm run specs:linter --silent && npm run specs:build && npm run specs:unit-without-rebuild --silent && npm run specs:e2e-without-rebuild --silent",
     "specs:linter": "eslint -c .eslintrc \"./src/*.js\" \"./src/backend/**\" \"./src/frontend/**\" \"./src/spec/**\" \"./src/lib/**\"",
     "specs:e2e": "npm run specs:build && npm run specs:e2e-without-rebuild --silent",
@@ -30,7 +30,8 @@
     "specs:build:lib": "NODE_ENV=test npm run build:lib",
     "build": "NODE_ENV=production npm run build:lib && NODE_ENV=production npm run build:frontend",
     "build:frontend": "webpack -p --config ./src/webpack-frontend.config.js",
-    "build:lib": "webpack --config ./src/webpack-lib.config.js"
+    "build:lib": "webpack --config ./src/webpack-lib.config.js",
+    "release-to-npm": "./src/scripts/release-to-npm.sh"
   },
   "dependencies": {
     "axios": "^0.16.1",

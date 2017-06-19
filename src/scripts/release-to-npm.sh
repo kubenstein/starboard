@@ -9,4 +9,4 @@ rm -f `ls | grep starboard*tgz`
 npm run specs && \
 npm run build && \
 npm pack      && \
-npm install -g `ls | grep starboard*tgz`
+npm publish `ls | grep starboard*tgz`
