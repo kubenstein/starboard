@@ -11,8 +11,10 @@ export default class SettingsUpdated {
     const data = event.data;
     const settings = this.currentState.objectData('settings', data.id);
     if (settings) {
-      settings.value = data.value;
-    } else {
+      this.currentState.removeObject('settings', data.id);
+    }
+
+    if (data.value) {
       this.currentState.addObject('settings', event.data);
     }
   }
