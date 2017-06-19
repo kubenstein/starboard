@@ -4,9 +4,7 @@ const currentState = require('../components.js').currentState;
 const e = require('../components.js').eventDefinitions;
 
 describe('Column Event Handler', () => {
-  beforeEach(() => {
-    currentState.purge();
-  });
+  beforeEach(() => { currentState.purge(); });
 
   it('adds a column', () => {
     currentState.addEvent(e.columnAddedEvent({ name: 'columnName', position: 0 }));

@@ -4,9 +4,7 @@ const currentState = require('../components.js').currentState;
 const e = require('../components.js').eventDefinitions;
 
 describe('CurrentState', () => {
-  beforeEach(() => {
-    currentState.purge();
-  });
+  beforeEach(() => { currentState.purge(); });
 
   it('has initial buckets empty', () => {
     expect(currentState.bucket('dummy1')).to.deep.eq([]);
