@@ -63,8 +63,6 @@ export default class CurrentState {
     return this.userId;
   }
 
-  //
-  // this method is read only getter
   bucket(bucketName) {
     if (!this.data[bucketName]) {
       this.data[bucketName] = [];
@@ -72,6 +70,8 @@ export default class CurrentState {
     return this.data[bucketName]
            .slice(0);
   }
+
+  // Event handlers helpers
 
   addObject(bucketName, object) {
     if (!this.data[bucketName]) {
