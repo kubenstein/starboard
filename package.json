@@ -11,6 +11,10 @@
     "starboard": "bin/starboard"
   },
   "main": "dist/starboard.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kubenstein/starboard.git"
+  },
   "scripts": {
     "dev": "node ./src/scripts/dev-console.js",
     "dev:frontend": "webpack-dev-server --config ./src/webpack-frontend.config.js",
