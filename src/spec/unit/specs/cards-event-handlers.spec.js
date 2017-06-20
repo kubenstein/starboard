@@ -49,7 +49,7 @@ describe('Cards Event Handler', () => {
     currentState.addEvent(e.commentAddedEvent(cardId, { content: 'comment1' }));
     currentState.addEvent(e.commentAddedEvent(cardId, { content: 'comment2' }));
     currentState.addEvent(e.commentAddedEvent(cardId, { content: 'comment3' }));
-    expect(currentState.bucket('comments').length).to.eq(3);
+    expect(existingComments().length).to.eq(3);
 
     currentState.addEvent(e.cardRemovedEvent(cardId));
 
@@ -79,6 +79,29 @@ describe('Cards Event Handler', () => {
     currentState.addEvent(e.cardLabelUpdatedEvent(cardId, 'DDD', true));
 
     expect(firstCard().labels).to.eql(['AAA', 'DDD']);
+  });
+
+  // strange scenarios
+
+  it('handles adding a card to a column that does not exist', () => {
+    currentState.addEvent(e.cardAddedEvent({ title: 'cardTitle', columnId: 'InexistentColumnId', position: 0 }));
+    expect(existingCards().length).to.eq(0);
+  });
+
+  it('handles updating a card that does not exist', () => {
+    currentState.addEvent(e.cardUpdatedEvent('InexistentCardId', { title: 'newCardTitle' }));
+    expect(existingCards().length).to.eq(0);
+  });
+
+  it('handles updating labels of a card that does not exist', () => {
+    currentState.addEvent(e.cardLabelUpdatedEvent('InexistentCardId', 'AAA', true));
+    expect(existingCards().length).to.eq(0);
+  });
+
+
+  it('handles removing a card that does not exist', () => {
+    currentState.addEvent(e.cardRemovedEvent('InexistentCardId'));
+    expect(existingCards().length).to.eq(0);
   });
 
   // private

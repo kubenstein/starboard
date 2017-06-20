@@ -10,6 +10,9 @@ export default class CardAdded {
 
   execute(event) {
     const card = event.data;
+    const column = this.currentState.objectData('columns', card.columnId);
+    if (!column) return;
+
     this.currentState.addObject('cards', card);
     repositionAllCards(this.currentState, card.columnId);
   }

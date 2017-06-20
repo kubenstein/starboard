@@ -10,6 +10,8 @@ export default class CardRemoved {
 
   execute(event) {
     const card = this.currentState.objectData('cards', event.data.cardId);
+    if (!card) return;
+
     this.removeComments(card);
     this.removeCard(card);
     this.repositionOtherCards(card);
@@ -21,7 +23,7 @@ export default class CardRemoved {
     const commentsBucket = this.currentState.bucket('comments');
     commentsBucket.forEach((comment) => {
       if (comment.cardId === card.id) {
-        this.currentState.removeObject('comments', card.id);
+        this.currentState.removeObject('comments', comment.id);
       }
     });
   }
