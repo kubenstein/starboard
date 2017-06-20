@@ -14,6 +14,8 @@ export default class ColumnRemoved {
 
   execute(event) {
     const column = this.currentState.objectData('columns', event.data.columnId);
+    if (!column) return;
+
     this.removeAllCards(column);
     this.removeColumn(column);
     repositionAllColumns(this.currentState);

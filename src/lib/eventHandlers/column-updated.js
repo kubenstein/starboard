@@ -10,13 +10,14 @@ export default class ColumnUpdated {
   execute(event) {
     const columnId = event.data.columnId;
     const column = this.currentState.objectData('columns', columnId);
+    if (!column) return;
+
     const changes = event.data.changes;
     const newPosition = changes.position;
 
     if (newPosition !== undefined) {
       this.updatePositionOfOtherColumns(column, newPosition);
     }
-
     this.currentState.updateObject('columns', columnId, changes);
   }
 

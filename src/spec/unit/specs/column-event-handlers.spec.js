@@ -58,6 +58,18 @@ describe('Column Event Handler', () => {
     expect(firstColumn()).to.include({ name: 'newColumnName' });
   });
 
+  // strange scenarios
+
+  it('handles updating a column that does not exist', () => {
+    currentState.addEvent(e.columnUpdatedEvent('InexistentColumnId', { name: 'newColumnName' }));
+    expect(existingColumns().length).to.eq(0);
+  });
+
+  it('handles removing a column that does not exist', () => {
+    currentState.addEvent(e.columnRemovedEvent('InexistentColumnId'));
+    expect(existingColumns().length).to.eq(0);
+  });
+
   // private
 
   function existingColumns() {

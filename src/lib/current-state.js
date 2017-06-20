@@ -82,20 +82,23 @@ export default class CurrentState {
 
   updateObject(bucketName, objectId, changes) {
     const objectIndex = this.bucket(bucketName).findIndex(object => object.id === objectId);
+    if (objectIndex < 0) return;
+
     const oldData = this.bucket(bucketName)[objectIndex];
     const updatedData = Object.assign(oldData, changes);
     this.data[bucketName][objectIndex] = updatedData;
   }
 
   removeObject(bucketName, objectId) {
-    const bucket = this.data[bucketName];
-    const objectIndex = bucket.findIndex(object => object.id === objectId);
-    bucket.splice(objectIndex, 1);
+    const objectIndex = this.bucket(bucketName).findIndex(object => object.id === objectId);
+    if (objectIndex < 0) return;
+
+    this.data[bucketName].splice(objectIndex, 1);
   }
 
   objectData(bucketName, objectId) {
     const objectIndex = this.bucket(bucketName).findIndex(object => object.id === objectId);
-    return this.data[bucketName][objectIndex];
+    return this.bucket(bucketName)[objectIndex];
   }
 
   // private
