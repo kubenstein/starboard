@@ -1,8 +1,8 @@
 const fs = require('fs-extra');
 const execSync = require('child_process').execSync;
 
-module.exports = function cleanFakeRemoteRepo(tmpLocalRepo, fakeRemoteRepoPath) {
+module.exports = function cleanTestRepos(tmpLocalRepo, remoteRepoPath) {
   fs.removeSync(tmpLocalRepo);
-  fs.removeSync(fakeRemoteRepoPath);
-  execSync(`git init --bare ${fakeRemoteRepoPath}`);
+  fs.removeSync(remoteRepoPath);
+  execSync(`git init --bare ${remoteRepoPath}`);
 };
