@@ -4,9 +4,9 @@ const e = require('../components.js').eventDefinitions;
 
 describe('Comments Event Handler', () => {
   beforeEach(() => {
-    return currentState.purge().then(() => {
-      return addCard();
-    });
+    return currentState.purge()
+    .then(() => { return addColumn(); })
+    .then(() => { return addCard(); });
   });
 
   it('adds a text comment', () => {
@@ -40,10 +40,31 @@ describe('Comments Event Handler', () => {
     expect(existingComments().length).to.eq(0);
   });
 
+  // strange scenarios
+
+  it('handles adding a comment to a card that does not exist', () => {
+    currentState.addEvent(e.commentAddedEvent('InexistentCommentId', { content: 'commentContent' }));
+
+    expect(existingComments().length).to.eq(0);
+  });
+
+  it('handles removing a comment that does not exist', () => {
+    currentState.addEvent(e.commentRemovedEvent('InexistentCommentId'));
+    expect(existingComments().length).to.eq(0);
+  });
+
   // private
 
+  function addColumn() {
+    return currentState.addEvent(e.columnAddedEvent({ name: 'column' }));
+  }
+
+  function columnId() {
+    return currentState.bucket('columns')[0].id;
+  }
+
   function addCard() {
-    return currentState.addEvent(e.cardAddedEvent('fakeColumnId', { title: 'columnName', position: 0 }));
+    return currentState.addEvent(e.cardAddedEvent({ columnId: columnId(), title: 'columnName', position: 0 }));
   }
 
   function cardId() {

@@ -8,6 +8,9 @@ export default class CommentAdded {
   }
 
   execute(event) {
+    const card = this.currentState.objectData('cards', event.data.cardId);
+    if (!card) return;
+
     this.currentState.addObject('comments', event.data);
   }
 }
