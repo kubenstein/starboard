@@ -109,7 +109,7 @@ describe('GitEventStorage', () => {
 
   function generateRemoteRepoPath() {
     const p = `/tmp/starboard-git-specs/gitStorageRemoteRepo_${Math.random()}`;
-    fs.mkdirSync(p);
+    fs.ensureDirSync(p);
     execSync(`git init --bare ${p}`);
     return p;
   }

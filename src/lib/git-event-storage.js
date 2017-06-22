@@ -73,6 +73,24 @@ export default class GitEventStorage {
     });
   }
 
+  sync() {
+    return new Promise((resolve, _reject) => {
+      this.queue = this.queue
+      .then(this.gitPushChangesWithEventualRebase.bind(this)) // Push With Eventual Rebase will
+                                                              // fetch data also whenever clear push
+                                                              // is rejected.
+                                                              // After rebase some old events
+                                                              // will reappear again, however those events
+                                                              // wont be applied again because of
+                                                              // eventIdsSinceLastSync guarding mechanism
+                                                              // It handles both scenarios where there
+                                                              // is something new on remote or on local.
+      .then(this.gatherUnsyncedEvents.bind(this))
+      .then(this.updateLastSyncedCommit.bind(this))
+      .then(resolve);
+    });
+  }
+
   // private
 
   configureGitPrivateKeyIfNeeded() {
@@ -108,24 +126,6 @@ export default class GitEventStorage {
   notify(event) {
     this.observers.forEach((observer) => {
       observer.onNewEvent(event);
-    });
-  }
-
-  sync() {
-    return new Promise((resolve, _reject) => {
-      this.queue = this.queue
-      .then(this.gitPushChangesWithEventualRebase.bind(this)) // Push With Eventual Rebase will
-                                                              // fetch data also whenever clear push
-                                                              // is rejected.
-                                                              // After rebase some old events
-                                                              // will reappear again, however those events
-                                                              // wont be applied again because of
-                                                              // eventIdsSinceLastSync guarding mechanism
-                                                              // It handles both scenarios where there
-                                                              // is something new on remote or on local.
-      .then(this.gatherUnsyncedEvents.bind(this))
-      .then(this.updateLastSyncedCommit.bind(this))
-      .then(resolve);
     });
   }
 
