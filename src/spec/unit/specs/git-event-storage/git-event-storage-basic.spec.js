@@ -2,6 +2,7 @@ const path = require('path');
 const expect = require('chai').expect;
 const fs = require('fs-extra');
 const execSync = require('child_process').execSync;
+const utils = require('../support/utils.js');
 const GitEventStorage = require('../../components.js').lib.GitEventStorage;
 
 let remoteRepoPath;
@@ -10,8 +11,8 @@ let storage;
 
 describe('GitEventStorage', () => {
   beforeEach(() => {
-    remoteRepoPath = generateRemoteRepoPath();
-    tmpRepoPath = generateTmpRepoPath();
+    remoteRepoPath = utils.generateRemoteRepoPath();
+    tmpRepoPath = utils.generateTmpRepoPath();
 
     storage = new GitEventStorage({
       remoteRepoUrl: remoteRepoPath,
@@ -101,16 +102,5 @@ describe('GitEventStorage', () => {
 
   function gitFiles() {
     return execSync(`git -C ${tmpRepoPath} ls-files`).toString();
-  }
-
-  function generateTmpRepoPath() {
-    return `/tmp/starboard-git-specs/gitStorageLocalRepo_${Math.random()}`;
-  }
-
-  function generateRemoteRepoPath() {
-    const p = `/tmp/starboard-git-specs/gitStorageRemoteRepo_${Math.random()}`;
-    fs.ensureDirSync(p);
-    execSync(`git init --bare ${p}`);
-    return p;
   }
 });
