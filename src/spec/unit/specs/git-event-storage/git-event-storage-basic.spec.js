@@ -2,7 +2,7 @@ const path = require('path');
 const expect = require('chai').expect;
 const fs = require('fs-extra');
 const execSync = require('child_process').execSync;
-const GitEventStorage = require('../components.js').lib.GitEventStorage;
+const GitEventStorage = require('../../components.js').lib.GitEventStorage;
 
 let remoteRepoPath;
 let tmpRepoPath;
@@ -58,11 +58,11 @@ describe('GitEventStorage', () => {
 
   it('saves/removes a file', () => {
     fs.copySync(
-      path.join(__dirname, './support/files/image.jpg'),
+      path.join(__dirname, '../support/files/image.jpg'),
       path.join(tmpRepoPath, 'image.jpg')
     );
     fs.copySync(
-      path.join(__dirname, './support/files/picture.jpg'),
+      path.join(__dirname, '../support/files/picture.jpg'),
       path.join(tmpRepoPath, 'picture.jpg')
     );
 

@@ -1,7 +1,7 @@
 const expect = require('chai').expect;
 const fs = require('fs-extra');
 const execSync = require('child_process').execSync;
-const GitEventStorage = require('../components.js').lib.GitEventStorage;
+const GitEventStorage = require('../../components.js').lib.GitEventStorage;
 
 let remoteRepoPath;
 let tmpRepoPath;
