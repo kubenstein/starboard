@@ -1,5 +1,4 @@
 const expect = require('chai').expect;
-const fs = require('fs-extra');
 const execSync = require('child_process').execSync;
 const utils = require('../support/utils.js');
 const GitEventStorage = require('../../components.js').lib.GitEventStorage;
