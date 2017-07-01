@@ -63,7 +63,7 @@ exports.config = {
   //
   // Set a base URL in order to shorten url command calls. If your url parameter starts
   // with "/", the base url gets prepended.
-  baseUrl: 'http://localhost:4444',
+  baseUrl: 'http://localhost:19423',
   //
   // Default timeout for all waitForXXX commands.
   waitforTimeout: 10000,

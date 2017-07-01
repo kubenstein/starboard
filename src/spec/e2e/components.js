@@ -14,7 +14,7 @@ const storage = new lib.GitEventStorage({
 });
 
 exports.server = new lib.Starboard({
-  port: 4444,
+  port: 19423,
   eventStorage: storage,
   uploadsDir: pathToGitTempLocalRepo,
   noBanner: true
