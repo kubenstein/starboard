@@ -77,7 +77,7 @@ export default class Server {
     app.post('/login/', (req, res) => {
       const email = req.body.email;
       const password = req.body.password;
-      this.auth.grantAccessWithCredentials(email, password).then((authData) => {
+      this.auth.authWithCredentials(email, password).then((authData) => {
         res.send({ userId: authData.userId, token: authData.token });
       }).catch(() => {
         res.send(403, 'access denied');
@@ -98,7 +98,7 @@ export default class Server {
 
     // -------------- webSockets --------------
     io.on('connection', (socket) => {
-      this.auth.grantAccess(socket.handshake.query.token)
+      this.auth.authWithToken(socket.handshake.query.token)
       .then(() => {
         this.configureSocket(socket);
         socket.emit('accessGranted');

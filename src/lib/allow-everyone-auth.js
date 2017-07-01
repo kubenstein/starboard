@@ -3,14 +3,14 @@ export default class AllowEveryoneAuth {
     return 'Auth: allow everyone';
   }
 
-  grantAccessWithCredentials(email, _password) {
+  authWithCredentials(email, _password) {
     return Promise.resolve({
       userId: email,
       token: 'AllowEveryoneToken'
     });
   }
 
-  grantAccess(_token) {
+  authWithToken(_token) {
     return Promise.resolve();
   }
 
