@@ -8,16 +8,25 @@ import {
   commentRemovedEventType
 } from './event-definitions.js';
 
-export default class CleanFilesUsecase {
-  constructor(currentState, params = {}) {
-    this.currentState = currentState;
-    this.fileNamePrefix = params.fileNamePrefix || '';
-    this.pathToStorage = params.pathToStorage || hasToBeSet('pathToStorage');
-    this.commentsRepo = new CommentsRepository(this.currentState);
-    this.cardsRepo = new CardsRepository(this.currentState);
+export default class CleanFilesProcessor {
+  handleEvents() {
+    return [
+      columnRemovedEventType,
+      cardRemovedEventType,
+      commentRemovedEventType
+    ];
   }
 
-  cleanWhenNeeded(event) {
+  constructor(params = {}) {
+    this.fileNamePrefix = params.fileNamePrefix || '';
+    this.pathToStorage = params.pathToStorage || hasToBeSet('pathToStorage');
+  }
+
+  processEvent(stateManager, event) {
+    this.stateManager = stateManager;
+    this.commentsRepo = new CommentsRepository(stateManager);
+    this.cardsRepo = new CardsRepository(stateManager);
+
     const t = event.type;
     if (t === columnRemovedEventType) return this.removeColumnRelatedFiles(event.data.columnId);
     if (t === cardRemovedEventType) return this.removeCardRelatedFiles(event.data.cardId);

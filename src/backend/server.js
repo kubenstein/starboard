@@ -5,7 +5,8 @@ import SocketIo from 'socket.io';
 import multer from 'multer';
 import bodyParser from 'body-parser';
 import StoreFileUsecase from 'lib/store-file-usecase.js';
-import CleanFilesUsecase from 'lib/clean-files-usecase.js';
+import CleanFilesProcessor from 'lib/clean-files-processor.js';
+import EventProcessorsQueue from 'lib/event-processors-queue.js';
 import CurrentState from 'lib/current-state.js';
 import AllowEveryoneAuth from 'lib/allow-everyone-auth.js';
 import NullLogger from 'lib/null-logger.js';
@@ -14,21 +15,29 @@ import { permissionDeniedEvent } from 'lib/event-definitions.js';
 
 export default class Server {
   constructor(params) {
-    this.eventStorage = params.eventStorage || hasToBeSet('eventStorage');
-    this.serverPort   = params.port         || 9000;
-    this.uploadsDir   = params.uploadsDir   || '.tmp/tmpUploads/';
-    this.logger       = params.logger       || new NullLogger();
-    this.auth         = params.auth         || new AllowEveryoneAuth();
-    this.noBanner     = params.noBanner     || false;
+    this.eventStorage    = params.eventStorage    || hasToBeSet('eventStorage');
+    this.serverPort      = params.port            || 9000;
+    this.uploadsDir      = params.uploadsDir      || '.tmp/tmpUploads/';
+    this.logger          = params.logger          || new NullLogger();
+    this.auth            = params.auth            || new AllowEveryoneAuth();
+    this.noBanner        = params.noBanner        || false;
+    this.eventProcessors = params.eventProcessors || [];
 
-    this.server            = null;
-    this.sockets           = [];
-    this.currentState      = new CurrentState({ eventSource: this.eventStorage });
-    this.storeFileUsecase  = new StoreFileUsecase(this.currentState, { storedFilesDir: this.uploadsDir });
-    this.cleanFilesUsecase = new CleanFilesUsecase(this.currentState, {
-      pathToStorage: this.uploadsDir,
-      fileNamePrefix: '/attachments/'
+    this.server               = null;
+    this.sockets              = [];
+    this.currentState         = new CurrentState({ eventSource: this.eventStorage });
+    this.storeFileUsecase     = new StoreFileUsecase(this.currentState, { storedFilesDir: this.uploadsDir });
+    this.eventProcessorsQueue = new EventProcessorsQueue({
+      stateManager: this.currentState,
+      processors: this.eventProcessors
     });
+
+    this.eventProcessorsQueue.push(
+      new CleanFilesProcessor({
+        pathToStorage: this.uploadsDir,
+        fileNamePrefix: '/attachments/'
+      })
+    );
   }
 
   displayBanner() {
@@ -126,7 +135,8 @@ export default class Server {
     socket.on('addEvent', (event, sendBack) => {
       this.auth.allowEvent(event, socket.handshake.query.token)
       .then(() => {
-        this.cleanFilesUsecase.cleanWhenNeeded(event);
+        return this.eventProcessorsQueue.processEvent(event);
+      }).then(() => {
         sendBack(event);
         this.eventStorage.addEvent(event);
       })
