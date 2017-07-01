@@ -1,3 +1,5 @@
+/* eslint-disable no-var, vars-on-top */
+
 const path = require('path');
 const expect = require('chai').expect;
 const fs = require('fs-extra');
@@ -5,9 +7,9 @@ const execSync = require('child_process').execSync;
 const utils = require('../support/utils.js');
 const GitEventStorage = require('../../components.js').lib.GitEventStorage;
 
-let remoteRepoPath;
-let tmpRepoPath;
-let storage;
+var remoteRepoPath;
+var tmpRepoPath;
+var storage;
 
 describe('GitEventStorage', () => {
   beforeEach(() => {
@@ -29,7 +31,7 @@ describe('GitEventStorage', () => {
   });
 
   it('notifies about new event', () => {
-    let notifiedEvent;
+    var notifiedEvent;
     const observer = {
       onNewEvent: (event) => {
         notifiedEvent = event;

@@ -1,3 +1,5 @@
+/* eslint-disable no-var, vars-on-top */
+
 const fs = require('fs');
 
 const env = process.env.NODE_ENV;
@@ -11,8 +13,8 @@ fs.readdirSync('node_modules')
   .filter((x) => { return ['.bin'].indexOf(x) === -1; })
   .forEach((mod) => { nodeModules[mod] = `commonjs ${mod}`; });
 
-let entry;
-let output;
+var entry;
+var output;
 if (env === 'production') {
   entry = `${srcDir}/lib.js`;
   output = {

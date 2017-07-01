@@ -16,7 +16,7 @@ describe('Column', () => {
     server.stop();
   });
 
-  before(() => { when.visitingPage(); });
+  beforeEach(() => { when.visitingPage(); });
 
   it('can be created', () => {
     userCanNotSee('created column');

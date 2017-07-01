@@ -1,4 +1,4 @@
-/* eslint no-undef: 0 */
+/* eslint-disable no-undef, no-var, vars-on-top */
 
 const expect = require('chai').expect;
 
@@ -65,30 +65,19 @@ module.exports = function steps() {
     userCanSeeColumn(oldName);
 
     const inputs = browser.$$('.columns input.column-title');
-    for (let i = 0; i < inputs.length; i += 1) {
-      const input = inputs[i];
-      if (input.getValue() === oldName) {
-        input.setValue(newName);
-        browser.keys(['Enter']);
-        return;
-      }
-    }
+    const input = inputs.filter((i) => { return i.getValue() === oldName; })[0];
+    input.setValue(newName);
+    browser.keys(['Enter']);
   };
 
   when.removingColumn = function (columnTitle) {
     userCanSeeColumn(columnTitle);
 
     const columns = browser.$$('.columns .column');
-    for (let i = 0; i < columns.length; i += 1) {
-      const column = columns[i];
-      const columnTitleEl = column.$('input.column-title');
-      if (columnTitleEl.getValue() === columnTitle) {
-        const removeTrigger = column.$('.btn-remove');
-        removeTrigger.click();
-        browser.alertAccept();
-        return;
-      }
-    }
+    const column = columns.filter((c) => { return c.$('input.column-title').getValue() === columnTitle; })[0];
+    const removeTrigger = column.$('.btn-remove');
+    removeTrigger.click();
+    browser.alertAccept();
   };
 
   when.creatingCard = function (title) {
@@ -102,13 +91,8 @@ module.exports = function steps() {
     userCanSee(cardTitle);
 
     const cards = browser.$$('.card');
-    for (let i = 0; i < cards.length; i += 1) {
-      const card = cards[i];
-      if (card.getText('.title') === cardTitle) {
-        card.click();
-        return;
-      }
-    }
+    const card = cards.filter((c) => { return c.$('.title').getText() === cardTitle; })[0];
+    card.click();
   };
 
   when.changingCardTitle = function (newTitle) {
@@ -146,13 +130,8 @@ module.exports = function steps() {
     userCanSee(labelText);
 
     const labels = browser.$$('.label-picker .label');
-    for (let i = 0; i < labels.length; i += 1) {
-      const label = labels[i];
-      if (label.getText() === labelText) {
-        label.click();
-        return;
-      }
-    }
+    const label = labels.filter((l) => { return l.getText() === labelText; })[0];
+    label.click();
   };
 
   when.postingTextComment = function (commentBody) {
@@ -209,15 +188,17 @@ module.exports = function steps() {
 
   then.userCanSeeColumn = function (columnTitle) {
     browser.waitUntil(() => {
-      const columnNames = browser.getValue('input.column-title');
-      return columnNames.includes(columnTitle);
+      return browser.$$('input.column-title')
+      .map((input) => { return input.getValue(); })
+      .indexOf(columnTitle) !== -1;
     }, 3000, `Expect to find a column with a title: ${columnTitle}`);
   };
 
   then.userCanNotSeeColumn = function (columnTitle) {
     browser.waitUntil(() => {
-      const columnNames = browser.getValue('input.column-title');
-      return !columnNames.includes(columnTitle);
+      return browser.$$('input.column-title')
+      .map((input) => { return input.getValue(); })
+      .indexOf(columnTitle) === -1;
     }, 3000, `Expect NOT to find a column with a title: ${columnTitle}`);
   };
 
@@ -225,7 +206,7 @@ module.exports = function steps() {
     userCanSee(cardTitle);
 
     const cards = browser.$$('.card');
-    for (let i = 0; i < cards.length; i += 1) {
+    for (var i = 0; i < cards.length; i += 1) {
       const card = cards[i];
       if (card.getText('.title') === cardTitle) {
         browser.waitUntil(() => {
@@ -251,7 +232,7 @@ module.exports = function steps() {
     userCanSee(content);
 
     const comments = browser.$$('.card-comment');
-    for (let i = 0; i < comments.length; i += 1) {
+    for (var i = 0; i < comments.length; i += 1) {
       const comment = comments[i];
       const commentBody = comment.$('.content').getText();
       if (commentBody === content) {
@@ -266,7 +247,7 @@ module.exports = function steps() {
     userCanSee(cardTitle);
 
     const cards = browser.$$('.card');
-    for (let i = 0; i < cards.length; i += 1) {
+    for (var i = 0; i < cards.length; i += 1) {
       const card = cards[i];
       if (card.getText('.title') === cardTitle) {
         if (counter > 0) {

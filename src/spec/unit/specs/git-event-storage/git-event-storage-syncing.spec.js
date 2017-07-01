@@ -1,11 +1,13 @@
+/* eslint-disable no-var, vars-on-top */
+
 const expect = require('chai').expect;
 const execSync = require('child_process').execSync;
 const utils = require('../support/utils.js');
 const GitEventStorage = require('../../components.js').lib.GitEventStorage;
 
-let remoteRepoPath;
-let tmpRepoPath;
-let storage;
+var remoteRepoPath;
+var tmpRepoPath;
+var storage;
 
 describe('GitEventStorage', () => {
   beforeEach(() => {

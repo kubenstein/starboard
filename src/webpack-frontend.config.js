@@ -1,3 +1,5 @@
+/* eslint-disable no-var, vars-on-top */
+
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const WebpackCleanupPlugin = require('webpack-cleanup-plugin');
@@ -7,7 +9,7 @@ const srcDir = __dirname;
 const rootDir = `${srcDir}/../`;
 const frontendDir = `${srcDir}/frontend/`;
 
-let path;
+var path;
 if (env === 'production') {
   path = `${rootDir}/dist/frontend`;
 } else if (env === 'test') {
