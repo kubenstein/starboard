@@ -34,7 +34,9 @@ describe('Column', () => {
 
   it('can be removed', () => {
     utils.createColumn('column to remove', currentState);
-    when.removingColumn('column to remove');
+    then.userCanSeeColumn('column to remove');
+    following.removingColumn('column to remove');
+    and.visitingPage();
     userCanNotSeeColumn('column to remove');
   });
 });
