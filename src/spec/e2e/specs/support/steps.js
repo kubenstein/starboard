@@ -1,4 +1,4 @@
-/* eslint-disable no-undef, no-var, vars-on-top */
+/* eslint-disable no-undef */
 
 const expect = require('chai').expect;
 
@@ -206,20 +206,16 @@ module.exports = function steps() {
     userCanSee(cardTitle);
 
     const cards = browser.$$('.card');
-    for (var i = 0; i < cards.length; i += 1) {
-      const card = cards[i];
-      if (card.getText('.title') === cardTitle) {
-        browser.waitUntil(() => {
-          return card.$$('.label').length === labelsInRGB.length;
-        }, 3000, `Expect card: ${cardTitle} to have ${labelsInRGB.length} labels`);
+    const card = cards.filter((c) => { return c.$('.title').getText() === cardTitle; })[0];
 
-        const colors = card.$$('.label').map((label) => {
-          return browser.elementIdCssProperty(label.element().value.ELEMENT, 'background-color').value;
-        });
-        expect(colors).to.eql(labelsInRGB);
-        return;
-      }
-    }
+    browser.waitUntil(() => {
+      return card.$$('.label').length === labelsInRGB.length;
+    }, 3000, `Expect card: ${cardTitle} to have ${labelsInRGB.length} labels`);
+
+    const colors = card.$$('.label').map((label) => {
+      return browser.elementIdCssProperty(label.element().value.ELEMENT, 'background-color').value;
+    });
+    expect(colors).to.eql(labelsInRGB);
   };
 
   then.userCanSeeDescription = function (text) {
@@ -232,31 +228,20 @@ module.exports = function steps() {
     userCanSee(content);
 
     const comments = browser.$$('.card-comment');
-    for (var i = 0; i < comments.length; i += 1) {
-      const comment = comments[i];
-      const commentBody = comment.$('.content').getText();
-      if (commentBody === content) {
-        comment.$('.btn-remove-comment').click();
-        browser.alertAccept();
-        return;
-      }
-    }
+    const comment = comments.filter((c) => { return c.$('.content').getText() === content; })[0];
+    comment.$('.btn-remove-comment').click();
+    browser.alertAccept();
   };
 
   then.userCanSeeCommentCounter = function (cardTitle, counter) {
     userCanSee(cardTitle);
 
     const cards = browser.$$('.card');
-    for (var i = 0; i < cards.length; i += 1) {
-      const card = cards[i];
-      if (card.getText('.title') === cardTitle) {
-        if (counter > 0) {
-          expect(card.getText()).to.include(`☰ ${counter}`);
-        } else {
-          expect(card.getText()).not.to.include(`☰ ${counter}`);
-        }
-        return;
-      }
+    const card = cards.filter((c) => { return c.$('.title').getText() === cardTitle; })[0];
+    if (counter > 0) {
+      expect(card.getText()).to.include(`☰ ${counter}`);
+    } else {
+      expect(card.getText()).not.to.include(`☰ ${counter}`);
     }
   };
 
