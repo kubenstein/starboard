@@ -13,19 +13,25 @@ import 'components/Board/board.scss';
 export default class Board extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { columns: [] };
     this.stateManager = props.stateManager;
     this.columnsRepo = new ColumnsRepository(this.stateManager);
     this.cardsRepo = new CardsRepository(this.stateManager);
     this.themeStyler = new ThemeStyler(this.stateManager);
     this.configureDND();
     this.stateManager.addObserver(this);
+    this.state = {
+      loaded: false,
+      columns: []
+    };
   }
 
   //
   // stateManager observer callback
   onStateUpdate() {
-    this.setState({ columns: this.columnsRepo.columnsSortedByPosition() });
+    this.setState({
+      loaded: true,
+      columns: this.columnsRepo.columnsSortedByPosition()
+    });
   }
 
   configureDND() {
@@ -52,13 +58,18 @@ export default class Board extends React.Component {
     }).configure();
   }
 
+  additionalCssClass() {
+    return this.state.loaded ? '' : 'loading';
+  }
+
   render() {
     const columns = this.state.columns;
     return (
       <div className="board-wrapper">
         <style>{this.themeStyler.generateStyle()}</style>
-        <div className="board">
-          <Topbar stateManager={this.stateManager} />
+        <div className={`board ${this.additionalCssClass()}`}>
+          <Topbar className="topbar" stateManager={this.stateManager} />
+          <p className="loading-text">Loading Board...</p>
           <div className="bg-wrapper">
             <div
               className="columns"
