@@ -5,7 +5,7 @@
   background-color: $white;
   cursor: pointer;
 
-  &:hover {
+  &.card-opened, &:hover {
     background-color: $porcelain;
   }
 

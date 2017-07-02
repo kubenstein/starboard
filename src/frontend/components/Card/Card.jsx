@@ -44,13 +44,17 @@ export default class Card extends React.Component {
     }, 0);
   }
 
+  additionalCssClass() {
+    return this.state.detailsOpened ? 'card-opened' : '';
+  }
+
   render() {
     const { labels, title, id } = this.card;
     const { detailsOpened } = this.state;
     const commentCounter = this.commentsRepo.commentsCountForCard(id);
     return (
       <div
-        className="card-wrapper"
+        className={`card-wrapper ${this.additionalCssClass()}`}
         data-DND-data-card-id={id}
         onClick={() => { this.openDetails(); }}
       >
