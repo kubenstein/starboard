@@ -54,22 +54,27 @@ module.exports = {
   },
 
   module: {
-    loaders: [
+    rules: [
       {
         test: /(\.jsx|\.js)$/,
-        loader: 'babel',
-        query: {
-          presets: ['stage-0', 'es2015']
-        }
+        use: [
+          {
+            loader: 'babel-loader',
+            query: {
+              presets: ['stage-0', 'es2015']
+            }
+          }
+        ]
       }
     ]
   },
 
   resolve: {
-    root: [
+    modules: [
       backendDir,
       srcDir,
-      rootDir
+      rootDir,
+      'node_modules'
     ]
   },
 

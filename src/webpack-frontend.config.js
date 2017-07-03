@@ -1,8 +1,7 @@
 /* eslint-disable no-var, vars-on-top */
-
+const fs = require('fs-extra');
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const WebpackCleanupPlugin = require('webpack-cleanup-plugin');
 
 const env = process.env.NODE_ENV;
 const srcDir = __dirname;
@@ -12,9 +11,12 @@ const frontendDir = `${srcDir}/frontend/`;
 var path;
 if (env === 'production') {
   path = `${rootDir}/dist/frontend`;
+  fs.removeSync(path);
 } else if (env === 'test') {
   path = `${rootDir}/.tmp/specs/src/frontend`;
+  fs.removeSync(path);
 }
+
 
 module.exports = {
   entry: `${frontendDir}/index.jsx`,
@@ -26,38 +28,58 @@ module.exports = {
   },
 
   module: {
-    loaders: [
+    rules: [
       {
         test: /(\.jsx|\.js)$/,
-        loader: 'babel',
-        query: {
-          presets: ['stage-0', 'es2015', 'react']
-        }
+        use: [
+          {
+            loader: 'babel-loader',
+            query: {
+              presets: ['stage-0', 'es2015', 'react']
+            }
+          }
+        ]
       },
       {
         test: /\.html$/,
-        loader: `file?name=[path][name].[ext]&context=${frontendDir}`
+        use: [
+          {
+            loader: `file-loader?name=[path][name].[ext]&context=${frontendDir}`
+          }
+        ]
       },
       {
         test: /\.jpe?g$|\.gif$|\.svg$|\.woff$|\.ttf$/,
-        loader: `file?name=[path][name]-[hash:6].[ext]&context=${frontendDir}`
+        use: [
+          {
+            loader: `file-loader?name=[path][name]-[hash:6].[ext]&context=${frontendDir}`
+          }
+        ]
       },
       {
         test: /\.png$/,
-        loader: `file?name=favicons/[name].[ext]&context=${frontendDir}`
+        use: [
+          {
+            loader: `file-loader?name=favicons/[name].[ext]&context=${frontendDir}`
+          }
+        ]
       },
       {
         test: /\.s?css$/,
-        loader: ExtractTextPlugin.extract('style-loader', 'css!sass')
+        use: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: ['css-loader', 'sass-loader']
+        })
       }
     ]
   },
 
   resolve: {
-    root: [
+    modules: [
       frontendDir,
       srcDir,
-      rootDir
+      rootDir,
+      'node_modules'
     ]
   },
 
@@ -80,10 +102,7 @@ module.exports = {
 
   stats: { children: false },
   plugins: (env === 'production' || env === 'test') ? [
-    new ExtractTextPlugin('application.css'),
-    new WebpackCleanupPlugin(),
-    new webpack.optimize.DedupePlugin(),
-    new webpack.optimize.OccurrenceOrderPlugin(),
+    new ExtractTextPlugin({ filename: 'application.css' }),
     new webpack.optimize.UglifyJsPlugin({
       compress: {
         warnings: false
@@ -95,7 +114,6 @@ module.exports = {
       },
     })
   ] : [
-    new ExtractTextPlugin('application.css'),
-    new WebpackCleanupPlugin()
+    new ExtractTextPlugin({ filename: 'application.css' })
   ],
 };
