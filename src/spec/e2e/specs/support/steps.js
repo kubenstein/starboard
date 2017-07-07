@@ -29,6 +29,13 @@ module.exports = function steps() {
     sidemenuTrigger.click();
   };
 
+  when.togglingSettingsSection = function () {
+    const selector = '.settings-section .settings-switch';
+    browser.waitForExist(selector, 3000);
+    const settingsSectionTrigger = browser.$(selector);
+    settingsSectionTrigger.click();
+  };
+
   when.settingBoardTitle = function (text) {
     const selector = 'input.board-name';
     browser.waitForExist(selector, 3000);

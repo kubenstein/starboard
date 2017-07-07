@@ -39,6 +39,36 @@
     color: $grey;
     font-size: 10px;
   }
+
+  .settings-section {
+    &.opened {
+      .section {
+        display: block;
+      }
+
+      .settings-switch:after {
+        content: '▲'
+      }
+    }
+
+    .settings-switch {
+      user-select: none;
+      cursor: pointer;
+
+      &:after {
+        display: inline-block;
+        margin-left: 5px;
+        font-size: 11px;
+        position: relative;
+        top: -2px;
+        content: '▼';
+      }
+    }
+
+    .section {
+      display: none;
+    }
+  }
 }
 
 .color-picker {
