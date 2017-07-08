@@ -47,7 +47,8 @@
       }
 
       .settings-switch:after {
-        content: '▲'
+        margin-left: 3px;
+        content: '▼';
       }
     }
 
@@ -59,9 +60,7 @@
         display: inline-block;
         margin-left: 5px;
         font-size: 11px;
-        position: relative;
-        top: -2px;
-        content: '▼';
+        content: '▶';
       }
     }
 
