@@ -9,6 +9,7 @@ import CardLabelUpdatedEventHandler from './eventHandlers/card-label-updated.js'
 import CommentAddedEventHandler from './eventHandlers/comment-added.js';
 import CommentRemovedEventHandler from './eventHandlers/comment-removed.js';
 import UserUpdatedEventHandler from './eventHandlers/user-updated.js';
+import AllEventsEventHandler from './eventHandlers/all-events.js';
 
 export default class CurrentState {
   constructor(params) {
@@ -19,6 +20,7 @@ export default class CurrentState {
     this.eventHandlers = {};
 
     this.registerEventHandlers([
+      AllEventsEventHandler,
       SettingsUpdatedEventHandler,
       ColumnAddedEventHandler,
       ColumnUpdatedEventHandler,
@@ -128,8 +130,15 @@ export default class CurrentState {
   // eventSource callback
   onNewEvent(event, notifyObservers = true) {
     const handlerName = event.type;
-    if (this.eventHandlers[handlerName]) {
-      (new this.eventHandlers[handlerName](this)).execute(event);
+    const EventHandler = this.eventHandlers[handlerName];
+    const AllEventsHandler = this.eventHandlers.allEventTypes;
+
+    if (EventHandler) {
+      new EventHandler(this).execute(event);
+
+      if (AllEventsHandler) {
+        new AllEventsHandler(this).execute(event);
+      }
 
       if (notifyObservers) {
         this.onDataSynced();

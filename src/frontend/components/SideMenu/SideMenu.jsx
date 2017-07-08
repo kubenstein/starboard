@@ -1,6 +1,8 @@
 import React from 'react';
 import EditableInput from 'components/EditableInput/EditableInput.jsx';
+import ActivityItem from 'components/ActivityItem/ActivityItem.jsx';
 import SettingsRepository from 'lib/settings-repository.js';
+import ActivitiesRepository from 'lib/activities-repository.js';
 import UsersRepository from 'lib/users-repository.js';
 import UserLogoutUsecase from 'lib/user-logout-usecase.js';
 import 'components/SideMenu/side-menu.scss';
@@ -11,6 +13,7 @@ export default class SideMenu extends React.Component {
     this.stateManager = this.props.stateManager;
     this.settingsRepo = new SettingsRepository(this.stateManager);
     this.usersRepo = new UsersRepository(this.stateManager);
+    this.activitiesRepo = new ActivitiesRepository(this.stateManager);
     this.state = {
       settingsOpened: false
     };
@@ -54,6 +57,7 @@ export default class SideMenu extends React.Component {
     const availableColors = this.settingsRepo.availableColors();
     const userId = this.usersRepo.currentUserId();
     const nickname = this.usersRepo.currentUserNickname();
+    const activities = this.activitiesRepo.latestEvents(10);
     const { settingsOpened } = this.state;
     return (
       <div className="side-menu">
@@ -106,6 +110,14 @@ export default class SideMenu extends React.Component {
                 </div>
               )}
             </div>
+          </div>
+        </div>
+        <div className="section activities-section">
+          <h3 className="section-title">Latest Activities:</h3>
+          <div className="activities">
+            { activities.map(event =>
+              <ActivityItem key={event.id} event={event} />
+            )}
           </div>
         </div>
       </div>
