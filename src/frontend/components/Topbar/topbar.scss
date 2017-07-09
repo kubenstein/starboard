@@ -52,8 +52,8 @@
     position: fixed;
     z-index: 70;
     top: $topbar-height;
-    width: 230px;
-    height: 100%;
+    bottom: 0;
     right: 0;
+    width: 230px;
   }
 }
