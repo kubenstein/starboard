@@ -4,7 +4,7 @@ export default class ActivitiesRepository {
   }
 
   latestEvents(numberOfActivities) {
-    const bucket = this.stateManager.bucket('activities');
-    return bucket.slice(0, numberOfActivities);
+    const events = this.stateManager.bucket('activities');
+    return events.reverse().slice(0, numberOfActivities);
   }
 }
