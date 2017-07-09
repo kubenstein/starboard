@@ -1,4 +1,18 @@
 @import "../../assets/stylesheets/import";
 
-.activitiy-item {
+.activity-item {
+  padding-bottom: 15px;
+  margin-bottom: 5px;
+  border-bottom: 1px solid $iron;
+
+
+  .date {
+    display: block;
+    font-size: 10px;
+    margin-bottom: 7px;
+  }
+
+  .content {
+    font-size: 10pt;
+  }
 }

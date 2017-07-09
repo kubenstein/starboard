@@ -3,6 +3,8 @@ export function currentTimestamp() {
 }
 
 export function formattedDate(timestamp) {
+  if (!timestamp) return '';
+
   function pad(x) { return `0${x}`.slice(-2); }
 
   const d = new Date(timestamp * 1000);
