@@ -14,9 +14,6 @@ export default class SideMenu extends React.Component {
     this.settingsRepo = new SettingsRepository(this.stateManager);
     this.usersRepo = new UsersRepository(this.stateManager);
     this.activitiesRepo = new ActivitiesRepository(this.stateManager);
-    this.state = {
-      settingsOpened: false
-    };
   }
 
   textForLabel(color) {
@@ -39,10 +36,6 @@ export default class SideMenu extends React.Component {
     new UserLogoutUsecase().logout();
   }
 
-  toggleSettingsSection() {
-    this.setState({ settingsOpened: !this.state.settingsOpened });
-  }
-
   labelCssClasses(color) {
     const labelId = color.replace('#', '');
     return `label-input-${labelId}`;
@@ -58,7 +51,6 @@ export default class SideMenu extends React.Component {
     const userId = this.usersRepo.currentUserId();
     const nickname = this.usersRepo.currentUserNickname();
     const activities = this.activitiesRepo.latestEvents(10);
-    const { settingsOpened } = this.state;
     return (
       <div className="side-menu">
         <div className="section user-section">
@@ -78,40 +70,36 @@ export default class SideMenu extends React.Component {
           />
           <small className="user-id">{userId}</small>
         </div>
-        <div className={`settings-section ${settingsOpened ? 'opened' : ''}`}>
-          <h3
-            className="section-title settings-switch"
-            onClick={() => { this.toggleSettingsSection(); }}
-          >Board Settings</h3>
-          <div className="section">
-            <h3 className="section-title">Theme Color:</h3>
-            <ul className="color-picker">
-              { availableColors.map(color =>
-                <li
-                  key={color}
-                  style={{ backgroundColor: color }}
-                  className={this.colorPickerCssClasses(color)}
-                  onClick={() => { this.updateThemeColor(color); }}
-                />
-              )}
-            </ul>
-          </div>
 
-          <div className="section">
-            <h3 className="section-title">Labels:</h3>
-            <div className="label-editor">
-              { availableColors.map(color =>
-                <div key={color} className="label" style={{ backgroundColor: color }}>
-                  <EditableInput
-                    className={this.labelCssClasses(color)}
-                    value={this.textForLabel(color)}
-                    onChange={(value) => { this.updateLabelText(color, value); }}
-                  />
-                </div>
-              )}
-            </div>
+        <div className="section">
+          <h3 className="section-title">Board Color:</h3>
+          <ul className="color-picker">
+            { availableColors.map(color =>
+              <li
+                key={color}
+                style={{ backgroundColor: color }}
+                className={this.colorPickerCssClasses(color)}
+                onClick={() => { this.updateThemeColor(color); }}
+              />
+            )}
+          </ul>
+        </div>
+
+        <div className="section">
+          <h3 className="section-title">Labels:</h3>
+          <div className="label-editor">
+            { availableColors.map(color =>
+              <div key={color} className="label" style={{ backgroundColor: color }}>
+                <EditableInput
+                  className={this.labelCssClasses(color)}
+                  value={this.textForLabel(color)}
+                  onChange={(value) => { this.updateLabelText(color, value); }}
+                />
+              </div>
+            )}
           </div>
         </div>
+
         <div className="section activities-section">
           <h3 className="section-title">Latest Activities:</h3>
           <div className="activities">

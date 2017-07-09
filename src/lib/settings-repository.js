@@ -61,7 +61,8 @@ export default class SettingsRepository {
   }
 
   set(key, value) {
-    const event = settingsUpdatedEvent(key, value);
+    const requesterId = this.stateManager.getUserId();
+    const event = settingsUpdatedEvent(requesterId, key, value);
     return this.stateManager.addEvent(event);
   }
 }

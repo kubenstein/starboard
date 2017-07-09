@@ -23,10 +23,11 @@ export default class CardsRepository {
   }
 
   addCard(title, columnId) {
+    const requesterId = this.stateManager.getUserId();
     const lastCard = this.cardsSortedByPosition(columnId).reverse()[0] || { position: -1 };
     const lastPosition = lastCard.position + 1;
 
-    const event = cardAddedEvent({
+    const event = cardAddedEvent(requesterId, {
       columnId: columnId,
       position: lastPosition,
       title: title
@@ -35,17 +36,20 @@ export default class CardsRepository {
   }
 
   updateCard(id, changes) {
-    const event = cardUpdatedEvent(id, changes);
+    const requesterId = this.stateManager.getUserId();
+    const event = cardUpdatedEvent(requesterId, id, changes);
     return this.stateManager.addEvent(event);
   }
 
   updateLabel(cardId, label, labelWillBeSet) {
-    const event = cardLabelUpdatedEvent(cardId, label, labelWillBeSet);
+    const requesterId = this.stateManager.getUserId();
+    const event = cardLabelUpdatedEvent(requesterId, cardId, label, labelWillBeSet);
     return this.stateManager.addEvent(event);
   }
 
   removeCard(cardId) {
-    const event = cardRemovedEvent(cardId);
+    const requesterId = this.stateManager.getUserId();
+    const event = cardRemovedEvent(requesterId, cardId);
     return this.stateManager.addEvent(event);
   }
 }

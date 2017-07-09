@@ -20,13 +20,15 @@ export default class UsersRepository {
   }
 
   setCurrentUserNickname(nickname) {
-    const id = this.currentUserId();
-    const event = userUpdatedEvent(id, 'nickname', nickname);
+    const userId = this.currentUserId();
+    const requesterId = this.currentUserId();
+    const event = userUpdatedEvent(requesterId, userId, 'nickname', nickname);
     return this.stateManager.addEvent(event);
   }
 
   setUserNickname(userId, nickname) {
-    const event = userUpdatedEvent(userId, 'nickname', nickname);
+    const requesterId = this.currentUserId();
+    const event = userUpdatedEvent(requesterId, userId, 'nickname', nickname);
     return this.stateManager.addEvent(event);
   }
 }

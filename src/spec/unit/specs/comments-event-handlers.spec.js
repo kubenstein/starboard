@@ -10,13 +10,13 @@ describe('Comments Event Handler', () => {
   });
 
   it('adds a text comment', () => {
-    currentState.addEvent(e.commentAddedEvent(cardId(), { content: 'commentContent', authorId: 'authorId' }));
+    currentState.addEvent(e.commentAddedEvent(requester(), cardId(), { content: 'commentContent' }));
 
-    expect(firstComment()).to.include({ content: 'commentContent', authorId: 'authorId', attachment: null });
+    expect(firstComment()).to.include({ content: 'commentContent', authorId: requester(), attachment: null });
   });
 
   it('adds a comment with an attachment', () => {
-    currentState.addEvent(e.commentAddedEvent(cardId(), {
+    currentState.addEvent(e.commentAddedEvent(requester(), cardId(), {
       attachmentName: 'file.zip',
       attachmentSize: 1337,
       attachmentType: 'application/octet-stream',
@@ -33,30 +33,32 @@ describe('Comments Event Handler', () => {
   });
 
   it('removes a comment', () => {
-    currentState.addEvent(e.commentAddedEvent(cardId(), { content: 'commentContent', authorId: 'authorId' }));
+    currentState.addEvent(
+      e.commentAddedEvent(requester(), cardId(), { content: 'commentContent', authorId: 'authorId' })
+    );
     const commentId = firstComment().id;
 
-    currentState.addEvent(e.commentRemovedEvent(commentId));
+    currentState.addEvent(e.commentRemovedEvent(requester(), commentId));
     expect(existingComments().length).to.eq(0);
   });
 
   // strange scenarios
 
   it('handles adding a comment to a card that does not exist', () => {
-    currentState.addEvent(e.commentAddedEvent('InexistentCommentId', { content: 'commentContent' }));
+    currentState.addEvent(e.commentAddedEvent(requester(), 'InexistentCommentId', { content: 'commentContent' }));
 
     expect(existingComments().length).to.eq(0);
   });
 
   it('handles removing a comment that does not exist', () => {
-    currentState.addEvent(e.commentRemovedEvent('InexistentCommentId'));
+    currentState.addEvent(e.commentRemovedEvent(requester(), 'InexistentCommentId'));
     expect(existingComments().length).to.eq(0);
   });
 
   // private
 
   function addColumn() {
-    return currentState.addEvent(e.columnAddedEvent({ name: 'column' }));
+    return currentState.addEvent(e.columnAddedEvent(requester(), { name: 'column' }));
   }
 
   function columnId() {
@@ -64,7 +66,9 @@ describe('Comments Event Handler', () => {
   }
 
   function addCard() {
-    return currentState.addEvent(e.cardAddedEvent({ columnId: columnId(), title: 'columnName', position: 0 }));
+    return currentState.addEvent(
+      e.cardAddedEvent(requester(), { columnId: columnId(), title: 'columnName', position: 0 })
+    );
   }
 
   function cardId() {
@@ -77,5 +81,9 @@ describe('Comments Event Handler', () => {
 
   function firstComment() {
     return existingComments()[0];
+  }
+
+  function requester() {
+    return 'dummyRequesterId';
   }
 });

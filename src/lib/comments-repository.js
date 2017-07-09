@@ -28,29 +28,30 @@ export default class CommentsRepository {
   }
 
   addComment(cardId, params) {
+    const requesterId = this.stateManager.getUserId();
     const { attachment } = params;
     if (attachment) {
-      return this.addCommentWithAttachment(cardId, params);
+      return this.addCommentWithAttachment(requesterId, cardId, params);
     }
 
-    return this.addCommentWithoutAttachment(cardId, params);
+    return this.addCommentWithoutAttachment(requesterId, cardId, params);
   }
 
   removeComment(commentId) {
-    const event = commentRemovedEvent(commentId);
+    const requesterId = this.stateManager.getUserId();
+    const event = commentRemovedEvent(requesterId, commentId);
     return this.stateManager.addEvent(event);
   }
 
   // private
 
-  addCommentWithAttachment(cardId, params) {
-    const { content, attachment, authorId } = params;
+  addCommentWithAttachment(requesterId, cardId, params) {
+    const { content, attachment } = params;
 
     return this.stateManager.addFile(attachment.blob)
     .then((attachmentUrl) => {
-      const event = commentAddedEvent(cardId, {
+      const event = commentAddedEvent(requesterId, cardId, {
         content: content,
-        authorId: authorId,
         attachmentName: attachment.name,
         attachmentSize: attachment.size,
         attachmentType: attachment.type,
@@ -60,12 +61,11 @@ export default class CommentsRepository {
     });
   }
 
-  addCommentWithoutAttachment(cardId, params) {
-    const { content, authorId } = params;
+  addCommentWithoutAttachment(requesterId, cardId, params) {
+    const { content } = params;
 
-    const event = commentAddedEvent(cardId, {
-      content: content,
-      authorId: authorId,
+    const event = commentAddedEvent(requesterId, cardId, {
+      content: content
     });
     return this.stateManager.addEvent(event);
   }

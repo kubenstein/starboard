@@ -46,7 +46,7 @@ export default class GitEventStorage {
 
   addFile(fileNameInGitFolder) {
     return new Promise((resolve, _reject) => {
-      const event = fileAddedEvent(fileNameInGitFolder);
+      const event = fileAddedEvent(this.commiterEmail, fileNameInGitFolder);
       this.queue = this.queue
       .then(() => { return this.gitAddFile(fileNameInGitFolder); })
       .then(() => { return this.applyEvent(event); })
@@ -56,7 +56,7 @@ export default class GitEventStorage {
 
   removeFile(fileNameInGitFolder) {
     return new Promise((resolve, _reject) => {
-      const event = fileRemovedEvent(fileNameInGitFolder);
+      const event = fileRemovedEvent(this.commiterEmail, fileNameInGitFolder);
       this.queue = this.queue
       .then(() => { return this.gitRemoveFile(fileNameInGitFolder); })
       .then(() => { return this.applyEvent(event); })

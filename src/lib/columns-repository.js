@@ -20,10 +20,11 @@ export default class ColumnsRepository {
   }
 
   addColumn(name) {
+    const requesterId = this.stateManager.getUserId();
     const lastColumn = this.columnsSortedByPosition().reverse()[0] || { position: -1 };
     const lastPosition = lastColumn.position + 1;
 
-    const event = columnAddedEvent({
+    const event = columnAddedEvent(requesterId, {
       name: name,
       position: lastPosition
     });
@@ -31,12 +32,14 @@ export default class ColumnsRepository {
   }
 
   updateColumn(id, changes) {
-    const event = columnUpdatedEvent(id, changes);
+    const requesterId = this.stateManager.getUserId();
+    const event = columnUpdatedEvent(requesterId, id, changes);
     return this.stateManager.addEvent(event);
   }
 
   removeColumn(id) {
-    const event = columnRemovedEvent(id);
+    const requesterId = this.stateManager.getUserId();
+    const event = columnRemovedEvent(requesterId, id);
     return this.stateManager.addEvent(event);
   }
 }

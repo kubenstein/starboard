@@ -27,7 +27,7 @@ export default class ColumnRemoved {
     const cardRemovedEventHandler = new CardRemovedEventHandler(this.currentState);
     this.currentState.bucket('cards').forEach((card) => {
       if (card.columnId === column.id) {
-        const proxyEvent = cardRemovedEvent(card.id);
+        const proxyEvent = cardRemovedEvent('proxyRequester', card.id);
         cardRemovedEventHandler.execute(proxyEvent);
       }
     });

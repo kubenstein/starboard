@@ -29,7 +29,7 @@ export default class MemoryEventStorage {
   addFile(fileBlobOrFilePath) {
     return this.addFileHandler(fileBlobOrFilePath)
     .then((fileUrl) => {
-      const event = fileAddedEvent(fileUrl);
+      const event = fileAddedEvent('MemoryEventRequester', fileUrl);
       return this.addEvent(event)
       .then(() => { return fileUrl; });
     });

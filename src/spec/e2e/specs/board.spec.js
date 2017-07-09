@@ -41,8 +41,7 @@ describe('Board', () => {
       { color: '0079BF', value: 'label-blue' }
     ];
     when.openingSideMenu();
-    and.togglingSettingsSection();
-    and.then.settingLabels(labelsToSet);
+    and.settingLabels(labelsToSet);
     userCanSeeLabels(labelsToSet);
   });
 
@@ -52,8 +51,7 @@ describe('Board', () => {
       rgba: 'rgba(0, 121, 191, 1)'
     };
     when.openingSideMenu();
-    and.togglingSettingsSection();
-    and.then.changingThemeColor(color.hex);
+    and.changingThemeColor(color.hex);
     userCanSeeBoardInColor(color.rgba);
   });
 });

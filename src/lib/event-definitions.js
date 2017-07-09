@@ -16,7 +16,7 @@ export function permissionDeniedEvent(originalEvent) {
 }
 
 export const cardAddedEventType = 'CARD_ADDED';
-export function cardAddedEvent(params) {
+export function cardAddedEvent(requesterId, params) {
   const { columnId, position, title } = params;
   return {
     type: cardAddedEventType,
@@ -25,27 +25,30 @@ export function cardAddedEvent(params) {
       columnId: columnId,
       position: position,
       title: title,
-      description: '',
-      createdAt: currentTimestamp()
+      description: ''
     },
+    createdAt: currentTimestamp(),
+    requesterId: requesterId,
     id: uuid()
   };
 }
 
 export const cardUpdatedEventType = 'CARD_UPDATED';
-export function cardUpdatedEvent(cardId, changes) {
+export function cardUpdatedEvent(requesterId, cardId, changes) {
   return {
     type: cardUpdatedEventType,
     data: {
       cardId: cardId,
       changes: changes
     },
+    createdAt: currentTimestamp(),
+    requesterId: requesterId,
     id: uuid()
   };
 }
 
 export const cardLabelUpdatedEventType = 'CARD_LABEL_UPDATED';
-export function cardLabelUpdatedEvent(cardId, label, shouldBeSet) {
+export function cardLabelUpdatedEvent(requesterId, cardId, label, shouldBeSet) {
   return {
     type: cardLabelUpdatedEventType,
     data: {
@@ -53,66 +56,74 @@ export function cardLabelUpdatedEvent(cardId, label, shouldBeSet) {
       label: label,
       set: shouldBeSet
     },
+    createdAt: currentTimestamp(),
+    requesterId: requesterId,
     id: uuid()
   };
 }
 
 export const cardRemovedEventType = 'CARD_REMOVED';
-export function cardRemovedEvent(cardId) {
+export function cardRemovedEvent(requesterId, cardId) {
   return {
     type: cardRemovedEventType,
     data: { cardId: cardId },
+    createdAt: currentTimestamp(),
+    requesterId: requesterId,
     id: uuid()
   };
 }
 
 export const columnAddedEventType = 'COLUMN_ADDED';
-export function columnAddedEvent(params) {
+export function columnAddedEvent(requesterId, params) {
   const { name, position } = params;
   return {
     type: columnAddedEventType,
     data: {
       id: uuid(),
       name: name,
-      position: position,
-      createdAt: currentTimestamp()
+      position: position
     },
+    createdAt: currentTimestamp(),
+    requesterId: requesterId,
     id: uuid()
   };
 }
 
 export const columnUpdatedEventType = 'COLUMN_UPDATED';
-export function columnUpdatedEvent(columnId, changes) {
+export function columnUpdatedEvent(requesterId, columnId, changes) {
   return {
     type: columnUpdatedEventType,
     data: {
       columnId: columnId,
       changes: changes
     },
+    createdAt: currentTimestamp(),
+    requesterId: requesterId,
     id: uuid()
   };
 }
 
 export const columnRemovedEventType = 'COLUMN_REMOVED';
-export function columnRemovedEvent(columnId) {
+export function columnRemovedEvent(requesterId, columnId) {
   return {
     type: columnRemovedEventType,
     data: {
       columnId: columnId
     },
+    createdAt: currentTimestamp(),
+    requesterId: requesterId,
     id: uuid()
   };
 }
 
 export const commentAddedEventType = 'COMMENT_ADDED';
-export function commentAddedEvent(cardId, params) {
+export function commentAddedEvent(requesterId, cardId, params) {
   const {
     content,
     attachmentName,
     attachmentSize,
     attachmentType,
-    attachmentUrl,
-    authorId
+    attachmentUrl
   } = params;
 
   let attachment = null;
@@ -132,59 +143,67 @@ export function commentAddedEvent(cardId, params) {
       cardId: cardId,
       content: content,
       attachment: attachment,
-      authorId: authorId,
-      createdAt: currentTimestamp()
+      authorId: requesterId,
     },
+    createdAt: currentTimestamp(),
+    requesterId: requesterId,
     id: uuid()
   };
 }
 
 export const commentRemovedEventType = 'COMMENT_REMOVED';
-export function commentRemovedEvent(commentId) {
+export function commentRemovedEvent(requesterId, commentId) {
   return {
     type: commentRemovedEventType,
     data: { commentId: commentId },
+    createdAt: currentTimestamp(),
+    requesterId: requesterId,
     id: uuid()
   };
 }
 
 export const fileAddedEventType = 'FILE_ADDED';
-export function fileAddedEvent(filePath) {
+export function fileAddedEvent(requesterId, filePath) {
   return {
     type: fileAddedEventType,
     data: {
-      filePath: filePath,
-      createdAt: currentTimestamp()
+      filePath: filePath
     },
+    createdAt: currentTimestamp(),
+    requesterId: requesterId,
     id: uuid()
   };
 }
 
 export const fileRemovedEventType = 'FILE_REMOVED';
-export function fileRemovedEvent(filePath) {
+export function fileRemovedEvent(requesterId, filePath) {
   return {
     type: fileRemovedEventType,
     data: {
       filePath: filePath
     },
+    createdAt: currentTimestamp(),
+    requesterId: requesterId,
     id: uuid()
   };
 }
 
 export const settingsUpdatedEventType = 'SETTINGS_UPDATED';
-export function settingsUpdatedEvent(key, value) {
+export function settingsUpdatedEvent(requesterId, key, value) {
   return {
     type: settingsUpdatedEventType,
     data: {
       id: key,
       value: value
     },
+    createdAt: currentTimestamp(),
+    requesterId: requesterId,
     id: uuid()
   };
 }
 
 export const userUpdatedEventType = 'USER_UPDATED';
-export function userUpdatedEvent(userId, key, value) {
+export function userUpdatedEvent(requesterId, userId, key, value) {
   return {
     type: userUpdatedEventType,
     data: {
@@ -192,6 +211,8 @@ export function userUpdatedEvent(userId, key, value) {
       key: key,
       value: value
     },
+    createdAt: currentTimestamp(),
+    requesterId: requesterId,
     id: uuid()
   };
 }

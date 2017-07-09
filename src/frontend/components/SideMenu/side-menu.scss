@@ -1,15 +1,24 @@
 @import "../../assets/stylesheets/import";
 
+.side-menu-wrapper {
+  overflow: hidden;
+}
+
 .side-menu {
   background-color: $porcelain;
+  overflow-y: auto;
   height: 100%;
-  padding: 10px;
+  width: 100%;
+  padding: 10px 17px 10px 10px;
   box-shadow: -1px 0px 1px rgba(0, 0, 0, 0.1);
   color: $black;
 
   .section {
     @extend .clearfix;
     margin-bottom: 20px;
+    width: 210px;
+    padding-left: 10px;
+    margin-left: -10px;
   }
 
   .section-title {
@@ -38,35 +47,6 @@
   .user-id {
     color: $grey;
     font-size: 10px;
-  }
-
-  .settings-section {
-    &.opened {
-      .section {
-        display: block;
-      }
-
-      .settings-switch:after {
-        margin-left: 3px;
-        content: '▼';
-      }
-    }
-
-    .settings-switch {
-      user-select: none;
-      cursor: pointer;
-
-      &:after {
-        display: inline-block;
-        margin-left: 5px;
-        font-size: 11px;
-        content: '▶';
-      }
-    }
-
-    .section {
-      display: none;
-    }
   }
 }
 
