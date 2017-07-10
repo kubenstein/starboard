@@ -62,7 +62,7 @@
     "eslint-config-airbnb": "~15.0.x",
     "eslint-plugin-import": "~2.6.x",
     "eslint-plugin-jasmine": "~2.2.x",
-    "eslint-plugin-jsx-a11y": "~5.0.x",
+    "eslint-plugin-jsx-a11y": "~5.x.x",
     "eslint-plugin-react": "~7.x.x",
     "extract-text-webpack-plugin": "~2.x.x",
     "file-loader": "~0.11.x",
