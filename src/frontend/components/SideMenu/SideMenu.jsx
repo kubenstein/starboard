@@ -103,10 +103,10 @@ export default class SideMenu extends React.Component {
         <div className="section activities-section">
           <h3 className="section-title">Latest Activities:</h3>
           <div className="activities">
-            { activities.map(event =>
+            { activities.map(activity =>
               <ActivityItem
-                key={event.id}
-                event={event}
+                key={activity.id}
+                activity={activity}
                 stateManager={this.stateManager}
               />
             )}

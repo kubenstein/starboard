@@ -134,12 +134,11 @@ export default class CurrentState {
     const AllEventsHandler = this.eventHandlers.allEventTypes;
 
     if (EventHandler) {
-      new EventHandler(this).execute(event);
-
       if (AllEventsHandler) {
         new AllEventsHandler(this).execute(event);
       }
 
+      new EventHandler(this).execute(event);
       if (notifyObservers) {
         this.onDataSynced();
       }
