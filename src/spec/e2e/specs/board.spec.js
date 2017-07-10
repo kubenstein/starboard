@@ -54,4 +54,16 @@ describe('Board', () => {
     and.changingThemeColor(color.hex);
     userCanSeeBoardInColor(color.rgba);
   });
+
+  it('tracks changes as a activity log', () => {
+    when.openingSideMenu();
+    when.creatingColumn('column activity');
+    userCanSeeActivityLogEntry('column_created', 'column activity');
+
+    when.creatingCard('activity card');
+    userCanSeeActivityLogEntry('card_created', 'activity card');
+
+    when.removingColumn('column activity');
+    userCanSeeActivityLogEntry('column_removed', 'column activity');
+  });
 });

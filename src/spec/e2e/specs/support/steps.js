@@ -143,6 +143,20 @@ module.exports = function steps() {
     browser.chooseFile('.add-comment-form .file-input', filePath);
   };
 
+  then.userCanSeeActivityLogEntry = function (action, itemTitle) {
+    if (action === 'column_created') {
+      userCanSee(`added column ${itemTitle}.`);
+    }
+
+    if (action === 'card_created') {
+      userCanSee(`added card ${itemTitle}.`);
+    }
+
+    if (action === 'column_removed') {
+      userCanSee(`removed column ${itemTitle}.`);
+    }
+  };
+
   then.userCanSeeBoardInColor = function (colorInRgba) {
     const board = browser.$('.board');
     const themeColor = browser.elementIdCssProperty(board.element().value.ELEMENT, 'background-color');
