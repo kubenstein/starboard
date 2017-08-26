@@ -27,12 +27,12 @@ export default class Server {
     this.sockets              = [];
     this.currentState         = new CurrentState({ eventSource: this.eventStorage });
     this.storeFileUsecase     = new StoreFileUsecase(this.currentState, { storedFilesDir: this.uploadsDir });
-    this.eventProcessorsQueue = new EventProcessorsQueue({
+    this.incommingEventProcessors = new EventProcessorsQueue({
       stateManager: this.currentState,
       processors: this.eventProcessors
     });
 
-    this.eventProcessorsQueue.push(
+    this.incommingEventProcessors.push(
       new CleanFilesProcessor({
         pathToStorage: this.uploadsDir,
         fileNamePrefix: '/attachments/'
@@ -135,7 +135,7 @@ export default class Server {
     socket.on('addEvent', (event, sendBack) => {
       this.auth.allowEvent(event, socket.handshake.query.token)
       .then(() => {
-        return this.eventProcessorsQueue.processEvent(event);
+        return this.incommingEventProcessors.processEvent(event);
       }).then(() => {
         sendBack(event);
         this.eventStorage.addEvent(event);
