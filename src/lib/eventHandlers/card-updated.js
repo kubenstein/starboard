@@ -14,15 +14,17 @@ export default class CardUpdated {
     let newPosition = changes.position;
     let newColumnId = changes.columnId;
 
+    const cardOldData = this.currentState.objectData('cards', cardId);
+    if (!cardOldData) return;
+
     if (newPosition !== undefined || newColumnId !== undefined) {
-      const oldData = this.currentState.objectData('cards', cardId);
-      newPosition = (newPosition !== undefined) ? newPosition : oldData.position;
-      newColumnId = (newColumnId !== undefined) ? newColumnId : oldData.columnId;
+      newPosition = (newPosition !== undefined) ? newPosition : cardOldData.position;
+      newColumnId = (newColumnId !== undefined) ? newColumnId : cardOldData.columnId;
 
       this.updatePositionOfOtherCards(cardId, {
-        oldPosition: oldData.position,
+        oldPosition: cardOldData.position,
         newPosition: newPosition,
-        oldColumnId: oldData.columnId,
+        oldColumnId: cardOldData.columnId,
         newColumnId: newColumnId
       });
     }

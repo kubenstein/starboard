@@ -31,22 +31,31 @@ export default class AllEvents {
 
   CARDREMOVEDActivityHandler(event) {
     const cardId = event.data.cardId;
+    const card = this.cardsRepo.get(cardId);
+    if (!card) return;
+
     const activity = event;
-    activity.meta = { cardTitle: this.cardsRepo.get(cardId).title };
+    activity.meta = { cardTitle: card.title };
     this.storeActivity(activity);
   }
 
   CARDLABELUPDATEDActivityHandler(event) {
     const cardId = event.data.cardId;
+    const card = this.cardsRepo.get(cardId);
+    if (!card) return;
+
     const activity = event;
-    activity.meta = { cardTitle: this.cardsRepo.get(cardId).title };
+    activity.meta = { cardTitle: card.title };
     this.storeActivity(activity);
   }
 
   COMMENTADDEDActivityHandler(event) {
     const cardId = event.data.cardId;
+    const card = this.cardsRepo.get(cardId);
+    if (!card) return;
+
     const activity = event;
-    activity.meta = { cardTitle: this.cardsRepo.get(cardId).title };
+    activity.meta = { cardTitle: card.title };
     this.storeActivity(activity);
   }
 
@@ -59,8 +68,11 @@ export default class AllEvents {
 
   COLUMNREMOVEDActivityHandler(event) {
     const columnId = event.data.columnId;
+    const column = this.columnsRepo.get(columnId);
+    if (!column) return;
+
     const activity = event;
-    activity.meta = { columnName: this.columnsRepo.get(columnId).name };
+    activity.meta = { columnName: column.name };
     this.storeActivity(activity);
   }
 
