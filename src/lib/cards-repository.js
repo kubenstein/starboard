@@ -15,10 +15,13 @@ export default class CardsRepository {
     return bucket.filter(c => c.id === id)[0];
   }
 
-  cardsSortedByPosition(columnId) {
+  cardsByColumn(columnId) {
     const bucket = this.stateManager.bucket('cards');
-    return bucket
-      .filter(c => c.columnId === columnId)
+    return bucket.filter(c => c.columnId === columnId);
+  }
+
+  cardsSortedByPosition(columnId) {
+    return this.cardsByColumn(columnId)
       .sort((c1, c2) => c1.position - c2.position);
   }
 

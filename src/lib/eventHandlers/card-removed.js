@@ -1,3 +1,4 @@
+import CommentsRepository from 'lib/comments-repository.js';
 import { cardRemovedEventType } from '../event-definitions.js';
 import repositionAllCards from './support/reposition-all-cards.js';
 
@@ -20,11 +21,9 @@ export default class CardRemoved {
   // private
 
   removeComments(card) {
-    const commentsBucket = this.currentState.bucket('comments');
-    commentsBucket.forEach((comment) => {
-      if (comment.cardId === card.id) {
-        this.currentState.removeObject('comments', comment.id);
-      }
+    const commentsRepo = new CommentsRepository(this.currentState);
+    commentsRepo.commentsForCard(card.id).forEach((comment) => {
+      this.currentState.removeObject('comments', comment.id);
     });
   }
 

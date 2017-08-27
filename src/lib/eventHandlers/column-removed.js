@@ -1,3 +1,4 @@
+import CardsRepository from 'lib/cards-repository.js';
 import CardRemovedEventHandler from './card-removed.js';
 import repositionAllColumns from './support/reposition-all-columns.js';
 import {
@@ -25,11 +26,11 @@ export default class ColumnRemoved {
 
   removeAllCards(column) {
     const cardRemovedEventHandler = new CardRemovedEventHandler(this.currentState);
-    this.currentState.bucket('cards').forEach((card) => {
-      if (card.columnId === column.id) {
-        const proxyEvent = cardRemovedEvent('proxyRequester', card.id);
-        cardRemovedEventHandler.execute(proxyEvent);
-      }
+    const cardsRepo = new CardsRepository(this.currentState);
+
+    cardsRepo.cardsByColumn(column.id).forEach((card) => {
+      const proxyEvent = cardRemovedEvent('proxyRequester', card.id);
+      cardRemovedEventHandler.execute(proxyEvent);
     });
   }
 
