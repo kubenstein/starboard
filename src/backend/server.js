@@ -33,10 +33,7 @@ export default class Server {
     });
 
     this.incommingEventProcessors.push(
-      new CleanFilesProcessor({
-        pathToStorage: this.uploadsDir,
-        fileNamePrefix: '/attachments/'
-      })
+      new CleanFilesProcessor({ fileNamePrefix: '/attachments/' })
     );
   }
 

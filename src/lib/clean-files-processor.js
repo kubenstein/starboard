@@ -1,7 +1,5 @@
-import fs from 'fs';
 import CommentsRepository from './comments-repository.js';
 import CardsRepository from './cards-repository.js';
-import { hasToBeSet } from './utils.js';
 import {
   columnRemovedEventType,
   cardRemovedEventType,
@@ -19,7 +17,6 @@ export default class CleanFilesProcessor {
 
   constructor(params = {}) {
     this.fileNamePrefix = params.fileNamePrefix || '';
-    this.pathToStorage = params.pathToStorage || hasToBeSet('pathToStorage');
   }
 
   processEvent(stateManager, event) {
@@ -63,14 +60,6 @@ export default class CleanFilesProcessor {
     const filePublicUrl = comment.attachment.dataUrl;
     const fileName = filePublicUrl.replace(this.fileNamePrefix, '');
 
-    return this.removeFile(fileName)
-    .then(() => { this.currentState.removeFile(fileName); });
-  }
-
-  removeFile(fileName) {
-    const filePath = `${this.pathToStorage}/${fileName}`;
-    return new Promise((resolve, reject) => {
-      fs.unlink(filePath, (err) => { return err ? reject(err) : resolve(); });
-    });
+    return this.stateManager.removeFile(fileName);
   }
 }
