@@ -24,7 +24,7 @@ module.exports = {
   output: {
     path: path,
     publicPath: '/',
-    filename: 'bundle.js'
+    filename: 'starboard-web-client.bundle.js'
   },
 
   module: {
@@ -103,7 +103,7 @@ module.exports = {
 
   stats: { children: false },
   plugins: (env === 'production' || env === 'test') ? [
-    new ExtractTextPlugin({ filename: 'application.css' }),
+    new ExtractTextPlugin({ filename: 'starboard-web-client.bundle.css' }),
     new webpack.optimize.UglifyJsPlugin({
       compress: {
         warnings: false
@@ -115,6 +115,6 @@ module.exports = {
       },
     })
   ] : [
-    new ExtractTextPlugin({ filename: 'application.css' })
+    new ExtractTextPlugin({ filename: 'starboard-web-client.bundle.css' })
   ],
 };
