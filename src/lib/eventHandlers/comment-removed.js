@@ -8,7 +8,7 @@ export default class CommentRemoved {
   }
 
   execute(event) {
-    const commentId = event.data.commentId;
+    const { commentId } = event.data;
     this.currentState.removeObject('comments', commentId);
   }
 }

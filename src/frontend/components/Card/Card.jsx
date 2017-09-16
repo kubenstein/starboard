@@ -74,7 +74,7 @@ export default class Card extends React.Component {
             <span className="comment-counter card-DND-handler">☰ {commentCounter}</span>
           }
         </div>
-        {detailsOpened ?
+        {detailsOpened &&
           <div
             className="card-details-full-screen-wrapper"
             onClick={(e) => { this.clickedOverlay(e); }}
@@ -86,7 +86,7 @@ export default class Card extends React.Component {
               stateManager={this.stateManager}
             />
           </div>
-        : ''}
+        }
       </div>
     );
   }

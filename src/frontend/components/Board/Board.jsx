@@ -63,10 +63,10 @@ export default class Board extends React.Component {
   }
 
   render() {
-    const columns = this.state.columns;
+    const { columns } = this.state;
     return (
       <div className="board-wrapper">
-        <style>{this.themeStyler.generateStyle()}</style>
+        <style>{this.themeStyler.generateStyles()}</style>
         <div className={`board ${this.additionalCssClass()}`}>
           <Topbar className="topbar" stateManager={this.stateManager} />
           <p className="loading-text">Loading Board...</p>

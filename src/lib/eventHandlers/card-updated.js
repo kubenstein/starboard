@@ -9,8 +9,7 @@ export default class CardUpdated {
   }
 
   execute(event) {
-    const cardId = event.data.cardId;
-    const changes = event.data.changes;
+    const { cardId, changes } = event.data;
     let newPosition = changes.position;
     let newColumnId = changes.columnId;
 

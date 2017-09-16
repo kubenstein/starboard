@@ -44,12 +44,12 @@ export default class EditableInput extends React.Component {
   }
 
   onFinalizedEditing() {
-    const value = this.input.value;
+    const { value } = this.input;
     this.changeCallback(value);
   }
 
   onInputChange(e) {
-    const value = e.target.value;
+    const { value } = e.target;
     this.setState({ value: value });
   }
 
@@ -89,7 +89,7 @@ export default class EditableInput extends React.Component {
   }
 
   render() {
-    const value = this.state.value;
+    const { value } = this.state;
     return (this.type === 'textarea') ?
       this.textareaJSX(value)
     :

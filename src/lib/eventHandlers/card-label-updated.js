@@ -8,9 +8,7 @@ export default class CardLabelUpdated {
   }
 
   execute(event) {
-    const cardId = event.data.cardId;
-    const label = event.data.label;
-    const shouldBeSet = event.data.set;
+    const { cardId, label, set: shouldBeSet } = event.data;
     const card = this.currentState.objectData('cards', cardId);
     if (!card) return;
 

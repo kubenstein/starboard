@@ -32,11 +32,11 @@ export default class DndCardsConfigurator {
 
   onDragStart(el) {
     this.sourceDraggedEl = el;
-    setTimeout(() => { // Source element has to be hidden by css, however
+    setTimeout(() => { // Source element has to be hidden by css, however though
                        // draggable clone el dimentions are calculated based
-                       // on source element dimentions. so the source el
+                       // on source element dimentions. So the source el
                        // has to be visible during that calculation.
-                       // We postpone applying css class via setTimeout(..., 0)
+                       // We postpone applying hiding css class via setTimeout(..., 0)
       this.sourceDraggedEl.classList.add('card-dragging');
     }, 0);
   }
@@ -53,13 +53,13 @@ export default class DndCardsConfigurator {
     this.cardsRepo.updateCard(cardId, { columnId: newColumnId, position: newPosition });
 
     //
-    // On a succesful drop, Dragula removes old element and inserts new one.
-    // Old removed element is an React component, we keep it in this.sourceDraggedEl.
-    // New inserted element is jsut a pure html copy of original so not a React component.
+    // On a succesful drop, Dragula removes old element and inserts a new one.
+    // Old removed element is a React component, we keep it in this.sourceDraggedEl.
+    // New inserted element is just a pure html copy of original so not a React component.
     // We have to insert again a React component to DOM (and we do it on proper position,
     // where the new inserted element is) so DOM <-> React are still in sync.
-    // We have to do it only when we dnd in same column because when we move to the other
-    // colum, a card SUPPOSED to be removed from DOM, and Dragula does (before React).
+    // We have to do it only when we dnd in a same column because when we move to the other
+    // colum, a card SUPPOSED to be removed from DOM, and Dragula does it (before React).
     if (newColumnId === oldColumnId) {
       el.parentNode.insertBefore(this.sourceDraggedEl, el);
     }
@@ -76,7 +76,7 @@ export default class DndCardsConfigurator {
     this.sourceDraggedEl.classList.remove('card-dragging');
 
     //
-    // onCancel is fired when card was moved to the same position.
+    // onCancel is fired when card is moved to the same position.
     // It is some kind of edge case becase it is not always fired.
     // When it is though, we reinsert react component (this.sourceDraggedEl)
     // and remove dragula pure html copy.

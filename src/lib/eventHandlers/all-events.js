@@ -23,14 +23,14 @@ export default class AllEvents {
   // log event handlers
 
   CARDADDEDActivityHandler(event) {
-    const title = event.data.title;
+    const { title } = event.data;
     const activity = event;
     activity.meta = { cardTitle: title };
     this.storeActivity(activity);
   }
 
   CARDREMOVEDActivityHandler(event) {
-    const cardId = event.data.cardId;
+    const { cardId } = event.data;
     const card = this.cardsRepo.get(cardId);
     if (!card) return;
 
@@ -40,7 +40,7 @@ export default class AllEvents {
   }
 
   CARDLABELUPDATEDActivityHandler(event) {
-    const cardId = event.data.cardId;
+    const { cardId } = event.data;
     const card = this.cardsRepo.get(cardId);
     if (!card) return;
 
@@ -50,7 +50,7 @@ export default class AllEvents {
   }
 
   COMMENTADDEDActivityHandler(event) {
-    const cardId = event.data.cardId;
+    const { cardId } = event.data;
     const card = this.cardsRepo.get(cardId);
     if (!card) return;
 
@@ -60,14 +60,14 @@ export default class AllEvents {
   }
 
   COLUMNADDEDActivityHandler(event) {
-    const name = event.data.name;
+    const { name } = event.data;
     const activity = event;
     activity.meta = { columnName: name };
     this.storeActivity(activity);
   }
 
   COLUMNREMOVEDActivityHandler(event) {
-    const columnId = event.data.columnId;
+    const { columnId } = event.data;
     const column = this.columnsRepo.get(columnId);
     if (!column) return;
 

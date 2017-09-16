@@ -3,14 +3,12 @@ import frontendFilesHandler from './frontend-files-handler.js';
 import backendFilesHandler from './backend-with-files-storage-files-handler.js';
 
 export default class MemoryEventStorageFactory {
-  forFrontend(params) {
-    const attr = params || {};
-    return this.storageWithFileHander(frontendFilesHandler, attr.logger);
+  forFrontend(params = {}) {
+    return this.storageWithFileHander(frontendFilesHandler, params.logger);
   }
 
-  forBackendWithStoredFiles(params) {
-    const attr = params || {};
-    return this.storageWithFileHander(backendFilesHandler, attr.logger);
+  forBackendWithStoredFiles(params = {}) {
+    return this.storageWithFileHander(backendFilesHandler, params.logger);
   }
 
   // private

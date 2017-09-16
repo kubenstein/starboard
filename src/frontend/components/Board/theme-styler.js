@@ -8,7 +8,7 @@ export default class ThemeStyler {
     this.browserSettings = new BrowserSettings();
   }
 
-  generateStyle() {
+  generateStyles() {
     const themeColor = this.settingsRepo.themeColor();
     if (!themeColor) return '';
     this.browserSettings.setFavicon(themeColor);

@@ -19,9 +19,9 @@ export default class Column extends React.Component {
   }
 
   updateName(newName) {
-    const oldName = this.columnData.name;
+    const { name: oldName, id } = this.columnData;
     if (newName !== oldName) {
-      this.columnsRepo.updateColumn(this.columnData.id, { name: newName });
+      this.columnsRepo.updateColumn(id, { name: newName });
     }
   }
 

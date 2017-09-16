@@ -81,8 +81,7 @@ export default class Server {
     });
 
     app.post('/login/', (req, res) => {
-      const email = req.body.email;
-      const password = req.body.password;
+      const { email, password } = req.body;
       this.auth.authWithCredentials(email, password).then((authData) => {
         res.send({ userId: authData.userId, token: authData.token });
       }).catch(() => {

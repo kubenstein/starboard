@@ -36,16 +36,16 @@ export default class CardDetails extends React.Component {
   }
 
   updateTitle(newValue) {
-    const oldValue = this.card.value;
+    const { value: oldValue, id } = this.card;
     if (newValue !== oldValue) {
-      this.cardsRepo.updateCard(this.card.id, { title: newValue });
+      this.cardsRepo.updateCard(id, { title: newValue });
     }
   }
 
   updateDescription(newValue) {
-    const oldValue = this.card.description;
+    const { description: oldValue, id } = this.card;
     if (newValue !== oldValue) {
-      this.cardsRepo.updateCard(this.card.id, { description: newValue });
+      this.cardsRepo.updateCard(id, { description: newValue });
     }
   }
 

@@ -8,11 +8,10 @@ export default class ColumnUpdated {
   }
 
   execute(event) {
-    const columnId = event.data.columnId;
+    const { columnId, changes } = event.data;
     const column = this.currentState.objectData('columns', columnId);
     if (!column) return;
 
-    const changes = event.data.changes;
     const newPosition = changes.position;
 
     if (newPosition !== undefined) {
