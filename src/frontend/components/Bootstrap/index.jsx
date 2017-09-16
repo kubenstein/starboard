@@ -1,8 +1,8 @@
 import React from 'react';
 import CurrentState from 'lib/current-state';
 import ServerEventStorage from 'lib/server-event-storage';
-import Board from 'components/Board/Board';
-import Login from 'components/Login/Login';
+import Board from 'components/Board';
+import Login from 'components/Login';
 import UserSession from 'lib/user-session';
 
 export default class Bootstrap extends React.Component {

@@ -1,7 +1,7 @@
 import React from 'react';
 import BrowserSettings from 'lib/browser-settings';
-import EditableInput from 'components/EditableInput/EditableInput';
-import SideMenu from 'components/SideMenu/SideMenu';
+import EditableInput from 'components/EditableInput';
+import SideMenu from 'components/SideMenu';
 import SettingsRepository from 'lib/settings-repository';
 import 'components/Topbar/styles.scss';
 

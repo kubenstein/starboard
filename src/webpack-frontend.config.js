@@ -75,6 +75,7 @@ module.exports = {
   },
 
   resolve: {
+    extensions: ['.js', '.jsx'],
     modules: [
       frontendDir,
       srcDir,

@@ -1,5 +1,5 @@
 import React from 'react';
-import CardDetails from 'components/CardDetails/CardDetails';
+import CardDetails from 'components/CardDetails';
 import BrowserSettings from 'lib/browser-settings';
 import SettingsRepository from 'lib/settings-repository';
 import CommentsRepository from 'lib/comments-repository';
