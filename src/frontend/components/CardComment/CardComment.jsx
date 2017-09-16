@@ -2,7 +2,7 @@ import React from 'react';
 import CommentsRepository from 'lib/comments-repository.js';
 import UsersRepository from 'lib/users-repository.js';
 import { formattedDate } from 'lib/utils.js';
-import 'components/CardComment/card-comment.scss';
+import 'components/CardComment/styles.scss';
 
 export default class CardComment extends React.Component {
   constructor(props) {

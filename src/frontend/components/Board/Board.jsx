@@ -8,7 +8,7 @@ import DndCardsConfigurator from 'components/dndSupport/dnd-cards-configurator.j
 import ThemeStyler from 'components/Board/theme-styler.js';
 import ColumnsRepository from 'lib/columns-repository.js';
 import CardsRepository from 'lib/cards-repository.js';
-import 'components/Board/board.scss';
+import 'components/Board/styles.scss';
 
 export default class Board extends React.Component {
   constructor(props) {

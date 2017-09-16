@@ -1,7 +1,7 @@
 import React from 'react';
 import serialize from 'form-serialize';
 import CommentsRepository from 'lib/comments-repository.js';
-import 'components/AddCommentForm/add-comment-form.scss';
+import 'components/AddCommentForm/styles.scss';
 
 export default class AddCommentForm extends React.Component {
   constructor(props) {

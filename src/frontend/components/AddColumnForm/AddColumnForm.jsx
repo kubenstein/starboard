@@ -1,7 +1,7 @@
 import React from 'react';
 import serialize from 'form-serialize';
 import ColumnsRepository from 'lib/columns-repository.js';
-import 'components/AddColumnForm/add-column-form.scss';
+import 'components/AddColumnForm/styles.scss';
 
 export default class AddColumnForm extends React.Component {
   constructor(props) {

@@ -5,7 +5,7 @@ import SettingsRepository from 'lib/settings-repository.js';
 import ActivitiesRepository from 'lib/activities-repository.js';
 import UsersRepository from 'lib/users-repository.js';
 import UserLogoutUsecase from 'lib/user-logout-usecase.js';
-import 'components/SideMenu/side-menu.scss';
+import 'components/SideMenu/styles.scss';
 
 export default class SideMenu extends React.Component {
   constructor(props) {

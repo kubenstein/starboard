@@ -3,7 +3,7 @@ import BrowserSettings from 'lib/browser-settings.js';
 import EditableInput from 'components/EditableInput/EditableInput.jsx';
 import SideMenu from 'components/SideMenu/SideMenu.jsx';
 import SettingsRepository from 'lib/settings-repository.js';
-import 'components/Topbar/topbar.scss';
+import 'components/Topbar/styles.scss';
 
 export default class Topbar extends React.Component {
   constructor(props) {

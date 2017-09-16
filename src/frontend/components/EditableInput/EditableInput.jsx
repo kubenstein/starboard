@@ -1,5 +1,5 @@
 import React from 'react';
-import 'components/EditableInput/editable-input.scss';
+import 'components/EditableInput/styles.scss';
 
 export default class EditableInput extends React.Component {
   constructor(props) {

@@ -8,7 +8,7 @@ import EditableInput from 'components/EditableInput/EditableInput.jsx';
 import AddCommentForm from 'components/AddCommentForm/AddCommentForm.jsx';
 import CardComment from 'components/CardComment/CardComment.jsx';
 import CardLabelPicker from 'components/CardLabelPicker/CardLabelPicker.jsx';
-import 'components/CardDetails/card-details.scss';
+import 'components/CardDetails/styles.scss';
 
 export default class CardDetails extends React.Component {
   constructor(props) {

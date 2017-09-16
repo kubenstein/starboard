@@ -1,6 +1,6 @@
 import React from 'react';
 import serialize from 'form-serialize';
-import 'components/Login/login.scss';
+import 'components/Login/styles.scss';
 
 export default class Login extends React.Component {
   constructor(props) {

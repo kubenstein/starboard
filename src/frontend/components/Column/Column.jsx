@@ -5,7 +5,7 @@ import EditableInput from 'components/EditableInput/EditableInput.jsx';
 import DndSpaceRegistrator from 'components/dndSupport/dnd-space-registrator.js';
 import CardsRepository from 'lib/cards-repository.js';
 import ColumnsRepository from 'lib/columns-repository.js';
-import 'components/Column/column.scss';
+import 'components/Column/styles.scss';
 
 export default class Column extends React.Component {
   constructor(props) {

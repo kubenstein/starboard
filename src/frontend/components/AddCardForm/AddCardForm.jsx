@@ -1,7 +1,7 @@
 import React from 'react';
 import serialize from 'form-serialize';
 import CardsRepository from 'lib/cards-repository.js';
-import 'components/AddCardForm/add-card-form.scss';
+import 'components/AddCardForm/styles.scss';
 
 export default class AddCardForm extends React.Component {
   constructor(props) {

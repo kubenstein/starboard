@@ -1,6 +1,6 @@
 import React from 'react';
 import SettingsRepository from 'lib/settings-repository.js';
-import 'components/CardLabelPicker/card-label-picker.scss';
+import 'components/CardLabelPicker/styles.scss';
 
 export default class CardLabelPicker extends React.Component {
   constructor(props) {

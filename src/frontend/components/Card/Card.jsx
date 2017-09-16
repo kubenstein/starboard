@@ -3,7 +3,7 @@ import CardDetails from 'components/CardDetails/CardDetails.jsx';
 import BrowserSettings from 'lib/browser-settings.js';
 import SettingsRepository from 'lib/settings-repository.js';
 import CommentsRepository from 'lib/comments-repository.js';
-import 'components/Card/card.scss';
+import 'components/Card/styles.scss';
 
 export default class Card extends React.Component {
   constructor(props) {
