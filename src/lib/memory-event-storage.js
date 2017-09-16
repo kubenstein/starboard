@@ -3,7 +3,6 @@ import { hasToBeSet } from 'lib/utils';
 
 export default class MemoryEventStorage {
   constructor(params = {}) {
-    this.addFileHandler = params.addFileHandler || hasToBeSet('addFileHandler');
     this.logger = params.logger || { log: () => {} };
     this.events = [];
     this.observers = [];
@@ -24,19 +23,6 @@ export default class MemoryEventStorage {
       this.logger.log(event);
       resolve();
     });
-  }
-
-  addFile(fileBlobOrFilePath) {
-    return this.addFileHandler(fileBlobOrFilePath)
-    .then((fileUrl) => {
-      const event = fileAddedEvent('MemoryEventRequester', fileUrl);
-      return this.addEvent(event)
-      .then(() => { return fileUrl; });
-    });
-  }
-
-  removeFile(_fileName) {
-    // Do nothing... Files are stored directly in url (as base64)
   }
 
   allPastEvents() {
