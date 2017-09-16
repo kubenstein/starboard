@@ -1,17 +1,18 @@
 import mkdirp from 'mkdirp';
 import { exec } from 'child_process';
+import { hasToBeSet } from './utils';
 
 const swallowErrors = () => {};
 
-export default class GitCommands {
+export default class GitContainer {
   constructor(params) {
-    this.pathToTempLocalRepo = params.pathToTempLocalRepo;
-    this.commiterUsername = params.commiterUsername;
-    this.commiterEmail = params.commiterEmail;
-    this.dataBranchName = params.dataBranchName;
-    this.remoteRepoUrl = params.remoteRepoUrl;
+    this.pathToTempLocalRepo = params.pathToTempLocalRepo || '.tmp/tmpRepo/'; // path HAS to end with /;
+    this.commiterUsername = params.commiterUsername || 'Starboard BOT';
+    this.commiterEmail = params.commiterEmail || 'starboardbot@localhost';
+    this.dataBranchName = params.dataBranchName || '__starboard-data';
+    this.remoteRepoUrl = params.remoteRepoUrl || hasToBeSet('remoteRepoUrl');
     this.pathToSshPrivateKey = params.pathToSshPrivateKey;
-    this.logger = params.logger;
+    this.logger = params.logger || { log: () => {} };
 
     mkdirp.sync(this.pathToTempLocalRepo);
     this.configureGitPrivateKeyIfNeeded();
@@ -65,8 +66,11 @@ export default class GitCommands {
     return this.execute(`git -C ${this.pathToTempLocalRepo} push origin ${this.dataBranchName}`);
   }
 
-  gitAddFile(filePath) {
-    return this.execute(`git -C ${this.pathToTempLocalRepo} add "${filePath}"`);
+  gitAddFile(fileNameInGitFolder, commitMessage) {
+    return this.execute(`
+      git -C ${this.pathToTempLocalRepo} add "${fileNameInGitFolder}" ;
+      ${this.gitCommitShellCommand(commitMessage)}
+    `);
   }
 
   gitRemoveFile(filePath) {
@@ -85,11 +89,15 @@ export default class GitCommands {
   }
 
   gitCommit(message) {
-    const escapedMessage = message.replace(/'/g, '\'"\'"\''); // replace ' -> '"'"'
-    return this.execute(`git -C ${this.pathToTempLocalRepo} commit --allow-empty -m '${escapedMessage}'`);
+    return this.execute(this.gitCommitShellCommand(message));
   }
 
   // private
+
+  gitCommitShellCommand(message) {
+    const escapedMessage = message.replace(/'/g, '\'"\'"\''); // replace ' -> '"'"'
+    return `git -C ${this.pathToTempLocalRepo} commit --allow-empty -m '${escapedMessage}'`;
+  }
 
   configureGitPrivateKeyIfNeeded() {
     if (!this.pathToSshPrivateKey) return;

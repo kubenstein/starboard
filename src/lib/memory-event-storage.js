@@ -1,6 +1,3 @@
-import { fileAddedEvent } from 'lib/event-definitions';
-import { hasToBeSet } from 'lib/utils';
-
 export default class MemoryEventStorage {
   constructor(params = {}) {
     this.logger = params.logger || { log: () => {} };

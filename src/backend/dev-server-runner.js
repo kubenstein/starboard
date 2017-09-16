@@ -1,18 +1,28 @@
-import { Starboard, GitEventStorage } from '../lib';
+import { Starboard,
+  GitContainer,
+  GitEventStorage,
+  GitFilesStorage
+} from '../lib';
 
 const logger = console;
-const pathToGitTempLocalRepo = '.tmp/tmpRepo/';
 
-const storage = new GitEventStorage({
+const gitContainer = new GitContainer({
+  pathToTempLocalRepo: '.tmp/tmpRepo/',
   remoteRepoUrl: process.env.REPO_URL,
-  pathToTempLocalRepo: pathToGitTempLocalRepo,
-  commiterEmail: 'starboardbot@starboard.dev',
   logger: logger
+});
+
+const eventStorage = new GitEventStorage({
+  gitContainer: gitContainer
+});
+
+const gitFilesStorage = new GitFilesStorage({
+  gitContainer: gitContainer
 });
 
 new Starboard({
   port: 8081,
-  uploadsDir: pathToGitTempLocalRepo,
-  logger: logger,
-  eventStorage: storage
+  filesStorage: gitFilesStorage,
+  eventStorage: eventStorage,
+  logger: logger
 }).start();

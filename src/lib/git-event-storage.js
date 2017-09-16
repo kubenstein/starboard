@@ -1,22 +1,14 @@
-import GitCommands from './git-commands';
 import {
   noopEvent,
-  fileAddedEvent,
   fileRemovedEvent
-} from '../event-definitions';
+} from 'lib/event-definitions';
+import { hasToBeSet } from './utils';
 
 export default class GitEventStorage {
   constructor(params) {
     this.syncingInterval = params.syncingInterval || 30;
-    this.git = new GitCommands({
-      pathToTempLocalRepo: params.pathToTempLocalRepo || '.tmp/tmpRepo/', // path HAS to end with /
-      commiterUsername: params.commiterUsername || 'Starboard BOT',
-      commiterEmail: params.commiterEmail || 'starboardbot@localhost',
-      dataBranchName: params.dataBranchName || '__starboard-data',
-      remoteRepoUrl: params.remoteRepoUrl,
-      pathToSshPrivateKey: params.pathToSshPrivateKey,
-      logger: params.logger || { log: () => {} }
-    });
+    this.git = params.gitContainer || hasToBeSet('gitContainer');
+    this.logger = params.logger || { log: () => {} };
 
     this.observers = [];
     this.lastSyncedCommit = undefined;
@@ -39,16 +31,6 @@ export default class GitEventStorage {
       this.queue = this.queue
       .then(() => { return this.applyEvent(event); })
       .then(resolve);
-    });
-  }
-
-  addFile(fileNameInGitFolder) {
-    return new Promise((resolve, _reject) => {
-      const event = fileAddedEvent(this.commiterEmail, fileNameInGitFolder);
-      this.queue = this.queue
-      .then(() => { return this.git.gitAddFile(fileNameInGitFolder); })
-      .then(() => { return this.applyEvent(event); })
-      .then(() => { resolve(fileNameInGitFolder); });
     });
   }
 

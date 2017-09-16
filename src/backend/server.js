@@ -5,6 +5,7 @@ import SocketIo from 'socket.io';
 import multer from 'multer';
 import bodyParser from 'body-parser';
 import StoreFileUsecase from 'lib/store-file-usecase';
+import SendFileUsecase from 'lib/send-file-usecase';
 import CleanFilesProcessor from 'lib/clean-files-processor';
 import EventProcessorsQueue from 'lib/event-processors-queue';
 import CurrentState from 'lib/current-state';
@@ -16,6 +17,7 @@ import { permissionDeniedEvent } from 'lib/event-definitions';
 export default class Server {
   constructor(params) {
     this.eventStorage    = params.eventStorage    || hasToBeSet('eventStorage');
+    this.filesStorage    = params.filesStorage    || hasToBeSet('filesStorage');
     this.serverPort      = params.port            || 9000;
     this.uploadsDir      = params.uploadsDir      || '.tmp/tmpUploads/';
     this.logger          = params.logger          || new NullLogger();
@@ -26,7 +28,8 @@ export default class Server {
     this.server               = null;
     this.sockets              = [];
     this.currentState         = new CurrentState({ eventSource: this.eventStorage });
-    this.storeFileUsecase     = new StoreFileUsecase(this.currentState, { storedFilesDir: this.uploadsDir });
+    this.storeFileUsecase     = new StoreFileUsecase({ filesStorage: this.filesStorage });
+    this.sendFileUsecase      = new SendFileUsecase({ filesStorage: this.filesStorage });
     this.incommingEventProcessors = new EventProcessorsQueue({
       stateManager: this.currentState,
       processors: this.eventProcessors
@@ -68,15 +71,15 @@ export default class Server {
 
     // ----------------- http -----------------
     app.get('/attachments/:fileName', (req, res) => {
-      res.sendFile(req.params.fileName, {
-        dotfiles: 'deny',
-        root: this.uploadsDir,
+      this.sendFileUsecase.sendResponse({
+        fileName: req.params.fileName,
+        expressResponse: res
       });
     });
 
     app.post('/attachments/', upload.single('attachment'), (req, res) => {
-      this.storeFileUsecase.addFile(req.file).then((fileName) => {
-        res.send({ attachmentUrl: `/attachments/${fileName}` });
+      this.storeFileUsecase.addFile(req.file).then((fileUrl) => {
+        res.send({ attachmentUrl: fileUrl });
       });
     });
 

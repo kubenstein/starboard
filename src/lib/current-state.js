@@ -53,14 +53,6 @@ export default class CurrentState {
     return this.eventStorage.addEvent(event);
   }
 
-  addFile(attr) {
-    return this.eventStorage.addFile(attr);
-  }
-
-  removeFile(fileName) {
-    return this.eventStorage.removeFile(fileName);
-  }
-
   getUserId() {
     return this.userId;
   }
