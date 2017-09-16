@@ -1,4 +1,3 @@
-import axios from 'axios';
 import io from 'socket.io-client';
 
 export default class ServerEventStorage {
@@ -32,20 +31,6 @@ export default class ServerEventStorage {
         resolve();
       });
     });
-  }
-
-  addFile(fileBlob) {
-    const data = new FormData();
-    data.append('attachment', fileBlob);
-    data.append('token', this.token);
-    return axios.post('/attachments/', data)
-    .then((response) => {
-      return response.data.attachmentUrl;
-    });
-  }
-
-  removeFile(_fileName) {
-    // Do nothing... Server will clear attachments.
   }
 
   allPastEvents() {
