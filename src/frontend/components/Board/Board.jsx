@@ -1,13 +1,13 @@
 import React from 'react';
-import Column from 'components/Column/Column.jsx';
-import AddColumnForm from 'components/AddColumnForm/AddColumnForm.jsx';
-import Topbar from 'components/Topbar/Topbar.jsx';
-import DndSpaceRegistrator from 'components/dndSupport/dnd-space-registrator.js';
-import DndColumnsConfigurator from 'components/dndSupport/dnd-columns-configurator.js';
-import DndCardsConfigurator from 'components/dndSupport/dnd-cards-configurator.js';
-import ThemeStyler from 'components/Board/theme-styler.js';
-import ColumnsRepository from 'lib/columns-repository.js';
-import CardsRepository from 'lib/cards-repository.js';
+import Column from 'components/Column/Column';
+import AddColumnForm from 'components/AddColumnForm/AddColumnForm';
+import Topbar from 'components/Topbar/Topbar';
+import DndSpaceRegistrator from 'components/dndSupport/dnd-space-registrator';
+import DndColumnsConfigurator from 'components/dndSupport/dnd-columns-configurator';
+import DndCardsConfigurator from 'components/dndSupport/dnd-cards-configurator';
+import ThemeStyler from 'components/Board/theme-styler';
+import ColumnsRepository from 'lib/columns-repository';
+import CardsRepository from 'lib/cards-repository';
 import 'components/Board/styles.scss';
 
 export default class Board extends React.Component {

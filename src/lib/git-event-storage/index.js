@@ -1,9 +1,9 @@
-import GitCommands from './git-commands.js';
+import GitCommands from './git-commands';
 import {
   noopEvent,
   fileAddedEvent,
   fileRemovedEvent
-} from '../event-definitions.js';
+} from '../event-definitions';
 
 export default class GitEventStorage {
   constructor(params) {

@@ -1,10 +1,10 @@
 import React from 'react';
-import AddCardForm from 'components/AddCardForm/AddCardForm.jsx';
-import Card from 'components/Card/Card.jsx';
-import EditableInput from 'components/EditableInput/EditableInput.jsx';
-import DndSpaceRegistrator from 'components/dndSupport/dnd-space-registrator.js';
-import CardsRepository from 'lib/cards-repository.js';
-import ColumnsRepository from 'lib/columns-repository.js';
+import AddCardForm from 'components/AddCardForm/AddCardForm';
+import Card from 'components/Card/Card';
+import EditableInput from 'components/EditableInput/EditableInput';
+import DndSpaceRegistrator from 'components/dndSupport/dnd-space-registrator';
+import CardsRepository from 'lib/cards-repository';
+import ColumnsRepository from 'lib/columns-repository';
 import 'components/Column/styles.scss';
 
 export default class Column extends React.Component {

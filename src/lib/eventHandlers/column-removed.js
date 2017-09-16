@@ -1,10 +1,10 @@
-import CardsRepository from 'lib/cards-repository.js';
-import CardRemovedEventHandler from './card-removed.js';
-import repositionAllColumns from './support/reposition-all-columns.js';
+import CardsRepository from 'lib/cards-repository';
+import CardRemovedEventHandler from './card-removed';
+import repositionAllColumns from './support/reposition-all-columns';
 import {
   columnRemovedEventType,
   cardRemovedEvent
-} from '../event-definitions.js';
+} from '../event-definitions';
 
 export default class ColumnRemoved {
   static forEvent() { return columnRemovedEventType; }

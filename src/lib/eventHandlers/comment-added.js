@@ -1,4 +1,4 @@
-import { commentAddedEventType } from '../event-definitions.js';
+import { commentAddedEventType } from '../event-definitions';
 
 export default class CommentAdded {
   static forEvent() { return commentAddedEventType; }

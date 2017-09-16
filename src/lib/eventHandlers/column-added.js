@@ -1,5 +1,5 @@
-import { columnAddedEventType } from '../event-definitions.js';
-import repositionAllColumns from './support/reposition-all-columns.js';
+import { columnAddedEventType } from '../event-definitions';
+import repositionAllColumns from './support/reposition-all-columns';
 
 export default class ColumnAdded {
   static forEvent() { return columnAddedEventType; }

@@ -1,8 +1,8 @@
 import React from 'react';
-import BrowserSettings from 'lib/browser-settings.js';
-import EditableInput from 'components/EditableInput/EditableInput.jsx';
-import SideMenu from 'components/SideMenu/SideMenu.jsx';
-import SettingsRepository from 'lib/settings-repository.js';
+import BrowserSettings from 'lib/browser-settings';
+import EditableInput from 'components/EditableInput/EditableInput';
+import SideMenu from 'components/SideMenu/SideMenu';
+import SettingsRepository from 'lib/settings-repository';
 import 'components/Topbar/styles.scss';
 
 export default class Topbar extends React.Component {

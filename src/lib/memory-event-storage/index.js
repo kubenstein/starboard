@@ -1,5 +1,5 @@
-import { fileAddedEvent } from 'lib/event-definitions.js';
-import { hasToBeSet } from 'lib/utils.js';
+import { fileAddedEvent } from 'lib/event-definitions';
+import { hasToBeSet } from 'lib/utils';
 
 export default class MemoryEventStorage {
   constructor(params = {}) {

@@ -4,14 +4,14 @@ import express from 'express';
 import SocketIo from 'socket.io';
 import multer from 'multer';
 import bodyParser from 'body-parser';
-import StoreFileUsecase from 'lib/store-file-usecase.js';
-import CleanFilesProcessor from 'lib/clean-files-processor.js';
-import EventProcessorsQueue from 'lib/event-processors-queue.js';
-import CurrentState from 'lib/current-state.js';
-import AllowEveryoneAuth from 'lib/allow-everyone-auth.js';
-import NullLogger from 'lib/null-logger.js';
-import { hasToBeSet } from 'lib/utils.js';
-import { permissionDeniedEvent } from 'lib/event-definitions.js';
+import StoreFileUsecase from 'lib/store-file-usecase';
+import CleanFilesProcessor from 'lib/clean-files-processor';
+import EventProcessorsQueue from 'lib/event-processors-queue';
+import CurrentState from 'lib/current-state';
+import AllowEveryoneAuth from 'lib/allow-everyone-auth';
+import NullLogger from 'lib/null-logger';
+import { hasToBeSet } from 'lib/utils';
+import { permissionDeniedEvent } from 'lib/event-definitions';
 
 export default class Server {
   constructor(params) {

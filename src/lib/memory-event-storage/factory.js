@@ -1,6 +1,6 @@
 import MemoryEventStorage from '../memory-event-storage/';
-import frontendFilesHandler from './frontend-files-handler.js';
-import backendFilesHandler from './backend-with-files-storage-files-handler.js';
+import frontendFilesHandler from './frontend-files-handler';
+import backendFilesHandler from './backend-with-files-storage-files-handler';
 
 export default class MemoryEventStorageFactory {
   forFrontend(params = {}) {

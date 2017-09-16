@@ -1,7 +1,7 @@
 import {
   commentAddedEvent,
   commentRemovedEvent
-} from './event-definitions.js';
+} from './event-definitions';
 
 export default class CommentsRepository {
   constructor(stateManager) {

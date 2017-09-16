@@ -1,15 +1,15 @@
-import SettingsUpdatedEventHandler from './eventHandlers/settings-updated.js';
-import ColumnAddedEventHandler from './eventHandlers/column-added.js';
-import ColumnUpdatedEventHandler from './eventHandlers/column-updated.js';
-import ColumnRemovedEventHandler from './eventHandlers/column-removed.js';
-import CardAddedEventHandler from './eventHandlers/card-added.js';
-import CardUpdatedEventHandler from './eventHandlers/card-updated.js';
-import CardRemovedEventHandler from './eventHandlers/card-removed.js';
-import CardLabelUpdatedEventHandler from './eventHandlers/card-label-updated.js';
-import CommentAddedEventHandler from './eventHandlers/comment-added.js';
-import CommentRemovedEventHandler from './eventHandlers/comment-removed.js';
-import UserUpdatedEventHandler from './eventHandlers/user-updated.js';
-import AllEventsEventHandler from './eventHandlers/all-events.js';
+import SettingsUpdatedEventHandler from './eventHandlers/settings-updated';
+import ColumnAddedEventHandler from './eventHandlers/column-added';
+import ColumnUpdatedEventHandler from './eventHandlers/column-updated';
+import ColumnRemovedEventHandler from './eventHandlers/column-removed';
+import CardAddedEventHandler from './eventHandlers/card-added';
+import CardUpdatedEventHandler from './eventHandlers/card-updated';
+import CardRemovedEventHandler from './eventHandlers/card-removed';
+import CardLabelUpdatedEventHandler from './eventHandlers/card-label-updated';
+import CommentAddedEventHandler from './eventHandlers/comment-added';
+import CommentRemovedEventHandler from './eventHandlers/comment-removed';
+import UserUpdatedEventHandler from './eventHandlers/user-updated';
+import AllEventsEventHandler from './eventHandlers/all-events';
 
 export default class CurrentState {
   constructor(params) {

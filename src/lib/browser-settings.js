@@ -1,5 +1,5 @@
 import Cookies from 'js-cookie';
-import { currentTimestamp } from './utils.js';
+import { currentTimestamp } from './utils';
 
 export default class BrowserSettings {
   setUrlForCard(card) {

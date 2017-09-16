@@ -1,4 +1,4 @@
-import { Starboard, GitEventStorage } from '../lib.js';
+import { Starboard, GitEventStorage } from '../lib';
 
 const logger = console;
 const pathToGitTempLocalRepo = '.tmp/tmpRepo/';

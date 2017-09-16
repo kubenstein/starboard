@@ -1,4 +1,4 @@
-import { hasToBeSet } from './utils.js';
+import { hasToBeSet } from './utils';
 
 export default class EventProcessorsQueue {
   constructor(params = {}) {

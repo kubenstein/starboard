@@ -1,4 +1,4 @@
-import { settingsUpdatedEventType } from '../event-definitions.js';
+import { settingsUpdatedEventType } from '../event-definitions';
 
 export default class SettingsUpdated {
   static forEvent() { return settingsUpdatedEventType; }

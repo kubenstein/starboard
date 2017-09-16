@@ -2,7 +2,7 @@ import 'es6-promise/auto';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Bootstrap from 'components/Bootstrap/Bootstrap.jsx';
+import Bootstrap from 'components/Bootstrap/Bootstrap';
 import 'assets/stylesheets/_style.scss';
 import 'assets/favicons/favicon_0079BF.png';
 import 'assets/favicons/favicon_00E6FF.png';

@@ -1,6 +1,6 @@
 import uuid from 'uuid/v4';
 import fs from 'fs';
-import { hasToBeSet } from './utils.js';
+import { hasToBeSet } from './utils';
 
 export default class StoreFileUsecase {
   constructor(eventStorage, params = {}) {

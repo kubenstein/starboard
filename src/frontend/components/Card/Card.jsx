@@ -1,8 +1,8 @@
 import React from 'react';
-import CardDetails from 'components/CardDetails/CardDetails.jsx';
-import BrowserSettings from 'lib/browser-settings.js';
-import SettingsRepository from 'lib/settings-repository.js';
-import CommentsRepository from 'lib/comments-repository.js';
+import CardDetails from 'components/CardDetails/CardDetails';
+import BrowserSettings from 'lib/browser-settings';
+import SettingsRepository from 'lib/settings-repository';
+import CommentsRepository from 'lib/comments-repository';
 import 'components/Card/styles.scss';
 
 export default class Card extends React.Component {

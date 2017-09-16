@@ -1,5 +1,5 @@
-import CardsRepository from 'lib/cards-repository.js';
-import ColumnsRepository from 'lib/columns-repository.js';
+import CardsRepository from 'lib/cards-repository';
+import ColumnsRepository from 'lib/columns-repository';
 
 export default class AllEvents {
   static forEvent() { return 'allEventTypes'; }

@@ -1,7 +1,7 @@
 import React from 'react';
-import UsersRepository from 'lib/users-repository.js';
-import SettingsRepository from 'lib/settings-repository.js';
-import { formattedDate } from 'lib/utils.js';
+import UsersRepository from 'lib/users-repository';
+import SettingsRepository from 'lib/settings-repository';
+import { formattedDate } from 'lib/utils';
 import 'components/ActivityItem/styles.scss';
 
 export default class ActivityItem extends React.Component {

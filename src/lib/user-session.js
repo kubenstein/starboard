@@ -1,5 +1,5 @@
 import axios from 'axios';
-import BrowserSettings from './browser-settings.js';
+import BrowserSettings from './browser-settings';
 
 export default class UserSession {
   constructor() {

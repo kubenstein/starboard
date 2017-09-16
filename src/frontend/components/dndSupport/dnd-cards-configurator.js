@@ -1,5 +1,5 @@
 import Dragula from 'dragula';
-import positionAmongDOMSiblings from './position-among-dom-siblings.js';
+import positionAmongDOMSiblings from './position-among-dom-siblings';
 
 export default class DndCardsConfigurator {
   constructor(params) {

@@ -1,10 +1,10 @@
-import CommentsRepository from './comments-repository.js';
-import CardsRepository from './cards-repository.js';
+import CommentsRepository from './comments-repository';
+import CardsRepository from './cards-repository';
 import {
   columnRemovedEventType,
   cardRemovedEventType,
   commentRemovedEventType
-} from './event-definitions.js';
+} from './event-definitions';
 
 export default class CleanFilesProcessor {
   handleEvents() {

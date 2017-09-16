@@ -1,6 +1,6 @@
-import CommentsRepository from 'lib/comments-repository.js';
-import { cardRemovedEventType } from '../event-definitions.js';
-import repositionAllCards from './support/reposition-all-cards.js';
+import CommentsRepository from 'lib/comments-repository';
+import { cardRemovedEventType } from '../event-definitions';
+import repositionAllCards from './support/reposition-all-cards';
 
 export default class CardRemoved {
   static forEvent() { return cardRemovedEventType; }

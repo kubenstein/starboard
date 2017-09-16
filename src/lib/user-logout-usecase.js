@@ -1,5 +1,5 @@
-import UserSession from 'lib/user-session.js';
-import BrowserSettings from 'lib/browser-settings.js';
+import UserSession from 'lib/user-session';
+import BrowserSettings from 'lib/browser-settings';
 
 export default class UserLogoutUsecase {
   logout() {

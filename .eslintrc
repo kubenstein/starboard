@@ -15,7 +15,7 @@
     "class-methods-use-this": 0,
     "import/no-extraneous-dependencies": 0,
     "import/no-unresolved": 0,
-    "import/extensions": 0,
+    "import/extensions": [2, { "js": "never", "jsx": "never" }],
     "import/prefer-default-export": 0,
     "object-shorthand": [2, "consistent"],
     "react/prop-types": 0,
