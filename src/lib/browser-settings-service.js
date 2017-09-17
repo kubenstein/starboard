@@ -1,7 +1,7 @@
 import Cookies from 'js-cookie';
 import { currentTimestamp } from './utils';
 
-export default class BrowserSettings {
+export default class BrowserSettingsService {
   setUrlForCard(card) {
     window.location = `#/card/${card.id}`;
   }

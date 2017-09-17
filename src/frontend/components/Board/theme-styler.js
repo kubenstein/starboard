@@ -1,17 +1,17 @@
 import SettingsRepository from 'lib/settings-repository';
-import BrowserSettings from 'lib/browser-settings';
+import BrowserSettingsService from 'lib/browser-settings-service';
 
 export default class ThemeStyler {
   constructor(stateManager) {
     this.stateManager = stateManager;
     this.settingsRepo = new SettingsRepository(this.stateManager);
-    this.browserSettings = new BrowserSettings();
+    this.browserSettingsService = new BrowserSettingsService();
   }
 
   generateStyles() {
     const themeColor = this.settingsRepo.themeColor();
     if (!themeColor) return '';
-    this.browserSettings.setFavicon(themeColor);
+    this.browserSettingsService.setFavicon(themeColor);
     return `
       .btn-success, .board {
         background-color: ${themeColor};

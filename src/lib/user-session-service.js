@@ -1,9 +1,9 @@
 import axios from 'axios';
-import BrowserSettings from './browser-settings';
+import BrowserSettingsService from './browser-settings-service';
 
 export default class UserSessionService {
   constructor() {
-    this.browserSettings = new BrowserSettings();
+    this.browserSettingsService = new BrowserSettingsService();
   }
 
   isLoggedIn() {
@@ -11,25 +11,25 @@ export default class UserSessionService {
   }
 
   userId() {
-    return this.browserSettings.cookie('userId');
+    return this.browserSettingsService.cookie('userId');
   }
 
   token() {
-    return this.browserSettings.cookie('token');
+    return this.browserSettingsService.cookie('token');
   }
 
   login(email, password) {
     return axios.post('/login/', { email: email, password: password })
     .then((response) => {
       const { userId, token } = response.data;
-      this.browserSettings
+      this.browserSettingsService
       .setCookie('userId', userId)
       .setCookie('token', token);
     });
   }
 
   logout() {
-    this.browserSettings
+    this.browserSettingsService
     .setCookie('userId', undefined)
     .setCookie('token', undefined);
   }

@@ -1,5 +1,5 @@
 import React from 'react';
-import BrowserSettings from 'lib/browser-settings';
+import BrowserSettingsService from 'lib/browser-settings-service';
 import EditableInput from 'components/EditableInput';
 import SideMenu from 'components/SideMenu';
 import SettingsRepository from 'lib/settings-repository';
@@ -9,7 +9,7 @@ export default class Topbar extends React.Component {
   constructor(props) {
     super(props);
     this.stateManager = this.props.stateManager;
-    this.browserSettings = new BrowserSettings();
+    this.browserSettingsService = new BrowserSettingsService();
     this.repo = new SettingsRepository(this.stateManager);
   }
 
@@ -18,7 +18,7 @@ export default class Topbar extends React.Component {
   }
 
   updatePageTitle(title) {
-    this.browserSettings.setTitle(title || 'Starboard');
+    this.browserSettingsService.setTitle(title || 'Starboard');
   }
 
   darkLightThemeCss() {

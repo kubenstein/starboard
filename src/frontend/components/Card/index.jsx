@@ -1,6 +1,6 @@
 import React from 'react';
 import CardDetails from 'components/CardDetails';
-import BrowserSettings from 'lib/browser-settings';
+import BrowserSettingsService from 'lib/browser-settings-service';
 import SettingsRepository from 'lib/settings-repository';
 import CommentsRepository from 'lib/comments-repository';
 import 'components/Card/styles.scss';
@@ -12,14 +12,14 @@ export default class Card extends React.Component {
     this.stateManager = this.props.stateManager;
     this.settingsRepo = new SettingsRepository(this.stateManager);
     this.commentsRepo = new CommentsRepository(this.stateManager);
-    this.browserSettings = new BrowserSettings();
+    this.browserSettingsService = new BrowserSettingsService();
     this.state = {
       detailsOpened: false,
     };
   }
 
   componentDidMount() {
-    if (this.card.id === this.browserSettings.urlCardId()) {
+    if (this.card.id === this.browserSettingsService.urlCardId()) {
       this.openDetails();
     }
   }
