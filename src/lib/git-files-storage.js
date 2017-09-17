@@ -1,7 +1,7 @@
 import uuid from 'uuid/v4';
 import fs from 'fs';
 import { hasToBeSet } from './utils';
-import { fileAddedEvent } from './event-definitions';
+import { noopEvent } from './event-definitions';
 
 export default class GitFilesStorage {
   constructor(params) {
@@ -32,6 +32,6 @@ export default class GitFilesStorage {
   // private
 
   fileAddingCommitMassage(filePath) {
-    return JSON.stringify(fileAddedEvent('', filePath));
+    return JSON.stringify(noopEvent(`storing a file: ${filePath}`));
   }
 }

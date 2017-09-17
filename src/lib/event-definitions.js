@@ -2,8 +2,13 @@ import uuid from 'uuid/v4';
 import { currentTimestamp } from './utils';
 
 export const noopEventType = 'NOOP';
-export function noopEvent() {
-  return { type: noopEventType, id: uuid() };
+export function noopEvent(description = null) {
+  const event = {
+    type: noopEventType,
+    id: uuid()
+  };
+  if (description) event.description = description;
+  return event;
 }
 
 export const permissionDeniedEventType = 'PERMISSION_DENIED';

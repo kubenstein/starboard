@@ -28,8 +28,11 @@ export default class Server {
     this.server               = null;
     this.sockets              = [];
     this.currentState         = new CurrentState({ eventSource: this.eventStorage });
-    this.storeFileUsecase     = new StoreFileUsecase({ filesStorage: this.filesStorage });
     this.sendFileUsecase      = new SendFileUsecase({ filesStorage: this.filesStorage });
+    this.storeFileUsecase     = new StoreFileUsecase({
+      filesStorage: this.filesStorage,
+      eventStorage: this.eventStorage
+    });
     this.incommingEventProcessors = new EventProcessorsQueue({
       stateManager: this.currentState,
       processors: this.eventProcessors
