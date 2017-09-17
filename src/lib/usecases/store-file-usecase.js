@@ -1,5 +1,5 @@
-import { hasToBeSet } from './utils';
-import { fileAddedEvent } from './event-definitions';
+import { hasToBeSet } from 'lib/utils';
+import { fileAddedEvent } from 'lib/event-definitions';
 
 export default class StoreFileUsecase {
   constructor(params = {}) {

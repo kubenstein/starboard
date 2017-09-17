@@ -3,7 +3,7 @@ import {
   cardUpdatedEvent,
   cardRemovedEvent,
   cardLabelUpdatedEvent
-} from './event-definitions';
+} from 'lib/event-definitions';
 
 export default class CardsRepository {
   constructor(stateManager) {

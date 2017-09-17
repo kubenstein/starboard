@@ -1,5 +1,5 @@
-import UserSessionService from 'lib/user-session-service';
-import BrowserSettingsService from 'lib/browser-settings-service';
+import UserSessionService from 'lib/services/user-session-service';
+import BrowserSettingsService from 'lib/services/browser-settings-service';
 
 export default class UserLogoutUsecase {
   logout() {

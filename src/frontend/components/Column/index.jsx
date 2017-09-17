@@ -3,8 +3,8 @@ import AddCardForm from 'components/AddCardForm';
 import Card from 'components/Card';
 import EditableInput from 'components/EditableInput';
 import DndSpaceRegistrator from 'components/dndSupport/dnd-space-registrator';
-import CardsRepository from 'lib/cards-repository';
-import ColumnsRepository from 'lib/columns-repository';
+import CardsRepository from 'lib/repositories/cards-repository';
+import ColumnsRepository from 'lib/repositories/columns-repository';
 import 'components/Column/styles.scss';
 
 export default class Column extends React.Component {

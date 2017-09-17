@@ -1,5 +1,5 @@
+import { cardAddedEventType } from 'lib/event-definitions';
 import repositionAllCards from './support/reposition-all-cards';
-import { cardAddedEventType } from '../event-definitions';
 
 export default class CardAdded {
   static forEvent() { return cardAddedEventType; }

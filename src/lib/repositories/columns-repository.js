@@ -2,7 +2,7 @@ import {
   columnAddedEvent,
   columnUpdatedEvent,
   columnRemovedEvent
-} from './event-definitions';
+} from 'lib/event-definitions';
 
 export default class ColumnsRepository {
   constructor(stateManager) {

@@ -1,4 +1,4 @@
-import { settingsUpdatedEvent } from './event-definitions';
+import { settingsUpdatedEvent } from 'lib/event-definitions';
 
 export default class SettingsRepository {
   constructor(stateManager) {

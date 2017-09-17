@@ -1,15 +1,15 @@
-import SettingsUpdatedEventHandler from './eventHandlers/settings-updated';
-import ColumnAddedEventHandler from './eventHandlers/column-added';
-import ColumnUpdatedEventHandler from './eventHandlers/column-updated';
-import ColumnRemovedEventHandler from './eventHandlers/column-removed';
-import CardAddedEventHandler from './eventHandlers/card-added';
-import CardUpdatedEventHandler from './eventHandlers/card-updated';
-import CardRemovedEventHandler from './eventHandlers/card-removed';
-import CardLabelUpdatedEventHandler from './eventHandlers/card-label-updated';
-import CommentAddedEventHandler from './eventHandlers/comment-added';
-import CommentRemovedEventHandler from './eventHandlers/comment-removed';
-import UserUpdatedEventHandler from './eventHandlers/user-updated';
-import AllEventsEventHandler from './eventHandlers/all-events';
+import SettingsUpdatedEventHandler from 'lib/eventHandlers/settings-updated';
+import ColumnAddedEventHandler from 'lib/eventHandlers/column-added';
+import ColumnUpdatedEventHandler from 'lib/eventHandlers/column-updated';
+import ColumnRemovedEventHandler from 'lib/eventHandlers/column-removed';
+import CardAddedEventHandler from 'lib/eventHandlers/card-added';
+import CardUpdatedEventHandler from 'lib/eventHandlers/card-updated';
+import CardRemovedEventHandler from 'lib/eventHandlers/card-removed';
+import CardLabelUpdatedEventHandler from 'lib/eventHandlers/card-label-updated';
+import CommentAddedEventHandler from 'lib/eventHandlers/comment-added';
+import CommentRemovedEventHandler from 'lib/eventHandlers/comment-removed';
+import UserUpdatedEventHandler from 'lib/eventHandlers/user-updated';
+import AllEventsEventHandler from 'lib/eventHandlers/all-events';
 
 export default class CurrentState {
   constructor(params) {

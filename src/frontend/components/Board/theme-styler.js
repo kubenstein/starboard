@@ -1,5 +1,5 @@
-import SettingsRepository from 'lib/settings-repository';
-import BrowserSettingsService from 'lib/browser-settings-service';
+import SettingsRepository from 'lib/repositories/settings-repository';
+import BrowserSettingsService from 'lib/services/browser-settings-service';
 
 export default class ThemeStyler {
   constructor(stateManager) {

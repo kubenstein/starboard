@@ -1,4 +1,4 @@
-import { cardUpdatedEventType } from '../event-definitions';
+import { cardUpdatedEventType } from 'lib/event-definitions';
 import repositionAllCards from './support/reposition-all-cards';
 
 export default class CardUpdated {

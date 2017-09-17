@@ -1,6 +1,6 @@
 import mkdirp from 'mkdirp';
 import { exec } from 'child_process';
-import { hasToBeSet } from './utils';
+import { hasToBeSet } from 'lib/utils';
 
 const swallowErrors = () => {};
 

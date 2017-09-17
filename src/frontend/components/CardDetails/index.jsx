@@ -1,13 +1,13 @@
 import React from 'react';
-import CommentsRepository from 'lib/comments-repository';
-import ColumnsRepository from 'lib/columns-repository';
-import CardsRepository from 'lib/cards-repository';
-import SettingsRepository from 'lib/settings-repository';
-import BrowserSettingsService from 'lib/browser-settings-service';
 import EditableInput from 'components/EditableInput';
 import AddCommentForm from 'components/AddCommentForm';
 import CardComment from 'components/CardComment';
 import CardLabelPicker from 'components/CardLabelPicker';
+import CommentsRepository from 'lib/repositories/comments-repository';
+import ColumnsRepository from 'lib/repositories/columns-repository';
+import CardsRepository from 'lib/repositories/cards-repository';
+import SettingsRepository from 'lib/repositories/settings-repository';
+import BrowserSettingsService from 'lib/services/browser-settings-service';
 import 'components/CardDetails/styles.scss';
 
 export default class CardDetails extends React.Component {

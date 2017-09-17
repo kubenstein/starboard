@@ -1,5 +1,5 @@
-import CommentsRepository from 'lib/comments-repository';
-import { cardRemovedEventType } from '../event-definitions';
+import CommentsRepository from 'lib/repositories/comments-repository';
+import { cardRemovedEventType } from 'lib/event-definitions';
 import repositionAllCards from './support/reposition-all-cards';
 
 export default class CardRemoved {

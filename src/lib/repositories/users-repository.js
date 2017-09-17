@@ -1,4 +1,4 @@
-import { userUpdatedEvent } from './event-definitions';
+import { userUpdatedEvent } from 'lib/event-definitions';
 
 export default class UsersRepository {
   constructor(stateManager) {

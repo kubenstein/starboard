@@ -1,8 +1,8 @@
-import FileUploaderService from 'lib/file-uploader-service';
+import FileUploaderService from 'lib/services/file-uploader-service';
 import {
   commentAddedEvent,
   commentRemovedEvent
-} from './event-definitions';
+} from 'lib/event-definitions';
 
 export default class CommentsRepository {
   constructor(stateManager) {

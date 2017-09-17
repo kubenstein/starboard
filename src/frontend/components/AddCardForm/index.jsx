@@ -1,6 +1,6 @@
 import React from 'react';
 import serialize from 'form-serialize';
-import CardsRepository from 'lib/cards-repository';
+import CardsRepository from 'lib/repositories/cards-repository';
 import 'components/AddCardForm/styles.scss';
 
 export default class AddCardForm extends React.Component {

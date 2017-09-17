@@ -1,4 +1,4 @@
-import { settingsUpdatedEventType } from '../event-definitions';
+import { settingsUpdatedEventType } from 'lib/event-definitions';
 
 export default class SettingsUpdated {
   static forEvent() { return settingsUpdatedEventType; }

@@ -1,4 +1,4 @@
-import { commentRemovedEventType } from '../event-definitions';
+import { commentRemovedEventType } from 'lib/event-definitions';
 
 export default class CommentRemoved {
   static forEvent() { return commentRemovedEventType; }

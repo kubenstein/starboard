@@ -1,5 +1,5 @@
 import React from 'react';
-import SettingsRepository from 'lib/settings-repository';
+import SettingsRepository from 'lib/repositories/settings-repository';
 import 'components/CardLabelPicker/styles.scss';
 
 export default class CardLabelPicker extends React.Component {

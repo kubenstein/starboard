@@ -1,4 +1,4 @@
-import { cardLabelUpdatedEventType } from '../event-definitions';
+import { cardLabelUpdatedEventType } from 'lib/event-definitions';
 
 export default class CardLabelUpdated {
   static forEvent() { return cardLabelUpdatedEventType; }

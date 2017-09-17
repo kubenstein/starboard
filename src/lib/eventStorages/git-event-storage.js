@@ -2,7 +2,7 @@ import {
   noopEvent,
   fileRemovedEvent
 } from 'lib/event-definitions';
-import { hasToBeSet } from './utils';
+import { hasToBeSet } from 'lib/utils';
 
 export default class GitEventStorage {
   constructor(params) {

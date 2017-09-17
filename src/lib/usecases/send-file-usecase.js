@@ -1,4 +1,4 @@
-import { hasToBeSet } from './utils';
+import { hasToBeSet } from 'lib/utils';
 
 export default class SendFileUsecase {
   constructor(params = {}) {

@@ -1,7 +1,7 @@
 import uuid from 'uuid/v4';
 import fs from 'fs';
-import { hasToBeSet } from './utils';
-import { noopEvent } from './event-definitions';
+import { hasToBeSet } from 'lib/utils';
+import { noopEvent } from 'lib/event-definitions';
 
 export default class GitFilesStorage {
   constructor(params) {

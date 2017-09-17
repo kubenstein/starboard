@@ -1,6 +1,6 @@
 import React from 'react';
-import UsersRepository from 'lib/users-repository';
-import SettingsRepository from 'lib/settings-repository';
+import UsersRepository from 'lib/repositories/users-repository';
+import SettingsRepository from 'lib/repositories/settings-repository';
 import { formattedDate } from 'lib/utils';
 import 'components/ActivityItem/styles.scss';
 

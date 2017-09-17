@@ -1,4 +1,4 @@
-import { userUpdatedEventType } from '../event-definitions';
+import { userUpdatedEventType } from 'lib/event-definitions';
 
 export default class UserUpdated {
   static forEvent() { return userUpdatedEventType; }

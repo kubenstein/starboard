@@ -1,4 +1,4 @@
-import { columnUpdatedEventType } from '../event-definitions';
+import { columnUpdatedEventType } from 'lib/event-definitions';
 
 export default class ColumnUpdated {
   static forEvent() { return columnUpdatedEventType; }

@@ -1,5 +1,5 @@
-import CardsRepository from 'lib/cards-repository';
-import ColumnsRepository from 'lib/columns-repository';
+import CardsRepository from 'lib/repositories/cards-repository';
+import ColumnsRepository from 'lib/repositories/columns-repository';
 
 export default class AllEvents {
   static forEvent() { return 'allEventTypes'; }

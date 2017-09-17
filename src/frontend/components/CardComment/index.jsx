@@ -1,6 +1,6 @@
 import React from 'react';
-import CommentsRepository from 'lib/comments-repository';
-import UsersRepository from 'lib/users-repository';
+import CommentsRepository from 'lib/repositories/comments-repository';
+import UsersRepository from 'lib/repositories/users-repository';
 import { formattedDate } from 'lib/utils';
 import 'components/CardComment/styles.scss';
 

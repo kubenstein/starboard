@@ -6,8 +6,8 @@ import DndSpaceRegistrator from 'components/dndSupport/dnd-space-registrator';
 import DndColumnsConfigurator from 'components/dndSupport/dnd-columns-configurator';
 import DndCardsConfigurator from 'components/dndSupport/dnd-cards-configurator';
 import ThemeStyler from 'components/Board/theme-styler';
-import ColumnsRepository from 'lib/columns-repository';
-import CardsRepository from 'lib/cards-repository';
+import ColumnsRepository from 'lib/repositories/columns-repository';
+import CardsRepository from 'lib/repositories/cards-repository';
 import 'components/Board/styles.scss';
 
 export default class Board extends React.Component {

@@ -1,10 +1,10 @@
 import React from 'react';
 import EditableInput from 'components/EditableInput';
 import ActivityItem from 'components/ActivityItem';
-import SettingsRepository from 'lib/settings-repository';
-import ActivitiesRepository from 'lib/activities-repository';
-import UsersRepository from 'lib/users-repository';
-import UserLogoutUsecase from 'lib/user-logout-usecase';
+import SettingsRepository from 'lib/repositories/settings-repository';
+import ActivitiesRepository from 'lib/repositories/activities-repository';
+import UsersRepository from 'lib/repositories/users-repository';
+import UserLogoutUsecase from 'lib/usecases/user-logout-usecase';
 import 'components/SideMenu/styles.scss';
 
 export default class SideMenu extends React.Component {
