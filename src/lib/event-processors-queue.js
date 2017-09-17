@@ -1,8 +1,5 @@
-import { hasToBeSet } from './utils';
-
 export default class EventProcessorsQueue {
   constructor(params = {}) {
-    this.stateManager = params.stateManager || hasToBeSet('stateManager');
     this.processors = params.processors || [];
   }
 
@@ -15,7 +12,7 @@ export default class EventProcessorsQueue {
     this.processors.forEach((processor) => {
       if (this.processorHandlesEvent(processor, event)) {
         queue = queue.then(() => {
-          return processor.processEvent(this.stateManager, event);
+          return processor.processEvent(event);
         });
       }
     });

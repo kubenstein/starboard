@@ -6,7 +6,6 @@ import multer from 'multer';
 import bodyParser from 'body-parser';
 import StoreFileUsecase from 'lib/store-file-usecase';
 import SendFileUsecase from 'lib/send-file-usecase';
-import CleanFilesProcessor from 'lib/clean-files-processor';
 import EventProcessorsQueue from 'lib/event-processors-queue';
 import CurrentState from 'lib/current-state';
 import AllowEveryoneAuth from 'lib/allow-everyone-auth';
@@ -37,10 +36,6 @@ export default class Server {
       stateManager: this.currentState,
       processors: this.eventProcessors
     });
-
-    this.incommingEventProcessors.push(
-      new CleanFilesProcessor({ fileNamePrefix: '/attachments/' })
-    );
   }
 
   displayBanner() {
