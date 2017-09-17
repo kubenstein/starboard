@@ -1,9 +1,9 @@
-import UserSession from 'lib/user-session';
+import UserSessionService from 'lib/user-session-service';
 import BrowserSettings from 'lib/browser-settings';
 
 export default class UserLogoutUsecase {
   logout() {
-    new UserSession().logout();
+    new UserSessionService().logout();
     new BrowserSettings().reloadPage();
   }
 }

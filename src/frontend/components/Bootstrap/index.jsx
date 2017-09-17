@@ -3,13 +3,13 @@ import CurrentState from 'lib/current-state';
 import ServerEventStorage from 'lib/server-event-storage';
 import Board from 'components/Board';
 import Login from 'components/Login';
-import UserSession from 'lib/user-session';
+import UserSessionService from 'lib/user-session-service';
 
 export default class Bootstrap extends React.Component {
   constructor(props) {
     super(props);
     this.state = { loggedIn: false, loginError: false };
-    this.session = new UserSession();
+    this.session = new UserSessionService();
 
     if (this.session.isLoggedIn()) {
       this.state.loggedIn = true;

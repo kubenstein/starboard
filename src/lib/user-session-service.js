@@ -1,7 +1,7 @@
 import axios from 'axios';
 import BrowserSettings from './browser-settings';
 
-export default class UserSession {
+export default class UserSessionService {
   constructor() {
     this.browserSettings = new BrowserSettings();
   }
