@@ -7,17 +7,27 @@ const pathToGitRemoteRepo = path.join(pathToGitTempLocalRepo, '../fakeRemoteRepo
 
 cleanTestRepos(pathToGitTempLocalRepo, pathToGitRemoteRepo);
 
-const storage = new lib.GitEventStorage({
-  remoteRepoUrl: pathToGitRemoteRepo,
+const gitContainer = new lib.GitContainer({
   pathToTempLocalRepo: pathToGitTempLocalRepo,
+  remoteRepoUrl: pathToGitRemoteRepo,
+});
+
+const eventStorage = new lib.GitEventStorage({
+  gitContainer: gitContainer,
   syncingInterval: 10000
+});
+
+const gitFilesStorage = new lib.GitFilesStorage({
+  gitContainer: gitContainer
 });
 
 exports.server = new lib.Starboard({
   port: 19423,
-  eventStorage: storage,
-  uploadsDir: pathToGitTempLocalRepo,
+  filesStorage: gitFilesStorage,
+  eventStorage: eventStorage,
   noBanner: true
 });
 
-exports.currentState = new lib.CurrentState({ eventSource: storage });
+exports.currentState = new lib.CurrentState({
+  eventSource: eventStorage
+});

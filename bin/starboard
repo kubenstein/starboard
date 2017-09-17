@@ -2,6 +2,8 @@
 
 const Starboard       = require('../dist/starboard').Starboard;
 const GitEventStorage = require('../dist/starboard').GitEventStorage;
+const GitFilesStorage = require('../dist/starboard').GitFilesStorage;
+const GitContainer    = require('../dist/starboard').GitContainer;
 
 const env = process.env;
 const port                      = env.PORT                || 9000;
@@ -9,23 +11,37 @@ const remoteRepoUrl             = env.REPO_URL            || (() => { throw new 
 const pathToSshPrivateKey       = env.SSH_KEY_PATH        || '';
 const repoCommiterName          = env.REPO_COMMITER_NAME  || 'Starboard BOT';
 const repoCommiterEmail         = env.REPO_COMMITER_EMAIL || 'starboardbot@localhost';
+const dataBranchName            = env.DATA_BRANCH_NAME    || '__starboard-data';
 const remoteRepoSyncingInterval = env.SYNCING_INTERVAL    || 30;
 const pathToGitTempLocalRepo    = env.LOCAL_REPO_DIR      || '.tmp/starboardTmpRepo/';
+const filesTmpUploadPath        = env.TMP_UPLOAD_PATH     || '.tmp/tmpUploads/';
 const logger                    = env.DEBUG               && console
 
-const storage = new GitEventStorage({
-  remoteRepoUrl:       remoteRepoUrl,
+
+const gitContainer = new GitContainer({
   pathToSshPrivateKey: pathToSshPrivateKey,
   pathToTempLocalRepo: pathToGitTempLocalRepo,
+  remoteRepoUrl:       remoteRepoUrl,
   commiterUsername:    repoCommiterName,
   commiterEmail:       repoCommiterEmail,
-  syncingInterval:     remoteRepoSyncingInterval,
+  dataBranchName:      dataBranchName,
   logger:              logger
+});
+
+const gitEventStorage = new GitEventStorage({
+  gitContainer:    gitContainer,
+  syncingInterval: remoteRepoSyncingInterval,
+  logger:          logger
+});
+
+const gitFilesStorage = new GitFilesStorage({
+  gitContainer: gitContainer
 });
 
 new Starboard({
   port:         port,
-  uploadsDir:   pathToGitTempLocalRepo,
-  logger:       logger,
-  eventStorage: storage
+  uploadsDir:   filesTmpUploadPath,
+  eventStorage: gitEventStorage,
+  filesStorage: gitFilesStorage,
+  logger:       logger
 }).start();
