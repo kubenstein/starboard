@@ -21,10 +21,10 @@ export default class UserSession {
   login(email, password) {
     return axios.post('/login/', { email: email, password: password })
     .then((response) => {
-      const r = response.data;
+      const { userId, token } = response.data;
       this.browserSettings
-      .setCookie('userId', r.userId)
-      .setCookie('token', r.token);
+      .setCookie('userId', userId)
+      .setCookie('token', token);
     });
   }
 
