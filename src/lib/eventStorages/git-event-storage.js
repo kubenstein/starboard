@@ -2,13 +2,14 @@ import {
   noopEvent,
   fileRemovedEvent
 } from 'lib/event-definitions';
+import NullLogger from 'lib/null-logger';
 import { hasToBeSet } from 'lib/utils';
 
 export default class GitEventStorage {
   constructor(params) {
     this.syncingInterval = params.syncingInterval || 30;
     this.git = params.gitContainer || hasToBeSet('gitContainer');
-    this.logger = params.logger || { log: () => {} };
+    this.logger = params.logger || new NullLogger();
 
     this.observers = [];
     this.lastSyncedCommit = undefined;

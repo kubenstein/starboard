@@ -1,6 +1,7 @@
 import mkdirp from 'mkdirp';
 import { exec } from 'child_process';
 import { hasToBeSet } from 'lib/utils';
+import NullLogger from 'lib/null-logger';
 
 const swallowErrors = () => {};
 
@@ -12,7 +13,7 @@ export default class GitContainer {
     this.dataBranchName = params.dataBranchName || '__starboard-data';
     this.remoteRepoUrl = params.remoteRepoUrl || hasToBeSet('remoteRepoUrl');
     this.pathToSshPrivateKey = params.pathToSshPrivateKey;
-    this.logger = params.logger || { log: () => {} };
+    this.logger = params.logger || new NullLogger();
 
     mkdirp.sync(this.pathToTempLocalRepo);
     this.configureGitPrivateKeyIfNeeded();

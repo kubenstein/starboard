@@ -1,6 +1,8 @@
+import NullLogger from 'lib/null-logger';
+
 export default class MemoryEventStorage {
   constructor(params = {}) {
-    this.logger = params.logger || { log: () => {} };
+    this.logger = params.logger || new NullLogger();
     this.events = [];
     this.observers = [];
   }
