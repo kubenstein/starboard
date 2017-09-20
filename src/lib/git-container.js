@@ -16,14 +16,14 @@ export default class GitContainer {
     this.logger = params.logger || new NullLogger();
 
     mkdirp.sync(this.pathToTempLocalRepo);
-    this.configureGitPrivateKeyIfNeeded();
+    this.configurePrivateKeyIfNeeded();
   }
 
-  gitInitRepo() {
+  initRepo() {
     return this.execute(`git init ${this.pathToTempLocalRepo}`);
   }
 
-  gitAddUser() {
+  addUser() {
     return Promise.resolve()
     .then(() => {
       return this.execute(`git -C ${this.pathToTempLocalRepo} config user.name "${this.commiterUsername}"`);
@@ -33,74 +33,74 @@ export default class GitContainer {
     });
   }
 
-  gitCreateDataBranch() {
+  createDataBranch() {
     return this.execute(`git -C ${this.pathToTempLocalRepo} checkout -b ${this.dataBranchName}`)
     .catch(swallowErrors);
   }
 
-  gitAddRemote() {
+  addRemote() {
     return this.execute(`git -C ${this.pathToTempLocalRepo} remote add origin ${this.remoteRepoUrl}`)
     .catch(swallowErrors);
   }
 
-  gitCommitHash() {
+  commitHash() {
     return this.execute(`git -C ${this.pathToTempLocalRepo} rev-parse ${this.dataBranchName}`);
   }
 
-  gitCalculateDiffCommitMessages(lastSyncedCommit) {
+  calculateDiffCommitMessages(lastSyncedCommit) {
     if (lastSyncedCommit) {
       return this.execute(`git -C ${this.pathToTempLocalRepo} log --oneline \
                            ${lastSyncedCommit}...${this.dataBranchName}`);
     }
-    return this.gitGetAllCommitMessages();
+    return this.getAllCommitMessages();
   }
 
-  gitGetAllCommitMessages() {
+  getAllCommitMessages() {
     return this.execute(`git -C ${this.pathToTempLocalRepo} log --oneline ${this.dataBranchName}`);
   }
 
-  gitPullChanges() {
+  pullChanges() {
     return this.execute(`git -C ${this.pathToTempLocalRepo} pull --rebase origin ${this.dataBranchName}`);
   }
 
-  gitPushChanges() {
+  pushChanges() {
     return this.execute(`git -C ${this.pathToTempLocalRepo} push origin ${this.dataBranchName}`);
   }
 
-  gitAddFile(fileNameInGitFolder, commitMessage) {
+  addFile(fileNameInGitFolder, commitMessage) {
     return this.execute(`
       git -C ${this.pathToTempLocalRepo} add "${fileNameInGitFolder}" ;
-      ${this.gitCommitShellCommand(commitMessage)}
+      ${this.commitShellCommand(commitMessage)}
     `);
   }
 
-  gitRemoveFile(filePath) {
+  removeFile(filePath) {
     return this.execute(`git -C ${this.pathToTempLocalRepo} rm "${filePath}"`);
   }
 
-  gitPushChangesWithEventualRebase() {
+  pushChangesWithEventualRebase() {
     //
     // try to push till it success,
     // on fail: pull changes and try again
-    return this.gitPushChanges()
+    return this.pushChanges()
     .catch(() => {
-      return this.gitPullChanges()
+      return this.pullChanges()
       .then(this.gitPushChangesWithEventualRebase.bind(this));
     });
   }
 
-  gitCommit(message) {
-    return this.execute(this.gitCommitShellCommand(message));
+  commit(message) {
+    return this.execute(this.commitShellCommand(message));
   }
 
   // private
 
-  gitCommitShellCommand(message) {
+  commitShellCommand(message) {
     const escapedMessage = message.replace(/'/g, '\'"\'"\''); // replace ' -> '"'"'
     return `git -C ${this.pathToTempLocalRepo} commit --allow-empty -m '${escapedMessage}'`;
   }
 
-  configureGitPrivateKeyIfNeeded() {
+  configurePrivateKeyIfNeeded() {
     if (!this.pathToSshPrivateKey) return;
     //
     // taken from:

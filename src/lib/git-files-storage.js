@@ -25,7 +25,7 @@ export default class GitFilesStorage {
     return new Promise((resolve, reject) => {
       fs.rename(filePath, uniqueFilePath, (err) => { return err ? reject(err) : resolve(); });
     })
-    .then(() => { return this.git.gitAddFile(uniqueFileName, this.fileAddingCommitMassage(uniqueFileName)); })
+    .then(() => { return this.git.addFile(uniqueFileName, this.fileAddingCommitMassage(uniqueFileName)); })
     .then(() => { return uniqueFileName; });
   }
 
