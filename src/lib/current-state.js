@@ -13,7 +13,7 @@ import AllEventsEventHandler from 'lib/eventHandlers/all-events';
 
 export default class CurrentState {
   constructor(params) {
-    this.eventStorage = params.eventSource;
+    this.eventStorage = params.eventStorage;
     this.userId = params.userId;
     this.observers = [];
     this.data = {};
@@ -119,7 +119,7 @@ export default class CurrentState {
   }
 
   //
-  // eventSource callback
+  // eventStorage callback
   onNewEvent(event, notifyObservers = true) {
     const handlerName = event.type;
     const EventHandler = this.eventHandlers[handlerName];

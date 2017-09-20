@@ -26,7 +26,7 @@ export default class Server {
 
     this.server               = null;
     this.sockets              = [];
-    this.currentState         = new CurrentState({ eventSource: this.eventStorage });
+    this.currentState         = new CurrentState({ eventStorage: this.eventStorage });
     this.sendFileUsecase      = new SendFileUsecase({ filesStorage: this.filesStorage });
     this.storeFileUsecase     = new StoreFileUsecase({
       filesStorage: this.filesStorage,

@@ -29,5 +29,5 @@ exports.server = new lib.Starboard({
 });
 
 exports.currentState = new lib.CurrentState({
-  eventSource: eventStorage
+  eventStorage: eventStorage
 });

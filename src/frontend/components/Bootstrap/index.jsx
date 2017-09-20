@@ -33,7 +33,7 @@ export default class Bootstrap extends React.Component {
       token: this.session.token()
     });
     this.stateManager = new CurrentState({
-      eventSource: storage,
+      eventStorage: storage,
       userId: this.session.userId()
     });
   }
