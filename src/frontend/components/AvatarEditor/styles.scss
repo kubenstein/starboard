@@ -1,0 +1,40 @@
+@import "../../assets/stylesheets/import";
+
+.avatar-editor {
+  position: relative;
+  width: 50px;
+  height: 50px;
+
+  .btn-remove {
+    border: 0;
+    cursor: pointer;
+    font-size: 10px;
+    background-color: $grey;
+    position: absolute;
+    color: $white;
+    top: -8px;
+    right: -8px;
+    width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+  }
+
+  .file-input-trigger {
+    background-size: cover;
+    box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+    border: 1px solid $black;
+    width: 50px;
+    height: 50px;
+    display: block;
+    margin: 0 auto 5px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  .file-input {
+    display: none;
+  }
+}

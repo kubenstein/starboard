@@ -1,6 +1,7 @@
 import React from 'react';
 import EditableInput from 'components/EditableInput';
 import ActivityItem from 'components/ActivityItem';
+import AvatarEditor from 'components/AvatarEditor';
 import SettingsRepository from 'lib/repositories/settings-repository';
 import ActivitiesRepository from 'lib/repositories/activities-repository';
 import UsersRepository from 'lib/repositories/users-repository';
@@ -47,6 +48,7 @@ export default class SideMenu extends React.Component {
   }
 
   render() {
+    const { stateManager } = this.props;
     const availableColors = this.settingsRepo.availableColors();
     const userId = this.usersRepo.currentUserId();
     const nickname = this.usersRepo.currentUserNickname();
@@ -62,6 +64,7 @@ export default class SideMenu extends React.Component {
             onClick={() => { this.logout(); }}
           />
           <br className="clearfix" />
+          <AvatarEditor className="avatar-editor" stateManager={stateManager} />
           <EditableInput
             className="input-nickname"
             value={nickname}

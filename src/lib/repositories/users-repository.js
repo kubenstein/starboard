@@ -1,4 +1,5 @@
 import { userUpdatedEvent } from 'lib/event-definitions';
+import FileUploaderService from 'lib/services/file-uploader-service';
 
 export default class UsersRepository {
   constructor(stateManager) {
@@ -12,6 +13,16 @@ export default class UsersRepository {
   currentUserNickname() {
     const userId = this.currentUserId();
     return this.userNickname(userId);
+  }
+
+  currentUserAvatarUrl() {
+    const userId = this.currentUserId();
+    return this.userAvatarUrl(userId);
+  }
+
+  userAvatarUrl(userId) {
+    const user = this.stateManager.objectData('users', userId);
+    return user && user.avatarUrl;
   }
 
   userNickname(userId) {
@@ -30,5 +41,26 @@ export default class UsersRepository {
     const requesterId = this.currentUserId();
     const event = userUpdatedEvent(requesterId, userId, 'nickname', nickname);
     return this.stateManager.addEvent(event);
+  }
+
+  setCurrentUserAvatar(avatar) {
+    const userId = this.currentUserId();
+    return this.setUserAvatar(userId, avatar);
+  }
+
+  setUserAvatar(userId, avatar) {
+    const requesterId = this.currentUserId();
+
+    if (!avatar) {
+      const event = userUpdatedEvent(requesterId, userId, 'avatarUrl', null);
+      return this.stateManager.addEvent(event);
+    }
+
+    const fileUploader = new FileUploaderService();
+    return fileUploader.uploadFileFromFileBlob(avatar.blob)
+    .then((avatarUrl) => {
+      const event = userUpdatedEvent(requesterId, userId, 'avatarUrl', avatarUrl);
+      return this.stateManager.addEvent(event);
+    });
   }
 }

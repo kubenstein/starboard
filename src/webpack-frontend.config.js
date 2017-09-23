@@ -49,18 +49,10 @@ module.exports = {
         ]
       },
       {
-        test: /\.jpe?g$|\.gif$|\.svg$|\.woff$|\.ttf$/,
+        test: /\.png$|\.jpe?g$|\.gif$|\.svg$|\.woff$|\.ttf$/,
         use: [
           {
-            loader: `file-loader?name=[path][name]-[hash:6].[ext]&context=${frontendDir}`
-          }
-        ]
-      },
-      {
-        test: /\.png$/,
-        use: [
-          {
-            loader: `file-loader?name=favicons/[name].[ext]&context=${frontendDir}`
+            loader: `file-loader?name=images/[name].[ext]&context=${frontendDir}`
           }
         ]
       },

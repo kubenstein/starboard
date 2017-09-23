@@ -28,7 +28,7 @@ export default class BrowserSettingsService {
     const id = color.replace('#', '');
     const link = document.querySelector("link[rel*='icon']") || document.createElement('link');
     link.rel = 'icon';
-    link.href = `/favicons/favicon_${id}.png?refresher=${currentTimestamp()}`;
+    link.href = `/images/favicon_${id}.png?refresher=${currentTimestamp()}`;
     document.getElementsByTagName('head')[0].appendChild(link);
   }
 
