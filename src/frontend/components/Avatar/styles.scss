@@ -2,9 +2,8 @@
 
 .avatar {
   @include rounded-box;
-  @include shadowed-box;
   background-size: cover;
-  border: 1px solid $black;
+  border: 1px solid $iron-slightly-darker;
   width: 25px;
   height: 25px;
   display: inline-block;
