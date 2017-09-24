@@ -1,18 +1,25 @@
+@mixin shadowed-box {
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+}
+
+@mixin shadowed-box-reversed {
+  box-shadow: -1px 0px 1px rgba(0, 0, 0, 0.1);
+}
+
 @mixin rounded-box {
   border: 0;
   border-radius: 3px;
   box-sizing: border-box;
-  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
 }
 
 @mixin editable-input {
+  @include rounded-box;
   font-size: 16px;
   color: $black;
   display: block;
   padding: 6px 3px 6px 3px;
   width: 100%;
   border: 0;
-  border-radius: 3px;
   box-sizing: border-box;
   font-weight: bold;
   cursor: pointer;

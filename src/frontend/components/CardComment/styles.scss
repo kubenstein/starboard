@@ -18,11 +18,11 @@
   }
 
   .content {
+    @include rounded-box;
+    @include shadowed-box;
     background-color: $white;
     padding: 10px;
     margin-top: 10px;
-    border-radius: 3px;
-    box-shadow: 1px 1px 1px rgba(0, 0, 0, .1);
     white-space: pre-wrap;
     font-size: 15px;
     color: $black;
@@ -38,11 +38,11 @@
     }
 
     .attachment-file-wrapper {
+      @include rounded-box;
       display: block;
       border: 1px solid $grey;
       width: 70px;
       height: 70px;
-      border-radius: 3px;
       margin: 0 auto 10px auto;
     }
 

@@ -5,12 +5,12 @@
 }
 
 .side-menu {
+  @include shadowed-box-reversed;
   background-color: $porcelain;
   overflow-y: auto;
   height: 100%;
   width: 100%;
   padding: 10px 17px 10px 10px;
-  box-shadow: -1px 0px 1px rgba(0, 0, 0, 0.1);
   color: $black;
 
   .avatar-editor {

@@ -2,8 +2,8 @@
 
 .avatar {
   @include rounded-box;
+  @include shadowed-box;
   background-size: cover;
-  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
   border: 1px solid $black;
   width: 25px;
   height: 25px;

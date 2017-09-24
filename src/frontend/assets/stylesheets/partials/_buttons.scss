@@ -1,6 +1,7 @@
 .btn {
   @include rounded-box;
   @include unselectable-text;
+  @include shadowed-box;
   display: inline-block;
   white-space: nowrap;
   cursor: pointer;
