@@ -44,7 +44,18 @@ describe('Comment', () => {
     userCanSee('comment body');
   });
 
-  it('is displayed with a user email/nickname', () => {
+  it('is displayed with a user email/nickname/avatar', () => {
+    //
+    // upload avatar, this should be moved to utils
+    const avatar = path.join(__dirname, 'support', 'files', 'avatar.jpg');
+    when.visitingPage();
+    and.openingSideMenu();
+    and.changingUserAvatar(avatar);
+    userCanSeeAvatar('avatar.jpg');
+    and.visitingPage();
+    and.openingCardDetails('details');
+    // ---
+
     following.postingTextComment('comment body');
 
     userCanSee('comment body');
@@ -52,6 +63,8 @@ describe('Comment', () => {
 
     utils.setNickname('test@test.pl', 'Jakub Niewczas Nickname', currentState);
     userCanSee('Jakub Niewczas Nickname');
+
+    userCanSeeCommentAvatar('avatar.jpg');
   });
 
   it('can be removed', () => {

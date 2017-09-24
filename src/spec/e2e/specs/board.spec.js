@@ -1,5 +1,6 @@
 /* eslint no-undef: 0 */
 
+const path = require('path');
 const server = require('../components.js').server;
 const utils = require('./support/utils.js');
 require('./support/steps.js')();
@@ -65,5 +66,18 @@ describe('Board', () => {
 
     when.removingColumn('column activity');
     userCanSeeActivityLogEntry('column_removed', 'column activity');
+  });
+
+  it('allows to change user avatar', () => {
+    const avatar = path.join(__dirname, 'support', 'files', 'avatar.jpg');
+
+    when.openingSideMenu();
+    userCanSeeAvatar('avatar-placeholder.jpg');
+
+    when.changingUserAvatar(avatar);
+    userCanSeeAvatar('avatar.jpg');
+
+    and.then.when.removingUserAvatar();
+    userCanSeeAvatar('avatar-placeholder.jpg');
   });
 });

@@ -143,6 +143,23 @@ module.exports = function steps() {
     browser.chooseFile('.add-comment-form .file-input', filePath);
   };
 
+  when.changingUserAvatar = function(filePath) {
+    const selector = '.avatar-editor .file-input';
+    browser.chooseFile(selector, filePath);
+  }
+
+  when.removingUserAvatar = function() {
+    browser.$('.avatar-editor .btn-remove').click();
+  }
+
+  then.userCanSeeAvatar = function(fileName) {
+    browser.waitUntil(() => {
+      const avatarEditor = browser.$('.avatar-editor .file-input-trigger');
+      const avatarUrl = browser.elementIdCssProperty(avatarEditor.element().value.ELEMENT, 'background-image').value;
+      return avatarUrl.indexOf(fileName) !== -1;
+    }, 30000, `Expect settings avatar to be set to: ${fileName}`);
+  }
+
   then.userCanSeeActivityLogEntry = function (action, itemTitle) {
     if (action === 'column_created') {
       userCanSee(`added column ${itemTitle}.`);
@@ -276,6 +293,14 @@ module.exports = function steps() {
     userCanSee(fileName); // file description
     expect(link).not.to.eq(undefined);
   };
+
+  then.userCanSeeCommentAvatar = function(fileName) {
+    browser.waitUntil(() => {
+      const avatar = browser.$('.card-comment .avatar');
+      const avatarUrl = browser.elementIdCssProperty(avatar.element().value.ELEMENT, 'background-image').value;
+      return avatarUrl.indexOf(fileName) !== -1;
+    }, 30000, `Expect comment avatar to be set to: ${fileName}`);
+  }
 
   then.userCanSee = function (text) {
     browser.waitUntil(() => {
