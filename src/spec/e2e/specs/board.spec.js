@@ -55,7 +55,7 @@ describe('Board', () => {
     userCanSeeBoardInColor(color.rgba);
   });
 
-  it('tracks changes as a activity log', () => {
+  it('tracks changes as an activity log', () => {
     when.openingSideMenu();
     when.creatingColumn('column activity');
     userCanSeeActivityLogEntry('column_created', 'column activity');
