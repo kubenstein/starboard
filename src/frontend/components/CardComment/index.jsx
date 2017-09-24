@@ -1,4 +1,5 @@
 import React from 'react';
+import Avatar from 'components/Avatar';
 import CommentsRepository from 'lib/repositories/comments-repository';
 import UsersRepository from 'lib/repositories/users-repository';
 import { formattedDate } from 'lib/utils';
@@ -43,8 +44,14 @@ export default class CardComment extends React.Component {
 
   render() {
     const comment = this.comment;
+    const { stateManager } = this.props;
     return (
       <div className="card-comment" key={comment.id}>
+        <Avatar
+          className="avatar"
+          userId={comment.authorId}
+          stateManager={stateManager}
+        />
         {this.authorNameHtml(comment.authorId)}
         <span className="date">{formattedDate(comment.createdAt)}</span>
         <p className="content">

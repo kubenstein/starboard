@@ -5,6 +5,10 @@
   margin-bottom: 15px;
   border-top: 1px solid rgba(0, 0, 0, 0.05);
 
+  .avatar {
+    margin: 0 0px -7px 0;
+  }
+
   .author {
     @include card-details-header;
   }
