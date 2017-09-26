@@ -2,18 +2,16 @@ import { cardUpdatedEventType } from 'lib/event-definitions';
 import repositionAllCards from './support/reposition-all-cards';
 
 export default class CardUpdated {
-  static forEvent() { return cardUpdatedEventType; }
+  forEvent() { return cardUpdatedEventType; }
 
-  constructor(currentState) {
-    this.currentState = currentState;
-  }
+  execute({ stateManager, event }) {
+    this.stateManager = stateManager;
 
-  execute(event) {
     const { cardId, changes } = event.data;
     let newPosition = changes.position;
     let newColumnId = changes.columnId;
 
-    const cardOldData = this.currentState.objectData('cards', cardId);
+    const cardOldData = this.stateManager.objectData('cards', cardId);
     if (!cardOldData) return;
 
     if (newPosition !== undefined || newColumnId !== undefined) {
@@ -28,7 +26,7 @@ export default class CardUpdated {
       });
     }
 
-    this.currentState.updateObject('cards', cardId, changes);
+    this.stateManager.updateObject('cards', cardId, changes);
   }
 
   // private
@@ -36,7 +34,7 @@ export default class CardUpdated {
   updatePositionOfOtherCards(movedCardId, params) {
     const { oldPosition, newPosition, oldColumnId, newColumnId } = params;
 
-    const cards = this.currentState.bucket('cards')
+    const cards = this.stateManager.bucket('cards')
                                    .filter(c => c.columnId === newColumnId &&
                                                 c.id !== movedCardId);
 
@@ -48,7 +46,7 @@ export default class CardUpdated {
         // All cards after movedCardId's newPosition: update position +1
         cards.forEach((c) => {
           if (c.position >= newPosition && c.position < oldPosition) {
-            this.currentState.updateObject('cards', c.id, { position: c.position + 1 });
+            this.stateManager.updateObject('cards', c.id, { position: c.position + 1 });
           }
         });
       } else {
@@ -56,7 +54,7 @@ export default class CardUpdated {
         // All cards before movedCardId's newPosition: update position -1
         cards.forEach((c) => {
           if (c.position <= newPosition && c.position > oldPosition) {
-            this.currentState.updateObject('cards', c.id, { position: c.position - 1 });
+            this.stateManager.updateObject('cards', c.id, { position: c.position - 1 });
           }
         });
       }
@@ -66,13 +64,13 @@ export default class CardUpdated {
       // All cards in a new column, after movedCardId's newPosition: update position +1
       cards.forEach((c) => {
         if (c.position >= newPosition) {
-          this.currentState.updateObject('cards', c.id, { position: c.position + 1 });
+          this.stateManager.updateObject('cards', c.id, { position: c.position + 1 });
         }
       });
 
       // All cards in an old column, update like the moved card was removed
       repositionAllCards(
-        this.currentState,
+        this.stateManager,
         oldColumnId
       );
     }

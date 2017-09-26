@@ -1,14 +1,10 @@
 import { commentRemovedEventType } from 'lib/event-definitions';
 
 export default class CommentRemoved {
-  static forEvent() { return commentRemovedEventType; }
+  forEvent() { return commentRemovedEventType; }
 
-  constructor(currentState) {
-    this.currentState = currentState;
-  }
-
-  execute(event) {
+  execute({ stateManager, event }) {
     const { commentId } = event.data;
-    this.currentState.removeObject('comments', commentId);
+    stateManager.removeObject('comments', commentId);
   }
 }

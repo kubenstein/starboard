@@ -2,17 +2,16 @@ import CardsRepository from 'lib/repositories/cards-repository';
 import ColumnsRepository from 'lib/repositories/columns-repository';
 
 export default class AllEvents {
-  static forEvent() { return 'allEventTypes'; }
+  forEvent() { return 'allEventTypes'; }
 
-  constructor(currentState) {
-    this.currentState = currentState;
-    this.cardsRepo = new CardsRepository(this.currentState);
-    this.columnsRepo = new ColumnsRepository(this.currentState);
-  }
-
-  execute(event) {
+  execute({ stateManager, event }) {
+    this.stateManager = stateManager;
+    this.cardsRepo = new CardsRepository(this.stateManager);
+    this.columnsRepo = new ColumnsRepository(this.stateManager);
     this.logActivity(event);
   }
+
+  // private
 
   logActivity(event) {
     const type = event.type.replace(/_/g, '');
@@ -76,9 +75,9 @@ export default class AllEvents {
     this.storeActivity(activity);
   }
 
-  // private
+  // utils
 
   storeActivity(activity) {
-    this.currentState.addObject('activities', activity);
+    this.stateManager.addObject('activities', activity);
   }
 }

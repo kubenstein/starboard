@@ -1,15 +1,13 @@
 import { columnUpdatedEventType } from 'lib/event-definitions';
 
 export default class ColumnUpdated {
-  static forEvent() { return columnUpdatedEventType; }
+  forEvent() { return columnUpdatedEventType; }
 
-  constructor(currentState) {
-    this.currentState = currentState;
-  }
+  execute({ stateManager, event }) {
+    this.stateManager = stateManager;
 
-  execute(event) {
     const { columnId, changes } = event.data;
-    const column = this.currentState.objectData('columns', columnId);
+    const column = this.stateManager.objectData('columns', columnId);
     if (!column) return;
 
     const newPosition = changes.position;
@@ -17,7 +15,7 @@ export default class ColumnUpdated {
     if (newPosition !== undefined) {
       this.updatePositionOfOtherColumns(column, newPosition);
     }
-    this.currentState.updateObject('columns', columnId, changes);
+    this.stateManager.updateObject('columns', columnId, changes);
   }
 
   // private
@@ -25,7 +23,7 @@ export default class ColumnUpdated {
   updatePositionOfOtherColumns(movedColumn, newPosition) {
     const movedColumnId = movedColumn.id;
     const oldPosition = movedColumn.position;
-    const columns = this.currentState.bucket('columns')
+    const columns = this.stateManager.bucket('columns')
                     .filter(c => c.id !== movedColumnId);
 
     if (newPosition < oldPosition) {
@@ -33,7 +31,7 @@ export default class ColumnUpdated {
       // all after movedColumnId's newPosition: update position +1
       columns.forEach((c) => {
         if (c.position >= newPosition && c.position < oldPosition) {
-          this.currentState.updateObject('columns', c.id, { position: c.position + 1 });
+          this.stateManager.updateObject('columns', c.id, { position: c.position + 1 });
         }
       });
     } else {
@@ -41,7 +39,7 @@ export default class ColumnUpdated {
       // all before movedColumnId's newPosition: update position -1
       columns.forEach((c) => {
         if (c.position <= newPosition && c.position > oldPosition) {
-          this.currentState.updateObject('columns', c.id, { position: c.position - 1 });
+          this.stateManager.updateObject('columns', c.id, { position: c.position - 1 });
         }
       });
     }

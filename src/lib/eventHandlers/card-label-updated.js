@@ -1,15 +1,11 @@
 import { cardLabelUpdatedEventType } from 'lib/event-definitions';
 
 export default class CardLabelUpdated {
-  static forEvent() { return cardLabelUpdatedEventType; }
+  forEvent() { return cardLabelUpdatedEventType; }
 
-  constructor(currentState) {
-    this.currentState = currentState;
-  }
-
-  execute(event) {
+  execute({ stateManager, event }) {
     const { cardId, label, set: shouldBeSet } = event.data;
-    const card = this.currentState.objectData('cards', cardId);
+    const card = stateManager.objectData('cards', cardId);
     if (!card) return;
 
     const labels = card.labels || [];
@@ -22,6 +18,6 @@ export default class CardLabelUpdated {
         labels.splice(existedLabelIndex, 1);
       }
     }
-    this.currentState.updateObject('cards', cardId, { labels: labels });
+    stateManager.updateObject('cards', cardId, { labels: labels });
   }
 }

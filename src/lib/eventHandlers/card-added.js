@@ -2,18 +2,14 @@ import { cardAddedEventType } from 'lib/event-definitions';
 import repositionAllCards from './support/reposition-all-cards';
 
 export default class CardAdded {
-  static forEvent() { return cardAddedEventType; }
+  forEvent() { return cardAddedEventType; }
 
-  constructor(currentState) {
-    this.currentState = currentState;
-  }
-
-  execute(event) {
+  execute({ stateManager, event }) {
     const card = event.data;
-    const column = this.currentState.objectData('columns', card.columnId);
+    const column = stateManager.objectData('columns', card.columnId);
     if (!column) return;
 
-    this.currentState.addObject('cards', card);
-    repositionAllCards(this.currentState, card.columnId);
+    stateManager.addObject('cards', card);
+    repositionAllCards(stateManager, card.columnId);
   }
 }

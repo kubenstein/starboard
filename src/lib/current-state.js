@@ -20,18 +20,18 @@ export default class CurrentState {
     this.eventHandlers = {};
 
     this.registerEventHandlers([
-      AllEventsEventHandler,
-      SettingsUpdatedEventHandler,
-      ColumnAddedEventHandler,
-      ColumnUpdatedEventHandler,
-      ColumnRemovedEventHandler,
-      CardAddedEventHandler,
-      CardUpdatedEventHandler,
-      CardRemovedEventHandler,
-      CardLabelUpdatedEventHandler,
-      CommentAddedEventHandler,
-      CommentRemovedEventHandler,
-      UserUpdatedEventHandler
+      new AllEventsEventHandler(),
+      new SettingsUpdatedEventHandler(),
+      new ColumnAddedEventHandler(),
+      new ColumnUpdatedEventHandler(),
+      new ColumnRemovedEventHandler(),
+      new CardAddedEventHandler(),
+      new CardUpdatedEventHandler(),
+      new CardRemovedEventHandler(),
+      new CardLabelUpdatedEventHandler(),
+      new CommentAddedEventHandler(),
+      new CommentRemovedEventHandler(),
+      new UserUpdatedEventHandler(),
     ]);
 
     this.eventStorage.addObserver(this);
@@ -122,18 +122,15 @@ export default class CurrentState {
   // eventStorage callback
   onNewEvent(event, notifyObservers = true) {
     const handlerName = event.type;
-    const EventHandler = this.eventHandlers[handlerName];
-    const AllEventsHandler = this.eventHandlers.allEventTypes;
+    const eventHandler = this.eventHandlers[handlerName];
+    const allEventsHandler = this.eventHandlers.allEventTypes;
+    const handlerParmas = { stateManager: this, event: event };
 
-    if (EventHandler) {
-      if (AllEventsHandler) {
-        new AllEventsHandler(this).execute(event);
-      }
+    if (allEventsHandler) allEventsHandler.execute(handlerParmas);
+    if (eventHandler) eventHandler.execute(handlerParmas);
 
-      new EventHandler(this).execute(event);
-      if (notifyObservers) {
-        this.onDataSynced();
-      }
+    if (notifyObservers && (allEventsHandler || eventHandler)) {
+      this.onDataSynced();
     }
   }
 }
