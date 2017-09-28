@@ -32,7 +32,10 @@
 
   .card-list {
     margin-top: 2px;
-    overflow-y: auto;
+    margin-right: -35px;
+    padding-right: 35px;
+    overflow-x: hidden;
+    overflow-y: scroll;
   }
 
   .card {
