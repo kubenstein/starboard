@@ -44,4 +44,12 @@ export default class BrowserSettingsService {
     }
     return this;
   }
+
+  registerKeyDownEvent(eventHandler) {
+    window.addEventListener('keydown', eventHandler);
+  }
+
+  unregisterKeyDownEvent(eventHandler) {
+    window.removeEventListener('keydown', eventHandler);
+  }
 }

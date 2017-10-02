@@ -25,13 +25,15 @@ export default class CardDetails extends React.Component {
   }
 
   componentWillMount() {
-    this.browserSettingsService.setUrlForCard(this.card);
-     window.addEventListener('keydown', this.handleKeyDown);
+    const bss = this.browserSettingsService;
+    bss.setUrlForCard(this.card);
+    bss.registerKeyDownEvent(this.handleKeyDown);
   }
 
   componentWillUnmount() {
-    this.browserSettingsService.setMainUrl();
-    window.removeEventListener('keydown', this.handleKeyDown);
+    const bss = this.browserSettingsService;
+    bss.setMainUrl();
+    bss.unregisterKeyDownEvent(this.handleKeyDown);
   }
 
   handleKeyDown(event) {
