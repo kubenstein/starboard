@@ -82,7 +82,7 @@ export default class Card extends React.Component {
           >
             <CardDetails
               data={this.card}
-              onCloseBtnPressed={() => { this.closeDetails(); }}
+              onClose={() => { this.closeDetails(); }}
               stateManager={this.stateManager}
             />
           </div>

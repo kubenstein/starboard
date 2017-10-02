@@ -14,21 +14,28 @@ export default class CardDetails extends React.Component {
   constructor(props) {
     super(props);
     this.stateManager = this.props.stateManager;
-    this.onCloseBtnPressed = this.props.onCloseBtnPressed;
+    this.onClose = this.props.onClose;
     this.columnsRepo = new ColumnsRepository(this.stateManager);
     this.commentsRepo = new CommentsRepository(this.stateManager);
     this.cardsRepo = new CardsRepository(this.stateManager);
     this.settingsRepo = new SettingsRepository(this.stateManager);
     this.browserSettingsService = new BrowserSettingsService();
     this.card = this.props.data;
+    this.handleKeyDown = this.handleKeyDown.bind(this);
   }
 
-  componentDidMount() {
+  componentWillMount() {
     this.browserSettingsService.setUrlForCard(this.card);
+     window.addEventListener('keydown', this.handleKeyDown);
   }
 
   componentWillUnmount() {
     this.browserSettingsService.setMainUrl();
+    window.removeEventListener('keydown', this.handleKeyDown);
+  }
+
+  handleKeyDown(event) {
+    if (event.key === 'Escape') this.onClose();
   }
 
   textForLabel(color) {
@@ -70,7 +77,7 @@ export default class CardDetails extends React.Component {
         <div className="title-wrapper">
           <button
             className="btn btn-raw-icon btn-close"
-            onClick={() => { this.onCloseBtnPressed(); }}
+            onClick={() => { this.onClose(); }}
           >✕</button>
           <EditableInput
             className="title"
