@@ -32,11 +32,11 @@ describe('Card Details', () => {
 
   it('allows to change a description', () => {
     utils.createCard('card with description', {}, currentState);
-    visitingPage(); // There is something wonky about this  particular spec.
+    visitingPage(); // There is something wonky about this particular spec.
                     // Sometimes whole board is just empty like utils.createCard()
                     // was never triggered (even though it is async, eventually
                     // a card should appear). I added visitingPage() to reload
-                    // whole page - doubt it will trully solve the issue.
+                    // the whole page - doubt it will truly solve the issue.
 
     when.openingCardDetails('card with description');
     and.changingCardDescription('new desc');
