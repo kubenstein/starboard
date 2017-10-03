@@ -1,12 +1,19 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import UsersRepository from 'lib/repositories/users-repository';
 import 'components/AvatarEditor/styles.scss';
 
 export default class AvatarEditor extends React.Component {
+  static get propTypes() {
+    return {
+      stateManager: PropTypes.object.isRequired,
+    };
+  }
+
   constructor(props) {
     super(props);
-    this.stateManager = this.props.stateManager;
-    this.repo = new UsersRepository(this.stateManager);
+    const { stateManager } = this.props;
+    this.repo = new UsersRepository(stateManager);
     this.state = {
       uploading: false
     };

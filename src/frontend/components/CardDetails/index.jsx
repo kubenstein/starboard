@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import EditableInput from 'components/EditableInput';
 import AddCommentForm from 'components/AddCommentForm';
 import CardComment from 'components/CardComment';
@@ -11,22 +12,28 @@ import BrowserSettingsService from 'lib/services/browser-settings-service';
 import 'components/CardDetails/styles.scss';
 
 export default class CardDetails extends React.Component {
+  static get propTypes() {
+    return {
+      stateManager: PropTypes.object.isRequired,
+      onClose: PropTypes.func.isRequired
+    };
+  }
+
   constructor(props) {
     super(props);
-    this.stateManager = this.props.stateManager;
-    this.onClose = this.props.onClose;
-    this.columnsRepo = new ColumnsRepository(this.stateManager);
-    this.commentsRepo = new CommentsRepository(this.stateManager);
-    this.cardsRepo = new CardsRepository(this.stateManager);
-    this.settingsRepo = new SettingsRepository(this.stateManager);
+    const { stateManager } = this.props;
+    this.columnsRepo = new ColumnsRepository(stateManager);
+    this.commentsRepo = new CommentsRepository(stateManager);
+    this.cardsRepo = new CardsRepository(stateManager);
+    this.settingsRepo = new SettingsRepository(stateManager);
     this.browserSettingsService = new BrowserSettingsService();
-    this.card = this.props.data;
     this.handleKeyDown = this.handleKeyDown.bind(this);
   }
 
   componentWillMount() {
+    const { card } = this.props;
     const bss = this.browserSettingsService;
-    bss.setUrlForCard(this.card);
+    bss.setUrlForCard(card);
     bss.registerKeyDownEvent(this.handleKeyDown);
   }
 
@@ -37,7 +44,7 @@ export default class CardDetails extends React.Component {
   }
 
   handleKeyDown(event) {
-    if (event.key === 'Escape') this.onClose();
+    if (event.key === 'Escape') this.props.onClose();
   }
 
   textForLabel(color) {
@@ -45,23 +52,26 @@ export default class CardDetails extends React.Component {
   }
 
   updateTitle(newValue) {
-    const { value: oldValue, id } = this.card;
+    const { card } = this.props;
+    const { value: oldValue, id } = card;
     if (newValue !== oldValue) {
       this.cardsRepo.updateCard(id, { title: newValue });
     }
   }
 
   updateDescription(newValue) {
-    const { description: oldValue, id } = this.card;
+    const { card } = this.props;
+    const { description: oldValue, id } = card;
     if (newValue !== oldValue) {
       this.cardsRepo.updateCard(id, { description: newValue });
     }
   }
 
   updateLabels(toggledLabel) {
-    const labels = this.card.labels || [];
+    const { card } = this.props;
+    const labels = card.labels || [];
     const shouldBeSet = (labels.indexOf(toggledLabel) === -1);
-    this.cardsRepo.updateLabel(this.card.id, toggledLabel, shouldBeSet);
+    this.cardsRepo.updateLabel(card.id, toggledLabel, shouldBeSet);
   }
 
   removeCard(cardId) {
@@ -71,7 +81,8 @@ export default class CardDetails extends React.Component {
   }
 
   render() {
-    const { title, description, id, columnId, labels } = this.card;
+    const { card, stateManager, onClose } = this.props;
+    const { title, description, id, columnId, labels } = card;
     const comments = this.commentsRepo.commentsForCard(id);
     const columnName = this.columnsRepo.get(columnId).name;
     return (
@@ -79,7 +90,7 @@ export default class CardDetails extends React.Component {
         <div className="title-wrapper">
           <button
             className="btn btn-raw-icon btn-close"
-            onClick={() => { this.onClose(); }}
+            onClick={() => { onClose(); }}
           >✕</button>
           <EditableInput
             className="title"
@@ -121,17 +132,17 @@ export default class CardDetails extends React.Component {
           <div className="label-picker-visible label-picker-wrapper">
             <CardLabelPicker
               className="label-picker"
-              data={this.card}
-              stateManager={this.stateManager}
+              card={card}
+              stateManager={stateManager}
               onLabelPicked={(label) => { this.updateLabels(label); }}
             />
           </div>
 
         </div>
         <h4 className="section-title clearfix">Comments:</h4>
-        <AddCommentForm cardId={id} stateManager={this.stateManager} />
+        <AddCommentForm cardId={id} stateManager={stateManager} />
         { comments.map(comment =>
-          <CardComment key={comment.id} comment={comment} stateManager={this.stateManager} />
+          <CardComment key={comment.id} comment={comment} stateManager={stateManager} />
         )}
       </div>
     );

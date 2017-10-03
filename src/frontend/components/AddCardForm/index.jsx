@@ -1,25 +1,32 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import serialize from 'form-serialize';
 import CardsRepository from 'lib/repositories/cards-repository';
 import 'components/AddCardForm/styles.scss';
 
 export default class AddCardForm extends React.Component {
+  static get propTypes() {
+    return {
+      stateManager: PropTypes.object.isRequired,
+      columnId: PropTypes.string.isRequired,
+    };
+  }
+
   constructor(props) {
     super(props);
-    this.column = this.props.column;
-    this.stateManager = this.props.stateManager;
-    this.repo = new CardsRepository(this.stateManager);
+    const { stateManager } = this.props;
+    this.repo = new CardsRepository(stateManager);
     this.state = {
       opened: false
     };
   }
 
-  close() {
-    this.setState({ opened: false });
-  }
-
   open() {
     this.setState({ opened: true });
+  }
+
+  close() {
+    this.setState({ opened: false });
   }
 
   submitFormOnEnter(e) {
@@ -30,19 +37,20 @@ export default class AddCardForm extends React.Component {
 
   submit(e) {
     e.preventDefault();
+    const { columnId } = this.props;
     const { title } = serialize(this.formElement, { hash: true });
     if (title) {
-      this.repo.addCard(title, this.column.id).then(() => {
+      this.repo.addCard(title, columnId).then(() => {
         this.close();
       });
     }
   }
 
   render() {
-    const formOpened = this.state.opened;
+    const { opened } = this.state;
     return (
       <div className="add-card-form">
-        { formOpened ?
+        { opened ?
           <form
             className="form"
             ref={(e) => { this.formElement = e; }}

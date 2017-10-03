@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import EditableInput from 'components/EditableInput';
 import ActivityItem from 'components/ActivityItem';
 import AvatarEditor from 'components/AvatarEditor';
@@ -9,12 +10,18 @@ import UserLogoutUsecase from 'lib/usecases/user-logout-usecase';
 import 'components/SideMenu/styles.scss';
 
 export default class SideMenu extends React.Component {
+  static get propTypes() {
+    return {
+      stateManager: PropTypes.object.isRequired
+    };
+  }
+
   constructor(props) {
     super(props);
-    this.stateManager = this.props.stateManager;
-    this.settingsRepo = new SettingsRepository(this.stateManager);
-    this.usersRepo = new UsersRepository(this.stateManager);
-    this.activitiesRepo = new ActivitiesRepository(this.stateManager);
+    const { stateManager } = this.props;
+    this.settingsRepo = new SettingsRepository(stateManager);
+    this.usersRepo = new UsersRepository(stateManager);
+    this.activitiesRepo = new ActivitiesRepository(stateManager);
   }
 
   textForLabel(color) {
@@ -110,7 +117,7 @@ export default class SideMenu extends React.Component {
               <ActivityItem
                 key={activity.id}
                 activity={activity}
-                stateManager={this.stateManager}
+                stateManager={stateManager}
               />
             )}
           </div>

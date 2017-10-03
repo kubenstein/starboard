@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import CardDetails from 'components/CardDetails';
 import BrowserSettingsService from 'lib/services/browser-settings-service';
 import SettingsRepository from 'lib/repositories/settings-repository';
@@ -6,12 +7,18 @@ import CommentsRepository from 'lib/repositories/comments-repository';
 import 'components/Card/styles.scss';
 
 export default class Card extends React.Component {
+  static get propTypes() {
+    return {
+      stateManager: PropTypes.object.isRequired,
+      card: PropTypes.object.isRequired, // TODO change to shape
+    };
+  }
+
   constructor(props) {
     super(props);
-    this.card = this.props.data;
-    this.stateManager = this.props.stateManager;
-    this.settingsRepo = new SettingsRepository(this.stateManager);
-    this.commentsRepo = new CommentsRepository(this.stateManager);
+    const { stateManager } = this.props;
+    this.settingsRepo = new SettingsRepository(stateManager);
+    this.commentsRepo = new CommentsRepository(stateManager);
     this.browserSettingsService = new BrowserSettingsService();
     this.state = {
       detailsOpened: false,
@@ -19,7 +26,8 @@ export default class Card extends React.Component {
   }
 
   componentDidMount() {
-    if (this.card.id === this.browserSettingsService.urlCardId()) {
+    const { card } = this.props;
+    if (card.id === this.browserSettingsService.urlCardId()) {
       this.openDetails();
     }
   }
@@ -49,7 +57,8 @@ export default class Card extends React.Component {
   }
 
   render() {
-    const { labels, title, id } = this.card;
+    const { card, stateManager } = this.props;
+    const { labels, title, id } = card;
     const { detailsOpened } = this.state;
     const commentCounter = this.commentsRepo.commentsCountForCard(id);
     return (
@@ -81,9 +90,9 @@ export default class Card extends React.Component {
             ref={(r) => { this.dismissOverlayElement = r; }}
           >
             <CardDetails
-              data={this.card}
+              card={card}
               onClose={() => { this.closeDetails(); }}
-              stateManager={this.stateManager}
+              stateManager={stateManager}
             />
           </div>
         }

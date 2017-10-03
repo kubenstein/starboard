@@ -1,14 +1,21 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import serialize from 'form-serialize';
 import CommentsRepository from 'lib/repositories/comments-repository';
 import 'components/AddCommentForm/styles.scss';
 
 export default class AddCommentForm extends React.Component {
+  static get propTypes() {
+    return {
+      stateManager: PropTypes.object.isRequired,
+      cardId: PropTypes.string.isRequired,
+    };
+  }
+
   constructor(props) {
     super(props);
-    this.cardId = this.props.cardId;
-    this.stateManager = this.props.stateManager;
-    this.repo = new CommentsRepository(this.stateManager);
+    const { stateManager } = this.props;
+    this.repo = new CommentsRepository(stateManager);
     this.state = {
       uploadingAttachment: false
     };
@@ -25,6 +32,7 @@ export default class AddCommentForm extends React.Component {
   }
 
   handleFileUpload() {
+    const { cardId, stateManager } = this.props;
     this.setState({ uploadingAttachment: true });
     const file = this.fileInput.files[0];
     const attachmentInfo = {
@@ -33,18 +41,19 @@ export default class AddCommentForm extends React.Component {
       type: file.type,
       blob: file,
     };
-    const userId = this.stateManager.getUserId();
-    this.repo.addComment(this.cardId, { attachment: attachmentInfo, authorId: userId }).then(() => {
+    const userId = stateManager.getUserId();
+    this.repo.addComment(cardId, { attachment: attachmentInfo, authorId: userId }).then(() => {
       this.setState({ uploadingAttachment: false });
     });
   }
 
   submit(e) {
     e.preventDefault();
+    const { cardId, stateManager } = this.props;
     const { content } = serialize(this.form, { hash: true });
     if (content) {
-      const userId = this.stateManager.getUserId();
-      this.repo.addComment(this.cardId, { content: content, authorId: userId }).then(() => {
+      const userId = stateManager.getUserId();
+      this.repo.addComment(cardId, { content: content, authorId: userId }).then(() => {
         this.clear();
       });
     }

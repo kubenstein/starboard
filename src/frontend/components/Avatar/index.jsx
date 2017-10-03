@@ -1,13 +1,20 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import UsersRepository from 'lib/repositories/users-repository';
 import 'components/Avatar/styles.scss';
 
 export default class Avatar extends React.Component {
+  static get propTypes() {
+    return {
+      stateManager: PropTypes.object.isRequired,
+      userId: PropTypes.string.isRequired,
+    };
+  }
+
   constructor(props) {
     super(props);
-    this.stateManager = this.props.stateManager;
-    this.userId = this.props.userId;
-    this.repo = new UsersRepository(this.stateManager);
+    const { stateManager } = this.props;
+    this.repo = new UsersRepository(stateManager);
   }
 
   render() {

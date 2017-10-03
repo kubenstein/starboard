@@ -1,16 +1,24 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import UsersRepository from 'lib/repositories/users-repository';
 import SettingsRepository from 'lib/repositories/settings-repository';
 import { formattedDate } from 'lib/utils';
 import 'components/ActivityItem/styles.scss';
 
 export default class ActivityItem extends React.Component {
+  static get propTypes() {
+    return {
+      stateManager: PropTypes.object.isRequired,
+      activity: PropTypes.object.isRequired, // TODO change to shape
+    };
+  }
+
   constructor(props) {
     super(props);
-    this.stateManager = this.props.stateManager;
-    this.usersRepo = new UsersRepository(this.stateManager);
-    this.settingsRepo = new SettingsRepository(this.stateManager);
+    const { stateManager } = this.props;
     this.activity = this.props.activity;
+    this.usersRepo = new UsersRepository(stateManager);
+    this.settingsRepo = new SettingsRepository(stateManager);
   }
 
   author() {
@@ -66,10 +74,11 @@ export default class ActivityItem extends React.Component {
   render() {
     const date = formattedDate(this.activity.createdAt);
     const content = this.content();
+    const author = this.author();
     return (
       <div className="activity-item">
         <small className="date">{date}</small>
-        <small className="author">{this.author()} </small>
+        <small className="author">{author} </small>
         <span className="content">{content}</span>
       </div>
     );

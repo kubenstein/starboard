@@ -72,6 +72,7 @@
     "mocha": "~3.x.x",
     "node-sass": "~4.x.x",
     "nodemon": "~1.x.x",
+    "prop-types": "^15.6.0",
     "react": "~15.6.x",
     "react-dom": "~15.6.x",
     "sass-loader": "~6.0.x",

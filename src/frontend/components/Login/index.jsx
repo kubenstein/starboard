@@ -1,28 +1,33 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import serialize from 'form-serialize';
 import 'components/Login/styles.scss';
 
 export default class Login extends React.Component {
-  constructor(props) {
-    super(props);
-    this.onLogIn = this.props.onLogIn;
-    this.state = { displayError: this.props.displayError };
+  static get propTypes() {
+    return {
+      onLogIn: PropTypes.func.isRequired,
+      displayError: PropTypes.bool,
+    };
   }
 
-  componentWillReceiveProps(nextProps) {
-    this.setState({ displayError: nextProps.displayError });
+  static get defaultProps() {
+    return {
+      displayError: false,
+    };
   }
 
   submit(e) {
     e.preventDefault();
+    const { onLogIn } = this.props;
     const { email, password } = serialize(this.formElement, { hash: true });
     if (email && password) {
-      this.onLogIn(email, password);
+      onLogIn(email, password);
     }
   }
 
   render() {
-    const { displayError } = this.state;
+    const { displayError } = this.props;
     return (
       <div className="login">
         <form

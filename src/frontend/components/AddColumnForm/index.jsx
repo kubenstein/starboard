@@ -1,13 +1,20 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import serialize from 'form-serialize';
 import ColumnsRepository from 'lib/repositories/columns-repository';
 import 'components/AddColumnForm/styles.scss';
 
 export default class AddColumnForm extends React.Component {
+  static get propTypes() {
+    return {
+      stateManager: PropTypes.object.isRequired
+    };
+  }
+
   constructor(props) {
     super(props);
-    this.stateManager = this.props.stateManager;
-    this.repo = new ColumnsRepository(this.stateManager);
+    const { stateManager } = this.props;
+    this.repo = new ColumnsRepository(stateManager);
     this.state = {
       opened: false
     };
@@ -38,10 +45,10 @@ export default class AddColumnForm extends React.Component {
   }
 
   render() {
-    const formOpened = this.state.opened;
+    const { opened } = this.state;
     return (
       <div className="add-column-form">
-        { formOpened ?
+        { opened ?
           <form
             className="form"
             ref={(e) => { this.formElement = e; }}
