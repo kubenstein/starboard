@@ -1,17 +1,30 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import 'components/EditableInput/styles.scss';
 
 export default class EditableInput extends React.Component {
+  static get propTypes() {
+    return {
+      value: PropTypes.string,
+      placeholder: PropTypes.string,
+      type: PropTypes.string,
+      onChange: PropTypes.func
+    };
+  }
+
+  static get defaultProps() {
+    return {
+      value: '',
+      placeholder: '',
+      type: '',
+      onChange: (() => {})
+    };
+  }
+
   constructor(props) {
     super(props);
-    this.value = this.props.value || '';
-    this.placeholder = this.props.placeholder || '';
-    this.type = this.props.type;
-    this.otherCssClasses = this.props.className || '';
-    this.changeCallback = this.props.onChange;
-    this.keyPressCallback = this.props.onKeyPress || (() => {});
     this.state = {
-      value: this.value,
+      value: this.props.value,
       currentlyEdditing: false
     };
   }
@@ -20,11 +33,6 @@ export default class EditableInput extends React.Component {
     const value = nextProps.value;
     if (value && !this.state.currentlyEdditing) {
       this.setState({ value: value });
-    }
-
-    const className = nextProps.className;
-    if (className) {
-      this.otherCssClasses = className;
     }
   }
 
@@ -45,7 +53,7 @@ export default class EditableInput extends React.Component {
 
   onFinalizedEditing() {
     const { value } = this.input;
-    this.changeCallback(value);
+    this.props.onChange(value);
   }
 
   onInputChange(e) {
@@ -54,16 +62,18 @@ export default class EditableInput extends React.Component {
   }
 
   cssClasses() {
+    const { className } = this.props;
     const edditingCssClass = this.state.currentlyEdditing ? 'edditing' : '';
-    return `editable-input ${this.otherCssClasses} ${edditingCssClass}`;
+    return `editable-input ${className} ${edditingCssClass}`;
   }
 
   textareaJSX(value) {
+    const { placeholder } = this.props;
     return (
       <textarea
         className={this.cssClasses()}
         value={value}
-        placeholder={this.placeholder}
+        placeholder={placeholder}
         ref={(e) => { this.input = e; }}
         onBlur={() => { this.onBlur(); }}
         onFocus={() => { this.onFocus(); }}
@@ -73,12 +83,13 @@ export default class EditableInput extends React.Component {
   }
 
   inputJSX(value) {
+    const { placeholder } = this.props;
     return (
       <input
         type="text"
         className={this.cssClasses()}
         value={value}
-        placeholder={this.placeholder}
+        placeholder={placeholder}
         ref={(e) => { this.input = e; }}
         onBlur={() => { this.onBlur(); }}
         onFocus={() => { this.onFocus(); }}
@@ -90,7 +101,8 @@ export default class EditableInput extends React.Component {
 
   render() {
     const { value } = this.state;
-    return (this.type === 'textarea') ?
+    const { type } = this.props;
+    return (type === 'textarea') ?
       this.textareaJSX(value)
     :
       this.inputJSX(value);

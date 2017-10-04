@@ -16,65 +16,65 @@ export default class ActivityItem extends React.Component {
   constructor(props) {
     super(props);
     const { stateManager } = this.props;
-    this.activity = this.props.activity;
     this.usersRepo = new UsersRepository(stateManager);
     this.settingsRepo = new SettingsRepository(stateManager);
   }
 
-  author() {
-    const id = this.activity.requesterId;
-    return this.usersRepo.userNickname(id) || id;
+  author(activity) {
+    const { requesterId } = activity;
+    return this.usersRepo.userNickname(requesterId) || requesterId;
   }
 
-  content() {
-    const type = this.activity.type.replace(/_/g, '');
+  content(activity) {
+    const type = activity.type.replace(/_/g, '');
     const handler = this[`${type}ActivityHtml`];
-    return handler ? handler.bind(this)() : '';
+    return handler ? handler.bind(this)(activity) : '';
   }
 
   // handlers
 
-  CARDADDEDActivityHtml() {
-    const { cardTitle } = this.activity.meta;
+  CARDADDEDActivityHtml(activity) {
+    const { cardTitle } = activity.meta;
     return <span>added card <i>{cardTitle}</i>.</span>;
   }
 
-  CARDREMOVEDActivityHtml() {
-    const { cardTitle } = this.activity.meta;
+  CARDREMOVEDActivityHtml(activity) {
+    const { cardTitle } = activity.meta;
     return <span>removed card <i>{cardTitle}</i>.</span>;
   }
 
-  CARDLABELUPDATEDActivityHtml() {
-    const { label, set } = this.activity.data;
-    const { cardTitle } = this.activity.meta;
+  CARDLABELUPDATEDActivityHtml(activity) {
+    const { label, set } = activity.data;
+    const { cardTitle } = activity.meta;
     const labelName = this.settingsRepo.textForLabel(label, true);
     return <span>
       {set ? 'set' : 'removed'} label: <i>{labelName}</i> {set ? 'to' : 'from'} card <i>{cardTitle}</i>.
     </span>;
   }
 
-  COMMENTADDEDActivityHtml() {
-    const { content } = this.activity.data;
-    const { cardTitle } = this.activity.meta;
+  COMMENTADDEDActivityHtml(activity) {
+    const { content } = activity.data;
+    const { cardTitle } = activity.meta;
     return <span>
       added comment: <br /> <i>&quot;{content}&quot;</i> <br /> to card <i>{cardTitle}</i>.
     </span>;
   }
 
-  COLUMNADDEDActivityHtml() {
-    const { columnName } = this.activity.meta;
+  COLUMNADDEDActivityHtml(activity) {
+    const { columnName } = activity.meta;
     return <span>added column <i>{columnName}</i>.</span>;
   }
 
-  COLUMNREMOVEDActivityHtml() {
-    const { columnName } = this.activity.meta;
+  COLUMNREMOVEDActivityHtml(activity) {
+    const { columnName } = activity.meta;
     return <span>removed column <i>{columnName}</i>.</span>;
   }
 
   render() {
-    const date = formattedDate(this.activity.createdAt);
-    const content = this.content();
-    const author = this.author();
+    const { activity } = this.props;
+    const date = formattedDate(activity.createdAt);
+    const content = this.content(activity);
+    const author = this.author(activity);
     return (
       <div className="activity-item">
         <small className="date">{date}</small>

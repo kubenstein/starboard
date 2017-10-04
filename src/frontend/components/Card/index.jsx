@@ -27,7 +27,8 @@ export default class Card extends React.Component {
 
   componentDidMount() {
     const { card } = this.props;
-    if (card.id === this.browserSettingsService.urlCardId()) {
+    const cardToOpen = this.browserSettingsService.urlCardId();
+    if (card.id === cardToOpen) {
       this.openDetails();
     }
   }
@@ -58,8 +59,8 @@ export default class Card extends React.Component {
 
   render() {
     const { card, stateManager } = this.props;
-    const { labels, title, id } = card;
     const { detailsOpened } = this.state;
+    const { labels, title, id } = card;
     const commentCounter = this.commentsRepo.commentsCountForCard(id);
     return (
       <div
