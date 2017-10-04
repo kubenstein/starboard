@@ -91,8 +91,7 @@ export default class CurrentState {
   }
 
   objectData(bucketName, objectId) {
-    const objectIndex = this.bucket(bucketName).findIndex(object => object.id === objectId);
-    return this.bucket(bucketName)[objectIndex];
+    return this.bucket(bucketName).find(object => object.id === objectId);
   }
 
   // private
