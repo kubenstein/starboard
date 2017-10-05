@@ -1,7 +1,7 @@
 import {
   columnAddedEvent,
   columnUpdatedEvent,
-  columnRemovedEvent
+  columnRemovedEvent,
 } from 'lib/event-definitions';
 
 export default class ColumnsRepository {
@@ -26,7 +26,7 @@ export default class ColumnsRepository {
 
     const event = columnAddedEvent(requesterId, {
       name: name,
-      position: lastPosition
+      position: lastPosition,
     });
     return this.stateManager.addEvent(event);
   }

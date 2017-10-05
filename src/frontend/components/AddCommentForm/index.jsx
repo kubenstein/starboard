@@ -17,7 +17,7 @@ export default class AddCommentForm extends React.Component {
     const { stateManager } = this.props;
     this.repo = new CommentsRepository(stateManager);
     this.state = {
-      uploadingAttachment: false
+      uploadingAttachment: false,
     };
   }
 

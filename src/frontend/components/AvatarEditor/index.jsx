@@ -15,7 +15,7 @@ export default class AvatarEditor extends React.Component {
     const { stateManager } = this.props;
     this.repo = new UsersRepository(stateManager);
     this.state = {
-      uploading: false
+      uploading: false,
     };
   }
 

@@ -30,11 +30,11 @@ export default class Bootstrap extends React.Component {
 
   configureAppForLoggedInUser() {
     const storage = new ServerEventStorage({
-      token: this.session.token()
+      token: this.session.token(),
     });
     this.stateManager = new CurrentState({
       eventStorage: storage,
-      userId: this.session.userId()
+      userId: this.session.userId(),
     });
   }
 

@@ -1,6 +1,6 @@
 import {
   columnRemovedEventType,
-  cardRemovedEvent
+  cardRemovedEvent,
 } from 'lib/event-definitions';
 import CardsRepository from 'lib/repositories/cards-repository';
 import CardRemovedEventHandler from './card-removed';
@@ -30,7 +30,7 @@ export default class ColumnRemoved {
       const proxyEvent = cardRemovedEvent('proxyRequester', card.id);
       cardRemovedEventHandler.execute({
         stateManager: this.stateManager,
-        event: proxyEvent
+        event: proxyEvent,
       });
     });
   }

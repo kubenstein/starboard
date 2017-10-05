@@ -8,7 +8,7 @@ export default class EditableInput extends React.Component {
       value: PropTypes.string,
       placeholder: PropTypes.string,
       type: PropTypes.string,
-      onChange: PropTypes.func
+      onChange: PropTypes.func,
     };
   }
 
@@ -17,7 +17,7 @@ export default class EditableInput extends React.Component {
       value: '',
       placeholder: '',
       type: '',
-      onChange: (() => {})
+      onChange: (() => {}),
     };
   }
 
@@ -25,7 +25,7 @@ export default class EditableInput extends React.Component {
     super(props);
     this.state = {
       value: this.props.value,
-      currentlyEdditing: false
+      currentlyEdditing: false,
     };
   }
 

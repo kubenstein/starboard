@@ -23,7 +23,7 @@ if (env === 'production') {
     filename: 'starboard.js',
     library: 'starboard',
     libraryTarget: 'umd',
-    umdNamedDefine: true
+    umdNamedDefine: true,
   };
 } else if (env === 'test') {
   entry = `${srcDir}/lib.js`;
@@ -33,14 +33,14 @@ if (env === 'production') {
     filename: 'starboard.js',
     library: 'starboard',
     libraryTarget: 'umd',
-    umdNamedDefine: true
+    umdNamedDefine: true,
   };
 } else {
   entry = `${backendDir}/dev-server-runner.js`;
   output = {
     path: `${rootDir}/.tmp/backend/`,
     publicPath: '/',
-    filename: 'bundled-server-runner.js'
+    filename: 'bundled-server-runner.js',
   };
 }
 
@@ -61,12 +61,12 @@ module.exports = {
           {
             loader: 'babel-loader',
             query: {
-              presets: ['stage-0', 'es2015']
-            }
-          }
-        ]
-      }
-    ]
+              presets: ['stage-0', 'es2015'],
+            },
+          },
+        ],
+      },
+    ],
   },
 
   resolve: {
@@ -74,9 +74,9 @@ module.exports = {
       backendDir,
       srcDir,
       rootDir,
-      'node_modules'
-    ]
+      'node_modules',
+    ],
   },
 
-  externals: nodeModules
+  externals: nodeModules,
 };

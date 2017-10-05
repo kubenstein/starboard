@@ -39,7 +39,7 @@ describe('Board', () => {
     const labelsToSet = [
       { color: '3CB500', value: 'label-green' },
       { color: 'FF9F19', value: 'label-orange' },
-      { color: '0079BF', value: 'label-blue' }
+      { color: '0079BF', value: 'label-blue' },
     ];
     when.openingSideMenu();
     and.settingLabels(labelsToSet);
@@ -49,7 +49,7 @@ describe('Board', () => {
   it('allows to change theme color', () => {
     const color = {
       hex: '0079BF',
-      rgba: 'rgba(0, 121, 191, 1)'
+      rgba: 'rgba(0, 121, 191, 1)',
     };
     when.openingSideMenu();
     and.changingThemeColor(color.hex);

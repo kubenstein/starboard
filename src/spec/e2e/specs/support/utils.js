@@ -44,7 +44,7 @@ exports.addComment = function (cardTitle, authorId, commentBody, stateManager) {
   });
   return commentsRepo.addComment(card.id, {
     content: commentBody,
-    authorId: authorId
+    authorId: authorId,
   });
 };
 

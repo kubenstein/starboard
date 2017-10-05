@@ -76,7 +76,7 @@ export default class Card extends React.Component {
                 className="label card-DND-handler"
                 title={this.textForLabel(label)}
                 style={{ backgroundColor: label }}
-              />
+              />,
             )}
           </ul>
           <span className="title card-DND-handler">{title}</span>

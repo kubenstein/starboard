@@ -30,7 +30,7 @@ describe('Card', () => {
   it('displays all its labels', () => {
     const labels = {
       hex: ['#00E6FF', '#3CB500'],
-      rgba: ['rgba(0, 230, 255, 1)', 'rgba(60, 181, 0, 1)']
+      rgba: ['rgba(0, 230, 255, 1)', 'rgba(60, 181, 0, 1)'],
     };
 
     utils.createCard('card with labels', { labels: labels.hex }, currentState);

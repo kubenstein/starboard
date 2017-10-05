@@ -12,7 +12,7 @@ import 'components/SideMenu/styles.scss';
 export default class SideMenu extends React.Component {
   static get propTypes() {
     return {
-      stateManager: PropTypes.object.isRequired
+      stateManager: PropTypes.object.isRequired,
     };
   }
 
@@ -90,7 +90,7 @@ export default class SideMenu extends React.Component {
                 style={{ backgroundColor: color }}
                 className={this.colorPickerCssClasses(color)}
                 onClick={() => { this.updateThemeColor(color); }}
-              />
+              />,
             )}
           </ul>
         </div>
@@ -105,7 +105,7 @@ export default class SideMenu extends React.Component {
                   value={this.textForLabel(color)}
                   onChange={(value) => { this.updateLabelText(color, value); }}
                 />
-              </div>
+              </div>,
             )}
           </div>
         </div>
@@ -118,7 +118,7 @@ export default class SideMenu extends React.Component {
                 key={activity.id}
                 activity={activity}
                 stateManager={stateManager}
-              />
+              />,
             )}
           </div>
         </div>

@@ -11,7 +11,7 @@ export default class SendFileUsecase {
     if (this.isLocal(fileUrl)) {
       expressResponse.sendFile(fileName, {
         dotfiles: 'deny',
-        root: this.filesStorage.rootPath()
+        root: this.filesStorage.rootPath(),
       });
     } else {
       expressResponse.redirect(fileUrl);

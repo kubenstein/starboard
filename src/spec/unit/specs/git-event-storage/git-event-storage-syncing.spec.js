@@ -17,7 +17,7 @@ describe('GitEventStorage', () => {
     storage = new GitEventStorage({
       remoteRepoUrl: remoteRepoPath,
       pathToTempLocalRepo: tmpRepoPath,
-      syncingInterval: -1
+      syncingInterval: -1,
     });
   });
 
@@ -58,7 +58,7 @@ describe('GitEventStorage', () => {
     const observer = {
       onNewEvent: (event) => {
         appliedEvents.push(event);
-      }
+      },
     };
 
     addEventsToRemote([

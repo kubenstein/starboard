@@ -33,7 +33,7 @@ export default class CardRemoved {
   repositionOtherCards(card) {
     repositionAllCards(
       this.stateManager,
-      card.columnId
+      card.columnId,
     );
   }
 }

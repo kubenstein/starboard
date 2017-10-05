@@ -34,7 +34,7 @@ export default class CardLabelPicker extends React.Component {
               style={{ backgroundColor: color }}
               onClick={() => { onLabelPicked(color); }}
               className="label"
-            >{this.textForLabel(color)}</li>
+            >{this.textForLabel(color)}</li>,
           )}
         </ul>
       </div>

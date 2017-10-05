@@ -13,7 +13,7 @@ export default class SettingsRepository {
       '#FF9F19': { name: 'orange', isDark: false },
       '#EB4646': { name: 'red', isDark: true },
       '#A632DB': { name: 'purple', isDark: true },
-      '#0079BF': { name: 'blue', isDark: true }
+      '#0079BF': { name: 'blue', isDark: true },
     };
   }
 

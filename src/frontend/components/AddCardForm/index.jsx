@@ -17,7 +17,7 @@ export default class AddCardForm extends React.Component {
     const { stateManager } = this.props;
     this.repo = new CardsRepository(stateManager);
     this.state = {
-      opened: false
+      opened: false,
     };
   }
 

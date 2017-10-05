@@ -7,7 +7,7 @@ import 'components/AddColumnForm/styles.scss';
 export default class AddColumnForm extends React.Component {
   static get propTypes() {
     return {
-      stateManager: PropTypes.object.isRequired
+      stateManager: PropTypes.object.isRequired,
     };
   }
 
@@ -16,7 +16,7 @@ export default class AddColumnForm extends React.Component {
     const { stateManager } = this.props;
     this.repo = new ColumnsRepository(stateManager);
     this.state = {
-      opened: false
+      opened: false,
     };
   }
 

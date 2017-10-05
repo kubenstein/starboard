@@ -1,7 +1,7 @@
 import FileUploaderService from 'lib/services/file-uploader-service';
 import {
   commentAddedEvent,
-  commentRemovedEvent
+  commentRemovedEvent,
 } from 'lib/event-definitions';
 
 export default class CommentsRepository {
@@ -57,7 +57,7 @@ export default class CommentsRepository {
         attachmentName: attachment.name,
         attachmentSize: attachment.size,
         attachmentType: attachment.type,
-        attachmentUrl: attachmentUrl
+        attachmentUrl: attachmentUrl,
       });
       return this.stateManager.addEvent(event);
     });
@@ -67,7 +67,7 @@ export default class CommentsRepository {
     const { content } = params;
 
     const event = commentAddedEvent(requesterId, cardId, {
-      content: content
+      content: content,
     });
     return this.stateManager.addEvent(event);
   }

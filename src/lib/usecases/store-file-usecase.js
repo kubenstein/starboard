@@ -14,12 +14,12 @@ export default class StoreFileUsecase {
 
     return this.filesStorage.addFile({
       fileName: originalFileName,
-      filePath: originalFilePath
+      filePath: originalFilePath,
     }).then((fileName) => {
       return `/attachments/${fileName}`;
     }).then((fileUrl) => {
       this.eventStorage.addEvent(
-        fileAddedEvent(this.fileAddingRequester, fileUrl)
+        fileAddedEvent(this.fileAddingRequester, fileUrl),
       );
       return fileUrl;
     });

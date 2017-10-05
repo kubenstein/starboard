@@ -20,7 +20,7 @@ export default class DndColumnsConfigurator {
       direction: 'horizontal',
       moves: (_el, _container, handle) => {
         return handle.classList.contains(this.dndHandlerCssClass);
-      }
+      },
     });
   }
 

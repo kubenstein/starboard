@@ -21,20 +21,20 @@ describe('Comments Event Handler', () => {
       attachmentSize: 1337,
       attachmentType: 'application/octet-stream',
       attachmentUrl: '/attachments/1234.zip',
-      authorId: 'authorId'
+      authorId: 'authorId',
     }));
 
     expect(firstComment().attachment).to.deep.include({
       name: 'file.zip',
       size: 1337,
       type: 'application/octet-stream',
-      dataUrl: '/attachments/1234.zip'
+      dataUrl: '/attachments/1234.zip',
     });
   });
 
   it('removes a comment', () => {
     currentState.addEvent(
-      e.commentAddedEvent(requester(), cardId(), { content: 'commentContent', authorId: 'authorId' })
+      e.commentAddedEvent(requester(), cardId(), { content: 'commentContent', authorId: 'authorId' }),
     );
     const commentId = firstComment().id;
 
@@ -67,7 +67,7 @@ describe('Comments Event Handler', () => {
 
   function addCard() {
     return currentState.addEvent(
-      e.cardAddedEvent(requester(), { columnId: columnId(), title: 'columnName', position: 0 })
+      e.cardAddedEvent(requester(), { columnId: columnId(), title: 'columnName', position: 0 }),
     );
   }
 

@@ -24,7 +24,7 @@ module.exports = {
   output: {
     path: path,
     publicPath: '/',
-    filename: 'starboard-web-client.bundle.js'
+    filename: 'starboard-web-client.bundle.js',
   },
 
   module: {
@@ -35,35 +35,35 @@ module.exports = {
           {
             loader: 'babel-loader',
             query: {
-              presets: ['stage-0', 'es2015', 'react']
-            }
-          }
-        ]
+              presets: ['stage-0', 'es2015', 'react'],
+            },
+          },
+        ],
       },
       {
         test: /\.html$/,
         use: [
           {
-            loader: `file-loader?name=[path][name].[ext]&context=${frontendDir}`
-          }
-        ]
+            loader: `file-loader?name=[path][name].[ext]&context=${frontendDir}`,
+          },
+        ],
       },
       {
         test: /\.png$|\.jpe?g$|\.gif$|\.svg$|\.woff$|\.ttf$/,
         use: [
           {
-            loader: `file-loader?name=images/[name].[ext]&context=${frontendDir}`
-          }
-        ]
+            loader: `file-loader?name=images/[name].[ext]&context=${frontendDir}`,
+          },
+        ],
       },
       {
         test: /\.s?css$/,
         use: ExtractTextPlugin.extract({
           fallback: 'style-loader',
-          use: ['css-loader', 'sass-loader']
-        })
-      }
-    ]
+          use: ['css-loader', 'sass-loader'],
+        }),
+      },
+    ],
   },
 
   resolve: {
@@ -72,25 +72,25 @@ module.exports = {
       frontendDir,
       srcDir,
       rootDir,
-      'node_modules'
-    ]
+      'node_modules',
+    ],
   },
 
   devServer: {
     proxy: {
       '/socket.io/**': {
         target: 'http://localhost:8081',
-        secure: false
+        secure: false,
       },
       '/attachments/**': {
         target: 'http://localhost:8081',
-        secure: false
+        secure: false,
       },
       '/login/': {
         target: 'http://localhost:8081',
-        secure: false
-      }
-    }
+        secure: false,
+      },
+    },
   },
 
   stats: { children: false },
@@ -98,15 +98,15 @@ module.exports = {
     new ExtractTextPlugin({ filename: 'starboard-web-client.bundle.css' }),
     new webpack.optimize.UglifyJsPlugin({
       compress: {
-        warnings: false
-      }
+        warnings: false,
+      },
     }),
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify('production'),
       },
-    })
+    }),
   ] : [
-    new ExtractTextPlugin({ filename: 'starboard-web-client.bundle.css' })
+    new ExtractTextPlugin({ filename: 'starboard-web-client.bundle.css' }),
   ],
 };

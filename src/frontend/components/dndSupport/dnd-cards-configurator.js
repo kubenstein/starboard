@@ -26,7 +26,7 @@ export default class DndCardsConfigurator {
       copy: true, // Instruct Dragula to copy dragged element, so it will still persist on an old column.
                   // It has to stay there so React can clean it in its react-ish way.
                   // The source element (this.sourceDraggedEl) will be hidden by css.
-      copySortSource: true
+      copySortSource: true,
     });
   }
 

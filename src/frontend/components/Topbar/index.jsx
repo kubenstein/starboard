@@ -9,7 +9,7 @@ import 'components/Topbar/styles.scss';
 export default class Topbar extends React.Component {
   static get propTypes() {
     return {
-      stateManager: PropTypes.object.isRequired
+      stateManager: PropTypes.object.isRequired,
     };
   }
 

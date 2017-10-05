@@ -13,7 +13,7 @@ describe('CurrentState', () => {
   it('ignores unknown/noop events', () => {
     const unknownEvent = {
       type: 'unknown',
-      id: 'unknown'
+      id: 'unknown',
     };
     expect(currentState.data).to.eql({});
     currentState.addEvent(unknownEvent);

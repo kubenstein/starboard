@@ -15,7 +15,7 @@ export default class CardDetails extends React.Component {
   static get propTypes() {
     return {
       stateManager: PropTypes.object.isRequired,
-      onClose: PropTypes.func.isRequired
+      onClose: PropTypes.func.isRequired,
     };
   }
 
@@ -107,7 +107,7 @@ export default class CardDetails extends React.Component {
               style={{ backgroundColor: label }}
             >
               {this.textForLabel(label)}
-            </li>
+            </li>,
           )}
         </ul>
         <h4 className="sub-title">Description:</h4>
@@ -142,7 +142,7 @@ export default class CardDetails extends React.Component {
         <h4 className="section-title clearfix">Comments:</h4>
         <AddCommentForm cardId={id} stateManager={stateManager} />
         { comments.map(comment =>
-          <CardComment key={comment.id} comment={comment} stateManager={stateManager} />
+          <CardComment key={comment.id} comment={comment} stateManager={stateManager} />,
         )}
       </div>
     );

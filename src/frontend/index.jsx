@@ -16,5 +16,5 @@ import 'index.html';
 
 ReactDOM.render(
   <Bootstrap />,
-  document.getElementById('app')
+  document.getElementById('app'),
 );

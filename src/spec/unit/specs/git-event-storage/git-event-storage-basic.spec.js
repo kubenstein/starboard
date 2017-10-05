@@ -19,7 +19,7 @@ describe('GitEventStorage', () => {
     storage = new GitEventStorage({
       remoteRepoUrl: remoteRepoPath,
       pathToTempLocalRepo: tmpRepoPath,
-      syncingInterval: -1
+      syncingInterval: -1,
     });
   });
 
@@ -35,7 +35,7 @@ describe('GitEventStorage', () => {
     const observer = {
       onNewEvent: (event) => {
         notifiedEvent = event;
-      }
+      },
     };
     storage.addObserver(observer);
 
@@ -51,7 +51,7 @@ describe('GitEventStorage', () => {
       storage.addEvent(event),
       storage.addEvent(event),
       storage.addEvent(event),
-      storage.addEvent(event)
+      storage.addEvent(event),
     ]).then(() => {
       return storage.allPastEvents().then((events) => {
         expect(getAllDummyEvents(events).length).to.eq(4);
@@ -62,11 +62,11 @@ describe('GitEventStorage', () => {
   it('saves/removes a file', () => {
     fs.copySync(
       path.join(__dirname, '../support/files/image.jpg'),
-      path.join(tmpRepoPath, 'image.jpg')
+      path.join(tmpRepoPath, 'image.jpg'),
     );
     fs.copySync(
       path.join(__dirname, '../support/files/picture.jpg'),
-      path.join(tmpRepoPath, 'picture.jpg')
+      path.join(tmpRepoPath, 'picture.jpg'),
     );
 
     return Promise.resolve().then(() => {

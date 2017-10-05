@@ -6,7 +6,7 @@ export default class AllowEveryoneAuth {
   authWithCredentials(email, _password) {
     return Promise.resolve({
       userId: email,
-      token: 'AllowEveryoneToken'
+      token: 'AllowEveryoneToken',
     });
   }
 

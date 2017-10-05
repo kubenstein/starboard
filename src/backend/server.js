@@ -30,11 +30,11 @@ export default class Server {
     this.sendFileUsecase      = new SendFileUsecase({ filesStorage: this.filesStorage });
     this.storeFileUsecase     = new StoreFileUsecase({
       filesStorage: this.filesStorage,
-      eventStorage: this.eventStorage
+      eventStorage: this.eventStorage,
     });
     this.incommingEventProcessors = new EventProcessorsQueue({
       stateManager: this.currentState,
-      processors: this.eventProcessors
+      processors: this.eventProcessors,
     });
   }
 
@@ -71,7 +71,7 @@ export default class Server {
     app.get('/attachments/:fileName', (req, res) => {
       this.sendFileUsecase.sendResponse({
         fileName: req.params.fileName,
-        expressResponse: res
+        expressResponse: res,
       });
     });
 
@@ -97,7 +97,7 @@ export default class Server {
         this.sockets.forEach((socket) => {
           socket.emit('newEvent', newEvent);
         });
-      }
+      },
     };
     this.eventStorage.addObserver(allClientsNotifier);
 

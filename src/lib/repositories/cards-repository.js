@@ -2,7 +2,7 @@ import {
   cardAddedEvent,
   cardUpdatedEvent,
   cardRemovedEvent,
-  cardLabelUpdatedEvent
+  cardLabelUpdatedEvent,
 } from 'lib/event-definitions';
 
 export default class CardsRepository {
@@ -33,7 +33,7 @@ export default class CardsRepository {
     const event = cardAddedEvent(requesterId, {
       columnId: columnId,
       position: lastPosition,
-      title: title
+      title: title,
     });
     return this.stateManager.addEvent(event);
   }

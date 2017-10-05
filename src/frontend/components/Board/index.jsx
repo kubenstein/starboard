@@ -28,7 +28,7 @@ export default class Board extends React.Component {
     stateManager.addObserver(this);
     this.state = {
       loaded: false,
-      columns: []
+      columns: [],
     };
   }
 
@@ -37,7 +37,7 @@ export default class Board extends React.Component {
   onStateUpdate() {
     this.setState({
       loaded: true,
-      columns: this.columnsRepo.columnsSortedByPosition()
+      columns: this.columnsRepo.columnsSortedByPosition(),
     });
   }
 
@@ -52,7 +52,7 @@ export default class Board extends React.Component {
     return new DndColumnsConfigurator({
       columnsRepo: this.columnsRepo,
       dndHandlerCssClass: 'column-DND-handler',
-      dndElColumnIdDataAttr: 'data-DND-data-column-id'
+      dndElColumnIdDataAttr: 'data-DND-data-column-id',
     }).configure();
   }
 
@@ -61,7 +61,7 @@ export default class Board extends React.Component {
       cardsRepo: this.cardsRepo,
       dndHandlerCssClass: 'card-DND-handler',
       dndElCardIdDataAttr: 'data-DND-data-card-id',
-      dndSpaceColumnIdDataAttr: 'data-DND-data-column-id'
+      dndSpaceColumnIdDataAttr: 'data-DND-data-column-id',
     }).configure();
   }
 
@@ -90,7 +90,7 @@ export default class Board extends React.Component {
                   column={column}
                   DNDManager={this.cardsDNDManager}
                   stateManager={stateManager}
-                />
+                />,
               )}
             </div>
             <AddColumnForm className="column add-column-form" stateManager={stateManager} />

@@ -22,7 +22,7 @@ export default class CardUpdated {
         oldPosition: cardOldData.position,
         newPosition: newPosition,
         oldColumnId: cardOldData.columnId,
-        newColumnId: newColumnId
+        newColumnId: newColumnId,
       });
     }
 
@@ -71,7 +71,7 @@ export default class CardUpdated {
       // All cards in an old column, update like the moved card was removed
       repositionAllCards(
         this.stateManager,
-        oldColumnId
+        oldColumnId,
       );
     }
   }

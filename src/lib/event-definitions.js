@@ -5,7 +5,7 @@ export const noopEventType = 'NOOP';
 export function noopEvent(description = null) {
   const event = {
     type: noopEventType,
-    id: uuid()
+    id: uuid(),
   };
   if (description) event.description = description;
   return event;
@@ -16,7 +16,7 @@ export function permissionDeniedEvent(originalEvent) {
   return {
     type: permissionDeniedEventType,
     originalEvent: originalEvent,
-    id: uuid()
+    id: uuid(),
   };
 }
 
@@ -30,11 +30,11 @@ export function cardAddedEvent(requesterId, params) {
       columnId: columnId,
       position: position,
       title: title,
-      description: ''
+      description: '',
     },
     createdAt: currentTimestamp(),
     requesterId: requesterId,
-    id: uuid()
+    id: uuid(),
   };
 }
 
@@ -44,11 +44,11 @@ export function cardUpdatedEvent(requesterId, cardId, changes) {
     type: cardUpdatedEventType,
     data: {
       cardId: cardId,
-      changes: changes
+      changes: changes,
     },
     createdAt: currentTimestamp(),
     requesterId: requesterId,
-    id: uuid()
+    id: uuid(),
   };
 }
 
@@ -59,11 +59,11 @@ export function cardLabelUpdatedEvent(requesterId, cardId, label, shouldBeSet) {
     data: {
       cardId: cardId,
       label: label,
-      set: shouldBeSet
+      set: shouldBeSet,
     },
     createdAt: currentTimestamp(),
     requesterId: requesterId,
-    id: uuid()
+    id: uuid(),
   };
 }
 
@@ -74,7 +74,7 @@ export function cardRemovedEvent(requesterId, cardId) {
     data: { cardId: cardId },
     createdAt: currentTimestamp(),
     requesterId: requesterId,
-    id: uuid()
+    id: uuid(),
   };
 }
 
@@ -86,11 +86,11 @@ export function columnAddedEvent(requesterId, params) {
     data: {
       id: uuid(),
       name: name,
-      position: position
+      position: position,
     },
     createdAt: currentTimestamp(),
     requesterId: requesterId,
-    id: uuid()
+    id: uuid(),
   };
 }
 
@@ -100,11 +100,11 @@ export function columnUpdatedEvent(requesterId, columnId, changes) {
     type: columnUpdatedEventType,
     data: {
       columnId: columnId,
-      changes: changes
+      changes: changes,
     },
     createdAt: currentTimestamp(),
     requesterId: requesterId,
-    id: uuid()
+    id: uuid(),
   };
 }
 
@@ -113,11 +113,11 @@ export function columnRemovedEvent(requesterId, columnId) {
   return {
     type: columnRemovedEventType,
     data: {
-      columnId: columnId
+      columnId: columnId,
     },
     createdAt: currentTimestamp(),
     requesterId: requesterId,
-    id: uuid()
+    id: uuid(),
   };
 }
 
@@ -128,7 +128,7 @@ export function commentAddedEvent(requesterId, cardId, params) {
     attachmentName,
     attachmentSize,
     attachmentType,
-    attachmentUrl
+    attachmentUrl,
   } = params;
 
   let attachment = null;
@@ -137,7 +137,7 @@ export function commentAddedEvent(requesterId, cardId, params) {
       name: attachmentName,
       size: attachmentSize,
       type: attachmentType,
-      dataUrl: attachmentUrl
+      dataUrl: attachmentUrl,
     };
   }
 
@@ -152,7 +152,7 @@ export function commentAddedEvent(requesterId, cardId, params) {
     },
     createdAt: currentTimestamp(),
     requesterId: requesterId,
-    id: uuid()
+    id: uuid(),
   };
 }
 
@@ -163,7 +163,7 @@ export function commentRemovedEvent(requesterId, commentId) {
     data: { commentId: commentId },
     createdAt: currentTimestamp(),
     requesterId: requesterId,
-    id: uuid()
+    id: uuid(),
   };
 }
 
@@ -172,11 +172,11 @@ export function fileAddedEvent(requesterId, filePath) {
   return {
     type: fileAddedEventType,
     data: {
-      filePath: filePath
+      filePath: filePath,
     },
     createdAt: currentTimestamp(),
     requesterId: requesterId,
-    id: uuid()
+    id: uuid(),
   };
 }
 
@@ -185,11 +185,11 @@ export function fileRemovedEvent(requesterId, filePath) {
   return {
     type: fileRemovedEventType,
     data: {
-      filePath: filePath
+      filePath: filePath,
     },
     createdAt: currentTimestamp(),
     requesterId: requesterId,
-    id: uuid()
+    id: uuid(),
   };
 }
 
@@ -199,11 +199,11 @@ export function settingsUpdatedEvent(requesterId, key, value) {
     type: settingsUpdatedEventType,
     data: {
       id: key,
-      value: value
+      value: value,
     },
     createdAt: currentTimestamp(),
     requesterId: requesterId,
-    id: uuid()
+    id: uuid(),
   };
 }
 
@@ -214,10 +214,10 @@ export function userUpdatedEvent(requesterId, userId, key, value) {
     data: {
       id: userId,
       key: key,
-      value: value
+      value: value,
     },
     createdAt: currentTimestamp(),
     requesterId: requesterId,
-    id: uuid()
+    id: uuid(),
   };
 }

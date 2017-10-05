@@ -1,6 +1,6 @@
 import {
   noopEvent,
-  fileRemovedEvent
+  fileRemovedEvent,
 } from 'lib/event-definitions';
 import NullLogger from 'lib/null-logger';
 import { hasToBeSet } from 'lib/utils';
