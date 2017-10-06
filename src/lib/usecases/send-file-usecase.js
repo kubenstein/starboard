@@ -21,6 +21,6 @@ export default class SendFileUsecase {
   // private
 
   isLocal(fileUrl) {
-    return (fileUrl.indexOf('http') !== 0);
+    return (fileUrl[0] === '/');
   }
 }

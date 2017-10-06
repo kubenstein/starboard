@@ -1,3 +1,4 @@
+import path from 'path';
 import uuid from 'uuid/v4';
 import fs from 'fs';
 import { hasToBeSet } from 'lib/utils';
@@ -9,7 +10,7 @@ export default class GitFilesStorage {
   }
 
   fileUrl(filePath) {
-    return `${this.git.pathToTempLocalRepo}${filePath}`;
+    return path.resolve(this.git.pathToTempLocalRepo, filePath);
   }
 
   rootPath() {

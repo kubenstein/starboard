@@ -1,3 +1,4 @@
+import path from 'path';
 import mkdirp from 'mkdirp';
 import { exec } from 'child_process';
 import { hasToBeSet } from 'lib/utils';
@@ -7,12 +8,12 @@ const swallowErrors = () => {};
 
 export default class GitContainer {
   constructor(params) {
-    this.pathToTempLocalRepo = params.pathToTempLocalRepo || '.tmp/tmpRepo/'; // path HAS to end with /;
+    this.pathToTempLocalRepo = path.resolve(params.pathToTempLocalRepo) || path.resolve('.tmp/tmpRepo/');
     this.commiterUsername = params.commiterUsername || 'Starboard BOT';
     this.commiterEmail = params.commiterEmail || 'starboardbot@localhost';
     this.dataBranchName = params.dataBranchName || '__starboard-data';
     this.remoteRepoUrl = params.remoteRepoUrl || hasToBeSet('remoteRepoUrl');
-    this.pathToSshPrivateKey = params.pathToSshPrivateKey;
+    this.pathToSshPrivateKey = params.pathToSshPrivateKey && path.resolve(params.pathToSshPrivateKey);
     this.logger = params.logger || new NullLogger();
 
     mkdirp.sync(this.pathToTempLocalRepo);

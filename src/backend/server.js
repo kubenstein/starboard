@@ -1,5 +1,6 @@
 /* eslint-disable no-multi-spaces */
 
+import path from 'path';
 import express from 'express';
 import SocketIo from 'socket.io';
 import multer from 'multer';
@@ -18,7 +19,7 @@ export default class Server {
     this.eventStorage    = params.eventStorage    || hasToBeSet('eventStorage');
     this.filesStorage    = params.filesStorage    || hasToBeSet('filesStorage');
     this.serverPort      = params.port            || 9000;
-    this.uploadsDir      = params.uploadsDir      || '.tmp/tmpUploads/';
+    this.uploadsDir      = params.uploadsDir      || path.resolve('.tmp/tmpUploads/');
     this.logger          = params.logger          || new NullLogger();
     this.auth            = params.auth            || new AllowEveryoneAuth();
     this.noBanner        = params.noBanner        || false;
@@ -63,7 +64,7 @@ export default class Server {
 
     this.server = server;
 
-    app.use(express.static(`${__dirname}/frontend/`));
+    app.use(express.static(path.resolve(`${__dirname}/frontend/`)));
     app.use(bodyParser.json());
 
 
