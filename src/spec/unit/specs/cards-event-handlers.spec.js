@@ -60,9 +60,11 @@ describe('Cards Event Handler', () => {
     currentState.addEvent(e.cardAddedEvent(requester(), { title: 'cardTitle', columnId: columnId(), position: 0 }));
     const cardId = firstCard().id;
 
-    currentState.addEvent(
-      e.cardUpdatedEvent(requester(), cardId, { title: 'newCardTitle', description: 'newDescription' }),
-    );
+    currentState.addEvent(e.cardUpdatedEvent(requester(), cardId, {
+      title: 'newCardTitle',
+      description: 'newDescription',
+    }));
+
     expect(firstCard()).to.include({ title: 'newCardTitle', description: 'newDescription' });
   });
 
@@ -86,9 +88,11 @@ describe('Cards Event Handler', () => {
   // strange scenarios
 
   it('handles adding a card to a column that does not exist', () => {
-    currentState.addEvent(
-      e.cardAddedEvent(requester(), { title: 'cardTitle', columnId: 'InexistentColumnId', position: 0 }),
-    );
+    currentState.addEvent(e.cardAddedEvent(requester(), {
+      title: 'cardTitle',
+      columnId: 'InexistentColumnId',
+      position: 0,
+    }));
     expect(existingCards().length).to.eq(0);
   });
 
