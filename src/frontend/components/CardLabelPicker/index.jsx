@@ -1,20 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import SettingsRepository from 'lib/repositories/settings-repository';
 import 'components/CardLabelPicker/styles.scss';
 
 export default class CardLabelPicker extends React.Component {
   static get propTypes() {
     return {
-      stateManager: PropTypes.object.isRequired,
+      deps: PropTypes.object.isRequired,
       onLabelPicked: PropTypes.func.isRequired,
     };
   }
 
   constructor(props) {
     super(props);
-    const { stateManager } = this.props;
-    this.repo = new SettingsRepository(stateManager);
+    const { deps } = this.props;
+    this.repo = deps.get('settingsRepository');
   }
 
   textForLabel(color) {

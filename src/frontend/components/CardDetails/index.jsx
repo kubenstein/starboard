@@ -128,7 +128,7 @@ export default class CardDetails extends React.Component {
             <CardLabelPicker
               className="label-picker"
               card={card}
-              stateManager={this.deps.get('stateManager')}
+              deps={this.deps}
               onLabelPicked={(label) => { this.updateLabels(label); }}
             />
           </div>
