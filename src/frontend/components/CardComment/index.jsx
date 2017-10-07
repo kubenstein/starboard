@@ -54,7 +54,7 @@ export default class CardComment extends React.Component {
         <Avatar
           className="avatar"
           userId={comment.authorId}
-          stateManager={this.deps.get('stateManager')}
+          deps={this.deps}
         />
         {this.authorNameHtml(comment.authorId)}
         <span className="date">{formattedDate(comment.createdAt)}</span>
