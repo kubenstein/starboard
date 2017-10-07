@@ -3,6 +3,7 @@ import 'es6-promise/auto';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Bootstrap from 'components/Bootstrap';
+
 import DependencyInjector from 'lib/dependency-injector';
 import CurrentState from 'lib/current-state';
 import ServerEventStorage from 'lib/eventStorages/server-event-storage';
@@ -15,7 +16,6 @@ import SettingsRepository from 'lib/repositories/settings-repository';
 import ActivitiesRepository from 'lib/repositories/activities-repository';
 import UsersRepository from 'lib/repositories/users-repository';
 import CommentsRepository from 'lib/repositories/comments-repository';
-import UserLogoutUsecase from 'lib/usecases/user-logout-usecase';
 import './assets';
 
 const deps = new DependencyInjector();
@@ -29,7 +29,6 @@ deps
   .set('themeStyler', di => new ThemeStyler(di.get('stateManager')))
   .set('userSessionService', () => new UserSessionService())
   .set('browserSettingsService', di => new BrowserSettingsService(di.get('stateManager')))
-  .set('userLogoutUsecase', () => new UserLogoutUsecase())
   .set('eventStorage', di => new ServerEventStorage({
     token: di.get('userSessionService').token(),
   }))

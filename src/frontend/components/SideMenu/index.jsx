@@ -18,7 +18,8 @@ export default class SideMenu extends React.Component {
     this.settingsRepo = this.deps.get('settingsRepository');
     this.usersRepo = this.deps.get('usersRepository');
     this.activitiesRepo = this.deps.get('activitiesRepository');
-    this.userLogoutUsecase = this.deps.get('userLogoutUsecase');
+    this.userSessionService = this.deps.get('userSessionService');
+    this.browserSettingsService = this.deps.get('browserSettingsService');
   }
 
   textForLabel(color) {
@@ -38,7 +39,8 @@ export default class SideMenu extends React.Component {
   }
 
   logout() {
-    this.userLogoutUsecase.logout();
+    this.userSessionService.logout();
+    this.browserSettingsService.reloadPage();
   }
 
   labelCssClasses(color) {
