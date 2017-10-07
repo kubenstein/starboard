@@ -140,7 +140,7 @@ export default class CardDetails extends React.Component {
           <CardComment
             key={comment.id}
             comment={comment}
-            stateManager={this.deps.get('stateManager')}
+            deps={this.deps}
           />,
         )}
       </div>

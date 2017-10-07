@@ -1,24 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Avatar from 'components/Avatar';
-import CommentsRepository from 'lib/repositories/comments-repository';
-import UsersRepository from 'lib/repositories/users-repository';
 import { formattedDate } from 'lib/utils';
 import 'components/CardComment/styles.scss';
 
 export default class CardComment extends React.Component {
   static get propTypes() {
     return {
-      stateManager: PropTypes.object.isRequired,
+      deps: PropTypes.object.isRequired,
       comment: PropTypes.object.isRequired, // TODO change to shape
     };
   }
 
   constructor(props) {
     super(props);
-    const { stateManager } = this.props;
-    this.commentsRepo = new CommentsRepository(stateManager);
-    this.usersRepo = new UsersRepository(stateManager);
+    this.deps = this.props.deps;
+    this.commentsRepo = this.deps.get('commentsRepository');
+    this.usersRepo = this.deps.get('usersRepository');
   }
 
   removeComment(commentId) {
@@ -50,13 +48,13 @@ export default class CardComment extends React.Component {
   }
 
   render() {
-    const { stateManager, comment } = this.props;
+    const { comment } = this.props;
     return (
       <div className="card-comment" key={comment.id}>
         <Avatar
           className="avatar"
           userId={comment.authorId}
-          stateManager={stateManager}
+          stateManager={this.deps.get('stateManager')}
         />
         {this.authorNameHtml(comment.authorId)}
         <span className="date">{formattedDate(comment.createdAt)}</span>
