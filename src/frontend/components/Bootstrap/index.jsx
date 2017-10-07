@@ -1,26 +1,28 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Board from 'components/Board';
 import Login from 'components/Login';
-import CurrentState from 'lib/current-state';
-import ServerEventStorage from 'lib/eventStorages/server-event-storage';
-import UserSessionService from 'lib/services/user-session-service';
 
 export default class Bootstrap extends React.Component {
-  constructor() {
-    super();
-    this.session = new UserSessionService();
-    this.state = { loggedIn: false, loginError: false };
+  static get propTypes() {
+    return {
+      deps: PropTypes.object.isRequired,
+    };
+  }
 
-    if (this.session.isLoggedIn()) {
-      this.state.loggedIn = true;
-      this.configureAppForLoggedInUser();
-    }
+  constructor(props) {
+    super(props);
+    this.deps = props.deps;
+    this.session = this.deps.get('UserSessionService');
+    this.state = {
+      loggedIn: this.session.isLoggedIn(),
+      loginError: false,
+    };
   }
 
   logIn(email, password) {
     this.session.login(email, password)
     .then(() => {
-      this.configureAppForLoggedInUser();
       this.setState({ loggedIn: true, loginError: false });
     })
     .catch(() => {
@@ -28,20 +30,10 @@ export default class Bootstrap extends React.Component {
     });
   }
 
-  configureAppForLoggedInUser() {
-    const storage = new ServerEventStorage({
-      token: this.session.token(),
-    });
-    this.stateManager = new CurrentState({
-      eventStorage: storage,
-      userId: this.session.userId(),
-    });
-  }
-
   render() {
     const { loggedIn, loginError } = this.state;
     return loggedIn ?
-      <Board stateManager={this.stateManager} />
+      <Board deps={this.deps} />
     :
       <Login
         displayError={loginError}

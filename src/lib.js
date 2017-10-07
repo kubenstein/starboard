@@ -12,3 +12,4 @@ exports.CardsRepository    = require('lib/repositories/cards-repository.js').def
 exports.ColumnsRepository  = require('lib/repositories/columns-repository.js').default;
 exports.CommentsRepository = require('lib/repositories/comments-repository.js').default;
 exports.UsersRepository    = require('lib/repositories/users-repository.js').default;
+exports.DependecyIjector   = require('lib/dependency-injector.js').default;
