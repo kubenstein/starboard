@@ -70,7 +70,7 @@ export default class Column extends React.Component {
           ref={(e) => { this.dndSpaceRegistrator.registerRefAsSpace(e); }}
         >
           { cards.map(card =>
-            <Card key={card.id} card={card} stateManager={this.deps.get('stateManager')} />,
+            <Card key={card.id} card={card} deps={this.deps} />,
           )}
         </div>
 

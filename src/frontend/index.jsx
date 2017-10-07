@@ -14,11 +14,13 @@ import CardsRepository from 'lib/repositories/cards-repository';
 import SettingsRepository from 'lib/repositories/settings-repository';
 import ActivitiesRepository from 'lib/repositories/activities-repository';
 import UsersRepository from 'lib/repositories/users-repository';
+import CommentsRepository from 'lib/repositories/comments-repository';
 import UserLogoutUsecase from 'lib/usecases/user-logout-usecase';
 import './assets';
 
 const deps = new DependencyInjector();
 deps
+  .set('commentsRepository', di => new CommentsRepository(di.get('stateManager')))
   .set('usersRepository', di => new UsersRepository(di.get('stateManager')))
   .set('activitiesRepository', di => new ActivitiesRepository(di.get('stateManager')))
   .set('settingsRepository', di => new SettingsRepository(di.get('stateManager')))

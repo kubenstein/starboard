@@ -1,25 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import CardDetails from 'components/CardDetails';
-import BrowserSettingsService from 'lib/services/browser-settings-service';
-import SettingsRepository from 'lib/repositories/settings-repository';
-import CommentsRepository from 'lib/repositories/comments-repository';
 import 'components/Card/styles.scss';
 
 export default class Card extends React.Component {
   static get propTypes() {
     return {
-      stateManager: PropTypes.object.isRequired,
+      deps: PropTypes.object.isRequired,
       card: PropTypes.object.isRequired, // TODO change to shape
     };
   }
 
   constructor(props) {
     super(props);
-    const { stateManager } = this.props;
-    this.settingsRepo = new SettingsRepository(stateManager);
-    this.commentsRepo = new CommentsRepository(stateManager);
-    this.browserSettingsService = new BrowserSettingsService();
+    this.deps = this.props.deps;
+    this.settingsRepo = this.deps.get('settingsRepository');
+    this.commentsRepo = this.deps.get('commentsRepository');
+    this.browserSettingsService = this.deps.get('browserSettingsService');
     this.state = {
       detailsOpened: false,
     };
@@ -58,7 +55,7 @@ export default class Card extends React.Component {
   }
 
   render() {
-    const { card, stateManager } = this.props;
+    const { card } = this.props;
     const { detailsOpened } = this.state;
     const { labels, title, id } = card;
     const commentCounter = this.commentsRepo.commentsCountForCard(id);
@@ -93,7 +90,7 @@ export default class Card extends React.Component {
             <CardDetails
               card={card}
               onClose={() => { this.closeDetails(); }}
-              stateManager={stateManager}
+              stateManager={this.deps.get('stateManager')}
             />
           </div>
         }
