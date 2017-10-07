@@ -4,14 +4,12 @@ import AddCardForm from 'components/AddCardForm';
 import Card from 'components/Card';
 import EditableInput from 'components/EditableInput';
 import DndSpaceRegistrator from 'components/dndSupport/dnd-space-registrator';
-import CardsRepository from 'lib/repositories/cards-repository';
-import ColumnsRepository from 'lib/repositories/columns-repository';
 import 'components/Column/styles.scss';
 
 export default class Column extends React.Component {
   static get propTypes() {
     return {
-      stateManager: PropTypes.object.isRequired,
+      deps: PropTypes.object.isRequired,
       column: PropTypes.object.isRequired, // TODO replace with shape
       DNDManager: PropTypes.object.isRequired,
     };
@@ -19,10 +17,11 @@ export default class Column extends React.Component {
 
   constructor(props) {
     super(props);
-    const { stateManager, DNDManager } = this.props;
+    const { DNDManager } = this.props;
+    this.deps = this.props.deps;
     this.dndSpaceRegistrator = new DndSpaceRegistrator(DNDManager);
-    this.cardsRepo = new CardsRepository(stateManager);
-    this.columnsRepo = new ColumnsRepository(stateManager);
+    this.cardsRepo = this.deps.get('cardsRepository');
+    this.columnsRepo = this.deps.get('columnsRepository');
   }
 
   updateName(newName) {
@@ -45,7 +44,7 @@ export default class Column extends React.Component {
   }
 
   render() {
-    const { column, stateManager } = this.props;
+    const { column } = this.props;
     const { name, id } = column;
     const cards = this.cardsRepo.cardsSortedByPosition(id);
     return (
@@ -71,13 +70,13 @@ export default class Column extends React.Component {
           ref={(e) => { this.dndSpaceRegistrator.registerRefAsSpace(e); }}
         >
           { cards.map(card =>
-            <Card key={card.id} card={card} stateManager={stateManager} />,
+            <Card key={card.id} card={card} stateManager={this.deps.get('stateManager')} />,
           )}
         </div>
 
         <AddCardForm
           columnId={id}
-          stateManager={stateManager}
+          stateManager={this.deps.get('stateManager')}
         />
       </div>
     );

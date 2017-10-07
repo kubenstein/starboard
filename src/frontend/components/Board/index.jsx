@@ -95,7 +95,7 @@ export default class Board extends React.Component {
                   key={column.id}
                   column={column}
                   DNDManager={this.cardsDNDManager}
-                  stateManager={this.deps.get('stateManager')}
+                  deps={this.deps}
                 />,
               )}
             </div>
