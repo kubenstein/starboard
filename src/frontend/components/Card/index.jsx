@@ -90,7 +90,7 @@ export default class Card extends React.Component {
             <CardDetails
               card={card}
               onClose={() => { this.closeDetails(); }}
-              stateManager={this.deps.get('stateManager')}
+              deps={this.deps}
             />
           </div>
         }

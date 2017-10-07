@@ -4,29 +4,24 @@ import EditableInput from 'components/EditableInput';
 import AddCommentForm from 'components/AddCommentForm';
 import CardComment from 'components/CardComment';
 import CardLabelPicker from 'components/CardLabelPicker';
-import CommentsRepository from 'lib/repositories/comments-repository';
-import ColumnsRepository from 'lib/repositories/columns-repository';
-import CardsRepository from 'lib/repositories/cards-repository';
-import SettingsRepository from 'lib/repositories/settings-repository';
-import BrowserSettingsService from 'lib/services/browser-settings-service';
 import 'components/CardDetails/styles.scss';
 
 export default class CardDetails extends React.Component {
   static get propTypes() {
     return {
-      stateManager: PropTypes.object.isRequired,
+      deps: PropTypes.object.isRequired,
       onClose: PropTypes.func.isRequired,
     };
   }
 
   constructor(props) {
     super(props);
-    const { stateManager } = this.props;
-    this.columnsRepo = new ColumnsRepository(stateManager);
-    this.commentsRepo = new CommentsRepository(stateManager);
-    this.cardsRepo = new CardsRepository(stateManager);
-    this.settingsRepo = new SettingsRepository(stateManager);
-    this.browserSettingsService = new BrowserSettingsService();
+    this.deps = this.props.deps;
+    this.columnsRepo = this.deps.get('columnsRepository');
+    this.commentsRepo = this.deps.get('commentsRepository');
+    this.cardsRepo = this.deps.get('cardsRepository');
+    this.settingsRepo = this.deps.get('settingsRepository');
+    this.browserSettingsService = this.deps.get('browserSettingsService');
     this.handleKeyDown = this.handleKeyDown.bind(this);
   }
 
@@ -81,7 +76,7 @@ export default class CardDetails extends React.Component {
   }
 
   render() {
-    const { card, stateManager, onClose } = this.props;
+    const { card, onClose } = this.props;
     const { title, description, id, columnId, labels } = card;
     const comments = this.commentsRepo.commentsForCard(id);
     const columnName = this.columnsRepo.get(columnId).name;
@@ -133,16 +128,20 @@ export default class CardDetails extends React.Component {
             <CardLabelPicker
               className="label-picker"
               card={card}
-              stateManager={stateManager}
+              stateManager={this.deps.get('stateManager')}
               onLabelPicked={(label) => { this.updateLabels(label); }}
             />
           </div>
 
         </div>
         <h4 className="section-title clearfix">Comments:</h4>
-        <AddCommentForm cardId={id} stateManager={stateManager} />
+        <AddCommentForm cardId={id} stateManager={this.deps.get('stateManager')} />
         { comments.map(comment =>
-          <CardComment key={comment.id} comment={comment} stateManager={stateManager} />,
+          <CardComment
+            key={comment.id}
+            comment={comment}
+            stateManager={this.deps.get('stateManager')}
+          />,
         )}
       </div>
     );
