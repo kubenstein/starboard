@@ -1,20 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import serialize from 'form-serialize';
-import ColumnsRepository from 'lib/repositories/columns-repository';
 import 'components/AddColumnForm/styles.scss';
 
 export default class AddColumnForm extends React.Component {
   static get propTypes() {
     return {
-      stateManager: PropTypes.object.isRequired,
+      deps: PropTypes.object.isRequired,
     };
   }
 
   constructor(props) {
     super(props);
-    const { stateManager } = this.props;
-    this.repo = new ColumnsRepository(stateManager);
+    const deps = this.props.deps;
+    this.repo = deps.get('columnsRepository');
     this.state = {
       opened: false,
     };

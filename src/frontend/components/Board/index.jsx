@@ -101,7 +101,7 @@ export default class Board extends React.Component {
             </div>
             <AddColumnForm
               className="column add-column-form"
-              stateManager={this.deps.get('stateManager')}
+              deps={this.deps}
             />
           </div>
         </div>
