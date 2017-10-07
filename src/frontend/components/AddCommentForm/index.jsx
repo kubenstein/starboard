@@ -15,6 +15,7 @@ export default class AddCommentForm extends React.Component {
     super(props);
     const { deps } = this.props;
     this.repo = deps.get('commentsRepository');
+    this.stateManager = deps.get('stateManager');
     this.state = {
       uploadingAttachment: false,
     };
@@ -31,7 +32,7 @@ export default class AddCommentForm extends React.Component {
   }
 
   handleFileUpload() {
-    const { cardId, stateManager } = this.props;
+    const { cardId } = this.props;
     this.setState({ uploadingAttachment: true });
     const file = this.fileInput.files[0];
     const attachmentInfo = {
@@ -40,7 +41,7 @@ export default class AddCommentForm extends React.Component {
       type: file.type,
       blob: file,
     };
-    const userId = stateManager.getUserId();
+    const userId = this.stateManager.getUserId();
     this.repo.addComment(cardId, { attachment: attachmentInfo, authorId: userId }).then(() => {
       this.setState({ uploadingAttachment: false });
     });
@@ -48,10 +49,10 @@ export default class AddCommentForm extends React.Component {
 
   submit(e) {
     e.preventDefault();
-    const { cardId, stateManager } = this.props;
+    const { cardId } = this.props;
     const { content } = serialize(this.form, { hash: true });
     if (content) {
-      const userId = stateManager.getUserId();
+      const userId = this.stateManager.getUserId();
       this.repo.addComment(cardId, { content: content, authorId: userId }).then(() => {
         this.clear();
       });

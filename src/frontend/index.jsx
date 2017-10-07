@@ -29,12 +29,13 @@ deps
   .set('themeStyler', di => new ThemeStyler(di.get('stateManager')))
   .set('userSessionService', () => new UserSessionService())
   .set('browserSettingsService', di => new BrowserSettingsService(di.get('stateManager')))
-  .set('userLogoutUsecase', di => new UserLogoutUsecase())
-  .set('sessionToken', di => di.get('userSessionService').token())
-  .set('eventStorage', di => new ServerEventStorage({ token: di.get('sessionToken') }))
+  .set('userLogoutUsecase', () => new UserLogoutUsecase())
+  .set('eventStorage', di => new ServerEventStorage({
+    token: di.get('userSessionService').token(),
+  }))
   .set('stateManager', di => new CurrentState({
     eventStorage: di.get('eventStorage'),
-    userId: di.get('sessionToken'),
+    userId: di.get('userSessionService').userId(),
   }))
 ;
 
