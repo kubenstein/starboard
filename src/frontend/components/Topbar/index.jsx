@@ -52,7 +52,7 @@ export default class Topbar extends React.Component {
             id="side-menu-checkbox"
           />
           <div className="side-menu-wrapper">
-            <SideMenu stateManager={this.deps.get('stateManager')} />
+            <SideMenu deps={this.deps} />
           </div>
         </div>
       </div>

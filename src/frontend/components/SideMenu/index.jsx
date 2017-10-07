@@ -3,25 +3,22 @@ import PropTypes from 'prop-types';
 import EditableInput from 'components/EditableInput';
 import ActivityItem from 'components/ActivityItem';
 import AvatarEditor from 'components/AvatarEditor';
-import SettingsRepository from 'lib/repositories/settings-repository';
-import ActivitiesRepository from 'lib/repositories/activities-repository';
-import UsersRepository from 'lib/repositories/users-repository';
-import UserLogoutUsecase from 'lib/usecases/user-logout-usecase';
 import 'components/SideMenu/styles.scss';
 
 export default class SideMenu extends React.Component {
   static get propTypes() {
     return {
-      stateManager: PropTypes.object.isRequired,
+      deps: PropTypes.object.isRequired,
     };
   }
 
   constructor(props) {
     super(props);
-    const { stateManager } = this.props;
-    this.settingsRepo = new SettingsRepository(stateManager);
-    this.usersRepo = new UsersRepository(stateManager);
-    this.activitiesRepo = new ActivitiesRepository(stateManager);
+    this.deps = this.props.deps;
+    this.settingsRepo = this.deps.get('settingsRepository');
+    this.usersRepo = this.deps.get('usersRepository');
+    this.activitiesRepo = this.deps.get('activitiesRepository');
+    this.userLogoutUsecase = this.deps.get('userLogoutUsecase');
   }
 
   textForLabel(color) {
@@ -41,7 +38,7 @@ export default class SideMenu extends React.Component {
   }
 
   logout() {
-    new UserLogoutUsecase().logout();
+    this.userLogoutUsecase.logout();
   }
 
   labelCssClasses(color) {
@@ -55,7 +52,6 @@ export default class SideMenu extends React.Component {
   }
 
   render() {
-    const { stateManager } = this.props;
     const availableColors = this.settingsRepo.availableColors();
     const userId = this.usersRepo.currentUserId();
     const nickname = this.usersRepo.currentUserNickname();
@@ -71,7 +67,7 @@ export default class SideMenu extends React.Component {
             onClick={() => { this.logout(); }}
           />
           <br className="clearfix" />
-          <AvatarEditor className="avatar-editor" stateManager={stateManager} />
+          <AvatarEditor className="avatar-editor" stateManager={this.deps.get('stateManager')} />
           <EditableInput
             className="input-nickname"
             value={nickname}
@@ -117,7 +113,7 @@ export default class SideMenu extends React.Component {
               <ActivityItem
                 key={activity.id}
                 activity={activity}
-                stateManager={stateManager}
+                stateManager={this.deps.get('stateManager')}
               />,
             )}
           </div>
