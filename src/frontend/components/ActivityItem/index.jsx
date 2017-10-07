@@ -1,23 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import UsersRepository from 'lib/repositories/users-repository';
-import SettingsRepository from 'lib/repositories/settings-repository';
 import { formattedDate } from 'lib/utils';
 import 'components/ActivityItem/styles.scss';
 
 export default class ActivityItem extends React.Component {
   static get propTypes() {
     return {
-      stateManager: PropTypes.object.isRequired,
+      deps: PropTypes.object.isRequired,
       activity: PropTypes.object.isRequired, // TODO change to shape
     };
   }
 
   constructor(props) {
     super(props);
-    const { stateManager } = this.props;
-    this.usersRepo = new UsersRepository(stateManager);
-    this.settingsRepo = new SettingsRepository(stateManager);
+    const deps = this.props.deps;
+    this.usersRepo = deps.get('usersRepository');
+    this.settingsRepo = deps.get('settingsRepository');
   }
 
   author(activity) {

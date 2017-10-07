@@ -113,7 +113,7 @@ export default class SideMenu extends React.Component {
               <ActivityItem
                 key={activity.id}
                 activity={activity}
-                stateManager={this.deps.get('stateManager')}
+                deps={this.deps}
               />,
             )}
           </div>
