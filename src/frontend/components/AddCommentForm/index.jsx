@@ -1,21 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import serialize from 'form-serialize';
-import CommentsRepository from 'lib/repositories/comments-repository';
 import 'components/AddCommentForm/styles.scss';
 
 export default class AddCommentForm extends React.Component {
   static get propTypes() {
     return {
-      stateManager: PropTypes.object.isRequired,
+      deps: PropTypes.object.isRequired,
       cardId: PropTypes.string.isRequired,
     };
   }
 
   constructor(props) {
     super(props);
-    const { stateManager } = this.props;
-    this.repo = new CommentsRepository(stateManager);
+    const { deps } = this.props;
+    this.repo = deps.get('commentsRepository');
     this.state = {
       uploadingAttachment: false,
     };

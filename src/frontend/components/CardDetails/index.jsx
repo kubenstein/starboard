@@ -135,7 +135,7 @@ export default class CardDetails extends React.Component {
 
         </div>
         <h4 className="section-title clearfix">Comments:</h4>
-        <AddCommentForm cardId={id} stateManager={this.deps.get('stateManager')} />
+        <AddCommentForm cardId={id} deps={this.deps} />
         { comments.map(comment =>
           <CardComment
             key={comment.id}
