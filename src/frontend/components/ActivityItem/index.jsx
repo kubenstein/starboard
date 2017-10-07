@@ -51,11 +51,19 @@ export default class ActivityItem extends React.Component {
   }
 
   COMMENTADDEDActivityHtml(activity) {
-    const { content } = activity.data;
+    const { content, attachment } = activity.data;
     const { cardTitle } = activity.meta;
-    return <span>
-      added comment: <br /> <i>&quot;{content}&quot;</i> <br /> to card <i>{cardTitle}</i>.
-    </span>;
+
+    return (
+      <span>
+        { attachment ?
+          <span>added attachment: <br /> <i>&quot;{attachment.name}&quot;</i></span>
+        :
+          <span>added comment: <br /> <i>&quot;{content}&quot;</i></span>
+        }
+        <br /> to card <i>{cardTitle}</i>.
+      </span>
+    );
   }
 
   COLUMNADDEDActivityHtml(activity) {
