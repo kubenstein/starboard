@@ -2,22 +2,20 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import EditableInput from 'components/EditableInput';
 import SideMenu from 'components/SideMenu';
-import SettingsRepository from 'lib/repositories/settings-repository';
-import BrowserSettingsService from 'lib/services/browser-settings-service';
 import 'components/Topbar/styles.scss';
 
 export default class Topbar extends React.Component {
   static get propTypes() {
     return {
-      stateManager: PropTypes.object.isRequired,
+      deps: PropTypes.object.isRequired,
     };
   }
 
   constructor(props) {
     super(props);
-    const { stateManager } = this.props;
-    this.browserSettingsService = new BrowserSettingsService();
-    this.repo = new SettingsRepository(stateManager);
+    this.deps = this.props.deps;
+    this.browserSettingsService = this.deps.get('browserSettingsService');
+    this.repo = this.deps.get('settingsRepository');
   }
 
   updateBoardName(name) {
@@ -33,7 +31,6 @@ export default class Topbar extends React.Component {
   }
 
   render() {
-    const { stateManager } = this.props;
     const boardName = this.repo.boardName();
     this.updatePageTitle(boardName);
     return (
@@ -55,7 +52,7 @@ export default class Topbar extends React.Component {
             id="side-menu-checkbox"
           />
           <div className="side-menu-wrapper">
-            <SideMenu stateManager={stateManager} />
+            <SideMenu stateManager={this.deps.get('stateManager')} />
           </div>
         </div>
       </div>
