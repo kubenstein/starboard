@@ -67,7 +67,7 @@ export default class SideMenu extends React.Component {
             onClick={() => { this.logout(); }}
           />
           <br className="clearfix" />
-          <AvatarEditor className="avatar-editor" stateManager={this.deps.get('stateManager')} />
+          <AvatarEditor className="avatar-editor" deps={this.deps} />
           <EditableInput
             className="input-nickname"
             value={nickname}
