@@ -6,30 +6,37 @@ import Topbar from 'components/Topbar';
 import DndSpaceRegistrator from 'components/dndSupport/dnd-space-registrator';
 import DndColumnsConfigurator from 'components/dndSupport/dnd-columns-configurator';
 import DndCardsConfigurator from 'components/dndSupport/dnd-cards-configurator';
-import ThemeStyler from 'components/Board/theme-styler';
-import ColumnsRepository from 'lib/repositories/columns-repository';
-import CardsRepository from 'lib/repositories/cards-repository';
 import 'components/Board/styles.scss';
 
 export default class Board extends React.Component {
   static get propTypes() {
     return {
-      stateManager: PropTypes.object.isRequired,
+      deps: PropTypes.object.isRequired,
     };
   }
 
   constructor(props) {
     super(props);
-    const { stateManager } = this.props;
-    this.columnsRepo = new ColumnsRepository(stateManager);
-    this.cardsRepo = new CardsRepository(stateManager);
-    this.themeStyler = new ThemeStyler(stateManager);
+    this.deps = props.deps;
+    this.columnsRepo = this.deps.get('columnsRepository');
+    this.cardsRepo = this.deps.get('cardsRepository');
+    this.themeStyler = this.deps.get('themeStyler');
     this.configureDND();
-    stateManager.addObserver(this);
     this.state = {
       loaded: false,
       columns: [],
     };
+  }
+
+  componentWillMount() {
+    const stateManager = this.deps.get('stateManager');
+    stateManager.addObserver(this);
+  }
+
+
+  componentWillUnmount() {
+    const stateManager = this.deps.get('stateManager');
+    stateManager.removeObserver(this);
   }
 
   //
@@ -71,12 +78,11 @@ export default class Board extends React.Component {
 
   render() {
     const { columns } = this.state;
-    const { stateManager } = this.props;
     return (
       <div className="board-wrapper">
         <style>{this.themeStyler.generateStyles()}</style>
         <div className={`board ${this.additionalCssClass()}`}>
-          <Topbar className="topbar" stateManager={stateManager} />
+          <Topbar className="topbar" deps={this.deps} />
           <p className="loading-text">Loading Board...</p>
           <div className="bg-wrapper">
             <div
@@ -89,11 +95,14 @@ export default class Board extends React.Component {
                   key={column.id}
                   column={column}
                   DNDManager={this.cardsDNDManager}
-                  stateManager={stateManager}
+                  stateManager={this.deps.get('stateManager')}
                 />,
               )}
             </div>
-            <AddColumnForm className="column add-column-form" stateManager={stateManager} />
+            <AddColumnForm
+              className="column add-column-form"
+              stateManager={this.deps.get('stateManager')}
+            />
           </div>
         </div>
       </div>

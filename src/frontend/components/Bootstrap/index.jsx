@@ -13,7 +13,7 @@ export default class Bootstrap extends React.Component {
   constructor(props) {
     super(props);
     this.deps = props.deps;
-    this.session = this.deps.get('UserSessionService');
+    this.session = this.deps.get('userSessionService');
     this.state = {
       loggedIn: this.session.isLoggedIn(),
       loginError: false,

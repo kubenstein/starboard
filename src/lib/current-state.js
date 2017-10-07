@@ -42,6 +42,11 @@ export default class CurrentState {
     this.observers.push(observer);
   }
 
+  removeObserver(observer) {
+    const objectIndex = this.observers.indexOf(observer);
+    this.observers.splice(objectIndex, 1);
+  }
+
   purge() {
     return this.eventStorage.purge().then(() => {
       this.data = {};
