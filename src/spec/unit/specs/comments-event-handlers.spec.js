@@ -33,9 +33,11 @@ describe('Comments Event Handler', () => {
   });
 
   it('removes a comment', () => {
-    currentState.addEvent(
-      e.commentAddedEvent(requester(), cardId(), { content: 'commentContent', authorId: 'authorId' }),
-    );
+    currentState.addEvent(e.commentAddedEvent(requester(), cardId(), {
+      content: 'commentContent',
+      authorId: 'authorId',
+    }));
+
     const commentId = firstComment().id;
 
     currentState.addEvent(e.commentRemovedEvent(requester(), commentId));
@@ -66,9 +68,11 @@ describe('Comments Event Handler', () => {
   }
 
   function addCard() {
-    return currentState.addEvent(
-      e.cardAddedEvent(requester(), { columnId: columnId(), title: 'columnName', position: 0 }),
-    );
+    return currentState.addEvent(e.cardAddedEvent(requester(), {
+      columnId: columnId(),
+      title: 'columnName',
+      position: 0,
+    }));
   }
 
   function cardId() {
