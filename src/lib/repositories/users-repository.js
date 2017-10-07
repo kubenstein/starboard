@@ -1,9 +1,9 @@
 import { userUpdatedEvent } from 'lib/event-definitions';
-import FileUploaderService from 'lib/services/file-uploader-service';
 
 export default class UsersRepository {
-  constructor(stateManager) {
+  constructor(stateManager, fileUploader) {
     this.stateManager = stateManager;
+    this.fileUploader = fileUploader;
   }
 
   currentUserId() {
@@ -56,8 +56,7 @@ export default class UsersRepository {
       return this.stateManager.addEvent(event);
     }
 
-    const fileUploader = new FileUploaderService();
-    return fileUploader.uploadFileFromFileBlob(avatar.blob)
+    return this.fileUploader.uploadFileFromFileBlob(avatar.blob)
     .then((avatarUrl) => {
       const event = userUpdatedEvent(requesterId, userId, 'avatarUrl', avatarUrl);
       return this.stateManager.addEvent(event);

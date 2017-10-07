@@ -1,12 +1,12 @@
-import FileUploaderService from 'lib/services/file-uploader-service';
 import {
   commentAddedEvent,
   commentRemovedEvent,
 } from 'lib/event-definitions';
 
 export default class CommentsRepository {
-  constructor(stateManager) {
+  constructor(stateManager, fileUploader) {
     this.stateManager = stateManager;
+    this.fileUploader = fileUploader;
   }
 
   get(id) {
@@ -48,9 +48,8 @@ export default class CommentsRepository {
 
   addCommentWithAttachment(requesterId, cardId, params) {
     const { content, attachment } = params;
-    const fileUploader = new FileUploaderService();
 
-    return fileUploader.uploadFileFromFileBlob(attachment.blob)
+    return this.fileUploader.uploadFileFromFileBlob(attachment.blob)
     .then((attachmentUrl) => {
       const event = commentAddedEvent(requesterId, cardId, {
         content: content,

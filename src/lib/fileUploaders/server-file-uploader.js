@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export default class FileUploaderService {
+export default class ServerFileUploader {
   uploadFileFromFileBlob(fileBlob) {
     const data = new FormData();
     data.append('attachment', fileBlob);
