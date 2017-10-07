@@ -74,10 +74,7 @@ export default class Column extends React.Component {
           )}
         </div>
 
-        <AddCardForm
-          columnId={id}
-          stateManager={this.deps.get('stateManager')}
-        />
+        <AddCardForm columnId={id} deps={this.deps} />
       </div>
     );
   }

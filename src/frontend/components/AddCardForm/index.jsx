@@ -1,21 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import serialize from 'form-serialize';
-import CardsRepository from 'lib/repositories/cards-repository';
 import 'components/AddCardForm/styles.scss';
 
 export default class AddCardForm extends React.Component {
   static get propTypes() {
     return {
-      stateManager: PropTypes.object.isRequired,
+      deps: PropTypes.object.isRequired,
       columnId: PropTypes.string.isRequired,
     };
   }
 
   constructor(props) {
     super(props);
-    const { stateManager } = this.props;
-    this.repo = new CardsRepository(stateManager);
+    const { deps } = this.props;
+    this.repo = deps.get('cardsRepository');
     this.state = {
       opened: false,
     };
