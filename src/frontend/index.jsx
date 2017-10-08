@@ -18,6 +18,7 @@ import SettingsRepository from 'lib/repositories/settings-repository';
 import ActivitiesRepository from 'lib/repositories/activities-repository';
 import UsersRepository from 'lib/repositories/users-repository';
 import CommentsRepository from 'lib/repositories/comments-repository';
+import UiRepository from 'lib/repositories/ui-repository';
 import './assets';
 
 const deps = new DependencyInjector();
@@ -28,6 +29,7 @@ deps
   .set('settingsRepository', di => new SettingsRepository(di.get('stateManager')))
   .set('cardsRepository', di => new CardsRepository(di.get('stateManager')))
   .set('columnsRepository', di => new ColumnsRepository(di.get('stateManager')))
+  .set('uiRepository', di => new UiRepository(di.get('stateManager')))
   .set('themeStyler', di => new ThemeStyler(di.get('stateManager')))
   .set('userSessionService', () => new UserSessionService())
   .set('browserSettingsService', di => new BrowserSettingsService(di.get('stateManager')))

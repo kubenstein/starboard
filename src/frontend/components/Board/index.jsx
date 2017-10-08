@@ -21,10 +21,11 @@ export default class Board extends React.Component {
     this.stateManager = this.deps.get('stateManager');
     this.columnsRepo = this.deps.get('columnsRepository');
     this.cardsRepo = this.deps.get('cardsRepository');
+    this.cardsRepo = this.deps.get('cardsRepository');
     this.themeStyler = this.deps.get('themeStyler');
+    this.uiRepo = this.deps.get('uiRepository');
     this.configureDND();
     this.state = {
-      loaded: false,
       columns: [],
     };
   }
@@ -41,9 +42,12 @@ export default class Board extends React.Component {
   // stateManager observer callback
   onStateUpdate() {
     this.setState({
-      loaded: true,
       columns: this.columnsRepo.columnsSortedByPosition(),
     });
+
+    if (!this.uiRepo.get('app:loaded')) {
+      this.uiRepo.set('app:loaded', true);
+    }
   }
 
   configureDND() {
@@ -70,38 +74,44 @@ export default class Board extends React.Component {
     }).configure();
   }
 
-  additionalCssClass() {
-    return this.state.loaded ? '' : 'loading';
-  }
-
   render() {
     const { columns } = this.state;
+    const loaded = this.uiRepo.get('app:loaded');
     return (
       <div className="board-wrapper">
         <style>{this.themeStyler.generateStyles()}</style>
-        <div className={`board ${this.additionalCssClass()}`}>
-          <Topbar className="topbar" deps={this.deps} />
-          <p className="loading-text">Loading Board...</p>
-          <div className="bg-wrapper">
-            <div
-              className="columns"
-              ref={(e) => { this.dndColumnsSpaceRegistrator.registerRefAsSpace(e); }}
-            >
-              { columns.map(column =>
-                <Column
-                  className="column column-DND-handler"
-                  key={column.id}
-                  column={column}
-                  DNDManager={this.cardsDNDManager}
-                  deps={this.deps}
-                />,
-              )}
+        <div className="board">
+          { loaded ?
+            <Topbar className="topbar" deps={this.deps} />
+          :
+            <div className="bg-wrapper">
+              <p className="loading-text">Loading Board...</p>
             </div>
-            <AddColumnForm
-              className="column add-column-form"
-              deps={this.deps}
-            />
-          </div>
+          }
+
+          { loaded && (
+            <div className="bg-wrapper">
+              <div
+                className="columns"
+                ref={(e) => { this.dndColumnsSpaceRegistrator.registerRefAsSpace(e); }}
+              >
+                { columns.map(column =>
+                  <Column
+                    className="column column-DND-handler"
+                    key={column.id}
+                    column={column}
+                    DNDManager={this.cardsDNDManager}
+                    deps={this.deps}
+                  />,
+                )}
+              </div>
+
+              <AddColumnForm
+                className="column add-column-form"
+                deps={this.deps}
+              />
+            </div>
+          )}
         </div>
       </div>
     );

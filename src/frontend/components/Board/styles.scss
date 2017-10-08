@@ -6,16 +6,6 @@ $background-color: rgba(222, 222, 222, 0.95);
   background-color: $malachite; // will be reapplied by theme css
   overflow-x: auto;
 
-  &.loading {
-    .loading-text {
-      display: block;
-    }
-
-    .topbar, .add-column-form {
-      display: none;
-    }
-  }
-
   .bg-wrapper {
     background-color: $background-color;
     display: flex;
@@ -34,7 +24,6 @@ $background-color: rgba(222, 222, 222, 0.95);
   }
 
   .loading-text {
-    display: none;
     position: absolute;
     top: 50%;
     left: 0;
