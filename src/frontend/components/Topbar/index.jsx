@@ -18,8 +18,17 @@ export default class Topbar extends React.Component {
     this.repo = this.deps.get('settingsRepository');
   }
 
+  componentWillMount() {
+    this.updatePageTitle(this.boardName());
+  }
+
   updateBoardName(name) {
     this.repo.setBoardName(name);
+    this.updatePageTitle(name);
+  }
+
+  boardName() {
+    return this.repo.boardName();
   }
 
   updatePageTitle(title) {
@@ -31,13 +40,11 @@ export default class Topbar extends React.Component {
   }
 
   render() {
-    const boardName = this.repo.boardName();
-    this.updatePageTitle(boardName);
     return (
       <div className="topbar">
         <EditableInput
           className={`board-name ${this.darkLightThemeCss()}`}
-          value={boardName}
+          value={this.boardName()}
           onChange={(value) => { this.updateBoardName(value); }}
         />
 
