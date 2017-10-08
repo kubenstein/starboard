@@ -86,15 +86,7 @@
     }
   }
 
-  .label-picker-checkbox, .label-picker-visible {
-    display: none;
-  }
-
-  .label-picker-checkbox:checked ~ .label-picker-visible {
-    display: block;
-  }
-
-  .label-picker-visible.off-trigger {
+  .off-trigger {
     position: fixed;
     top: 0;
     left: 0;

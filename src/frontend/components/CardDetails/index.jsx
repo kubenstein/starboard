@@ -20,15 +20,15 @@ export default class CardDetails extends React.Component {
     this.columnsRepo = this.deps.get('columnsRepository');
     this.commentsRepo = this.deps.get('commentsRepository');
     this.cardsRepo = this.deps.get('cardsRepository');
+    this.uiRepo = this.deps.get('uiRepository');
     this.settingsRepo = this.deps.get('settingsRepository');
     this.browserSettingsService = this.deps.get('browserSettingsService');
     this.handleKeyDown = this.handleKeyDown.bind(this);
   }
 
   componentWillMount() {
-    const { card } = this.props;
     const bss = this.browserSettingsService;
-    bss.setUrlForCard(card);
+    bss.setUrlForCard(this.props.card);
     bss.registerKeyDownEvent(this.handleKeyDown);
   }
 
@@ -80,6 +80,7 @@ export default class CardDetails extends React.Component {
     const { title, description, id, columnId, labels } = card;
     const comments = this.commentsRepo.commentsForCard(id);
     const columnName = this.columnsRepo.get(columnId).name;
+    const labelPickerOpened = this.uiRepo.get('card:openLabelsPicker');
     return (
       <div className="card-details">
         <div className="title-wrapper">
@@ -118,20 +119,26 @@ export default class CardDetails extends React.Component {
             className="btn btn-danger btn-small btn-remove-card"
             onClick={() => { this.removeCard(id); }}
           >Delete Card</a>
-          <label
+          <a
             className="btn btn-success btn-small btn-manage-labels"
-            htmlFor="label-picker-checkbox"
-          >Manage Labels</label>
-          <input type="checkbox" id="label-picker-checkbox" className="label-picker-checkbox" />
-          <label htmlFor="label-picker-checkbox" className="label-picker-visible off-trigger" />
-          <div className="label-picker-visible label-picker-wrapper">
-            <CardLabelPicker
-              className="label-picker"
-              card={card}
-              deps={this.deps}
-              onLabelPicked={(label) => { this.updateLabels(label); }}
-            />
-          </div>
+            onClick={() => this.uiRepo.toggle('card:openLabelsPicker')}
+          >Manage Labels</a>
+          { labelPickerOpened && (
+            <div>
+              <a
+                className="off-trigger"
+                onClick={() => this.uiRepo.toggle('card:openLabelsPicker')}
+              />
+              <div className="label-picker-wrapper">
+                <CardLabelPicker
+                  className="label-picker"
+                  card={card}
+                  deps={this.deps}
+                  onLabelPicked={(label) => { this.updateLabels(label); }}
+                />
+              </div>
+            </div>
+          )}
 
         </div>
         <h4 className="section-title clearfix">Comments:</h4>
