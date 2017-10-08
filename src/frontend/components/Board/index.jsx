@@ -18,6 +18,7 @@ export default class Board extends React.Component {
   constructor(props) {
     super(props);
     this.deps = props.deps;
+    this.stateManager = this.deps.get('stateManager');
     this.columnsRepo = this.deps.get('columnsRepository');
     this.cardsRepo = this.deps.get('cardsRepository');
     this.themeStyler = this.deps.get('themeStyler');
@@ -29,14 +30,11 @@ export default class Board extends React.Component {
   }
 
   componentWillMount() {
-    const stateManager = this.deps.get('stateManager');
-    stateManager.addObserver(this);
+    this.stateManager.addObserver(this);
   }
 
-
   componentWillUnmount() {
-    const stateManager = this.deps.get('stateManager');
-    stateManager.removeObserver(this);
+    this.stateManager.removeObserver(this);
   }
 
   //
