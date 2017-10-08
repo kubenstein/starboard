@@ -125,7 +125,7 @@ export default class CardDetails extends React.Component {
           >Manage Labels</a>
           { labelPickerOpened && (
             <div>
-              <a
+              <div
                 className="off-trigger"
                 onClick={() => this.uiRepo.toggle('card:openLabelsPicker')}
               />
