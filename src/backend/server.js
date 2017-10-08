@@ -8,7 +8,7 @@ import bodyParser from 'body-parser';
 import StoreFileUsecase from 'lib/usecases/store-file-usecase';
 import SendFileUsecase from 'lib/usecases/send-file-usecase';
 import EventProcessorsQueue from 'lib/event-processors-queue';
-import CurrentState from 'lib/current-state';
+import State from 'lib/state';
 import AllowEveryoneAuth from 'lib/allow-everyone-auth';
 import NullLogger from 'lib/null-logger';
 import { hasToBeSet } from 'lib/utils';
@@ -25,16 +25,16 @@ export default class Server {
     this.noBanner        = params.noBanner        || false;
     this.eventProcessors = params.eventProcessors || [];
 
-    this.server               = null;
-    this.sockets              = [];
-    this.currentState         = new CurrentState({ eventStorage: this.eventStorage });
-    this.sendFileUsecase      = new SendFileUsecase({ filesStorage: this.filesStorage });
-    this.storeFileUsecase     = new StoreFileUsecase({
+    this.server           = null;
+    this.sockets          = [];
+    this.state            = new State({ eventStorage: this.eventStorage });
+    this.sendFileUsecase  = new SendFileUsecase({ filesStorage: this.filesStorage });
+    this.storeFileUsecase = new StoreFileUsecase({
       filesStorage: this.filesStorage,
       eventStorage: this.eventStorage,
     });
     this.incommingEventProcessors = new EventProcessorsQueue({
-      stateManager: this.currentState,
+      stateManager: this.state,
       processors: this.eventProcessors,
     });
   }

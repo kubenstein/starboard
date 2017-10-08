@@ -5,7 +5,7 @@ import ReactDOM from 'react-dom';
 import Bootstrap from 'components/Bootstrap';
 
 import DependencyInjector from 'lib/dependency-injector';
-import CurrentState from 'lib/current-state';
+import State from 'lib/state';
 import ServerEventStorage from 'lib/eventStorages/server-event-storage';
 import ThemeStyler from 'components/Board/theme-styler';
 import UserSessionService from 'lib/services/user-session-service';
@@ -34,7 +34,7 @@ deps
   .set('eventStorage', di => new ServerEventStorage({
     token: di.get('userSessionService').token(),
   }))
-  .set('stateManager', di => new CurrentState({
+  .set('stateManager', di => new State({
     eventStorage: di.get('eventStorage'),
     userId: di.get('userSessionService').userId(),
   }))

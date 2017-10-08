@@ -1,19 +1,19 @@
 const expect = require('chai').expect;
-const currentState = require('../components.js').currentState;
+const state = require('../components.js').state;
 const e = require('../components.js').eventDefinitions;
 
 describe('Column Event Handler', () => {
-  beforeEach(() => { currentState.purge(); });
+  beforeEach(() => { state.purge(); });
 
   it('adds a column', () => {
-    currentState.addEvent(e.columnAddedEvent(requester(), { name: 'columnName', position: 0 }));
+    state.addEvent(e.columnAddedEvent(requester(), { name: 'columnName', position: 0 }));
 
     expect(firstColumn()).to.include({ name: 'columnName', position: 0 });
   });
 
   it('properly positions second added column', () => {
-    currentState.addEvent(e.columnAddedEvent(requester(), { name: 'columnName1', position: 0 }));
-    currentState.addEvent(e.columnAddedEvent(requester(), { name: 'columnName2', position: 6 }));
+    state.addEvent(e.columnAddedEvent(requester(), { name: 'columnName1', position: 0 }));
+    state.addEvent(e.columnAddedEvent(requester(), { name: 'columnName2', position: 6 }));
 
     const columns = existingColumns();
     expect(columns[0]).to.include({ name: 'columnName1', position: 0 });
@@ -21,59 +21,59 @@ describe('Column Event Handler', () => {
   });
 
   it('removes a column', () => {
-    currentState.addEvent(e.columnAddedEvent(requester(), { name: 'columnName', position: 0 }));
+    state.addEvent(e.columnAddedEvent(requester(), { name: 'columnName', position: 0 }));
     const columnId = firstColumn().id;
 
-    currentState.addEvent(e.columnRemovedEvent(requester(), columnId));
+    state.addEvent(e.columnRemovedEvent(requester(), columnId));
     expect(existingColumns().length).to.eq(0);
   });
 
   it('removes a column and reposition columns that left', () => {
-    currentState.addEvent(e.columnAddedEvent(requester(), { name: 'columnName1', position: 0 }));
-    currentState.addEvent(e.columnAddedEvent(requester(), { name: 'columnName2', position: 1 }));
+    state.addEvent(e.columnAddedEvent(requester(), { name: 'columnName1', position: 0 }));
+    state.addEvent(e.columnAddedEvent(requester(), { name: 'columnName2', position: 1 }));
     const columnId = firstColumn().id;
 
-    currentState.addEvent(e.columnRemovedEvent(requester(), columnId));
+    state.addEvent(e.columnRemovedEvent(requester(), columnId));
 
     expect(firstColumn()).to.include({ name: 'columnName2', position: 0 });
   });
 
   it('removes all cards within removed column', () => {
-    currentState.addEvent(e.columnAddedEvent(requester(), { name: 'columnName', position: 0 }));
+    state.addEvent(e.columnAddedEvent(requester(), { name: 'columnName', position: 0 }));
     const columnId = firstColumn().id;
-    currentState.addEvent(e.cardAddedEvent(requester(), { columnId: columnId, position: 0, title: 'card1' }));
-    currentState.addEvent(e.cardAddedEvent(requester(), { columnId: columnId, position: 1, title: 'card2' }));
+    state.addEvent(e.cardAddedEvent(requester(), { columnId: columnId, position: 0, title: 'card1' }));
+    state.addEvent(e.cardAddedEvent(requester(), { columnId: columnId, position: 1, title: 'card2' }));
 
 
     expect(existingCards().length).to.eq(2);
-    currentState.addEvent(e.columnRemovedEvent(requester(), columnId));
+    state.addEvent(e.columnRemovedEvent(requester(), columnId));
     expect(existingCards().length).to.eq(0);
   });
 
   it('updates column name', () => {
-    currentState.addEvent(e.columnAddedEvent(requester(), { name: 'columnName', position: 0 }));
+    state.addEvent(e.columnAddedEvent(requester(), { name: 'columnName', position: 0 }));
 
     const columnId = firstColumn().id;
-    currentState.addEvent(e.columnUpdatedEvent(requester(), columnId, { name: 'newColumnName' }));
+    state.addEvent(e.columnUpdatedEvent(requester(), columnId, { name: 'newColumnName' }));
     expect(firstColumn()).to.include({ name: 'newColumnName' });
   });
 
   // strange scenarios
 
   it('handles updating a column that does not exist', () => {
-    currentState.addEvent(e.columnUpdatedEvent(requester(), 'InexistentColumnId', { name: 'newColumnName' }));
+    state.addEvent(e.columnUpdatedEvent(requester(), 'InexistentColumnId', { name: 'newColumnName' }));
     expect(existingColumns().length).to.eq(0);
   });
 
   it('handles removing a column that does not exist', () => {
-    currentState.addEvent(e.columnRemovedEvent(requester(), 'InexistentColumnId'));
+    state.addEvent(e.columnRemovedEvent(requester(), 'InexistentColumnId'));
     expect(existingColumns().length).to.eq(0);
   });
 
   // private
 
   function existingColumns() {
-    return currentState.bucket('columns');
+    return state.bucket('columns');
   }
 
   function firstColumn() {
@@ -81,7 +81,7 @@ describe('Column Event Handler', () => {
   }
 
   function existingCards() {
-    return currentState.bucket('cards');
+    return state.bucket('cards');
   }
 
   function requester() {

@@ -1,26 +1,26 @@
 const expect = require('chai').expect;
-const currentState = require('../components.js').currentState;
+const state = require('../components.js').state;
 const e = require('../components.js').eventDefinitions;
 
 describe('User settings Event Handler', () => {
-  beforeEach(() => { currentState.purge(); });
+  beforeEach(() => { state.purge(); });
 
   it('inserts a user settings', () => {
-    currentState.addEvent(e.userUpdatedEvent(requester(), userId(), 'nickname', 'newNickname'));
+    state.addEvent(e.userUpdatedEvent(requester(), userId(), 'nickname', 'newNickname'));
 
     expect(userSettings().nickname).to.eq('newNickname');
   });
 
   it('updates existing user settings', () => {
-    currentState.addEvent(e.userUpdatedEvent(requester(), userId(), 'nickname', 'newNickname'));
-    currentState.addEvent(e.userUpdatedEvent(requester(), userId(), 'nickname', 'changedNickname'));
+    state.addEvent(e.userUpdatedEvent(requester(), userId(), 'nickname', 'newNickname'));
+    state.addEvent(e.userUpdatedEvent(requester(), userId(), 'nickname', 'changedNickname'));
 
     expect(userSettings().nickname).to.eq('changedNickname');
   });
 
   it('allows to unset settings', () => {
-    currentState.addEvent(e.userUpdatedEvent(requester(), userId(), 'nickname', 'newNickname'));
-    currentState.addEvent(e.userUpdatedEvent(requester(), userId(), 'nickname', null));
+    state.addEvent(e.userUpdatedEvent(requester(), userId(), 'nickname', 'newNickname'));
+    state.addEvent(e.userUpdatedEvent(requester(), userId(), 'nickname', null));
 
     expect(userSettings().nickname).to.eq(null);
   });
@@ -32,7 +32,7 @@ describe('User settings Event Handler', () => {
   }
 
   function userSettings() {
-    return currentState.objectData('users', userId());
+    return state.objectData('users', userId());
   }
 
   function requester() {

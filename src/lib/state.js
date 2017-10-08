@@ -11,7 +11,7 @@ import CommentRemovedEventHandler from 'lib/eventHandlers/comment-removed';
 import UserUpdatedEventHandler from 'lib/eventHandlers/user-updated';
 import AllEventsEventHandler from 'lib/eventHandlers/all-events';
 
-export default class CurrentState {
+export default class State {
   constructor(params) {
     this.eventStorage = params.eventStorage;
     this.userId = params.userId;

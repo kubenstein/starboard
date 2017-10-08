@@ -1,7 +1,7 @@
 /* eslint-disable no-multi-spaces */
 exports.Starboard          = require('backend/server.js').default;
 exports.eventDefinitions   = require('lib/event-definitions.js');
-exports.CurrentState       = require('lib/current-state.js').default;
+exports.State              = require('lib/state.js').default;
 exports.GitContainer       = require('lib/git-container.js').default;
 exports.GitFilesStorage    = require('lib/git-files-storage.js').default;
 exports.GitEventStorage    = require('lib/eventStorages/git-event-storage.js').default;
