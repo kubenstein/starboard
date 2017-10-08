@@ -5,6 +5,10 @@ export default class UiRepository {
     this.stateManager = stateManager;
   }
 
+  toggle(key) {
+    this.set(key, !this.get(key));
+  }
+
   get(key, defautValue) {
     const settings = this.stateManager.objectData('settings', key);
     const nullSettings = { value: defautValue };

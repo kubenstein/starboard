@@ -15,7 +15,8 @@ export default class Topbar extends React.Component {
     super(props);
     this.deps = this.props.deps;
     this.browserSettingsService = this.deps.get('browserSettingsService');
-    this.repo = this.deps.get('settingsRepository');
+    this.settingsRepo = this.deps.get('settingsRepository');
+    this.uiRepo = this.deps.get('uiRepository');
   }
 
   componentWillMount() {
@@ -23,12 +24,12 @@ export default class Topbar extends React.Component {
   }
 
   updateBoardName(name) {
-    this.repo.setBoardName(name);
+    this.settingsRepo.setBoardName(name);
     this.updatePageTitle(name);
   }
 
   boardName() {
-    return this.repo.boardName();
+    return this.settingsRepo.boardName();
   }
 
   updatePageTitle(title) {
@@ -36,10 +37,16 @@ export default class Topbar extends React.Component {
   }
 
   darkLightThemeCss() {
-    return this.repo.isThemeColorDark() ? 'dark-theme' : 'light-theme';
+    return this.settingsRepo.isThemeColorDark() ? 'dark-theme' : 'light-theme';
+  }
+
+  toggleSideMenu() {
+    this.uiRepo.toggle('sidemenu:open');
   }
 
   render() {
+    const boardName = this.settingsRepo.boardName();
+    const isSideMenuOpen = this.uiRepo.get('sidemenu:open');
     return (
       <div className="topbar">
         <EditableInput
@@ -49,18 +56,16 @@ export default class Topbar extends React.Component {
         />
 
         <div className="menu-zone">
-          <label
+          <a
+            onClick={() => this.toggleSideMenu()}
             className={`side-menu-trigger ${this.darkLightThemeCss()}`}
-            htmlFor="side-menu-checkbox"
-          >☰</label>
-          <input
-            type="checkbox"
-            className="side-menu-checkbox"
-            id="side-menu-checkbox"
-          />
-          <div className="side-menu-wrapper">
-            <SideMenu deps={this.deps} />
-          </div>
+          >☰</a>
+
+          { isSideMenuOpen && (
+            <div className="side-menu-wrapper">
+              <SideMenu deps={this.deps} />
+            </div>
+          )}
         </div>
       </div>
     );

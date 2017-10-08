@@ -43,11 +43,7 @@
     }
   }
 
-  .side-menu-checkbox, .side-menu-wrapper {
-    display: none;
-  }
-
-  .side-menu-checkbox:checked + .side-menu-wrapper {
+  .side-menu-wrapper {
     display: block;
     position: fixed;
     z-index: 70;
