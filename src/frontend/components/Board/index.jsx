@@ -24,6 +24,7 @@ export default class Board extends React.Component {
     this.cardsRepo = this.deps.get('cardsRepository');
     this.themeStyler = this.deps.get('themeStyler');
     this.uiRepo = this.deps.get('uiRepository');
+    this.browserSettingsService = this.deps.get('browserSettingsService');
     this.configureDND();
     this.state = {
       columns: [],
@@ -32,6 +33,7 @@ export default class Board extends React.Component {
 
   componentWillMount() {
     this.stateManager.addObserver(this);
+    this.openCardFromUrl();
   }
 
   componentWillUnmount() {
@@ -48,6 +50,13 @@ export default class Board extends React.Component {
     if (!this.uiRepo.get('app:loaded')) {
       this.uiRepo.set('app:loaded', true);
     }
+  }
+
+  // private
+
+  openCardFromUrl() {
+    const cardIdFromUrl = this.browserSettingsService.urlCardId();
+    this.uiRepo.set('card:openedId', cardIdFromUrl);
   }
 
   configureDND() {

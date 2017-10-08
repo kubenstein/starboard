@@ -16,26 +16,20 @@ export default class Card extends React.Component {
     this.deps = this.props.deps;
     this.settingsRepo = this.deps.get('settingsRepository');
     this.commentsRepo = this.deps.get('commentsRepository');
-    this.browserSettingsService = this.deps.get('browserSettingsService');
-    this.state = {
-      detailsOpened: false,
-    };
+    this.uiRepo = this.deps.get('uiRepository');
   }
 
-  componentDidMount() {
-    const { card } = this.props;
-    const cardToOpen = this.browserSettingsService.urlCardId();
-    if (card.id === cardToOpen) {
-      this.openDetails();
-    }
+  openDetails() {
+    const { id } = this.props.card;
+    this.uiRepo.set('card:openedId', id);
+  }
+
+  closeDetails() {
+    this.uiRepo.set('card:openedId', '');
   }
 
   textForLabel(color) {
     return this.settingsRepo.textForLabel(color);
-  }
-
-  openDetails() {
-    this.setState({ detailsOpened: true });
   }
 
   clickedOverlay(e) {
@@ -44,26 +38,20 @@ export default class Card extends React.Component {
     }
   }
 
-  closeDetails() {
-    setTimeout(() => {
-      this.setState({ detailsOpened: false });
-    }, 0);
-  }
-
-  additionalCssClass() {
-    return this.state.detailsOpened ? 'card-opened' : '';
+  additionalCssClass(detailsOpened) {
+    return detailsOpened ? 'card-opened' : '';
   }
 
   render() {
     const { card } = this.props;
-    const { detailsOpened } = this.state;
     const { labels, title, id } = card;
+    const detailsOpened = (this.uiRepo.get('card:openedId') === id);
     const commentCounter = this.commentsRepo.commentsCountForCard(id);
     return (
       <div
-        className={`card-wrapper ${this.additionalCssClass()}`}
+        className={`card-wrapper ${this.additionalCssClass(detailsOpened)}`}
         data-DND-data-card-id={id}
-        onClick={() => { this.openDetails(); }}
+        onClick={() => (!detailsOpened && this.openDetails())}
       >
         <div className="card card-DND-handler">
           <ul className="labels">
