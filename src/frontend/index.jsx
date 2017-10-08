@@ -5,8 +5,9 @@ import ReactDOM from 'react-dom';
 import Bootstrap from 'components/Bootstrap';
 
 import DependencyInjector from 'lib/dependency-injector';
-import State from 'lib/state';
+import FrontendAppState from 'lib/frontend-app-state';
 import ServerEventStorage from 'lib/eventStorages/server-event-storage';
+import MemoryEventStorage from 'lib/eventStorages/memory-event-storage';
 import ThemeStyler from 'components/Board/theme-styler';
 import UserSessionService from 'lib/services/user-session-service';
 import BrowserSettingsService from 'lib/services/browser-settings-service';
@@ -31,11 +32,13 @@ deps
   .set('userSessionService', () => new UserSessionService())
   .set('browserSettingsService', di => new BrowserSettingsService(di.get('stateManager')))
   .set('fileUploader', () => new ServerFileUploader())
+  .set('appEventStorage', () => new MemoryEventStorage())
   .set('eventStorage', di => new ServerEventStorage({
     token: di.get('userSessionService').token(),
   }))
-  .set('stateManager', di => new State({
-    eventStorage: di.get('eventStorage'),
+  .set('stateManager', di => new FrontendAppState({
+    dataEventStorage: di.get('eventStorage'),
+    appEventStorage: di.get('appEventStorage'),
     userId: di.get('userSessionService').userId(),
   }))
 ;
