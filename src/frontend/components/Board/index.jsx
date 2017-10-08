@@ -74,45 +74,56 @@ export default class Board extends React.Component {
     }).configure();
   }
 
-  render() {
+  renderLoadedBoard() {
     const { columns } = this.state;
+    return (
+      <div className="board">
+        <Topbar className="topbar" deps={this.deps} />
+        <div className="bg-wrapper">
+          <div
+            className="columns"
+            ref={(e) => { this.dndColumnsSpaceRegistrator.registerRefAsSpace(e); }}
+          >
+            { columns.map(column =>
+              <Column
+                className="column column-DND-handler"
+                key={column.id}
+                column={column}
+                DNDManager={this.cardsDNDManager}
+                deps={this.deps}
+              />,
+            )}
+          </div>
+
+          <AddColumnForm
+            className="column add-column-form"
+            deps={this.deps}
+          />
+        </div>
+      </div>
+    );
+  }
+
+  renderLoadingBoard() {
+    return (
+      <div className="board">
+        <div className="bg-wrapper">
+          <p className="loading-text">Loading Board...</p>
+        </div>
+      </div>
+    );
+  }
+
+  render() {
     const loaded = this.uiRepo.get('app:loaded');
     return (
       <div className="board-wrapper">
         <style>{this.themeStyler.generateStyles()}</style>
-        <div className="board">
-          { loaded ?
-            <Topbar className="topbar" deps={this.deps} />
-          :
-            <div className="bg-wrapper">
-              <p className="loading-text">Loading Board...</p>
-            </div>
-          }
-
-          { loaded && (
-            <div className="bg-wrapper">
-              <div
-                className="columns"
-                ref={(e) => { this.dndColumnsSpaceRegistrator.registerRefAsSpace(e); }}
-              >
-                { columns.map(column =>
-                  <Column
-                    className="column column-DND-handler"
-                    key={column.id}
-                    column={column}
-                    DNDManager={this.cardsDNDManager}
-                    deps={this.deps}
-                  />,
-                )}
-              </div>
-
-              <AddColumnForm
-                className="column add-column-form"
-                deps={this.deps}
-              />
-            </div>
-          )}
-        </div>
+        { loaded ?
+          this.renderLoadedBoard()
+        :
+          this.renderLoadingBoard()
+        }
       </div>
     );
   }
