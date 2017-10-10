@@ -13,18 +13,20 @@ export default class AddColumnForm extends React.Component {
   constructor(props) {
     super(props);
     const deps = this.props.deps;
-    this.repo = deps.get('columnsRepository');
-    this.state = {
-      opened: false,
-    };
+    this.columnsRepo = deps.get('columnsRepository');
+    this.uiRepo = deps.get('uiRepository');
   }
 
-  close() {
-    this.setState({ opened: false });
+  isOpen() {
+    return this.uiRepo.get('columns:addForm:opened');
   }
 
   open() {
-    this.setState({ opened: true });
+    this.uiRepo.set('columns:addForm:opened', true);
+  }
+
+  close() {
+    this.uiRepo.set('columns:addForm:opened', false);
   }
 
   submitFormOnEnter(e) {
@@ -37,14 +39,14 @@ export default class AddColumnForm extends React.Component {
     e.preventDefault();
     const { title } = serialize(this.formElement, { hash: true });
     if (title) {
-      this.repo.addColumn(title).then(() => {
+      this.columnsRepo.addColumn(title).then(() => {
         this.close();
       });
     }
   }
 
   render() {
-    const { opened } = this.state;
+    const opened = this.isOpen();
     return (
       <div className="add-column-form">
         { opened ?
