@@ -14,18 +14,23 @@ export default class AddCardForm extends React.Component {
   constructor(props) {
     super(props);
     const { deps } = this.props;
-    this.repo = deps.get('cardsRepository');
-    this.state = {
-      opened: false,
-    };
+    this.cardsRepo = deps.get('cardsRepository');
+    this.uiRepo = deps.get('uiRepository');
+  }
+
+  isOpen() {
+    const { columnId } = this.props;
+    return this.uiRepo.get(`cards:addForm:opened:${columnId}`);
   }
 
   open() {
-    this.setState({ opened: true });
+    const { columnId } = this.props;
+    this.uiRepo.set(`cards:addForm:opened:${columnId}`, true);
   }
 
   close() {
-    this.setState({ opened: false });
+    const { columnId } = this.props;
+    this.uiRepo.set(`cards:addForm:opened:${columnId}`, false);
   }
 
   submitFormOnEnter(e) {
@@ -39,14 +44,14 @@ export default class AddCardForm extends React.Component {
     const { columnId } = this.props;
     const { title } = serialize(this.formElement, { hash: true });
     if (title) {
-      this.repo.addCard(title, columnId).then(() => {
+      this.cardsRepo.addCard(title, columnId).then(() => {
         this.close();
       });
     }
   }
 
   render() {
-    const { opened } = this.state;
+    const opened = this.isOpen();
     return (
       <div className="add-card-form">
         { opened ?
