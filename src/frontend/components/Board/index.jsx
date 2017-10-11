@@ -22,6 +22,7 @@ export default class Board extends React.Component {
     this.columnsRepo = this.deps.get('columnsRepository');
     this.cardsRepo = this.deps.get('cardsRepository');
     this.cardsRepo = this.deps.get('cardsRepository');
+    this.settingsRepo = this.deps.get('settingsRepository');
     this.themeStyler = this.deps.get('themeStyler');
     this.uiRepo = this.deps.get('uiRepository');
     this.browserSettingsService = this.deps.get('browserSettingsService');
@@ -33,11 +34,15 @@ export default class Board extends React.Component {
 
   componentWillMount() {
     this.stateManager.addObserver(this);
-    this.openCardFromUrl();
   }
 
   componentWillUnmount() {
     this.stateManager.removeObserver(this);
+  }
+
+  onStorageLoaded() {
+    this.openCardFromUrl();
+    this.setPageTitle();
   }
 
   //
@@ -47,12 +52,18 @@ export default class Board extends React.Component {
       columns: this.columnsRepo.columnsSortedByPosition(),
     });
 
-    if (!this.uiRepo.get('app:loaded')) {
-      this.uiRepo.set('app:loaded', true);
+    if (!this.uiRepo.get('storage:loaded')) {
+      this.uiRepo.set('storage:loaded', true);
+      this.onStorageLoaded();
     }
   }
 
   // private
+
+  setPageTitle() {
+    const boardName = this.settingsRepo.boardName() || 'Starboard';
+    this.browserSettingsService.setTitle(boardName);
+  }
 
   openCardFromUrl() {
     const cardIdFromUrl = this.browserSettingsService.urlCardId();
@@ -124,7 +135,7 @@ export default class Board extends React.Component {
   }
 
   render() {
-    const loaded = this.uiRepo.get('app:loaded');
+    const loaded = this.uiRepo.get('storage:loaded');
     return (
       <div className="board-wrapper">
         <style>{this.themeStyler.generateStyles()}</style>
