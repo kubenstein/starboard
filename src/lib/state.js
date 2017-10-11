@@ -48,10 +48,9 @@ export default class State {
   }
 
   purge() {
-    return this.eventStorage.purge().then(() => {
-      this.data = {};
-      this.onDataSynced();
-    });
+    this.data = {};
+    this.onDataSynced();
+    return Promise.resolve();
   }
 
   addEvent(event) {

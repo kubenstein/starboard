@@ -9,7 +9,6 @@ describe('Card', () => {
   before(() => {
     server.start();
     utils.login('test@test.pl');
-    return utils.createColumn('column with cards', state);
   });
 
   after(() => {
@@ -19,7 +18,10 @@ describe('Card', () => {
 
   beforeEach(() => {
     visitingPage();
+    return utils.createColumn('column with cards', state);
   });
+
+  afterEach(() => { return state.purge(); });
 
   it('can be created', () => {
     userCanNotSee('created card');

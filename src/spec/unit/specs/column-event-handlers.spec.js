@@ -3,7 +3,7 @@ const state = require('../components.js').state;
 const e = require('../components.js').eventDefinitions;
 
 describe('Column Event Handler', () => {
-  beforeEach(() => { state.purge(); });
+  beforeEach(() => { return state.purge(); });
 
   it('adds a column', () => {
     state.addEvent(e.columnAddedEvent(requester(), { name: 'columnName', position: 0 }));

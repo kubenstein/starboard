@@ -9,7 +9,6 @@ describe('Card Details', () => {
   before(() => {
     server.start();
     utils.login('test@test.pl');
-    return utils.createColumn('column with cards - details', state);
   });
 
   after(() => {
@@ -19,7 +18,10 @@ describe('Card Details', () => {
 
   beforeEach(() => {
     visitingPage();
+    return utils.createColumn('column with cards - details', state);
   });
+
+  afterEach(() => { return state.purge(); });
 
   it('allows to change a title', () => {
     utils.createCard('card to rename', {}, state);

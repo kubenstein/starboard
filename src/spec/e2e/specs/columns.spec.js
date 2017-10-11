@@ -17,6 +17,7 @@ describe('Column', () => {
   });
 
   beforeEach(() => { when.visitingPage(); });
+  afterEach(() => { return state.purge(); });
 
   it('can be created', () => {
     userCanNotSee('created column');

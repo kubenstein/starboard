@@ -3,7 +3,7 @@ const state = require('../components.js').state;
 const e = require('../components.js').eventDefinitions;
 
 describe('state', () => {
-  beforeEach(() => { state.purge(); });
+  beforeEach(() => { return state.purge(); });
 
   it('has initial buckets empty', () => {
     expect(state.bucket('dummy1')).to.eql([]);

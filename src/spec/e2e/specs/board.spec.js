@@ -2,6 +2,7 @@
 
 const path = require('path');
 const server = require('../components.js').server;
+const state = require('../components.js').state;
 const utils = require('./support/utils.js');
 require('./support/steps.js')();
 
@@ -17,6 +18,7 @@ describe('Board', () => {
   });
 
   beforeEach(() => { when.visitingPage(); });
+  afterEach(() => { return state.purge(); });
 
   it('has a changeable title', () => {
     userCanNotSeeBoardTitle('dev board');

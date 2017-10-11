@@ -24,10 +24,10 @@ export default class Server {
     this.auth            = params.auth            || new AllowEveryoneAuth();
     this.noBanner        = params.noBanner        || false;
     this.eventProcessors = params.eventProcessors || [];
+    this.state           = params.state           || new State({ eventStorage: this.eventStorage });
 
     this.server           = null;
     this.sockets          = [];
-    this.state            = new State({ eventStorage: this.eventStorage });
     this.sendFileUsecase  = new SendFileUsecase({ filesStorage: this.filesStorage });
     this.storeFileUsecase = new StoreFileUsecase({
       filesStorage: this.filesStorage,

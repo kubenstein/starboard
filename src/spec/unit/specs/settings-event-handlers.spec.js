@@ -3,7 +3,7 @@ const state = require('../components.js').state;
 const e = require('../components.js').eventDefinitions;
 
 describe('Settings Event Handler', () => {
-  beforeEach(() => { state.purge(); });
+  beforeEach(() => { return state.purge(); });
 
   it('inserts a settings', () => {
     state.addEvent(e.settingsUpdatedEvent(requester(), 'property', 'ok'));

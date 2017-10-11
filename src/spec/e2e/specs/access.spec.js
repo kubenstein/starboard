@@ -1,15 +1,19 @@
 /* eslint no-undef: 0 */
 
 const server = require('../components.js').server;
+const state = require('../components.js').state;
 require('./support/steps.js')();
 
 describe('User', () => {
   before(() => { server.start(); });
   after(() => { server.stop(); });
-  afterEach(() => { browser.deleteCookie(); });
   beforeEach(() => {
     when.visitingPage();
     userCanSeeLoginPage();
+  });
+  afterEach(() => {
+    browser.deleteCookie();
+    return state.purge();
   });
 
   it('can log in', () => {

@@ -3,7 +3,7 @@ const state = require('../components.js').state;
 const e = require('../components.js').eventDefinitions;
 
 describe('User settings Event Handler', () => {
-  beforeEach(() => { state.purge(); });
+  beforeEach(() => { return state.purge(); });
 
   it('inserts a user settings', () => {
     state.addEvent(e.userUpdatedEvent(requester(), userId(), 'nickname', 'newNickname'));

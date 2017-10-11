@@ -25,6 +25,8 @@ describe('Comment', () => {
     and.openingCardDetails('details');
   });
 
+  afterEach(() => { return state.purge(); });
+
   it('can be added with an image attachment', () => {
     const file = path.join(__dirname, 'support', 'files', 'image.jpg');
 
