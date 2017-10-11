@@ -1,7 +1,7 @@
 /* eslint no-undef: 0 */
 
 const server = require('../components.js').server;
-const currentState = require('../components.js').currentState;
+const state = require('../components.js').state;
 const utils = require('./support/utils.js');
 require('./support/steps.js')();
 
@@ -25,7 +25,7 @@ describe('Column', () => {
   });
 
   it('can be renamed', () => {
-    utils.createColumn('old column title', currentState);
+    utils.createColumn('old column title', state);
 
     when.renamingColumn('old column title', 'new column title');
     userCanSeeColumn('new column title');
@@ -33,7 +33,7 @@ describe('Column', () => {
   });
 
   it('can be removed', () => {
-    utils.createColumn('column to remove', currentState);
+    utils.createColumn('column to remove', state);
     then.userCanSeeColumn('column to remove');
     following.removingColumn('column to remove');
     and.visitingPage();

@@ -1,7 +1,7 @@
 /* eslint no-undef: 0 */
 
 const server = require('../components.js').server;
-const currentState = require('../components.js').currentState;
+const state = require('../components.js').state;
 const utils = require('./support/utils.js');
 require('./support/steps.js')();
 
@@ -9,7 +9,7 @@ describe('Card', () => {
   before(() => {
     server.start();
     utils.login('test@test.pl');
-    return utils.createColumn('column with cards', currentState);
+    return utils.createColumn('column with cards', state);
   });
 
   after(() => {
@@ -33,19 +33,19 @@ describe('Card', () => {
       rgba: ['rgba(0, 230, 255, 1)', 'rgba(60, 181, 0, 1)'],
     };
 
-    utils.createCard('card with labels', { labels: labels.hex }, currentState);
+    utils.createCard('card with labels', { labels: labels.hex }, state);
     userCanSeeCardWithLabels('card with labels', labels.rgba);
   });
 
   it('displays amount of comments', () => {
     const card = 'card with comment Counter';
-    utils.createCard(card, {}, currentState);
+    utils.createCard(card, {}, state);
 
     userCanSeeCommentCounter(card, 0);
 
-    utils.addComment(card, 'test@test.pl', 'comment 1', currentState);
-    utils.addComment(card, 'test@test.pl', 'comment 2', currentState);
-    utils.addComment(card, 'test@test.pl', 'comment 3', currentState);
+    utils.addComment(card, 'test@test.pl', 'comment 1', state);
+    utils.addComment(card, 'test@test.pl', 'comment 2', state);
+    utils.addComment(card, 'test@test.pl', 'comment 3', state);
 
     userCanSeeCommentCounter(card, 3);
   });

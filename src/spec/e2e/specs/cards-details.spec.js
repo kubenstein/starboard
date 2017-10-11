@@ -1,7 +1,7 @@
 /* eslint no-undef: 0 */
 
 const server = require('../components.js').server;
-const currentState = require('../components.js').currentState;
+const state = require('../components.js').state;
 const utils = require('./support/utils.js');
 require('./support/steps.js')();
 
@@ -9,7 +9,7 @@ describe('Card Details', () => {
   before(() => {
     server.start();
     utils.login('test@test.pl');
-    return utils.createColumn('column with cards - details', currentState);
+    return utils.createColumn('column with cards - details', state);
   });
 
   after(() => {
@@ -22,7 +22,7 @@ describe('Card Details', () => {
   });
 
   it('allows to change a title', () => {
-    utils.createCard('card to rename', {}, currentState);
+    utils.createCard('card to rename', {}, state);
 
     when.openingCardDetails('card to rename');
     and.changingCardTitle('changed title');
@@ -31,7 +31,7 @@ describe('Card Details', () => {
   });
 
   it('allows to change a description', () => {
-    utils.createCard('card with description', {}, currentState);
+    utils.createCard('card with description', {}, state);
     visitingPage(); // There is something wonky about this particular spec.
                     // Sometimes whole board is just empty like utils.createCard()
                     // was never triggered (even though it is async, eventually
@@ -46,7 +46,7 @@ describe('Card Details', () => {
   });
 
   it('allows to remove a card', () => {
-    utils.createCard('card to delete', {}, currentState);
+    utils.createCard('card to delete', {}, state);
 
     when.openingCardDetails('card to delete');
     and.removingCard();
@@ -54,10 +54,10 @@ describe('Card Details', () => {
   });
 
   it('allows to manage labels of a card', () => {
-    utils.createCard('card with labels - details', { labels: ['#00E6FF', '#3CB500'] }, currentState);
-    utils.setTextForLabel('#00E6FF', 'blue label', currentState);
-    utils.setTextForLabel('#3CB500', 'green label', currentState);
-    utils.setTextForLabel('#EB4646', 'red label', currentState);
+    utils.createCard('card with labels - details', { labels: ['#00E6FF', '#3CB500'] }, state);
+    utils.setTextForLabel('#00E6FF', 'blue label', state);
+    utils.setTextForLabel('#3CB500', 'green label', state);
+    utils.setTextForLabel('#EB4646', 'red label', state);
 
     following.openingCardDetails('card with labels - details');
     userCanSee('blue label\ngreen label');

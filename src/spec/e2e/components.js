@@ -28,6 +28,6 @@ exports.server = new lib.Starboard({
   noBanner: true,
 });
 
-exports.currentState = new lib.State({
+exports.state = new lib.State({
   eventStorage: eventStorage,
 });

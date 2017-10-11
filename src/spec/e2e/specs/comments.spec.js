@@ -2,7 +2,7 @@
 
 const path = require('path');
 const server = require('../components.js').server;
-const currentState = require('../components.js').currentState;
+const state = require('../components.js').state;
 const utils = require('./support/utils.js');
 require('./support/steps.js')();
 
@@ -11,8 +11,8 @@ describe('Comment', () => {
     server.start();
     utils.login('test@test.pl');
     return Promise.resolve()
-    .then(() => { return utils.createColumn('column', currentState); })
-    .then(() => { return utils.createCard('details', {}, currentState); });
+    .then(() => { return utils.createColumn('column', state); })
+    .then(() => { return utils.createCard('details', {}, state); });
   });
 
   after(() => {
@@ -61,7 +61,7 @@ describe('Comment', () => {
     userCanSee('comment body');
     and.userCanSee('test@test.pl');
 
-    utils.setNickname('test@test.pl', 'Jakub Niewczas Nickname', currentState);
+    utils.setNickname('test@test.pl', 'Jakub Niewczas Nickname', state);
     userCanSee('Jakub Niewczas Nickname');
 
     userCanSeeCommentAvatar('avatar.jpg');
