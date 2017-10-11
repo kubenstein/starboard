@@ -45,7 +45,6 @@ export default class Topbar extends React.Component {
   }
 
   render() {
-    const boardName = this.settingsRepo.boardName();
     const isSideMenuOpen = this.uiRepo.get('sidemenu:open');
     return (
       <div className="topbar">
