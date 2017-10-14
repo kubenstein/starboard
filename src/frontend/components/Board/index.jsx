@@ -21,7 +21,6 @@ export default class Board extends React.Component {
     this.stateManager = this.deps.get('stateManager');
     this.columnsRepo = this.deps.get('columnsRepository');
     this.cardsRepo = this.deps.get('cardsRepository');
-    this.cardsRepo = this.deps.get('cardsRepository');
     this.settingsRepo = this.deps.get('settingsRepository');
     this.themeStyler = this.deps.get('themeStyler');
     this.uiRepo = this.deps.get('uiRepository');
