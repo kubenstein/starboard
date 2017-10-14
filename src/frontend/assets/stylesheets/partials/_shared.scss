@@ -26,18 +26,6 @@
   background-color: transparent;
 }
 
-@mixin card-details-header {
-  padding: 0 3px;
-  margin-bottom: 4px;
-}
-
-@mixin card-details-sub-header {
-  font-size: 13px;
-  font-weight: normal;
-  margin: 10px 0;
-  color: $grey;
-}
-
 @mixin outlined-text {
   color: $white;
   text-shadow: 0 0 5px rgba(0, 0, 0, .2), 0 0 2px $black;

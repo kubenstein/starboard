@@ -1,10 +1,11 @@
 @import "../../assets/stylesheets/import";
 
-.card-label-picker {
+.card-member-picker {
   @include rounded-box;
   width: 250px;
   background-color: $porcelain;
   padding: 5px 10px;
+  overflow-x: hidden;
 
   .header {
     font-size: 16px;
@@ -15,12 +16,26 @@
     border-bottom: 1px solid $iron;
   }
 
-  .label {
-    @include rounded-box;
+  .members {
+    overflow-y: auto;
+    max-height: 200px;
+    padding-right: 35px;
+    margin-right: -35px;
+  }
+
+  .member {
+    display: flex;
+    align-items: center;
     cursor: pointer;
     width: 100%;
-    min-height: 29px;
+    height: 30px;
     overflow-x: auto;
+    font-size: 14px;
+    margin: 5px 0;
+
+    .avatar {
+      margin-right: 5px;
+    }
 
     &:hover {
       opacity: 0.8;

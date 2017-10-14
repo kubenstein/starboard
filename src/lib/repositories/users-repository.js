@@ -6,6 +6,10 @@ export default class UsersRepository {
     this.fileUploader = fileUploader;
   }
 
+  all() {
+    return this.stateManager.bucket('users');
+  }
+
   currentUserId() {
     return this.stateManager.getUserId();
   }

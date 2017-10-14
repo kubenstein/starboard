@@ -4,6 +4,7 @@ import EditableInput from 'components/EditableInput';
 import AddCommentForm from 'components/AddCommentForm';
 import CardComment from 'components/CardComment';
 import CardLabelPicker from 'components/CardLabelPicker';
+import CardMemberPicker from 'components/CardMemberPicker';
 import 'components/CardDetails/styles.scss';
 
 export default class CardDetails extends React.Component {
@@ -20,6 +21,7 @@ export default class CardDetails extends React.Component {
     this.columnsRepo = this.deps.get('columnsRepository');
     this.commentsRepo = this.deps.get('commentsRepository');
     this.cardsRepo = this.deps.get('cardsRepository');
+    this.usersRepo = this.deps.get('usersRepository');
     this.uiRepo = this.deps.get('uiRepository');
     this.settingsRepo = this.deps.get('settingsRepository');
     this.browserSettingsService = this.deps.get('browserSettingsService');
@@ -65,6 +67,13 @@ export default class CardDetails extends React.Component {
     this.cardsRepo.updateLabel(card.id, toggledLabel, shouldBeSet);
   }
 
+  updateMembers(user) {
+    const { card } = this.props;
+    const userIds = card.userIds || [];
+    const shouldBeSet = (userIds.indexOf(user) === -1);
+    this.cardsRepo.updateMembers(card.id, user, shouldBeSet);
+  }
+
   removeCard(cardId) {
     if (confirm('Do you want to remove this card?')) {
       this.cardsRepo.removeCard(cardId);
@@ -77,6 +86,7 @@ export default class CardDetails extends React.Component {
     const comments = this.commentsRepo.commentsForCard(id);
     const columnName = this.columnsRepo.get(columnId).name;
     const labelPickerOpened = this.uiRepo.get('card:openLabelsPicker');
+    const memberPickerOpened = this.uiRepo.get('card:openMemberPicker');
     return (
       <div className="card-details">
         <div className="title-wrapper">
@@ -90,27 +100,38 @@ export default class CardDetails extends React.Component {
             onChange={(value) => { this.updateTitle(value); }}
           />
         </div>
-        <h4 className="sub-title">{`In Column: ${columnName}`}</h4>
-        <ul className="labels">
-          { (labels || []).map(label =>
-            <li
-              key={label}
-              className="label"
-              style={{ backgroundColor: label }}
-            >
-              {this.textForLabel(label)}
-            </li>,
-          )}
-        </ul>
-        <h4 className="sub-title">Description:</h4>
-        <EditableInput
-          className="description-input"
-          type="textarea"
-          value={description}
-          ref={(e) => { this.descriptionInput = e; }}
-          onChange={(value) => { this.updateDescription(value); }}
-        />
+        <div className="main">
+          <h4 className="sub-title">{`In Column: ${columnName}`}</h4>
+          <ul className="labels">
+            { (labels || []).map(label =>
+              <li
+                key={label}
+                className="label"
+                style={{ backgroundColor: label }}
+              >
+                {this.textForLabel(label)}
+              </li>,
+            )}
+          </ul>
+          <h4 className="sub-title">Description:</h4>
+          <EditableInput
+            className="description-input"
+            type="textarea"
+            value={description}
+            ref={(e) => { this.descriptionInput = e; }}
+            onChange={(value) => { this.updateDescription(value); }}
+          />
+        </div>
         <div className="utils-section">
+          <h4 className="sub-title">Members:</h4>
+          <ul className="members">
+            <li className="member">
+              <Avatar
+                deps={this.deps}
+                userId="niewczas.jakub@gmail.com"
+              />
+            </li>
+          </ul>
           <a
             className="btn btn-danger btn-small btn-remove-card"
             onClick={() => { this.removeCard(id); }}
@@ -119,15 +140,20 @@ export default class CardDetails extends React.Component {
             className="btn btn-success btn-small btn-manage-labels"
             onClick={() => this.uiRepo.toggle('card:openLabelsPicker')}
           >Manage Labels</a>
+          <a
+            className="btn btn-success btn-small btn-manage-members"
+            onClick={() => this.uiRepo.toggle('card:openMemberPicker')}
+          >Members</a>
+
           { labelPickerOpened && (
-            <div>
+            <div className="sub-modal">
               <div
                 className="off-trigger"
                 onClick={() => this.uiRepo.toggle('card:openLabelsPicker')}
               />
-              <div className="label-picker-wrapper">
+              <div className="anchor">
                 <CardLabelPicker
-                  className="label-picker"
+                  className="sub-modal-content"
                   card={card}
                   deps={this.deps}
                   onLabelPicked={(label) => { this.updateLabels(label); }}
@@ -136,6 +162,22 @@ export default class CardDetails extends React.Component {
             </div>
           )}
 
+          { memberPickerOpened && (
+            <div className="sub-modal">
+              <div
+                className="off-trigger"
+                onClick={() => this.uiRepo.toggle('card:openMemberPicker')}
+              />
+              <div className="anchor">
+                <CardMemberPicker
+                  className="sub-modal-content"
+                  card={card}
+                  deps={this.deps}
+                  onMemberPicked={(member) => { this.updateMembers(member); }}
+                />
+              </div>
+            </div>
+          )}
         </div>
         <h4 className="section-title clearfix">Comments:</h4>
         <AddCommentForm cardId={id} deps={this.deps} />

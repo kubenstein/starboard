@@ -25,7 +25,7 @@ export default class CardLabelPicker extends React.Component {
     const availableColors = this.repo.availableColors();
     return (
       <div className={`card-label-picker ${className}`}>
-        <h1 className="title">Toggle a label for this card:</h1>
+        <h1 className="header">Toggle a label for this card:</h1>
         <ul className="labels">
           { availableColors.map(color =>
             <li
