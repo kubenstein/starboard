@@ -1,11 +1,7 @@
-import SettingsRepository from 'lib/repositories/settings-repository';
-import BrowserSettingsService from 'lib/services/browser-settings-service';
-
 export default class ThemeStyler {
-  constructor(stateManager) {
-    this.stateManager = stateManager;
-    this.settingsRepo = new SettingsRepository(this.stateManager);
-    this.browserSettingsService = new BrowserSettingsService();
+  constructor(deps) {
+    this.settingsRepo = deps.get('settingsRepository');
+    this.browserSettingsService = deps.get('browserSettingsService');
   }
 
   generateStyles() {

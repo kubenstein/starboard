@@ -30,7 +30,7 @@ deps
   .set('cardsRepository', di => new CardsRepository(di.get('stateManager')))
   .set('columnsRepository', di => new ColumnsRepository(di.get('stateManager')))
   .set('uiRepository', di => new UiRepository(di.get('stateManager')))
-  .set('themeStyler', di => new ThemeStyler(di.get('stateManager')))
+  .set('themeStyler', di => new ThemeStyler(di))
   .set('userSessionService', () => new UserSessionService())
   .set('browserSettingsService', di => new BrowserSettingsService(di.get('stateManager')))
   .set('fileUploader', () => new ServerFileUploader())
