@@ -14,26 +14,12 @@ export default class Topbar extends React.Component {
   constructor(props) {
     super(props);
     this.deps = this.props.deps;
-    this.browserSettingsService = this.deps.get('browserSettingsService');
     this.settingsRepo = this.deps.get('settingsRepository');
     this.uiRepo = this.deps.get('uiRepository');
   }
 
-  componentWillMount() {
-    this.updatePageTitle(this.boardName());
-  }
-
   updateBoardName(name) {
     this.settingsRepo.setBoardName(name);
-    this.updatePageTitle(name);
-  }
-
-  boardName() {
-    return this.settingsRepo.boardName();
-  }
-
-  updatePageTitle(title) {
-    this.browserSettingsService.setTitle(title || 'Starboard');
   }
 
   darkLightThemeCss() {
@@ -46,11 +32,12 @@ export default class Topbar extends React.Component {
 
   render() {
     const isSideMenuOpen = this.uiRepo.get('sidemenu:open');
+    const boardName = this.settingsRepo.boardName();
     return (
       <div className="topbar">
         <EditableInput
           className={`board-name ${this.darkLightThemeCss()}`}
-          value={this.boardName()}
+          value={boardName}
           onChange={(value) => { this.updateBoardName(value); }}
         />
 

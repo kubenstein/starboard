@@ -34,15 +34,11 @@ export default class Board extends React.Component {
 
   componentWillMount() {
     this.stateManager.addObserver(this);
+    this.markOpenedCardFromUrl();
   }
 
   componentWillUnmount() {
     this.stateManager.removeObserver(this);
-  }
-
-  onStorageLoaded() {
-    this.openCardFromUrl();
-    this.setPageTitle();
   }
 
   //
@@ -54,8 +50,10 @@ export default class Board extends React.Component {
 
     if (!this.uiRepo.get('storage:loaded')) {
       this.uiRepo.set('storage:loaded', true);
-      this.onStorageLoaded();
     }
+
+    this.setPageTitle();
+    this.setPageUrl();
   }
 
   // private
@@ -65,7 +63,12 @@ export default class Board extends React.Component {
     this.browserSettingsService.setTitle(boardName);
   }
 
-  openCardFromUrl() {
+  setPageUrl() {
+    const openedCardId = this.uiRepo.get('card:openedId');
+    this.browserSettingsService.setUrlForCard(openedCardId);
+  }
+
+  markOpenedCardFromUrl() {
     const cardIdFromUrl = this.browserSettingsService.urlCardId();
     this.uiRepo.set('card:openedId', cardIdFromUrl);
   }

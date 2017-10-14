@@ -2,8 +2,12 @@ import Cookies from 'js-cookie';
 import { currentTimestamp } from 'lib/utils';
 
 export default class BrowserSettingsService {
-  setUrlForCard(card) {
-    window.location = `#/card/${card.id}`;
+  setUrlForCard(cardId) {
+    if (cardId) {
+      window.location = `#/card/${cardId}`;
+    } else {
+      this.setMainUrl();
+    }
   }
 
   urlCardId() {

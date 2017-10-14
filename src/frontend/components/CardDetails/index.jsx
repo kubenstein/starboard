@@ -27,15 +27,14 @@ export default class CardDetails extends React.Component {
   }
 
   componentWillMount() {
-    const bss = this.browserSettingsService;
-    bss.setUrlForCard(this.props.card);
-    bss.registerKeyDownEvent(this.handleKeyDown);
+    const { card } = this.props;
+    this.uiRepo.set('card:openedId', card.id);
+    this.browserSettingsService.registerKeyDownEvent(this.handleKeyDown);
   }
 
   componentWillUnmount() {
-    const bss = this.browserSettingsService;
-    bss.setMainUrl();
-    bss.unregisterKeyDownEvent(this.handleKeyDown);
+    this.uiRepo.set('card:openedId', null);
+    this.browserSettingsService.unregisterKeyDownEvent(this.handleKeyDown);
   }
 
   handleKeyDown(event) {
