@@ -29,6 +29,9 @@ export default class BrowserSettingsService {
   }
 
   setFavicon(color) {
+    if (this.oldFaviconColor === color) return;
+    this.oldFaviconColor = color;
+
     const id = color.replace('#', '');
     const link = document.querySelector("link[rel*='icon']") || document.createElement('link');
     link.rel = 'icon';
