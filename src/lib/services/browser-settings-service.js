@@ -25,6 +25,9 @@ export default class BrowserSettingsService {
   }
 
   setTitle(title) {
+    if (this.oldPageTitle === title) return;
+    this.oldPageTitle = title;
+
     document.title = title;
   }
 
