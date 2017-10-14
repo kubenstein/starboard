@@ -23,5 +23,9 @@
     cursor: pointer;
     font-style: italic;
     text-decoration: underline;
+
+    &.item-removed-link {
+      cursor: not-allowed;
+    }
   }
 }

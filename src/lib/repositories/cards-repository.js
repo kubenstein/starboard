@@ -15,6 +15,10 @@ export default class CardsRepository {
     return bucket.filter(c => c.id === id)[0];
   }
 
+  cardExists(id) {
+    return !!this.get(id);
+  }
+
   cardsByColumn(columnId) {
     const bucket = this.stateManager.bucket('cards');
     return bucket.filter(c => c.columnId === columnId);

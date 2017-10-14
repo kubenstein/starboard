@@ -107,7 +107,11 @@ module.exports = function steps() {
     browser.click('.sub-title');
   };
 
-  when.removingCard = function () {
+  when.removingCard = function (optionalCardName) {
+    if (optionalCardName) {
+      this.openingCardDetails(optionalCardName);
+    }
+
     const selector = '.card-details .btn-remove-card';
     browser.waitForExist(selector, 3000);
 
@@ -128,8 +132,10 @@ module.exports = function steps() {
 
   when.togglingLabel = function (labelText) {
     userCanSee(labelText);
+    const labelsSelector = '.card-label-picker .label';
 
-    const labels = browser.$$('.label-picker .label');
+    browser.waitForExist(labelsSelector, 3000);
+    const labels = browser.$$(labelsSelector);
     const label = labels.filter((l) => { return l.getText() === labelText; })[0];
     label.click();
   };
@@ -167,6 +173,10 @@ module.exports = function steps() {
 
     if (action === 'card_created') {
       userCanSee(`added card ${itemTitle}.`);
+    }
+
+    if (action === 'card_removed') {
+      userCanSee(`removed card ${itemTitle} (removed).`);
     }
 
     if (action === 'column_removed') {

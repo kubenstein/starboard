@@ -66,6 +66,9 @@ describe('Board', () => {
     when.creatingCard('activity card');
     userCanSeeActivityLogEntry('card_created', 'activity card');
 
+    when.removingCard('activity card');
+    userCanSeeActivityLogEntry('card_removed', 'activity card');
+
     when.removingColumn('column activity');
     userCanSeeActivityLogEntry('column_removed', 'column activity');
   });

@@ -15,6 +15,7 @@ export default class ActivityItem extends React.Component {
     super(props);
     const deps = this.props.deps;
     this.usersRepo = deps.get('usersRepository');
+    this.cardsRepo = deps.get('cardsRepository');
     this.settingsRepo = deps.get('settingsRepository');
     this.uiRepo = deps.get('uiRepository');
   }
@@ -42,7 +43,7 @@ export default class ActivityItem extends React.Component {
     return (
       <span>
       added card&nbsp;
-        <a className="link" onClick={() => this.openCard(id)}>{cardTitle}</a>.
+        {this.cardLink(id, cardTitle)}
       </span>
     );
   }
@@ -53,20 +54,20 @@ export default class ActivityItem extends React.Component {
     return (
       <span>
         removed card&nbsp;
-        <a className="link" onClick={() => this.openCard(id)}>{cardTitle}</a>.
+        {this.cardLink(id, cardTitle)}
       </span>
     );
   }
 
   CARDLABELUPDATEDActivityHtml(activity) {
-    const { label, set, id } = activity.data;
+    const { label, set, cardId } = activity.data;
     const { cardTitle } = activity.meta;
     const labelName = this.settingsRepo.textForLabel(label, true);
     return (
       <span>
         {set ? 'set' : 'removed'} label: <i>{labelName} </i>
         {set ? 'to' : 'from'} card&nbsp;
-        <a className="link" onClick={() => this.openCard(id)}>{cardTitle}</a>.
+        {this.cardLink(cardId, cardTitle)}
       </span>
     );
   }
@@ -84,7 +85,7 @@ export default class ActivityItem extends React.Component {
         }
         <br />
         to card&nbsp;
-        <a className="link" onClick={() => this.openCard(cardId)}>{cardTitle}</a>.
+        {this.cardLink(cardId, cardTitle)}
       </span>
     );
   }
@@ -97,6 +98,15 @@ export default class ActivityItem extends React.Component {
   COLUMNREMOVEDActivityHtml(activity) {
     const { columnName } = activity.meta;
     return <span>removed column <i>{columnName}</i>.</span>;
+  }
+
+  cardLink(cardId, cardTitle) {
+    return (
+    this.cardsRepo.cardExists(cardId) ?
+      <a className="link" onClick={() => this.openCard(cardId)}>{cardTitle}.</a>
+    :
+      <span className="link item-removed-link">{cardTitle} (removed).</span>
+    );
   }
 
   render() {
