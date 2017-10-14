@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import CardDetails from 'components/CardDetails';
+import Avatar from 'components/Avatar';
 import 'components/Card/styles.scss';
 
 export default class Card extends React.Component {
@@ -44,7 +45,7 @@ export default class Card extends React.Component {
 
   render() {
     const { card } = this.props;
-    const { labels, title, id } = card;
+    const { title, id, labels = [], memberIds = [] } = card;
     const detailsOpened = (this.uiRepo.get('card:openedId') === id);
     const commentCounter = this.commentsRepo.commentsCountForCard(id);
     return (
@@ -55,19 +56,29 @@ export default class Card extends React.Component {
       >
         <div className="card card-DND-handler">
           <ul className="labels">
-            { (labels || []).map(label =>
+            { labels.map(label => (
               <li
                 key={label}
                 className="label card-DND-handler"
                 title={this.textForLabel(label)}
                 style={{ backgroundColor: label }}
-              />,
-            )}
+              />
+            ))}
           </ul>
           <span className="title card-DND-handler">{title}</span>
           { commentCounter > 0 &&
             <span className="comment-counter card-DND-handler">☰ {commentCounter}</span>
           }
+          <div className="members">
+            { memberIds.map(memberId => (
+              <Avatar
+                key={memberId}
+                className="member card-DND-handler"
+                deps={this.deps}
+                userId={memberId}
+              />
+            ))}
+          </div>
         </div>
         {detailsOpened &&
           <div
