@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import EditableInput from 'components/EditableInput';
+import Avatar from 'components/Avatar';
 import AddCommentForm from 'components/AddCommentForm';
 import CardComment from 'components/CardComment';
 import CardLabelPicker from 'components/CardLabelPicker';
@@ -82,7 +83,7 @@ export default class CardDetails extends React.Component {
 
   render() {
     const { card, onClose } = this.props;
-    const { title, description, id, columnId, labels } = card;
+    const { title, description, id, columnId, labels = [], members = [] } = card;
     const comments = this.commentsRepo.commentsForCard(id);
     const columnName = this.columnsRepo.get(columnId).name;
     const labelPickerOpened = this.uiRepo.get('card:openLabelsPicker');
@@ -103,7 +104,7 @@ export default class CardDetails extends React.Component {
         <div className="main">
           <h4 className="sub-title">{`In Column: ${columnName}`}</h4>
           <ul className="labels">
-            { (labels || []).map(label =>
+            { (labels).map(label =>
               <li
                 key={label}
                 className="label"
@@ -123,15 +124,20 @@ export default class CardDetails extends React.Component {
           />
         </div>
         <div className="utils-section">
-          <h4 className="sub-title">Members:</h4>
-          <ul className="members">
-            <li className="member">
-              <Avatar
-                deps={this.deps}
-                userId="niewczas.jakub@gmail.com"
-              />
-            </li>
-          </ul>
+          { members.length > 0 && (
+            <div>
+              <h4 className="sub-title">Members:</h4>
+              <div className="member-list">
+                { members.map(member => (
+                  <Avatar
+                    className="member"
+                    deps={this.deps}
+                    userId={member.id}
+                  />
+                ))}
+              </div>
+            </div>
+          )}
           <a
             className="btn btn-danger btn-small btn-remove-card"
             onClick={() => { this.removeCard(id); }}

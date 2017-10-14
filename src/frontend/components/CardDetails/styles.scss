@@ -37,7 +37,7 @@
   .sub-title {
     font-size: 13px;
     font-weight: normal;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
     color: $grey;
   }
 
@@ -69,6 +69,7 @@
     float: left;
     padding-left: 5px;
     box-sizing: border-box;
+    margin-top: 4px;
 
     .btn {
       width: 100%;
@@ -93,11 +94,14 @@
     }
   }
 
-  .members {
+  .member-list {
+    display: flex;
+    flex-wrap: wrap;
     margin-bottom: 20px;
 
     .member {
-      float: left;
+      height: 27px;
+      width: 27px;
     }
   }
 }
