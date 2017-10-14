@@ -25,7 +25,7 @@ export default class Card extends React.Component {
   }
 
   closeDetails() {
-    this.uiRepo.set('card:openedId', '');
+    this.uiRepo.set('card:openedId', null);
   }
 
   textForLabel(color) {
