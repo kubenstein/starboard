@@ -16,6 +16,11 @@ export default class ActivityItem extends React.Component {
     const deps = this.props.deps;
     this.usersRepo = deps.get('usersRepository');
     this.settingsRepo = deps.get('settingsRepository');
+    this.uiRepo = deps.get('uiRepository');
+  }
+
+  openCard(cardId) {
+    this.uiRepo.set('card:openedId', cardId);
   }
 
   author(activity) {
@@ -32,26 +37,42 @@ export default class ActivityItem extends React.Component {
   // handlers
 
   CARDADDEDActivityHtml(activity) {
+    const { id } = activity.data;
     const { cardTitle } = activity.meta;
-    return <span>added card <i>{cardTitle}</i>.</span>;
+    return (
+      <span>
+      added card&nbsp;
+        <a className="link" onClick={() => this.openCard(id)}>{cardTitle}</a>.
+      </span>
+    );
   }
 
   CARDREMOVEDActivityHtml(activity) {
+    const { id } = activity.data;
     const { cardTitle } = activity.meta;
-    return <span>removed card <i>{cardTitle}</i>.</span>;
+    return (
+      <span>
+        removed card&nbsp;
+        <a className="link" onClick={() => this.openCard(id)}>{cardTitle}</a>.
+      </span>
+    );
   }
 
   CARDLABELUPDATEDActivityHtml(activity) {
-    const { label, set } = activity.data;
+    const { label, set, id } = activity.data;
     const { cardTitle } = activity.meta;
     const labelName = this.settingsRepo.textForLabel(label, true);
-    return <span>
-      {set ? 'set' : 'removed'} label: <i>{labelName}</i> {set ? 'to' : 'from'} card <i>{cardTitle}</i>.
-    </span>;
+    return (
+      <span>
+        {set ? 'set' : 'removed'} label: <i>{labelName} </i>
+        {set ? 'to' : 'from'} card&nbsp;
+        <a className="link" onClick={() => this.openCard(id)}>{cardTitle}</a>.
+      </span>
+    );
   }
 
   COMMENTADDEDActivityHtml(activity) {
-    const { content, attachment } = activity.data;
+    const { content, attachment, cardId } = activity.data;
     const { cardTitle } = activity.meta;
 
     return (
@@ -61,7 +82,9 @@ export default class ActivityItem extends React.Component {
         :
           <span>added comment: <br /> <i>&quot;{content}&quot;</i></span>
         }
-        <br /> to card <i>{cardTitle}</i>.
+        <br />
+        to card&nbsp;
+        <a className="link" onClick={() => this.openCard(cardId)}>{cardTitle}</a>.
       </span>
     );
   }
