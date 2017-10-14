@@ -106,7 +106,7 @@ export default class CardDetails extends React.Component {
           <div className="info-section">
             <h4 className="sub-title">{`In Column: ${columnName}`}</h4>
             <ul className="labels-section">
-              { (labels).map(label =>
+              { labels.map(label =>
                 <li
                   key={label}
                   className="label"
@@ -128,7 +128,7 @@ export default class CardDetails extends React.Component {
           <div className="utils-section">
             { memberIds.length > 0 && (
               <div className="members-section">
-                <h4 className="sub-title">Members:</h4>
+                <h4 className="sub-title">Assigned to:</h4>
                 <div className="member-list">
                   { memberIds.map(memberId => (
                     <Avatar
