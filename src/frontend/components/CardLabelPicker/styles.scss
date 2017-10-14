@@ -17,10 +17,14 @@
 
   .label {
     @include rounded-box;
-    cursor: pointer;
+    @include outlined-text;
+    display: block;
     width: 100%;
-    min-height: 29px;
+    height: 29px;
+    margin: 0 10px 5px 0;
+    padding: 5px;
     overflow-x: auto;
+    cursor: pointer;
 
     &:hover {
       opacity: 0.8;

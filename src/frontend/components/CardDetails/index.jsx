@@ -83,7 +83,7 @@ export default class CardDetails extends React.Component {
 
   render() {
     const { card, onClose } = this.props;
-    const { title, description, id, columnId, labels = [], members = [] } = card;
+    const { title, description, id, columnId, labels = [], memberIds = [] } = card;
     const comments = this.commentsRepo.commentsForCard(id);
     const columnName = this.columnsRepo.get(columnId).name;
     const labelPickerOpened = this.uiRepo.get('card:openLabelsPicker');
@@ -101,89 +101,92 @@ export default class CardDetails extends React.Component {
             onChange={(value) => { this.updateTitle(value); }}
           />
         </div>
-        <div className="main">
-          <h4 className="sub-title">{`In Column: ${columnName}`}</h4>
-          <ul className="labels">
-            { (labels).map(label =>
-              <li
-                key={label}
-                className="label"
-                style={{ backgroundColor: label }}
-              >
-                {this.textForLabel(label)}
-              </li>,
+        <div className="top-section">
+          <div className="info-section">
+            <h4 className="sub-title">{`In Column: ${columnName}`}</h4>
+            <ul className="labels-section">
+              { (labels).map(label =>
+                <li
+                  key={label}
+                  className="label"
+                  style={{ backgroundColor: label }}
+                >
+                  {this.textForLabel(label)}
+                </li>,
+              )}
+            </ul>
+            <h4 className="sub-title">Description:</h4>
+            <EditableInput
+              className="description-input"
+              type="textarea"
+              value={description}
+              ref={(e) => { this.descriptionInput = e; }}
+              onChange={(value) => { this.updateDescription(value); }}
+            />
+          </div>
+          <div className="utils-section">
+            { memberIds.length > 0 && (
+              <div className="members-section">
+                <h4 className="sub-title">Members:</h4>
+                <div className="member-list">
+                  { memberIds.map(memberId => (
+                    <Avatar
+                      key={memberId}
+                      className="member"
+                      deps={this.deps}
+                      userId={memberId}
+                    />
+                  ))}
+                </div>
+              </div>
             )}
-          </ul>
-          <h4 className="sub-title">Description:</h4>
-          <EditableInput
-            className="description-input"
-            type="textarea"
-            value={description}
-            ref={(e) => { this.descriptionInput = e; }}
-            onChange={(value) => { this.updateDescription(value); }}
-          />
-        </div>
-        <div className="utils-section">
-          { members.length > 0 && (
-            <div>
-              <h4 className="sub-title">Members:</h4>
-              <div className="member-list">
-                { members.map(member => (
-                  <Avatar
-                    className="member"
+            <a
+              className="btn btn-danger btn-small btn-remove-card"
+              onClick={() => { this.removeCard(id); }}
+            >Delete Card</a>
+            <a
+              className="btn btn-success btn-small btn-manage-labels"
+              onClick={() => this.uiRepo.toggle('card:openLabelsPicker')}
+            >Manage Labels</a>
+            <a
+              className="btn btn-success btn-small btn-manage-members"
+              onClick={() => this.uiRepo.toggle('card:openMemberPicker')}
+            >Members</a>
+
+            { labelPickerOpened && (
+              <div className="sub-modal">
+                <div
+                  className="off-trigger"
+                  onClick={() => this.uiRepo.toggle('card:openLabelsPicker')}
+                />
+                <div className="anchor">
+                  <CardLabelPicker
+                    className="sub-modal-content"
+                    card={card}
                     deps={this.deps}
-                    userId={member.id}
+                    onLabelPicked={(label) => { this.updateLabels(label); }}
                   />
-                ))}
+                </div>
               </div>
-            </div>
-          )}
-          <a
-            className="btn btn-danger btn-small btn-remove-card"
-            onClick={() => { this.removeCard(id); }}
-          >Delete Card</a>
-          <a
-            className="btn btn-success btn-small btn-manage-labels"
-            onClick={() => this.uiRepo.toggle('card:openLabelsPicker')}
-          >Manage Labels</a>
-          <a
-            className="btn btn-success btn-small btn-manage-members"
-            onClick={() => this.uiRepo.toggle('card:openMemberPicker')}
-          >Members</a>
+            )}
 
-          { labelPickerOpened && (
-            <div className="sub-modal">
-              <div
-                className="off-trigger"
-                onClick={() => this.uiRepo.toggle('card:openLabelsPicker')}
-              />
-              <div className="anchor">
-                <CardLabelPicker
-                  className="sub-modal-content"
-                  card={card}
-                  deps={this.deps}
-                  onLabelPicked={(label) => { this.updateLabels(label); }}
+            { memberPickerOpened && (
+              <div className="sub-modal">
+                <div
+                  className="off-trigger"
+                  onClick={() => this.uiRepo.toggle('card:openMemberPicker')}
                 />
+                <div className="anchor">
+                  <CardMemberPicker
+                    className="sub-modal-content"
+                    card={card}
+                    deps={this.deps}
+                    onMemberPicked={(member) => { this.updateMembers(member); }}
+                  />
+                </div>
               </div>
-            </div>
-          )}
-
-          { memberPickerOpened && (
-            <div className="sub-modal">
-              <div
-                className="off-trigger"
-                onClick={() => this.uiRepo.toggle('card:openMemberPicker')}
-              />
-              <div className="anchor">
-                <CardMemberPicker
-                  className="sub-modal-content"
-                  card={card}
-                  deps={this.deps}
-                  onMemberPicked={(member) => { this.updateMembers(member); }}
-                />
-              </div>
-            </div>
-          )}
+            )}
+          </div>
         </div>
         <h4 className="section-title clearfix">Comments:</h4>
         <AddCommentForm cardId={id} deps={this.deps} />
