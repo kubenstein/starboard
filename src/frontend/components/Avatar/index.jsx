@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import placeholderAvatar from 'assets/images/avatar-placeholder.jpg';
 import 'components/Avatar/styles.scss';
 
 export default class Avatar extends React.Component {
@@ -17,14 +18,13 @@ export default class Avatar extends React.Component {
   }
 
   render() {
-    const { userId } = this.props;
-    const avatarUrl = this.repo.userAvatarUrl(userId);
-
-    if (!avatarUrl) return null;
+    const { userId, className } = this.props;
+    const avatarUrl = this.repo.userAvatarUrl(userId) || placeholderAvatar;
 
     return (
       <div
-        className="avatar"
+        title={userId}
+        className={`avatar ${className}`}
         style={{ backgroundImage: `url('${avatarUrl}')` }}
       />
     );

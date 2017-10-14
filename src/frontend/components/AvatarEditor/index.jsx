@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import placeholderAvatar from 'assets/images/avatar-placeholder.jpg';
 import 'components/AvatarEditor/styles.scss';
 
 export default class AvatarEditor extends React.Component {
@@ -35,7 +36,7 @@ export default class AvatarEditor extends React.Component {
   render() {
     const { uploading } = this.state;
     const avatarUrl = this.repo.currentUserAvatarUrl();
-    const displayedAvatarUrl = avatarUrl || '/images/avatar-placeholder.jpg';
+    const displayedAvatarUrl = avatarUrl || placeholderAvatar;
     return (
       <div className="avatar-editor">
         { uploading && (
