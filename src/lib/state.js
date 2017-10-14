@@ -6,6 +6,7 @@ import CardAddedEventHandler from 'lib/eventHandlers/card-added';
 import CardUpdatedEventHandler from 'lib/eventHandlers/card-updated';
 import CardRemovedEventHandler from 'lib/eventHandlers/card-removed';
 import CardLabelUpdatedEventHandler from 'lib/eventHandlers/card-label-updated';
+import CardMemberUpdatedEventHandler from 'lib/eventHandlers/card-member-updated';
 import CommentAddedEventHandler from 'lib/eventHandlers/comment-added';
 import CommentRemovedEventHandler from 'lib/eventHandlers/comment-removed';
 import UserUpdatedEventHandler from 'lib/eventHandlers/user-updated';
@@ -29,6 +30,7 @@ export default class State {
       new CardUpdatedEventHandler(),
       new CardRemovedEventHandler(),
       new CardLabelUpdatedEventHandler(),
+      new CardMemberUpdatedEventHandler(),
       new CommentAddedEventHandler(),
       new CommentRemovedEventHandler(),
       new UserUpdatedEventHandler(),

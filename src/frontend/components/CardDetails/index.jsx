@@ -70,9 +70,10 @@ export default class CardDetails extends React.Component {
 
   updateMembers(user) {
     const { card } = this.props;
-    const userIds = card.userIds || [];
-    const shouldBeSet = (userIds.indexOf(user) === -1);
-    this.cardsRepo.updateMembers(card.id, user, shouldBeSet);
+    const memberId = user.id;
+    const memberIds = card.memberIds || [];
+    const shouldBeSet = (memberIds.indexOf(memberId) === -1);
+    this.cardsRepo.updateMember(card.id, memberId, shouldBeSet);
   }
 
   removeCard(cardId) {

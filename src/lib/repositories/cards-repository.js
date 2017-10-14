@@ -3,6 +3,7 @@ import {
   cardUpdatedEvent,
   cardRemovedEvent,
   cardLabelUpdatedEvent,
+  cardMemberUpdatedEvent,
 } from 'lib/event-definitions';
 
 export default class CardsRepository {
@@ -51,6 +52,12 @@ export default class CardsRepository {
   updateLabel(cardId, label, labelWillBeSet) {
     const requesterId = this.stateManager.getUserId();
     const event = cardLabelUpdatedEvent(requesterId, cardId, label, labelWillBeSet);
+    return this.stateManager.addEvent(event);
+  }
+
+  updateMember(cardId, userId, userWillBeAdded) {
+    const requesterId = this.stateManager.getUserId();
+    const event = cardMemberUpdatedEvent(requesterId, cardId, userId, userWillBeAdded);
     return this.stateManager.addEvent(event);
   }
 

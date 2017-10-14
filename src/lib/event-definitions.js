@@ -67,6 +67,21 @@ export function cardLabelUpdatedEvent(requesterId, cardId, label, shouldBeSet) {
   };
 }
 
+export const cardMemberUpdatedEventType = 'CARD_MEMBER_UPDATED';
+export function cardMemberUpdatedEvent(requesterId, cardId, userId, shouldBeSet) {
+  return {
+    type: cardMemberUpdatedEventType,
+    data: {
+      cardId: cardId,
+      userId: userId,
+      set: shouldBeSet,
+    },
+    createdAt: currentTimestamp(),
+    requesterId: requesterId,
+    id: uuid(),
+  };
+}
+
 export const cardRemovedEventType = 'CARD_REMOVED';
 export function cardRemovedEvent(requesterId, cardId) {
   return {

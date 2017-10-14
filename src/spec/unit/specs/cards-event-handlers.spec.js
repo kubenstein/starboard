@@ -85,6 +85,20 @@ describe('Cards Event Handler', () => {
     expect(firstCard().labels).to.eql(['AAA', 'DDD']);
   });
 
+  it('updates card members', () => {
+    state.addEvent(e.cardAddedEvent(requester(), { title: 'cardTitle', columnId: columnId(), position: 0 }));
+    const cardId = firstCard().id;
+
+    state.addEvent(e.cardMemberUpdatedEvent(requester(), cardId, 'memberId1', true));
+    state.addEvent(e.cardMemberUpdatedEvent(requester(), cardId, 'memberId2', true));
+
+    expect(firstCard().memberIds).to.eql(['memberId1', 'memberId2']);
+
+    state.addEvent(e.cardMemberUpdatedEvent(requester(), cardId, 'memberId1', false));
+
+    expect(firstCard().memberIds).to.eql(['memberId2']);
+  });
+
   // strange scenarios
 
   it('handles adding a card to a column that does not exist', () => {
