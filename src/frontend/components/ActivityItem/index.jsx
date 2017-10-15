@@ -72,6 +72,19 @@ export default class ActivityItem extends React.Component {
     );
   }
 
+  CARDMEMBERUPDATEDActivityHtml(activity) {
+    const { userId: memberId, set, cardId } = activity.data;
+    const { cardTitle } = activity.meta;
+    const memberName = this.usersRepo.userNickname(memberId) || memberId;
+    return (
+      <span>
+        {set ? 'assigned' : 'unassigned'} <i>{memberName} </i>
+        {set ? 'to' : 'from'} card&nbsp;
+        {this.cardLink(cardId, cardTitle)}
+      </span>
+    );
+  }
+
   COMMENTADDEDActivityHtml(activity) {
     const { content, attachment, cardId } = activity.data;
     const { cardTitle } = activity.meta;

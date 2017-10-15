@@ -48,6 +48,16 @@ export default class AllEvents {
     this.storeActivity(activity);
   }
 
+  CARDMEMBERUPDATEDActivityHandler(event) {
+    const { cardId } = event.data;
+    const card = this.cardsRepo.get(cardId);
+    if (!card) return;
+
+    const activity = event;
+    activity.meta = { cardTitle: card.title };
+    this.storeActivity(activity);
+  }
+
   COMMENTADDEDActivityHandler(event) {
     const { cardId } = event.data;
     const card = this.cardsRepo.get(cardId);
