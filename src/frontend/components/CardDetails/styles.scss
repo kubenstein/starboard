@@ -22,14 +22,6 @@
     }
   }
 
-  .top-section {
-    display: flex;
-  }
-
-  .info-section {
-    flex-grow: 2;
-  }
-
   .title {
     padding: 0 3px;
     margin-bottom: 4px;
@@ -71,18 +63,11 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-    width: 20%;
-    padding-left: 5px;
-    box-sizing: border-box;
 
     .btn {
       width: 100%;
-      margin-top: 5px;
+      margin-bottom: 5px;
     }
-  }
-
-  .members-section {
-    flex-grow: 2;
   }
 
   .labels-section {
@@ -105,12 +90,27 @@
   .member-list {
     display: flex;
     flex-wrap: wrap;
-    margin-bottom: 20px;
 
     .member {
       height: 27px;
       width: 27px;
     }
+  }
+}
+
+.two-cols-section {
+  @extend .clearfix;
+
+  .main-col {
+    float: left;
+    width: 80%;
+  }
+
+  .additional-col {
+    float: left;
+    width: 20%;
+    padding-left: 5px;
+    box-sizing: border-box;
   }
 }
 

@@ -102,8 +102,8 @@ export default class CardDetails extends React.Component {
             onChange={(value) => { this.updateTitle(value); }}
           />
         </div>
-        <div className="top-section">
-          <div className="info-section">
+        <div className="two-cols-section">
+          <div className="main-col">
             <h4 className="sub-title">{`In Column: ${columnName}`}</h4>
             <ul className="labels-section">
               { labels.map(label =>
@@ -116,31 +116,33 @@ export default class CardDetails extends React.Component {
                 </li>,
               )}
             </ul>
-            <h4 className="sub-title">Description:</h4>
-            <EditableInput
-              className="description-input"
-              type="textarea"
-              value={description}
-              ref={(e) => { this.descriptionInput = e; }}
-              onChange={(value) => { this.updateDescription(value); }}
-            />
           </div>
-          <div className="utils-section">
-            { memberIds.length > 0 && (
-              <div className="members-section">
-                <h4 className="sub-title">Assigned to:</h4>
-                <div className="member-list">
-                  { memberIds.map(memberId => (
-                    <Avatar
-                      key={memberId}
-                      className="member"
-                      deps={this.deps}
-                      userId={memberId}
-                    />
-                  ))}
-                </div>
+          { memberIds.length > 0 && (
+            <div className="additional-col members-section">
+              <h4 className="sub-title">Assigned to:</h4>
+              <div className="member-list">
+                { memberIds.map(memberId => (
+                  <Avatar
+                    key={memberId}
+                    className="member"
+                    deps={this.deps}
+                    userId={memberId}
+                  />
+                ))}
               </div>
-            )}
+            </div>
+          )}
+        </div>
+        <h4 className="sub-title">Description:</h4>
+        <div className="two-cols-section">
+          <EditableInput
+            className="main-col description-input"
+            type="textarea"
+            value={description}
+            ref={(e) => { this.descriptionInput = e; }}
+            onChange={(value) => { this.updateDescription(value); }}
+          />
+          <div className="additional-col utils-section">
             <a
               className="btn btn-danger btn-small btn-remove-card"
               onClick={() => { this.removeCard(id); }}
