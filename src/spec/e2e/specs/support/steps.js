@@ -140,6 +140,21 @@ module.exports = function steps() {
     label.click();
   };
 
+  when.openingMemberPicker = function () {
+    const labelPicker = browser.$('.card-details .btn-manage-members');
+    labelPicker.click();
+  };
+
+  when.togglingMember = function (memberName) {
+    userCanSee(memberName);
+    const membersSelector = '.card-member-picker .member';
+
+    browser.waitForExist(membersSelector, 3000);
+    const members = browser.$$(membersSelector);
+    const member = members.filter((m) => { return m.getText() === memberName; })[0];
+    member.click();
+  };
+
   when.postingTextComment = function (commentBody) {
     browser.setValue('.add-comment-form .content', commentBody);
     browser.$('.add-comment-form .btn-submit-text').click();
@@ -156,6 +171,15 @@ module.exports = function steps() {
 
   when.removingUserAvatar = function () {
     browser.$('.avatar-editor .btn-remove').click();
+  };
+
+  then.removingComment = function (content) {
+    userCanSee(content);
+
+    const comments = browser.$$('.card-comment');
+    const comment = comments.filter((c) => { return c.$('.content').getText() === content; })[0];
+    comment.$('.btn-remove-comment').click();
+    browser.alertAccept();
   };
 
   then.userCanSeeAvatar = function (fileName) {
@@ -265,14 +289,6 @@ module.exports = function steps() {
     expect($(selector).getValue()).to.include(text);
   };
 
-  then.removingComment = function (content) {
-    userCanSee(content);
-
-    const comments = browser.$$('.card-comment');
-    const comment = comments.filter((c) => { return c.$('.content').getText() === content; })[0];
-    comment.$('.btn-remove-comment').click();
-    browser.alertAccept();
-  };
 
   then.userCanSeeCommentCounter = function (cardTitle, counter) {
     userCanSee(cardTitle);
@@ -310,6 +326,19 @@ module.exports = function steps() {
       const avatarUrl = browser.elementIdCssProperty(avatar.element().value.ELEMENT, 'background-image').value;
       return avatarUrl.indexOf(fileName) !== -1;
     }, 30000, `Expect comment avatar to be set to: ${fileName}`);
+  };
+
+  then.userCanNotSeeMember = function (memberId) {
+    const member = $$(`.members-section .member-list div[title="${memberId}"]`)[0];
+    expect(member).to.eq(undefined);
+  };
+
+  then.userCanSeeMember = function (memberId) {
+    const selector = `.members-section .member-list div[title="${memberId}"]`;
+
+    browser.waitForExist(selector, 3000);
+    const member = $$(selector)[0];
+    expect(member).not.to.eq(undefined);
   };
 
   then.userCanSee = function (text) {

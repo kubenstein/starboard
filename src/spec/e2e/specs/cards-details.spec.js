@@ -69,4 +69,21 @@ describe('Card Details', () => {
     and.togglingLabel('blue label');
     userCanSee('green label\nred label');
   });
+
+  it('allows to manage members of a card', () => {
+    utils.createCard('card with members - details', {}, state);
+    utils.createUser('member1@test.pl', state);
+    utils.createUser('member2@test.pl', state);
+
+    following.openingCardDetails('card with members - details');
+    userCanNotSeeMember('member1@test.pl');
+
+    then.when.openingMemberPicker();
+    and.togglingMember('member1@test.pl');
+    userCanSeeMember('member1@test.pl');
+
+    when.togglingMember('member2@test.pl');
+    userCanSeeMember('member1@test.pl');
+    userCanSeeMember('member2@test.pl');
+  });
 });

@@ -51,3 +51,11 @@ exports.addComment = function (cardTitle, authorId, commentBody, stateManager) {
 exports.setNickname = function (userId, nickname, stateManager) {
   return new lib.UsersRepository(stateManager).setUserNickname(userId, nickname);
 };
+
+exports.createUser = function (userId, stateManager) {
+  //
+  // Because we dont have yet true users storage,
+  // We can indicate the presence of a user by submitting
+  // an event related with the user.
+  return exports.setNickname(userId, userId, stateManager);
+};
