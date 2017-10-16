@@ -88,6 +88,7 @@ export default class EditableInput extends React.Component {
       <input
         type="text"
         className={this.cssClasses()}
+        data-value={value}
         value={value}
         placeholder={placeholder}
         ref={(e) => { this.input = e; }}

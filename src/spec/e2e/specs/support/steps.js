@@ -233,13 +233,13 @@ module.exports = function steps() {
 
   then.userCanSeeBoardTitle = function (text) {
     browser.waitUntil(() => {
-      return browser.getValue('input.board-name') === text;
+      return browser.$(`input.board-name[data-value~="${text}"]`);
     }, 3000, `Expect board title to be: ${text}`);
   };
 
   then.userCanNotSeeBoardTitle = function (text) {
     browser.waitUntil(() => {
-      return browser.getValue('input.board-name') !== text;
+      return browser.$(`input.board-name[data-value~="${text}"]`);
     }, 3000, `Expect board title NOT to be: ${text}`);
   };
 
@@ -253,17 +253,13 @@ module.exports = function steps() {
 
   then.userCanSeeColumn = function (columnTitle) {
     browser.waitUntil(() => {
-      return browser.$$('input.column-title')
-      .map((input) => { return input.getValue(); })
-      .indexOf(columnTitle) !== -1;
+      return browser.$(`input.column-title[data-value~="${columnTitle}"]`);
     }, 3000, `Expect to find a column with a title: ${columnTitle}`);
   };
 
   then.userCanNotSeeColumn = function (columnTitle) {
     browser.waitUntil(() => {
-      return browser.$$('input.column-title')
-      .map((input) => { return input.getValue(); })
-      .indexOf(columnTitle) === -1;
+      return browser.$(`input.column-title[data-value~="${columnTitle}"]`);
     }, 3000, `Expect NOT to find a column with a title: ${columnTitle}`);
   };
 
