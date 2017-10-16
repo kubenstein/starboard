@@ -60,7 +60,7 @@
     "es6-promise": "~4.x.x",
     "eslint": "~3.19.x",
     "eslint-config-airbnb": "~15.0.x",
-    "eslint-plugin-import": "~2.6.x",
+    "eslint-plugin-import": "~2.x.x",
     "eslint-plugin-jasmine": "~2.2.x",
     "eslint-plugin-jsx-a11y": "~5.x.x",
     "eslint-plugin-react": "~7.x.x",
