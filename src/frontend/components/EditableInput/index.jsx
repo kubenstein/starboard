@@ -25,13 +25,13 @@ export default class EditableInput extends React.Component {
     super(props);
     this.state = {
       value: this.props.value,
-      currentlyEdditing: false,
+      currentlyEditing: false,
     };
   }
 
   componentWillReceiveProps(nextProps) {
     const value = nextProps.value;
-    if (value && !this.state.currentlyEdditing) {
+    if (value && !this.state.currentlyEditing) {
       this.setState({ value: value });
     }
   }
@@ -43,11 +43,11 @@ export default class EditableInput extends React.Component {
   }
 
   onFocus() {
-    this.setState({ currentlyEdditing: true });
+    this.setState({ currentlyEditing: true });
   }
 
   onBlur() {
-    this.setState({ currentlyEdditing: false });
+    this.setState({ currentlyEditing: false });
     this.onFinalizedEditing();
   }
 
@@ -63,8 +63,8 @@ export default class EditableInput extends React.Component {
 
   cssClasses() {
     const { className } = this.props;
-    const edditingCssClass = this.state.currentlyEdditing ? 'edditing' : '';
-    return `editable-input ${className} ${edditingCssClass}`;
+    const editingCssClass = this.state.currentlyEditing ? 'editing' : '';
+    return `editable-input ${className} ${editingCssClass}`;
   }
 
   textareaJSX(value) {

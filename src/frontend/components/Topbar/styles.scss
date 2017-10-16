@@ -14,7 +14,7 @@
     font-size: 20px;
     width: 50%;
 
-    &.dark-theme:not(.edditing) {
+    &.dark-theme:not(.editing) {
       @include outlined-text;
       letter-spacing: 0.5px;
     }
