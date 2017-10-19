@@ -103,12 +103,14 @@
 
   .main-col {
     float: left;
-    width: 80%;
+    max-width: 80%;
+    min-width: 80%;
   }
 
   .additional-col {
     float: left;
-    width: 20%;
+    max-width: 20%;
+    min-width: 20%;
     padding-left: 5px;
     box-sizing: border-box;
   }
