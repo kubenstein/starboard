@@ -1,6 +1,6 @@
-export default class AllowEveryoneAuth {
+export default class AllowAllAuth {
   welcomeInfo() {
-    return 'Auth: allow everyone';
+    return 'Auth: allow all';
   }
 
   authWithCredentials(email, _password) {
@@ -15,6 +15,14 @@ export default class AllowEveryoneAuth {
   }
 
   allowEvent(_event, _token) {
+    return Promise.resolve();
+  }
+
+  allowStoringFile(_token) {
+    return Promise.resolve();
+  }
+
+  allowDownloadingFile(_fileName, _token) {
     return Promise.resolve();
   }
 }

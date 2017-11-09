@@ -1,25 +1,15 @@
-import {
-  Starboard,
-  GitContainer,
-  GitEventStorage,
-  GitFilesStorage,
-} from '../lib';
+import { Starboard, GitStrategy } from '../lib';
 
 const logger = console;
 
-const gitContainer = new GitContainer({
+const gitStrategy = new GitStrategy({
   pathToTempLocalRepo: '.tmp/tmpRepo/',
   remoteRepoUrl: process.env.REPO_URL,
   logger,
 });
 
-const eventStorage = new GitEventStorage({ gitContainer });
-
-const filesStorage = new GitFilesStorage({ gitContainer });
-
 new Starboard({
   port: 8081,
-  filesStorage,
-  eventStorage,
+  strategy: gitStrategy,
   logger,
 }).start();

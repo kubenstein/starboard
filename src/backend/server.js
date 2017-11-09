@@ -20,8 +20,9 @@ export default class Server {
     // this.filesStorage    = params.filesStorage    || hasToBeSet('filesStorage');
     this.serverPort      = params.port            || 9000;
     this.uploadsDir      = params.uploadsDir      || path.resolve('.tmp/tmpUploads/');
+    this.publicFilesDir  = params.publicFilesDir  || path.resolve('.tmp/public/');
     this.logger          = params.logger          || new NullLogger();
-    this.auth            = params.auth            || new AllowEveryoneAuth();
+    // this.auth            = params.auth            || new AllowEveryoneAuth();
     this.noBanner        = params.noBanner        || false;
     // this.eventProcessors = params.eventProcessors || [];
     // this.state           = params.state           || new State({ eventStorage: this.eventStorage });
@@ -69,22 +70,23 @@ export default class Server {
 
     // ----------------- http -----------------
     app.get('/attachments/:fileName', (req, res) => {
-      this.strategy.getFile(req.params.fileName, req.params.token);
-
-      // this.sendFileUsecase.sendResponse({
-      //   fileName: req.params.fileName,
-      //   expressResponse: res,
-      // });
+      this.strategy.getFileUrl(req.params.fileName, req.params.token).then((fileUrl) => {
+        if (fileUrl[0] === '/') {
+          res.sendFile(fileUrl, { dotfiles: 'deny', root: this.publicFilesDir });
+        } else {
+          res.redirect(fileUrl);
+        }
+      }).catch(() => {
+        res.send(403, 'access denied');
+      });
     });
 
     app.post('/attachments/', upload.single('attachment'), (req, res) => {
-      this.strategy.uploadFile(req.file, req.params.token).then((fileUrl) => {
+      this.strategy.storeFile(req.file, req.params.token).then((fileUrl) => {
         res.send({ attachmentUrl: fileUrl });
+      }).catch(() => {
+        res.send(403, 'access denied');
       });
-
-      // this.storeFileUsecase.addFile(req.file).then((fileUrl) => {
-      //   res.send({ attachmentUrl: fileUrl });
-      // });
     });
 
     app.post('/login/', (req, res) => {
@@ -94,12 +96,6 @@ export default class Server {
       }).catch(() => {
         res.send(403, 'access denied');
       });
-
-      // this.auth.authWithCredentials(email, password).then((authData) => {
-      //   res.send({ userId: authData.userId, token: authData.token });
-      // }).catch(() => {
-      //   res.send(403, 'access denied');
-      // });
     });
 
 
