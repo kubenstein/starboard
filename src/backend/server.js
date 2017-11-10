@@ -28,7 +28,7 @@ export default class Server {
     // this.state           = params.state           || new State({ eventStorage: this.eventStorage });
     this.strategy        = params.strategy        || hasToBeSet('strategy');
     this.server           = null;
-    this.sockets          = {};
+    this.sockets          = [];
     // this.sendFileUsecase  = new SendFileUsecase({ filesStorage: this.filesStorage });
     // this.storeFileUsecase = new StoreFileUsecase({
     //   filesStorage: this.filesStorage,
@@ -113,7 +113,7 @@ export default class Server {
     // -------------- webSockets --------------
     io.on('connection', (socket) => {
       const { handshake: { query: { token } } } = socket;
-      this.strategy.authWithToken('connection', token)
+      this.strategy.authWithToken(token)
         .then(() => {
           this.configureSocket(socket, token);
           socket.emit('accessGranted');
@@ -133,17 +133,17 @@ export default class Server {
   // private
 
   configureSocket(socket, token) {
-    this.sockets[token] = socket;
+    this.sockets.push(socket);
 
     socket.on('disconnect', () => {
-      this.sockets[token] = null;
+      this.sockets.splice(this.sockets.indexOf(socket), 1);
     });
 
     socket.on('addEvent', (event, sendBack) => {
       this.strategy.processEvent(event, socket.handshake.query.token)
-        .then((processedEvent, socketTokens) => (
-          this.getSocketsForTokens(socketTokens).forEach(s => s.emit('newEvent', processedEvent))
-        ))
+        .then((processedEvent) => {
+          this.sockets.forEach(s => s.emit('newEvent', processedEvent));
+        })
         .catch(() => sendBack(permissionDeniedEvent(event)));
     });
 
@@ -161,10 +161,6 @@ export default class Server {
     socket.on('getAllPastEvents', (sendBack) => {
       this.strategy.allPastEvents(socket.handshake.query.token)
         .then(events => sendBack(events));
-
-      // this.eventStorage.allPastEvents().then((events) => {
-      //   sendBack(events);
-      // });
     });
   }
 

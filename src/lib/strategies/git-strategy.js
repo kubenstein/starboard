@@ -46,4 +46,22 @@ export default class GitStrategy {
   authWithCredentials(email, password) {
     return this.auth.authWithCredentials(email, password);
   }
+
+  authWithToken(token) {
+    return this.auth.authWithToken(token);
+  }
+
+  allPastEvents(_token) {
+    return this.eventStorage.allPastEvents();
+  }
+
+  processEvent(event, token) {
+    return this.auth.allowEvent(event, token).then((can) => {
+      if (can) {
+        return this.eventStorage.addEvent(event);
+      } else {
+        return Promise.reject();
+      }
+    });
+  }
 }
