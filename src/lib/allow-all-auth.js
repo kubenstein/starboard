@@ -1,5 +1,5 @@
 export default class AllowAllAuth {
-  welcomeInfo() {
+  info() {
     return 'Auth: allow all';
   }
 
@@ -11,22 +11,18 @@ export default class AllowAllAuth {
   }
 
   authWithToken(_token) {
-    return Promise.resolve();
+    return Promise.resolve(true);
   }
 
   allowEvent(_event, _token) {
-    return Promise.resolve();
+    return Promise.resolve(true);
   }
 
   allowStoringFile(_token) {
-    return Promise.resolve();
+    return Promise.resolve(true);
   }
 
   allowDownloadingFile(_fileName, _token) {
-    return Promise.resolve();
-  }
-
-  allowEvent(_event, _token) {
-    return Promise.resolve();
+    return Promise.resolve(true);
   }
 }

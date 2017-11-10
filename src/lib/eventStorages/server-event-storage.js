@@ -18,7 +18,7 @@ export default class ServerEventStorage {
     this.start();
   }
 
-  welcomeInfo() {
+  info() {
     return `Using SocketIO proxy Storage (${this.socket.io.uri})`;
   }
 
@@ -29,10 +29,9 @@ export default class ServerEventStorage {
   addEvent(event) {
     return new Promise((resolve, _reject) => {
       this.addedEventIDs.push(event.id);
-      this.socket.emit('addEvent', event, () => {
-        this.notify(event);
-        resolve();
-      });
+      this.socket.emit('addEvent', event);
+      this.notify(event);
+      resolve();
     });
   }
 

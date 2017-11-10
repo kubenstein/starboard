@@ -6,7 +6,7 @@ export default class LocalStorageEventStorage {
     this.observers = [];
   }
 
-  welcomeInfo() {
+  info() {
     return 'Using LocalStorage Storage';
   }
 

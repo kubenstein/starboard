@@ -1,9 +1,8 @@
 #!/usr/bin/env node
 
-const Starboard       = require('../dist/starboard').Starboard;
-const GitEventStorage = require('../dist/starboard').GitEventStorage;
-const GitFilesStorage = require('../dist/starboard').GitFilesStorage;
-const GitContainer    = require('../dist/starboard').GitContainer;
+const Starboard    = require('../dist/starboard').Starboard;
+const GitContainer = require('../dist/starboard').GitContainer;
+const GitStrategy  = require('../dist/starboard').GitStrategy;
 
 const env = process.env;
 const port                      = env.PORT                || 9000;
@@ -28,20 +27,16 @@ const gitContainer = new GitContainer({
   logger:              logger
 });
 
-const gitEventStorage = new GitEventStorage({
-  gitContainer:    gitContainer,
-  syncingInterval: remoteRepoSyncingInterval,
-  logger:          logger
-});
-
-const gitFilesStorage = new GitFilesStorage({
-  gitContainer: gitContainer
+const gitStrategy = new GitStrategy({
+  gitContainer: gitContainer,
+  remoteRepoSyncingInterval: remoteRepoSyncingInterval,
+  logger: logger,
 });
 
 new Starboard({
-  port:         port,
-  uploadsDir:   filesTmpUploadPath,
-  eventStorage: gitEventStorage,
-  filesStorage: gitFilesStorage,
-  logger:       logger
+  port:           port,
+  uploadsTmpDir:  filesTmpUploadPath,
+  publicFilesDir: pathToGitTempLocalRepo,
+  strategy:       gitStrategy,
+  logger:         logger
 }).start();
