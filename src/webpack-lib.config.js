@@ -1,6 +1,7 @@
 /* eslint-disable no-var, vars-on-top */
 
 const fs = require('fs');
+const NodemonPlugin = require('nodemon-webpack-plugin');
 
 const env = process.env.NODE_ENV;
 const srcDir = __dirname;
@@ -69,6 +70,13 @@ module.exports = {
       },
     ],
   },
+
+  plugins: [
+    new NodemonPlugin({
+      verbose: true,
+      nodeArgs: ['--inspect', '--debug'],
+    }),
+  ],
 
   resolve: {
     modules: [

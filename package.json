@@ -18,8 +18,7 @@
   "scripts": {
     "dev": "node ./src/scripts/dev-console.js",
     "dev:frontend": "webpack-dev-server --config ./src/webpack-frontend.config.js",
-    "dev:backend:es6compiler": "webpack --watch --config ./src/webpack-lib.config.js",
-    "dev:backend:server": "REPO_URL=$(pwd)/.tmp/fakeDevelopmentRemoteGitRepo/ DEBUG=true nodemon --inspect --debug --watch .tmp/backend/ .tmp/backend/bundled-server-runner.js",
+    "dev:backend": "DEBUG=true REPO_URL=$(pwd)/.tmp/fakeDevelopmentRemoteGitRepo/ webpack --watch --config ./src/webpack-lib.config.js",
     "dev:linter:ci": "nodemon -e jsx,js --watch ./src/ --exec 'npm run specs:linter --silent'",
     "dev:db:create": "node ./src/scripts/db-create-development.js",
     "dev:db:clear": "./src/scripts/wipe-development-db.sh",
@@ -68,7 +67,7 @@
     "mini-css-extract-plugin": "^0.5.0",
     "mocha": "~3.x.x",
     "node-sass": "~4.x.x",
-    "nodemon": "~1.x.x",
+    "nodemon-webpack-plugin": "^4.0.7",
     "prop-types": "^15.6.0",
     "react": "~15.6.x",
     "react-dom": "~15.6.x",
