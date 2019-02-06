@@ -1,14 +1,14 @@
-const lib = require('../../../../../.tmp/specs/src/starboard.js');
+const lib = require('../../../../../dist/starboard.js');
 
 exports.login = function (loginId) {
   browser.url('/');
-  browser.setCookie({ name: 'userId', value: loginId });
-  browser.setCookie({ name: 'token', value: 'test' });
+  browser.setCookies({ name: 'userId', value: loginId });
+  browser.setCookies({ name: 'token', value: 'test' });
   browser.url('/');
 };
 
 exports.logout = function () {
-  browser.deleteCookie();
+  browser.deleteCookies();
   browser.url('/');
 };
 

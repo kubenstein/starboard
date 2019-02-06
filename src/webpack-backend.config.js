@@ -1,6 +1,7 @@
 /* eslint-disable no-var, vars-on-top */
 
 const fs = require('fs');
+const NodemonPlugin = require('nodemon-webpack-plugin');
 
 const srcDir = __dirname;
 const rootDir = `${srcDir}/../`;
@@ -8,6 +9,7 @@ const backendDir = `${srcDir}/backend/`;
 
 // taken from http://jlongster.com/Backend-Apps-with-Webpack--Part-I
 const nodeModules = {};
+
 fs.readdirSync('node_modules')
   .filter((x) => { return ['.bin'].indexOf(x) === -1; })
   .forEach((mod) => { nodeModules[mod] = `commonjs ${mod}`; });
@@ -15,14 +17,11 @@ fs.readdirSync('node_modules')
 module.exports = {
   mode: process.env.NODE_ENV || 'development',
   target: 'node',
-  entry: `${srcDir}/lib.js`,
+  entry: `${backendDir}/dev-server-runner.js`,
   output: {
-    path: `${rootDir}/dist/`,
+    path: `${rootDir}/.tmp/backend/`,
     publicPath: '/',
-    filename: 'starboard.js',
-    library: 'starboard',
-    libraryTarget: 'umd',
-    umdNamedDefine: true,
+    filename: 'bundled-server-runner.js',
   },
   node: {
     __dirname: false,
@@ -44,6 +43,13 @@ module.exports = {
       },
     ],
   },
+
+  plugins: [
+    new NodemonPlugin({
+      verbose: true,
+      nodeArgs: ['--inspect', '--debug'],
+    }),
+  ],
 
   resolve: {
     modules: [

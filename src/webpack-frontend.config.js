@@ -2,6 +2,7 @@
 const fs = require('fs-extra');
 const webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 const env = process.env.NODE_ENV;
 const srcDir = __dirname;
@@ -99,13 +100,13 @@ module.exports = {
   },
 
   stats: { children: false },
+  optimization: {
+    minimizer: (env === 'production' || env === 'test') ? [
+      new UglifyJsPlugin(),
+    ] : [],
+  },
   plugins: (env === 'production' || env === 'test') ? [
     new MiniCssExtractPlugin({ filename: 'starboard-web-client.bundle.css' }),
-    new webpack.optimize.UglifyJsPlugin({
-      compress: {
-        warnings: false,
-      },
-    }),
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify('production'),

@@ -1,4 +1,4 @@
-const lib = require('../../../.tmp/specs/src/starboard.js');
+const lib = require('../../lib.js');
 
 const storage = new lib.MemoryEventStorage();
 

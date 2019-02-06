@@ -1,6 +1,7 @@
 /* eslint-disable no-undef */
 
 const expect = require('chai').expect;
+const avatarZipBase64 = require('./files/zipped/base64ed/').avatar;
 
 module.exports = function steps() {
   this.when = this.and = this.then = this.following = this.again = when = then = this; // eslint-disable-line no-multi-assign
@@ -10,8 +11,8 @@ module.exports = function steps() {
   };
 
   when.loggingIn = function (email, password) {
-    browser.setValue('input[name=email]', email);
-    browser.setValue('input[name=password]', password);
+    browser.$('input[name=email]').setValue(email);
+    browser.$('input[name=password]').setValue(password);
     browser.$('.btn').click();
   };
 
@@ -24,27 +25,27 @@ module.exports = function steps() {
 
   when.openingSideMenu = function () {
     const selector = '.side-menu-trigger';
-    browser.waitForExist(selector, 3000);
+    $(selector).waitForExist(3000);
     const sidemenuTrigger = browser.$(selector);
     sidemenuTrigger.click();
   };
 
   when.settingBoardTitle = function (text) {
     const selector = 'input.board-name';
-    browser.waitForExist(selector, 3000);
-    browser.setValue(selector, text);
+    $(selector).waitForExist(3000);
+    browser.$(selector).setValue(text);
     browser.keys(['Enter']);
   };
 
   when.settingNickname = function (text) {
-    browser.setValue('input.input-nickname', text);
+    browser.$('input.input-nickname').setValue(text);
     browser.keys(['Enter']);
   };
 
   when.settingLabels = function (labelsToSet) {
     labelsToSet.forEach((labelData) => {
       const cssSelector = `input.label-input-${labelData.color}`;
-      browser.setValue(cssSelector, labelData.value);
+      browser.$(cssSelector).setValue(labelData.value);
       browser.keys(['Enter']);
     });
   };
@@ -57,7 +58,7 @@ module.exports = function steps() {
   when.creatingColumn = function (title) {
     const addColumnPrompt = browser.$('.add-column-form .prompt');
     addColumnPrompt.click();
-    browser.setValue('.add-column-form input.column-title', title);
+    browser.$('.add-column-form input.column-title').setValue(title);
     browser.$('.add-column-form .btn').click();
   };
 
@@ -65,6 +66,7 @@ module.exports = function steps() {
     userCanSeeColumn(oldName);
 
     const inputs = browser.$$('.columns input.column-title');
+
     const input = inputs.filter((i) => { return i.getValue() === oldName; })[0];
     input.setValue(newName);
     browser.keys(['Enter']);
@@ -77,13 +79,13 @@ module.exports = function steps() {
     const column = columns.filter((c) => { return c.$('input.column-title').getValue() === columnTitle; })[0];
     const removeTrigger = column.$('.btn-remove');
     removeTrigger.click();
-    browser.alertAccept();
+    browser.acceptAlert();
   };
 
   when.creatingCard = function (title) {
     const addCardPrompt = browser.$('.add-card-form .prompt');
     addCardPrompt.click();
-    browser.setValue('.add-card-form input.card-title', title);
+    browser.$('.add-card-form input.card-title').setValue(title);
     browser.$('.add-card-form .btn').click();
   };
 
@@ -96,15 +98,15 @@ module.exports = function steps() {
   };
 
   when.changingCardTitle = function (newTitle) {
-    browser.setValue('.card-details input.title', newTitle);
+    browser.$('.card-details input.title').setValue(newTitle);
     browser.keys(['Enter']);
   };
 
   when.changingCardDescription = function (desc) {
-    browser.setValue('.card-details .description-input', desc);
+    browser.$('.card-details .description-input').setValue(desc);
 
     // clicking elsewhere to submit description
-    browser.click('.sub-title');
+    $('.sub-title').click();
   };
 
   when.removingCard = function (optionalCardName) {
@@ -112,12 +114,10 @@ module.exports = function steps() {
       this.openingCardDetails(optionalCardName);
     }
 
-    const selector = '.card-details .btn-remove-card';
-    browser.waitForExist(selector, 3000);
-
-    const removeBtn = browser.$(selector);
+    const removeBtn = $('.card-details .btn-remove-card');
+    removeBtn.waitForExist(3000);
     removeBtn.click();
-    browser.alertAccept();
+    browser.acceptAlert();
   };
 
   when.closingCardDetails = function () {
@@ -134,7 +134,7 @@ module.exports = function steps() {
     userCanSee(labelText);
     const labelsSelector = '.card-label-picker .label';
 
-    browser.waitForExist(labelsSelector, 3000);
+    $(labelsSelector).waitForExist(3000);
     const labels = browser.$$(labelsSelector);
     const label = labels.filter((l) => { return l.getText() === labelText; })[0];
     label.click();
@@ -149,24 +149,26 @@ module.exports = function steps() {
     userCanSee(memberName);
     const membersSelector = '.card-member-picker .member';
 
-    browser.waitForExist(membersSelector, 3000);
+    $(membersSelector).waitForExist(3000);
     const members = browser.$$(membersSelector);
     const member = members.filter((m) => { return m.getText() === memberName; })[0];
     member.click();
   };
 
   when.postingTextComment = function (commentBody) {
-    browser.setValue('.add-comment-form .content', commentBody);
+    browser.$('.add-comment-form .content').setValue(commentBody);
     browser.$('.add-comment-form .btn-submit-text').click();
   };
 
-  when.postingAttachmentComment = function (filePath) {
-    browser.chooseFile('.add-comment-form .file-input', filePath);
+  when.postingAttachmentComment = function (fileZipBase64) {
+    const filePath = browser.uploadFile(fileZipBase64);
+    $('.add-comment-form .file-input').addValue(filePath);
   };
 
-  when.changingUserAvatar = function (filePath) {
-    const selector = '.avatar-editor .file-input';
-    browser.chooseFile(selector, filePath);
+  when.changingUserAvatar = function () {
+    const filePath = browser.uploadFile(avatarZipBase64);
+
+    $('.avatar-editor .file-input').addValue(filePath);
   };
 
   when.removingUserAvatar = function () {
@@ -179,13 +181,13 @@ module.exports = function steps() {
     const comments = browser.$$('.card-comment');
     const comment = comments.filter((c) => { return c.$('.content').getText() === content; })[0];
     comment.$('.btn-remove-comment').click();
-    browser.alertAccept();
+    browser.acceptAlert();
   };
 
   then.userCanSeeAvatar = function (fileName) {
     browser.waitUntil(() => {
       const avatarEditor = browser.$('.avatar-editor .file-input-trigger');
-      const avatarUrl = browser.elementIdCssProperty(avatarEditor.element().value.ELEMENT, 'background-image').value;
+      const avatarUrl = avatarEditor.getCSSProperty('background-image').value;
       return avatarUrl.indexOf(fileName) !== -1;
     }, 30000, `Expect settings avatar to be set to: ${fileName}`);
   };
@@ -210,7 +212,7 @@ module.exports = function steps() {
 
   then.userCanSeeBoardInColor = function (colorInRgba) {
     const board = browser.$('.board');
-    const themeColor = browser.elementIdCssProperty(board.element().value.ELEMENT, 'background-color');
+    const themeColor = board.getCSSProperty('background-color');
     expect(themeColor.value).to.eq(colorInRgba);
   };
 
@@ -219,7 +221,7 @@ module.exports = function steps() {
     and.openingSideMenu();
     setLabels.forEach((labelData) => {
       const cssSelector = `input.label-input-${labelData.color}`;
-      const label = browser.getValue(cssSelector);
+      const label = $(cssSelector).getValue();
       expect(label).to.eq(labelData.value);
     });
   };
@@ -227,7 +229,7 @@ module.exports = function steps() {
   then.userCanSeeNickname = function (text) {
     when.visitingPage();
     and.openingSideMenu();
-    const nickname = browser.getValue('input.input-nickname');
+    const nickname = $('input.input-nickname').getValue();
     expect(nickname).to.eq(text);
   };
 
@@ -274,14 +276,15 @@ module.exports = function steps() {
     }, 3000, `Expect card: ${cardTitle} to have ${labelsInRGB.length} labels`);
 
     const colors = card.$$('.label').map((label) => {
-      return browser.elementIdCssProperty(label.element().value.ELEMENT, 'background-color').value;
+      return label.getCSSProperty('background-color').value;
     });
-    expect(colors).to.eql(labelsInRGB);
+
+    expect(colors).to.have.ordered.members(labelsInRGB);
   };
 
   then.userCanSeeDescription = function (text) {
     const selector = '.card-details .description-input';
-    browser.waitForExist(selector, 3000);
+    $(selector).waitForExist(3000);
     expect($(selector).getValue()).to.include(text);
   };
 
@@ -300,7 +303,7 @@ module.exports = function steps() {
 
   then.userCanSeePictureComment = function (imageName) {
     const selector = `.card-details img[src*="${imageName}"]`;
-    browser.waitForExist(selector, 3000);
+    $(selector).waitForExist(3000);
 
     const img = browser.$(selector);
     userCanSee(imageName); // image description
@@ -309,7 +312,7 @@ module.exports = function steps() {
 
   then.userCanSeeFileComment = function (fileName) {
     const selector = `.card-details a.attachment[href*="${fileName}"]`;
-    browser.waitForExist(selector, 3000);
+    $(selector).waitForExist(3000);
 
     const link = browser.$(selector);
     userCanSee(fileName); // file description
@@ -319,7 +322,7 @@ module.exports = function steps() {
   then.userCanSeeCommentAvatar = function (fileName) {
     browser.waitUntil(() => {
       const avatar = browser.$('.card-comment .avatar');
-      const avatarUrl = browser.elementIdCssProperty(avatar.element().value.ELEMENT, 'background-image').value;
+      const avatarUrl = avatar.getCSSProperty('background-image').value;
       return avatarUrl.indexOf(fileName) !== -1;
     }, 30000, `Expect comment avatar to be set to: ${fileName}`);
   };
@@ -332,20 +335,20 @@ module.exports = function steps() {
   then.userCanSeeMember = function (memberId) {
     const selector = `.members-section .member-list div[title="${memberId}"]`;
 
-    browser.waitForExist(selector, 3000);
+    $(selector).waitForExist(3000);
     const member = $$(selector)[0];
     expect(member).not.to.eq(undefined);
   };
 
   then.userCanSee = function (text) {
     browser.waitUntil(() => {
-      return browser.getText('body').includes(text);
+      return browser.$('body').getText().includes(text);
     }, 3000, `Expect page to have text: ${text}`);
   };
 
   then.userCanNotSee = function (text) {
     browser.waitUntil(() => {
-      return !browser.getText('body').includes(text);
+      return !browser.$('body').getText().includes(text);
     }, 3000, `Expect page NOT to have text: ${text}`);
   };
 };

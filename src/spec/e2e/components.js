@@ -1,6 +1,6 @@
 const path = require('path');
 const cleanTestRepos = require('./specs/support/clean-test-repos.js');
-const lib = require('../../../.tmp/specs/src/starboard.js');
+const lib = require('../../../dist/starboard.js');
 
 const pathToGitTempLocalRepo = path.join(__dirname, '../../../.tmp/specs/uploads/');
 const pathToGitRemoteRepo = path.join(pathToGitTempLocalRepo, '../fakeRemoteRepo');

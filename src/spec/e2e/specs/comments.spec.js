@@ -4,6 +4,9 @@ const path = require('path');
 const server = require('../components.js').server;
 const state = require('../components.js').state;
 const utils = require('./support/utils.js');
+const imageZipBased64 = require('./support/files/zipped/base64ed').image;
+const fileZipBased64 = require('./support/files/zipped/base64ed').file;
+
 require('./support/steps.js')();
 
 describe('Comment', () => {
@@ -28,16 +31,12 @@ describe('Comment', () => {
   afterEach(() => { return state.purge(); });
 
   it('can be added with an image attachment', () => {
-    const file = path.join(__dirname, 'support', 'files', 'image.jpg');
-
-    following.postingAttachmentComment(file);
+    following.postingAttachmentComment(imageZipBased64);
     userCanSeePictureComment('image.jpg');
   });
 
   it('can be added with a file attachment', () => {
-    const file = path.join(__dirname, 'support', 'files', 'file.zip');
-
-    following.postingAttachmentComment(file);
+    following.postingAttachmentComment(fileZipBased64);
     userCanSeeFileComment('file.zip');
   });
 

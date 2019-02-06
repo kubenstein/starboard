@@ -51,7 +51,7 @@ describe('Board', () => {
   it('allows to change theme color', () => {
     const color = {
       hex: '0079BF',
-      rgba: 'rgba(0, 121, 191, 1)',
+      rgba: 'rgba(0,121,191,1)',
     };
     when.openingSideMenu();
     and.changingThemeColor(color.hex);
@@ -74,12 +74,10 @@ describe('Board', () => {
   });
 
   it('allows to change user avatar', () => {
-    const avatar = path.join(__dirname, 'support', 'files', 'avatar.jpg');
-
     when.openingSideMenu();
     userCanSeeAvatar('avatar-placeholder.jpg');
 
-    when.changingUserAvatar(avatar);
+    when.changingUserAvatar();
     userCanSeeAvatar('avatar.jpg');
 
     and.then.when.removingUserAvatar();

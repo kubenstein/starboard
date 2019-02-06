@@ -12,8 +12,8 @@ describe('User', () => {
     userCanSeeLoginPage();
   });
   afterEach(() => {
-    browser.deleteCookie();
-    return state.purge();
+    return state.purge()
+      .then(() => browser.deleteCookies());
   });
 
   it('can log in', () => {

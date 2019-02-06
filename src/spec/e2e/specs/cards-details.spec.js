@@ -17,8 +17,8 @@ describe('Card Details', () => {
   });
 
   beforeEach(() => {
-    visitingPage();
-    return utils.createColumn('column with cards - details', state);
+    return utils.createColumn('column with cards - details', state)
+      .then(() => visitingPage());
   });
 
   afterEach(() => { return state.purge(); });
