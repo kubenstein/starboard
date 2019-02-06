@@ -45,6 +45,7 @@ if (env === 'production') {
 }
 
 module.exports = {
+  mode: process.env.NODE_ENV || 'development',
   target: 'node',
   entry: entry,
   output: output,
@@ -60,8 +61,8 @@ module.exports = {
         use: [
           {
             loader: 'babel-loader',
-            query: {
-              presets: ['stage-0', 'es2015'],
+            options: {
+              presets: ['@babel/preset-env', '@babel/preset-react'],
             },
           },
         ],

@@ -1,7 +1,7 @@
 /* eslint-disable no-var, vars-on-top */
 const fs = require('fs-extra');
 const webpack = require('webpack');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const env = process.env.NODE_ENV;
 const srcDir = __dirname;
@@ -19,6 +19,7 @@ if (env === 'production') {
 
 
 module.exports = {
+  mode: process.env.NODE_ENV || 'development',
   entry: `${frontendDir}/index.jsx`,
 
   output: {
@@ -34,8 +35,8 @@ module.exports = {
         use: [
           {
             loader: 'babel-loader',
-            query: {
-              presets: ['stage-0', 'es2015', 'react'],
+            options: {
+              presets: ['@babel/preset-env', '@babel/preset-react'],
             },
           },
         ],
@@ -58,10 +59,13 @@ module.exports = {
       },
       {
         test: /\.s?css$/,
-        use: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: ['css-loader', 'sass-loader'],
-        }),
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader,
+          },
+          'css-loader',
+          'sass-loader',
+        ],
       },
     ],
   },
@@ -77,6 +81,7 @@ module.exports = {
   },
 
   devServer: {
+    disableHostCheck: true,
     proxy: {
       '/socket.io/**': {
         target: 'http://localhost:8081',
@@ -95,7 +100,7 @@ module.exports = {
 
   stats: { children: false },
   plugins: (env === 'production' || env === 'test') ? [
-    new ExtractTextPlugin({ filename: 'starboard-web-client.bundle.css' }),
+    new MiniCssExtractPlugin({ filename: 'starboard-web-client.bundle.css' }),
     new webpack.optimize.UglifyJsPlugin({
       compress: {
         warnings: false,
@@ -107,6 +112,6 @@ module.exports = {
       },
     }),
   ] : [
-    new ExtractTextPlugin({ filename: 'starboard-web-client.bundle.css' }),
+    new MiniCssExtractPlugin({ filename: 'starboard-web-client.bundle.css' }),
   ],
 };
