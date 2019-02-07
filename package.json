@@ -16,7 +16,6 @@
     "url": "https://github.com/kubenstein/starboard.git"
   },
   "scripts": {
-    "dev": "node ./src/scripts/dev-console.js",
     "dev:frontend": "webpack-dev-server --config ./src/webpack-frontend.config.js",
     "dev:backend": "DEBUG=true REPO_URL=$(pwd)/.tmp/fakeDevelopmentRemoteGitRepo/ webpack --watch --config ./src/webpack-backend.config.js",
     "dev:db:create": "node ./src/scripts/db-create-development.js",
