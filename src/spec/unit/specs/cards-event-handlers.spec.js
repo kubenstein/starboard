@@ -1,13 +1,10 @@
-const expect = require('chai').expect;
-const state = require('../components.js').state;
-const e = require('../components.js').eventDefinitions;
+/* eslint-disable no-use-before-define */
+
+import { expect } from 'chai';
+import { state, eventDefinitions as e } from '../components';
 
 describe('Cards Event Handler', () => {
-  beforeEach(() => {
-    return state.purge().then(() => {
-      return addColumn();
-    });
-  });
+  beforeEach(() => state.purge().then(() => addColumn()));
 
   it('adds a card', () => {
     state.addEvent(e.cardAddedEvent(requester(), { title: 'cardTitle', columnId: columnId(), position: 0 }));

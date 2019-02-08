@@ -19,18 +19,18 @@ export default class UserSessionService {
   }
 
   login(email, password) {
-    return axios.post('/login/', { email: email, password: password })
-    .then((response) => {
-      const { userId, token } = response.data;
-      this.browserSettingsService
-      .setCookie('userId', userId)
-      .setCookie('token', token);
-    });
+    return axios.post('/login/', { email, password })
+      .then((response) => {
+        const { userId, token } = response.data;
+        this.browserSettingsService
+          .setCookie('userId', userId)
+          .setCookie('token', token);
+      });
   }
 
   logout() {
     this.browserSettingsService
-    .setCookie('userId', undefined)
-    .setCookie('token', undefined);
+      .setCookie('userId', undefined)
+      .setCookie('token', undefined);
   }
 }

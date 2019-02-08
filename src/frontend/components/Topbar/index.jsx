@@ -2,13 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import EditableInput from 'components/EditableInput';
 import SideMenu from 'components/SideMenu';
+import FunctionLink from 'components/FunctionLink';
 import 'components/Topbar/styles.scss';
 
 export default class Topbar extends React.Component {
-  static get propTypes() {
-    return {
-      deps: PropTypes.object.isRequired,
-    };
+  static propTypes = {
+    deps: PropTypes.object.isRequired,
   }
 
   constructor(props) {
@@ -18,17 +17,11 @@ export default class Topbar extends React.Component {
     this.uiRepo = this.deps.get('uiRepository');
   }
 
-  updateBoardName(name) {
-    this.settingsRepo.setBoardName(name);
-  }
+  updateBoardName = name => this.settingsRepo.setBoardName(name);
 
-  darkLightThemeCss() {
-    return this.settingsRepo.isThemeColorDark() ? 'dark-theme' : 'light-theme';
-  }
+  toggleSideMenu = () => this.uiRepo.toggle('sidemenu:open');
 
-  toggleSideMenu() {
-    this.uiRepo.toggle('sidemenu:open');
-  }
+  themeCss = () => (this.settingsRepo.isThemeColorDark() ? 'dark-theme' : 'light-theme');
 
   render() {
     const isSideMenuOpen = this.uiRepo.get('sidemenu:open');
@@ -36,16 +29,18 @@ export default class Topbar extends React.Component {
     return (
       <div className="topbar">
         <EditableInput
-          className={`board-name ${this.darkLightThemeCss()}`}
+          className={`board-name ${this.themeCss()}`}
           value={boardName}
-          onChange={(value) => { this.updateBoardName(value); }}
+          onChange={this.updateBoardName}
         />
 
         <div className="menu-zone">
-          <a
-            onClick={() => this.toggleSideMenu()}
-            className={`side-menu-trigger ${this.darkLightThemeCss()}`}
-          >☰</a>
+          <FunctionLink
+            onClick={this.toggleSideMenu}
+            className={`side-menu-trigger ${this.themeCss()}`}
+          >
+            ☰
+          </FunctionLink>
 
           { isSideMenuOpen && (
             <div className="side-menu-wrapper">

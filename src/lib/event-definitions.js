@@ -15,7 +15,7 @@ export const permissionDeniedEventType = 'PERMISSION_DENIED';
 export function permissionDeniedEvent(originalEvent) {
   return {
     type: permissionDeniedEventType,
-    originalEvent: originalEvent,
+    originalEvent,
     id: uuid(),
   };
 }
@@ -27,13 +27,13 @@ export function cardAddedEvent(requesterId, params) {
     type: cardAddedEventType,
     data: {
       id: uuid(),
-      columnId: columnId,
-      position: position,
-      title: title,
+      columnId,
+      position,
+      title,
       description: '',
     },
     createdAt: currentTimestamp(),
-    requesterId: requesterId,
+    requesterId,
     id: uuid(),
   };
 }
@@ -43,11 +43,11 @@ export function cardUpdatedEvent(requesterId, cardId, changes) {
   return {
     type: cardUpdatedEventType,
     data: {
-      cardId: cardId,
-      changes: changes,
+      cardId,
+      changes,
     },
     createdAt: currentTimestamp(),
-    requesterId: requesterId,
+    requesterId,
     id: uuid(),
   };
 }
@@ -57,12 +57,12 @@ export function cardLabelUpdatedEvent(requesterId, cardId, label, shouldBeSet) {
   return {
     type: cardLabelUpdatedEventType,
     data: {
-      cardId: cardId,
-      label: label,
+      cardId,
+      label,
       set: shouldBeSet,
     },
     createdAt: currentTimestamp(),
-    requesterId: requesterId,
+    requesterId,
     id: uuid(),
   };
 }
@@ -72,12 +72,12 @@ export function cardMemberUpdatedEvent(requesterId, cardId, userId, shouldBeSet)
   return {
     type: cardMemberUpdatedEventType,
     data: {
-      cardId: cardId,
-      userId: userId,
+      cardId,
+      userId,
       set: shouldBeSet,
     },
     createdAt: currentTimestamp(),
-    requesterId: requesterId,
+    requesterId,
     id: uuid(),
   };
 }
@@ -86,9 +86,9 @@ export const cardRemovedEventType = 'CARD_REMOVED';
 export function cardRemovedEvent(requesterId, cardId) {
   return {
     type: cardRemovedEventType,
-    data: { cardId: cardId },
+    data: { cardId },
     createdAt: currentTimestamp(),
-    requesterId: requesterId,
+    requesterId,
     id: uuid(),
   };
 }
@@ -100,11 +100,11 @@ export function columnAddedEvent(requesterId, params) {
     type: columnAddedEventType,
     data: {
       id: uuid(),
-      name: name,
-      position: position,
+      name,
+      position,
     },
     createdAt: currentTimestamp(),
-    requesterId: requesterId,
+    requesterId,
     id: uuid(),
   };
 }
@@ -114,11 +114,11 @@ export function columnUpdatedEvent(requesterId, columnId, changes) {
   return {
     type: columnUpdatedEventType,
     data: {
-      columnId: columnId,
-      changes: changes,
+      columnId,
+      changes,
     },
     createdAt: currentTimestamp(),
-    requesterId: requesterId,
+    requesterId,
     id: uuid(),
   };
 }
@@ -128,10 +128,10 @@ export function columnRemovedEvent(requesterId, columnId) {
   return {
     type: columnRemovedEventType,
     data: {
-      columnId: columnId,
+      columnId,
     },
     createdAt: currentTimestamp(),
-    requesterId: requesterId,
+    requesterId,
     id: uuid(),
   };
 }
@@ -160,13 +160,13 @@ export function commentAddedEvent(requesterId, cardId, params) {
     type: commentAddedEventType,
     data: {
       id: uuid(),
-      cardId: cardId,
-      content: content,
-      attachment: attachment,
+      cardId,
+      content,
+      attachment,
       authorId: requesterId,
     },
     createdAt: currentTimestamp(),
-    requesterId: requesterId,
+    requesterId,
     id: uuid(),
   };
 }
@@ -175,9 +175,9 @@ export const commentRemovedEventType = 'COMMENT_REMOVED';
 export function commentRemovedEvent(requesterId, commentId) {
   return {
     type: commentRemovedEventType,
-    data: { commentId: commentId },
+    data: { commentId },
     createdAt: currentTimestamp(),
-    requesterId: requesterId,
+    requesterId,
     id: uuid(),
   };
 }
@@ -187,10 +187,10 @@ export function fileAddedEvent(requesterId, filePath) {
   return {
     type: fileAddedEventType,
     data: {
-      filePath: filePath,
+      filePath,
     },
     createdAt: currentTimestamp(),
-    requesterId: requesterId,
+    requesterId,
     id: uuid(),
   };
 }
@@ -200,10 +200,10 @@ export function fileRemovedEvent(requesterId, filePath) {
   return {
     type: fileRemovedEventType,
     data: {
-      filePath: filePath,
+      filePath,
     },
     createdAt: currentTimestamp(),
-    requesterId: requesterId,
+    requesterId,
     id: uuid(),
   };
 }
@@ -214,10 +214,10 @@ export function settingsUpdatedEvent(requesterId, key, value) {
     type: settingsUpdatedEventType,
     data: {
       id: key,
-      value: value,
+      value,
     },
     createdAt: currentTimestamp(),
-    requesterId: requesterId,
+    requesterId,
     id: uuid(),
   };
 }
@@ -228,11 +228,11 @@ export function userUpdatedEvent(requesterId, userId, key, value) {
     type: userUpdatedEventType,
     data: {
       id: userId,
-      key: key,
-      value: value,
+      key,
+      value,
     },
     createdAt: currentTimestamp(),
-    requesterId: requesterId,
+    requesterId,
     id: uuid(),
   };
 }

@@ -106,14 +106,14 @@ export default class Server {
     // -------------- webSockets --------------
     io.on('connection', (socket) => {
       this.auth.authWithToken(socket.handshake.query.token)
-      .then(() => {
-        this.configureSocket(socket);
-        socket.emit('accessGranted');
-      })
-      .catch(() => {
-        socket.emit('accessDenied');
-        socket.disconnect();
-      });
+        .then(() => {
+          this.configureSocket(socket);
+          socket.emit('accessGranted');
+        })
+        .catch(() => {
+          socket.emit('accessDenied');
+          socket.disconnect();
+        });
     });
   }
 
@@ -132,13 +132,12 @@ export default class Server {
 
     socket.on('addEvent', (event, sendBack) => {
       this.auth.allowEvent(event, socket.handshake.query.token)
-      .then(() => {
-        return this.incommingEventProcessors.processEvent(event);
-      }).then(() => {
-        sendBack(event);
-        this.eventStorage.addEvent(event);
-      })
-      .catch(() => { sendBack(permissionDeniedEvent(event)); });
+        .then(() => this.incommingEventProcessors.processEvent(event))
+        .then(() => {
+          sendBack(event);
+          this.eventStorage.addEvent(event);
+        })
+        .catch(() => { sendBack(permissionDeniedEvent(event)); });
     });
 
     socket.on('getAllPastEvents', (sendBack) => {

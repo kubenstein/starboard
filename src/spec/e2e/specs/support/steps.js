@@ -194,19 +194,19 @@ module.exports = function steps() {
 
   then.userCanSeeActivityLogEntry = function (action, itemTitle) {
     if (action === 'column_created') {
-      userCanSee(`added column ${itemTitle}.`);
+      userCanSee(`added column ${itemTitle}`);
     }
 
     if (action === 'card_created') {
-      userCanSee(`added card ${itemTitle}.`);
+      userCanSee(`added card ${itemTitle}`);
     }
 
     if (action === 'card_removed') {
-      userCanSee(`removed card ${itemTitle} (removed).`);
+      userCanSee(`removed card ${itemTitle} (removed)`);
     }
 
     if (action === 'column_removed') {
-      userCanSee(`removed column ${itemTitle}.`);
+      userCanSee(`removed column ${itemTitle}`);
     }
   };
 

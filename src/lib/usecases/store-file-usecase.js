@@ -15,13 +15,10 @@ export default class StoreFileUsecase {
     return this.filesStorage.addFile({
       fileName: originalFileName,
       filePath: originalFilePath,
-    }).then((fileName) => {
-      return `/attachments/${fileName}`;
-    }).then((fileUrl) => {
-      this.eventStorage.addEvent(
-        fileAddedEvent(this.fileAddingRequester, fileUrl),
-      );
-      return fileUrl;
-    });
+    }).then(fileName => `/attachments/${fileName}`)
+      .then((fileUrl) => {
+        this.eventStorage.addEvent(fileAddedEvent(this.fileAddingRequester, fileUrl));
+        return fileUrl;
+      });
   }
 }

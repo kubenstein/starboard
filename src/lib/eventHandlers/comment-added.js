@@ -4,11 +4,14 @@ export default class CommentAdded {
   forEvent() { return commentAddedEventType; }
 
   execute({ stateManager, event }) {
-    const card = stateManager.objectData('cards', event.data.cardId);
+    const { data, data: { cardId, createdAt }, createdAt: eventCreatedAt } = event;
+    const card = stateManager.objectData('cards', cardId);
     if (!card) return;
 
-    const eventData = event.data;
-    eventData.createdAt = event.createdAt || event.data.createdAt;
+    const eventData = {
+      ...data,
+      createdAt: eventCreatedAt || createdAt,
+    };
 
     stateManager.addObject('comments', eventData);
   }

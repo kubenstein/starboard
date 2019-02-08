@@ -1,36 +1,33 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import FunctionLink from 'components/FunctionLink';
 import placeholderAvatar from 'assets/images/avatar-placeholder.jpg';
 import 'components/AvatarEditor/styles.scss';
 
 export default class AvatarEditor extends React.Component {
-  static get propTypes() {
-    return {
-      deps: PropTypes.object.isRequired,
-    };
+  static propTypes = {
+    deps: PropTypes.object.isRequired,
   }
+
+  state = {
+    uploading: false,
+  };
 
   constructor(props) {
     super(props);
     this.repo = this.props.deps.get('usersRepository');
-    this.state = {
-      uploading: false,
-    };
   }
 
-  removeAvatar() {
+  removeAvatar = () => {
     this.repo.setCurrentUserAvatar(null);
   }
 
-  handleAvatarUpload() {
+  handleAvatarUpload = () => {
     this.setState({ uploading: true });
     const file = this.fileInput.files[0];
-    const avatarInfo = {
-      blob: file,
-    };
-    this.repo.setCurrentUserAvatar(avatarInfo).then(() => {
-      this.setState({ uploading: false });
-    });
+    const avatar = { blob: file };
+    this.repo.setCurrentUserAvatar(avatar)
+      .then(() => this.setState({ uploading: false }));
   }
 
   render() {
@@ -44,10 +41,13 @@ export default class AvatarEditor extends React.Component {
         )}
 
         { avatarUrl && (
-          <button
+          <FunctionLink
+            component="button"
             className="badge btn-remove"
-            onClick={() => { this.removeAvatar(); }}
-          >✕</button>
+            onClick={this.removeAvatar}
+          >
+            ✕
+          </FunctionLink>
         )}
         <label
           className="file-input-trigger"
@@ -60,7 +60,7 @@ export default class AvatarEditor extends React.Component {
               type="file"
               id="avatar-file"
               ref={(e) => { this.fileInput = e; }}
-              onChange={() => { this.handleAvatarUpload(); }}
+              onChange={this.handleAvatarUpload}
             />
           )}
         </label>

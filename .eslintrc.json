@@ -29,6 +29,7 @@
   },
   "rules": {
     "camelcase": ["off"],
+    "no-alert": ["off"],
     "babel/camelcase": ["error", { "properties": "never" }],
     "no-unused-expressions": ["off"],
     "babel/no-unused-expressions": ["error", {
@@ -49,6 +50,7 @@
       "ignoreStrings": true,
       "ignoreTemplateLiterals": true
     }],
+    "class-methods-use-this": ["off"],
     "mocha/max-top-level-suites": ["error"],
     "mocha/no-exclusive-tests": ["error"],
     "mocha/no-global-tests": ["error"],
@@ -58,7 +60,7 @@
     "mocha/no-skipped-tests": ["error"],
     "mocha/no-top-level-hooks": ["error"],
     "no-unused-vars": ["error", { "argsIgnorePattern": "^_", "varsIgnorePattern": "^_" }],
-    "multiline-comment-style": ["error", "starred-block"],
+    "multiline-comment-style": ["off"],
     "react/no-typos": ["off"],
     "react/no-unused-prop-types": ["error", { "skipShapeProps": true }],
     "react/require-default-props": ["off"],

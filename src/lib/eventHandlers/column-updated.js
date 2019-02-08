@@ -5,12 +5,10 @@ export default class ColumnUpdated {
 
   execute({ stateManager, event }) {
     this.stateManager = stateManager;
+    const { data: { columnId, changes, changes: { position: newPosition } } } = event;
 
-    const { columnId, changes } = event.data;
     const column = this.stateManager.objectData('columns', columnId);
     if (!column) return;
-
-    const newPosition = changes.position;
 
     if (newPosition !== undefined) {
       this.updatePositionOfOtherColumns(column, newPosition);
@@ -24,7 +22,7 @@ export default class ColumnUpdated {
     const movedColumnId = movedColumn.id;
     const oldPosition = movedColumn.position;
     const columns = this.stateManager.bucket('columns')
-                    .filter(c => c.id !== movedColumnId);
+      .filter(c => c.id !== movedColumnId);
 
     if (newPosition < oldPosition) {
       // moving to left

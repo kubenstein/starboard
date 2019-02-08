@@ -1,14 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Avatar from 'components/Avatar';
+import FunctionLink from 'components/FunctionLink';
 import 'components/CardMemberPicker/styles.scss';
 
 export default class CardMemberPicker extends React.Component {
-  static get propTypes() {
-    return {
-      deps: PropTypes.object.isRequired,
-      onMemberPicked: PropTypes.func.isRequired,
-    };
+  static propTypes = {
+    deps: PropTypes.object.isRequired,
+    onMemberPicked: PropTypes.func.isRequired,
+    className: PropTypes.string,
   }
 
   constructor(props) {
@@ -29,9 +29,10 @@ export default class CardMemberPicker extends React.Component {
         <h1 className="header">Add a member to the card:</h1>
         <ul className="members">
           { users.map(user => (
-            <li
+            <FunctionLink
+              component="li"
               key={user.id}
-              onClick={() => { onMemberPicked(user); }}
+              onClick={() => onMemberPicked(user)}
               className="member"
             >
               <Avatar
@@ -40,7 +41,7 @@ export default class CardMemberPicker extends React.Component {
                 deps={this.deps}
               />
               {this.userName(user.id)}
-            </li>
+            </FunctionLink>
           ))}
         </ul>
       </div>

@@ -1,9 +1,10 @@
-const expect = require('chai').expect;
-const state = require('../components.js').state;
-const e = require('../components.js').eventDefinitions;
+/* eslint-disable no-use-before-define */
+
+import { expect } from 'chai';
+import { state, eventDefinitions as e } from '../components';
 
 describe('state', () => {
-  beforeEach(() => { return state.purge(); });
+  beforeEach(() => state.purge());
 
   it('has initial buckets empty', () => {
     expect(state.bucket('dummy1')).to.eql([]);

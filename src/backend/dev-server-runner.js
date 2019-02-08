@@ -1,4 +1,5 @@
-import { Starboard,
+import {
+  Starboard,
   GitContainer,
   GitEventStorage,
   GitFilesStorage,
@@ -9,20 +10,16 @@ const logger = console;
 const gitContainer = new GitContainer({
   pathToTempLocalRepo: '.tmp/tmpRepo/',
   remoteRepoUrl: process.env.REPO_URL,
-  logger: logger,
+  logger,
 });
 
-const eventStorage = new GitEventStorage({
-  gitContainer: gitContainer,
-});
+const eventStorage = new GitEventStorage({ gitContainer });
 
-const gitFilesStorage = new GitFilesStorage({
-  gitContainer: gitContainer,
-});
+const filesStorage = new GitFilesStorage({ gitContainer });
 
 new Starboard({
   port: 8081,
-  filesStorage: gitFilesStorage,
-  eventStorage: eventStorage,
-  logger: logger,
+  filesStorage,
+  eventStorage,
+  logger,
 }).start();

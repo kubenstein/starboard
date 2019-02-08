@@ -30,8 +30,8 @@ export default class GitEventStorage {
   addEvent(event) {
     return new Promise((resolve, _reject) => {
       this.queue = this.queue
-      .then(() => { return this.applyEvent(event); })
-      .then(resolve);
+        .then(() => this.applyEvent(event))
+        .then(resolve);
     });
   }
 
@@ -39,36 +39,33 @@ export default class GitEventStorage {
     return new Promise((resolve, _reject) => {
       const event = fileRemovedEvent(this.commiterEmail, fileNameInGitFolder);
       this.queue = this.queue
-      .then(() => { return this.git.removeFile(fileNameInGitFolder); })
-      .then(() => { return this.applyEvent(event); })
-      .then(() => { resolve(fileNameInGitFolder); });
+        .then(() => this.git.removeFile(fileNameInGitFolder))
+        .then(() => this.applyEvent(event))
+        .then(() => resolve(fileNameInGitFolder));
     });
   }
 
   allPastEvents() {
     return new Promise((resolve, _reject) => {
       this.queue = this.queue
-      .then(() => { return this.git.getAllCommitMessages(); })
-      .then((commitMessagesText) => { return this.extractEventsFromCommits(commitMessagesText); })
-      .then(resolve);
+        .then(() => this.git.getAllCommitMessages())
+        .then(commitMessagesText => this.extractEventsFromCommits(commitMessagesText))
+        .then(resolve);
     });
   }
 
   sync() {
     return new Promise((resolve, _reject) => {
+      //
+      // Push With Eventual Rebase will fetch data also whenever clear push is rejected.
+      // After rebase some old events will reappear again, however those events
+      // wont be applied again because of eventIdsSinceLastSync guarding mechanism
+      // It handles both scenarios where there is something new on remote or on local.
       this.queue = this.queue
-      .then(() => { return this.git.pushChangesWithEventualRebase(); })  // Push With Eventual Rebase will
-                                                                         // fetch data also whenever clear push
-                                                                         // is rejected.
-                                                                         // After rebase some old events
-                                                                         // will reappear again, however those events
-                                                                         // wont be applied again because of
-                                                                         // eventIdsSinceLastSync guarding mechanism
-                                                                         // It handles both scenarios where there
-                                                                         // is something new on remote or on local.
-      .then(() => { return this.gatherUnsyncedEvents(); })
-      .then(() => { return this.updateLastSyncedCommit(); })
-      .then(resolve);
+        .then(() => this.git.pushChangesWithEventualRebase())
+        .then(() => this.gatherUnsyncedEvents())
+        .then(() => this.updateLastSyncedCommit())
+        .then(resolve);
     });
   }
 
@@ -76,22 +73,22 @@ export default class GitEventStorage {
 
   start() {
     this.queue = this.queue
-    .then(() => { return this.setupLocalRepo(); });
+      .then(() => this.setupLocalRepo());
 
     this.syncingLoopTimer = this.startPollingLoop(this.syncingInterval);
   }
 
   setupLocalRepo() {
     return this.git.initRepo()
-    .then(() => { return this.git.addUser(); })
-    .then(() => { return this.git.addRemote(); })
-    .then(() => { return this.setupLocalAndRemoteBranch(); });
+      .then(() => this.git.addUser())
+      .then(() => this.git.addRemote())
+      .then(() => this.setupLocalAndRemoteBranch());
   }
 
   setupLocalAndRemoteBranch() {
     return this.git.createDataBranch()
-    .then(() => { return this.git.pullChanges(); })
-    .catch(() => { return this.pushEmptySetupCommit(); });
+      .then(() => this.git.pullChanges())
+      .catch(() => this.pushEmptySetupCommit());
   }
 
   notify(event) {
@@ -102,25 +99,25 @@ export default class GitEventStorage {
 
   applyEvent(event) {
     return this.git.commit(JSON.stringify(event))
-    .then(() => { this.eventIdsSinceLastSync.push(event.id); })
-    .then(() => { return this.notify(event); });
+      .then(() => { this.eventIdsSinceLastSync.push(event.id); })
+      .then(() => this.notify(event));
   }
 
   gatherUnsyncedEvents() {
     return this.git.calculateDiffCommitMessages(this.lastSyncedCommit)
-    .then((commitMessagesText) => { return this.extractEventsFromCommits(commitMessagesText); })
-    .then((events) => {
-      events
-      .filter((event) => { return this.eventIdsSinceLastSync.indexOf(event.id) === -1; })
-      .forEach((event) => { this.notify(event); });
-    });
+      .then(commitMessagesText => this.extractEventsFromCommits(commitMessagesText))
+      .then((events) => {
+        events
+          .filter(event => (this.eventIdsSinceLastSync.indexOf(event.id) === -1))
+          .forEach(event => this.notify(event));
+      });
   }
 
   extractEventsFromCommits(textWithCommits) {
     const messages = textWithCommits
-                     .split('\n')       // separate commits
-                     .filter(e => e)    // remove empty strings
-                     .reverse();        // change order to earliest first
+      .split('\n') //    separate s
+      .filter(e => e) // remove empty strings
+      .reverse(); //     change order to earliest first
 
     const events = messages.map((message) => {
       const extractedJson = message.split(' ').slice(1).join(' '); // remove commit hash from message
@@ -133,7 +130,7 @@ export default class GitEventStorage {
   updateLastSyncedCommit() {
     this.eventIdsSinceLastSync = [];
     return this.git.commitHash()
-    .then((hash) => { this.lastSyncedCommit = hash; });
+      .then((hash) => { this.lastSyncedCommit = hash; });
   }
 
   startPollingLoop(syncingInterval) {
@@ -147,6 +144,6 @@ export default class GitEventStorage {
   pushEmptySetupCommit() {
     const event = noopEvent();
     return this.git.commit(JSON.stringify(event))
-    .then(() => { return this.git.pushChangesWithEventualRebase(); });
+      .then(() => this.git.pushChangesWithEventualRebase());
   }
 }

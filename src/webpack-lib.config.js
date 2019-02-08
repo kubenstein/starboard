@@ -9,7 +9,7 @@ const backendDir = `${srcDir}/backend/`;
 // taken from http://jlongster.com/Backend-Apps-with-Webpack--Part-I
 const nodeModules = {};
 fs.readdirSync('node_modules')
-  .filter((x) => { return ['.bin'].indexOf(x) === -1; })
+  .filter(x => (['.bin'].indexOf(x) === -1))
   .forEach((mod) => { nodeModules[mod] = `commonjs ${mod}`; });
 
 module.exports = {
@@ -38,6 +38,10 @@ module.exports = {
             loader: 'babel-loader',
             options: {
               presets: ['@babel/preset-env', '@babel/preset-react'],
+              plugins: [
+                ['@babel/plugin-proposal-class-properties', { loose: true }],
+                '@babel/plugin-proposal-object-rest-spread',
+              ],
             },
           },
         ],

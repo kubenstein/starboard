@@ -4,11 +4,10 @@ import placeholderAvatar from 'assets/images/avatar-placeholder.jpg';
 import 'components/Avatar/styles.scss';
 
 export default class Avatar extends React.Component {
-  static get propTypes() {
-    return {
-      deps: PropTypes.object.isRequired,
-      userId: PropTypes.string.isRequired,
-    };
+  static propTypes = {
+    deps: PropTypes.object.isRequired,
+    userId: PropTypes.string.isRequired,
+    className: PropTypes.string,
   }
 
   constructor(props) {

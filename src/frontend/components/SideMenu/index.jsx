@@ -3,13 +3,12 @@ import PropTypes from 'prop-types';
 import EditableInput from 'components/EditableInput';
 import ActivityItem from 'components/ActivityItem';
 import AvatarEditor from 'components/AvatarEditor';
+import FunctionLink from 'components/FunctionLink';
 import 'components/SideMenu/styles.scss';
 
 export default class SideMenu extends React.Component {
-  static get propTypes() {
-    return {
-      deps: PropTypes.object.isRequired,
-    };
+  static propTypes = {
+    deps: PropTypes.object.isRequired,
   }
 
   constructor(props) {
@@ -22,33 +21,25 @@ export default class SideMenu extends React.Component {
     this.browserSettingsService = this.deps.get('browserSettingsService');
   }
 
-  textForLabel(color) {
-    return this.settingsRepo.textForLabel(color);
-  }
+  textForLabel = color => this.settingsRepo.textForLabel(color);
 
-  updateThemeColor(color) {
-    this.settingsRepo.setThemeColor(color);
-  }
+  updateThemeColor = color => this.settingsRepo.setThemeColor(color);
 
-  updateLabelText(color, value) {
-    this.settingsRepo.setTextForLabel(color, value);
-  }
+  updateLabelText = (color, value) => this.settingsRepo.setTextForLabel(color, value);
 
-  updateNickname(nickname) {
-    this.usersRepo.setCurrentUserNickname(nickname);
-  }
+  updateNickname = nickname => this.usersRepo.setCurrentUserNickname(nickname);
 
-  logout() {
+  logout = () => {
     this.userSessionService.logout();
     this.browserSettingsService.reloadPage();
   }
 
-  labelCssClasses(color) {
+  labelCssClasses = (color) => {
     const labelId = color.replace('#', '');
     return `label-input-${labelId}`;
   }
 
-  colorPickerCssClasses(color) {
+  colorPickerCssClasses = (color) => {
     const pickerId = color.replace('#', '');
     return `color theme-color-picker-input-${pickerId}`;
   }
@@ -66,7 +57,7 @@ export default class SideMenu extends React.Component {
             className="btn-link btn-small btn-logout"
             type="button"
             value="log out"
-            onClick={() => { this.logout(); }}
+            onClick={this.logout}
           />
           <br className="clearfix" />
           <AvatarEditor className="avatar-editor" deps={this.deps} />
@@ -74,7 +65,7 @@ export default class SideMenu extends React.Component {
             className="input-nickname"
             value={nickname}
             placeholder="Set Nickname..."
-            onChange={(value) => { this.updateNickname(value); }}
+            onChange={this.updateNickname}
           />
           <small className="user-id">{userId}</small>
         </div>
@@ -82,42 +73,43 @@ export default class SideMenu extends React.Component {
         <div className="section">
           <h3 className="section-title">Board Color:</h3>
           <ul className="color-picker">
-            { availableColors.map(color =>
-              <li
+            { availableColors.map(color => (
+              <FunctionLink
+                component="li"
                 key={color}
                 style={{ backgroundColor: color }}
                 className={this.colorPickerCssClasses(color)}
-                onClick={() => { this.updateThemeColor(color); }}
-              />,
-            )}
+                onClick={() => this.updateThemeColor(color)}
+              />
+            ))}
           </ul>
         </div>
 
         <div className="section">
           <h3 className="section-title">Labels:</h3>
           <div className="label-editor">
-            { availableColors.map(color =>
+            { availableColors.map(color => (
               <div key={color} className="label" style={{ backgroundColor: color }}>
                 <EditableInput
                   className={this.labelCssClasses(color)}
                   value={this.textForLabel(color)}
-                  onChange={(value) => { this.updateLabelText(color, value); }}
+                  onChange={value => this.updateLabelText(color, value)}
                 />
-              </div>,
-            )}
+              </div>
+            ))}
           </div>
         </div>
 
         <div className="section activities-section">
           <h3 className="section-title">Latest Activities:</h3>
           <div className="activities">
-            { activities.map(activity =>
+            { activities.map(activity => (
               <ActivityItem
                 key={activity.id}
                 activity={activity}
                 deps={this.deps}
-              />,
-            )}
+              />
+            ))}
           </div>
         </div>
       </div>

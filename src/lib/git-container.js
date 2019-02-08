@@ -26,22 +26,18 @@ export default class GitContainer {
 
   addUser() {
     return Promise.resolve()
-    .then(() => {
-      return this.execute(`git -C ${this.pathToTempLocalRepo} config user.name "${this.commiterUsername}"`);
-    })
-    .then(() => {
-      return this.execute(`git -C ${this.pathToTempLocalRepo} config user.email "${this.commiterEmail}"`);
-    });
+      .then(() => this.execute(`git -C ${this.pathToTempLocalRepo} config user.name "${this.commiterUsername}"`))
+      .then(() => this.execute(`git -C ${this.pathToTempLocalRepo} config user.email "${this.commiterEmail}"`));
   }
 
   createDataBranch() {
     return this.execute(`git -C ${this.pathToTempLocalRepo} checkout -b ${this.dataBranchName}`)
-    .catch(swallowErrors);
+      .catch(swallowErrors);
   }
 
   addRemote() {
     return this.execute(`git -C ${this.pathToTempLocalRepo} remote add origin ${this.remoteRepoUrl}`)
-    .catch(swallowErrors);
+      .catch(swallowErrors);
   }
 
   commitHash() {
@@ -84,10 +80,9 @@ export default class GitContainer {
     // try to push till it success,
     // on fail: pull changes and try again
     return this.pushChanges()
-    .catch(() => {
-      return this.pullChanges()
-      .then(this.gitPushChangesWithEventualRebase.bind(this));
-    });
+      .catch(() => this.pullChanges()
+        .then(this.gitPushChangesWithEventualRebase.bind(this)),
+      );
   }
 
   commit(message) {
@@ -108,6 +103,7 @@ export default class GitContainer {
     // https://superuser.com/a/912281
     process.env.GIT_SSH_COMMAND = `ssh -i ${this.pathToSshPrivateKey} -F /dev/null`;
   }
+
   execute(command) {
     return new Promise((resolve, reject) => {
       exec(command, { env: process.env }, (error, stdout, _stderr) => {

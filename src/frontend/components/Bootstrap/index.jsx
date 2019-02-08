@@ -4,10 +4,8 @@ import Board from 'components/Board';
 import Login from 'components/Login';
 
 export default class Bootstrap extends React.Component {
-  static get propTypes() {
-    return {
-      deps: PropTypes.object.isRequired,
-    };
+  static propTypes = {
+    deps: PropTypes.object.isRequired,
   }
 
   constructor(props) {
@@ -20,24 +18,21 @@ export default class Bootstrap extends React.Component {
     };
   }
 
-  logIn(email, password) {
+  logIn = (email, password) => {
     this.session.login(email, password)
-    .then(() => {
-      this.setState({ loggedIn: true, loginError: false });
-    })
-    .catch(() => {
-      this.setState({ loginError: true });
-    });
+      .then(() => this.setState({ loggedIn: true, loginError: false }))
+      .catch(() => this.setState({ loginError: true }));
   }
 
   render() {
     const { loggedIn, loginError } = this.state;
-    return loggedIn ?
+    return loggedIn ? (
       <Board deps={this.deps} />
-    :
+    ) : (
       <Login
         displayError={loginError}
-        onLogIn={(email, password) => { this.logIn(email, password); }}
-      />;
+        onLogIn={this.logIn}
+      />
+    );
   }
 }

@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import FunctionLink from 'components/FunctionLink';
 import 'components/CardLabelPicker/styles.scss';
 
 export default class CardLabelPicker extends React.Component {
-  static get propTypes() {
-    return {
-      deps: PropTypes.object.isRequired,
-      onLabelPicked: PropTypes.func.isRequired,
-    };
+  static propTypes = {
+    deps: PropTypes.object.isRequired,
+    onLabelPicked: PropTypes.func.isRequired,
+    className: PropTypes.string,
   }
 
   constructor(props) {
@@ -27,14 +27,17 @@ export default class CardLabelPicker extends React.Component {
       <div className={`card-label-picker ${className}`}>
         <h1 className="header">Toggle a label for this card:</h1>
         <ul className="labels">
-          { availableColors.map(color =>
-            <li
+          { availableColors.map(color => (
+            <FunctionLink
+              component="li"
               key={color}
               style={{ backgroundColor: color }}
-              onClick={() => { onLabelPicked(color); }}
+              onClick={() => onLabelPicked(color)}
               className="label"
-            >{this.textForLabel(color)}</li>,
-          )}
+            >
+              {this.textForLabel(color)}
+            </FunctionLink>
+          ))}
         </ul>
       </div>
     );

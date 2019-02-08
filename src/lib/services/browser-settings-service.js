@@ -11,9 +11,7 @@ export default class BrowserSettingsService {
   }
 
   urlCardId() {
-    return window.location.hash
-          .split('/')
-          .reverse()[0];
+    return window.location.hash.split('/').reverse()[0];
   }
 
   setMainUrl() {

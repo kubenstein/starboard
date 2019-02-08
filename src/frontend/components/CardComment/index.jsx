@@ -1,15 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Avatar from 'components/Avatar';
+import FunctionLink from 'components/FunctionLink';
 import { formattedDate } from 'lib/utils';
 import 'components/CardComment/styles.scss';
 
 export default class CardComment extends React.Component {
-  static get propTypes() {
-    return {
-      deps: PropTypes.object.isRequired,
-      comment: PropTypes.object.isRequired, // TODO change to shape
-    };
+  static propTypes = {
+    deps: PropTypes.object.isRequired,
+    comment: PropTypes.object.isRequired, // TODO change to shape
   }
 
   constructor(props) {
@@ -20,7 +19,7 @@ export default class CardComment extends React.Component {
   }
 
   removeComment(commentId) {
-    if (confirm('Do you want to remove this comment?')) {
+    if (window.confirm('Do you want to remove this comment?')) {
       this.commentsRepo.removeComment(commentId);
     }
   }
@@ -37,11 +36,11 @@ export default class CardComment extends React.Component {
   attachmentCommentHTML(comment) {
     return (
       <a href={comment.attachment.dataUrl} className="attachment" target="_blank" rel="noopener noreferrer">
-        { this.isImage(comment.attachment) ?
+        { this.isImage(comment.attachment) ? (
           <img src={comment.attachment.dataUrl} alt={comment.attachment.name} />
-        :
+        ) : (
           <span className="attachment-file-wrapper" />
-        }
+        )}
         <span className="attachment-description">{comment.attachment.name}</span>
       </a>
     );
@@ -62,10 +61,13 @@ export default class CardComment extends React.Component {
           { comment.attachment && this.attachmentCommentHTML(comment) }
           {comment.content}
         </p>
-        <span
+        <FunctionLink
+          component="span"
           className="btn-link btn-small btn-remove-comment"
-          onClick={() => { this.removeComment(comment.id); }}
-        >Delete</span>
+          onClick={() => this.removeComment(comment.id)}
+        >
+          Delete
+        </FunctionLink>
       </div>
     );
   }

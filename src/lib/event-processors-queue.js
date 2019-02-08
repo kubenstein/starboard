@@ -11,9 +11,7 @@ export default class EventProcessorsQueue {
     let queue = Promise.resolve();
     this.processors.forEach((processor) => {
       if (this.processorHandlesEvent(processor, event)) {
-        queue = queue.then(() => {
-          return processor.processEvent(event);
-        });
+        queue = queue.then(() => processor.processEvent(event));
       }
     });
     return queue;

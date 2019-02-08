@@ -24,7 +24,7 @@ module.exports = {
   entry: `${frontendDir}/index.jsx`,
 
   output: {
-    path: path,
+    path,
     publicPath: '/',
     filename: 'starboard-web-client.bundle.js',
   },
@@ -38,6 +38,10 @@ module.exports = {
             loader: 'babel-loader',
             options: {
               presets: ['@babel/preset-env', '@babel/preset-react'],
+              plugins: [
+                ['@babel/plugin-proposal-class-properties', { loose: true }],
+                '@babel/plugin-proposal-object-rest-spread',
+              ],
             },
           },
         ],

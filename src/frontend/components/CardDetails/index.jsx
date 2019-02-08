@@ -6,14 +6,14 @@ import AddCommentForm from 'components/AddCommentForm';
 import CardComment from 'components/CardComment';
 import CardLabelPicker from 'components/CardLabelPicker';
 import CardMemberPicker from 'components/CardMemberPicker';
+import FunctionLink from 'components/FunctionLink';
 import 'components/CardDetails/styles.scss';
 
 export default class CardDetails extends React.Component {
-  static get propTypes() {
-    return {
-      deps: PropTypes.object.isRequired,
-      onClose: PropTypes.func.isRequired,
-    };
+  static propTypes = {
+    deps: PropTypes.object.isRequired,
+    onClose: PropTypes.func.isRequired,
+    card: PropTypes.object.isRequired, // TODO change to shape
   }
 
   constructor(props) {
@@ -26,49 +26,45 @@ export default class CardDetails extends React.Component {
     this.uiRepo = this.deps.get('uiRepository');
     this.settingsRepo = this.deps.get('settingsRepository');
     this.browserSettingsService = this.deps.get('browserSettingsService');
-    this.handleKeyDown = this.handleKeyDown.bind(this);
   }
 
   componentWillMount() {
-    this.browserSettingsService.registerKeyDownEvent(this.handleKeyDown);
+    this.browserSettingsService.registerKeyDownEvent(() => this.handleKeyDown());
   }
 
   componentWillUnmount() {
-    this.browserSettingsService.unregisterKeyDownEvent(this.handleKeyDown);
+    this.browserSettingsService.unregisterKeyDownEvent(() => this.handleKeyDown());
   }
 
-  handleKeyDown(event) {
-    if (event.key === 'Escape') this.props.onClose();
+  handleKeyDown = (event) => {
+    const { onClose } = this.props;
+    if (event.key === 'Escape') onClose();
   }
 
-  textForLabel(color) {
-    return this.settingsRepo.textForLabel(color);
-  }
+  textForLabel = color => this.settingsRepo.textForLabel(color);
 
-  updateTitle(newValue) {
-    const { card } = this.props;
-    const { value: oldValue, id } = card;
+  updateTitle = (newValue) => {
+    const { card: { value: oldValue, id } } = this.props;
     if (newValue !== oldValue) {
       this.cardsRepo.updateCard(id, { title: newValue });
     }
   }
 
-  updateDescription(newValue) {
-    const { card } = this.props;
-    const { description: oldValue, id } = card;
+  updateDescription = (newValue) => {
+    const { card: { description: oldValue, id } } = this.props;
     if (newValue !== oldValue) {
       this.cardsRepo.updateCard(id, { description: newValue });
     }
   }
 
-  updateLabels(toggledLabel) {
+  updateLabels = (toggledLabel) => {
     const { card } = this.props;
     const labels = card.labels || [];
     const shouldBeSet = (labels.indexOf(toggledLabel) === -1);
     this.cardsRepo.updateLabel(card.id, toggledLabel, shouldBeSet);
   }
 
-  updateMembers(user) {
+  updateMembers = (user) => {
     const { card } = this.props;
     const memberId = user.id;
     const memberIds = card.memberIds || [];
@@ -76,15 +72,18 @@ export default class CardDetails extends React.Component {
     this.cardsRepo.updateMember(card.id, memberId, shouldBeSet);
   }
 
-  removeCard(cardId) {
-    if (confirm('Do you want to remove this card?')) {
+  removeCard = (cardId) => {
+    if (window.confirm('Do you want to remove this card?')) {
       this.cardsRepo.removeCard(cardId);
     }
   }
 
   render() {
-    const { card, onClose } = this.props;
-    const { title, description, id, columnId, labels = [], memberIds = [] } = card;
+    const {
+      onClose,
+      card,
+      card: { title, description, id, columnId, labels = [], memberIds = [] },
+    } = this.props;
     const comments = this.commentsRepo.commentsForCard(id);
     const columnName = this.columnsRepo.get(columnId).name;
     const labelPickerOpened = this.uiRepo.get('card:openLabelsPicker');
@@ -93,28 +92,31 @@ export default class CardDetails extends React.Component {
       <div className="card-details">
         <div className="title-wrapper">
           <button
+            type="button"
             className="btn btn-raw-icon btn-close"
-            onClick={() => { onClose(); }}
-          >✕</button>
+            onClick={onClose}
+          >
+            ✕
+          </button>
           <EditableInput
             className="title"
             value={title}
-            onChange={(value) => { this.updateTitle(value); }}
+            onChange={this.updateTitle}
           />
         </div>
         <div className="two-cols-section">
           <div className="main-col">
             <h4 className="sub-title">{`In Column: ${columnName}`}</h4>
             <ul className="labels-section">
-              { labels.map(label =>
+              { labels.map(label => (
                 <li
                   key={label}
                   className="label"
                   style={{ backgroundColor: label }}
                 >
                   {this.textForLabel(label)}
-                </li>,
-              )}
+                </li>
+              ))}
             </ul>
           </div>
           { memberIds.length > 0 && (
@@ -140,25 +142,32 @@ export default class CardDetails extends React.Component {
             type="textarea"
             value={description}
             ref={(e) => { this.descriptionInput = e; }}
-            onChange={(value) => { this.updateDescription(value); }}
+            onChange={this.updateDescription}
           />
           <div className="additional-col utils-section">
-            <a
+            <FunctionLink
               className="btn btn-danger btn-small btn-remove-card"
-              onClick={() => { this.removeCard(id); }}
-            >Delete Card</a>
-            <a
+              onClick={() => this.removeCard(id)}
+            >
+              Delete Card
+            </FunctionLink>
+            <FunctionLink
               className="btn btn-success btn-small btn-manage-labels"
               onClick={() => this.uiRepo.toggle('card:openLabelsPicker')}
-            >Manage Labels</a>
-            <a
+            >
+              Manage Labels
+            </FunctionLink>
+            <FunctionLink
               className="btn btn-success btn-small btn-manage-members"
               onClick={() => this.uiRepo.toggle('card:openMemberPicker')}
-            >Members</a>
+            >
+              Members
+            </FunctionLink>
 
             { labelPickerOpened && (
               <div className="sub-modal">
-                <div
+                <FunctionLink
+                  component="div"
                   className="off-trigger"
                   onClick={() => this.uiRepo.toggle('card:openLabelsPicker')}
                 />
@@ -167,7 +176,7 @@ export default class CardDetails extends React.Component {
                     className="sub-modal-content"
                     card={card}
                     deps={this.deps}
-                    onLabelPicked={(label) => { this.updateLabels(label); }}
+                    onLabelPicked={this.updateLabels}
                   />
                 </div>
               </div>
@@ -175,7 +184,8 @@ export default class CardDetails extends React.Component {
 
             { memberPickerOpened && (
               <div className="sub-modal">
-                <div
+                <FunctionLink
+                  component="div"
                   className="off-trigger"
                   onClick={() => this.uiRepo.toggle('card:openMemberPicker')}
                 />
@@ -184,7 +194,7 @@ export default class CardDetails extends React.Component {
                     className="sub-modal-content"
                     card={card}
                     deps={this.deps}
-                    onMemberPicked={(member) => { this.updateMembers(member); }}
+                    onMemberPicked={this.updateMembers}
                   />
                 </div>
               </div>
@@ -193,13 +203,13 @@ export default class CardDetails extends React.Component {
         </div>
         <h4 className="section-title clearfix">Comments:</h4>
         <AddCommentForm cardId={id} deps={this.deps} />
-        { comments.map(comment =>
+        { comments.map(comment => (
           <CardComment
             key={comment.id}
             comment={comment}
             deps={this.deps}
-          />,
-        )}
+          />
+        ))}
       </div>
     );
   }

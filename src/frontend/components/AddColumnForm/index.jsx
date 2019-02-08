@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import serialize from 'form-serialize';
+import FunctionLink from 'components/FunctionLink';
+
 import 'components/AddColumnForm/styles.scss';
 
 export default class AddColumnForm extends React.Component {
-  static get propTypes() {
-    return {
-      deps: PropTypes.object.isRequired,
-    };
+  static propTypes = {
+    deps: PropTypes.object.isRequired,
   }
 
   constructor(props) {
@@ -17,31 +17,23 @@ export default class AddColumnForm extends React.Component {
     this.uiRepo = deps.get('uiRepository');
   }
 
-  isOpen() {
-    return this.uiRepo.get('columns:addForm:opened');
-  }
+  isOpen = () => this.uiRepo.get('columns:addForm:opened');
 
-  open() {
-    this.uiRepo.set('columns:addForm:opened', true);
-  }
+  open = () => this.uiRepo.set('columns:addForm:opened', true);
 
-  close() {
+  close = (e) => {
+    e.preventDefault();
     this.uiRepo.set('columns:addForm:opened', false);
   }
 
-  submitFormOnEnter(e) {
-    if (e.key === 'Enter') {
-      this.submit(e);
-    }
-  }
+  submitFormOnEnter = e => (e.key === 'Enter') && this.submit(e);
 
-  submit(e) {
+  submit = (e) => {
     e.preventDefault();
     const { title } = serialize(this.formElement, { hash: true });
     if (title) {
-      this.columnsRepo.addColumn(title).then(() => {
-        this.close();
-      });
+      this.columnsRepo.addColumn(title)
+        .then(() => this.close());
     }
   }
 
@@ -49,25 +41,37 @@ export default class AddColumnForm extends React.Component {
     const opened = this.isOpen();
     return (
       <div className="add-column-form">
-        { opened ?
+        { opened ? (
           <form
             className="form"
             ref={(e) => { this.formElement = e; }}
-            onSubmit={(e) => { this.submit(e); }}
+            onSubmit={this.submit}
           >
             <input
               className="column-title"
               name="title"
-              onKeyPress={(e) => { this.submitFormOnEnter(e); }}
+              onKeyPress={this.submitFormOnEnter}
               placeholder="Type a column name..."
               autoFocus
             />
             <input className="btn btn-success" type="submit" value="Add Column" />
-            <button className="btn btn-raw-icon" onClick={(e) => { e.preventDefault(); this.close(); }}>✕</button>
+            <button
+              type="button"
+              className="btn btn-raw-icon"
+              onClick={this.close}
+            >
+              ✕
+            </button>
           </form>
-        :
-          <p className="prompt" onClick={() => { this.open(); }}>Add a Column...</p>
-        }
+        ) : (
+          <FunctionLink
+            component="p"
+            className="prompt"
+            onClick={this.open}
+          >
+            Add a Column...
+          </FunctionLink>
+        )}
       </div>
     );
   }

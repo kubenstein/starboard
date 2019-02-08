@@ -5,11 +5,9 @@ import Avatar from 'components/Avatar';
 import 'components/Card/styles.scss';
 
 export default class Card extends React.Component {
-  static get propTypes() {
-    return {
-      deps: PropTypes.object.isRequired,
-      card: PropTypes.object.isRequired, // TODO change to shape
-    };
+  static propTypes = {
+    deps: PropTypes.object.isRequired,
+    card: PropTypes.object.isRequired, // TODO change to shape
   }
 
   constructor(props) {
@@ -20,39 +18,30 @@ export default class Card extends React.Component {
     this.uiRepo = this.deps.get('uiRepository');
   }
 
-  openDetails() {
-    const { id } = this.props.card;
+  openDetails = () => {
+    const { card: { id } } = this.props;
     this.uiRepo.set('card:openedId', id);
   }
 
-  closeDetails() {
-    this.uiRepo.set('card:openedId', null);
-  }
+  closeDetails = () => this.uiRepo.set('card:openedId', null);
 
-  textForLabel(color) {
-    return this.settingsRepo.textForLabel(color);
-  }
+  textForLabel = color => this.settingsRepo.textForLabel(color);
 
-  clickedOverlay(e) {
+  clickedOverlay = (e) => {
     if (e.target === this.dismissOverlayElement) {
       this.closeDetails();
     }
   }
 
-  additionalCssClass(detailsOpened) {
-    return detailsOpened ? 'card-opened' : '';
-  }
-
   render() {
-    const { card } = this.props;
-    const { title, id, labels = [], memberIds = [] } = card;
+    const { card, card: { title, id, labels = [], memberIds = [] } } = this.props;
     const detailsOpened = (this.uiRepo.get('card:openedId') === id);
     const commentCounter = this.commentsRepo.commentsCountForCard(id);
     return (
       <div
-        className={`card-wrapper ${this.additionalCssClass(detailsOpened)}`}
+        className={`card-wrapper ${detailsOpened ? 'card-opened' : ''}`}
         data-DND-data-card-id={id}
-        onClick={() => (!detailsOpened && this.openDetails())}
+        onClick={() => !detailsOpened && this.openDetails()}
       >
         <div className="card card-DND-handler">
           <ul className="labels">
@@ -66,9 +55,11 @@ export default class Card extends React.Component {
             ))}
           </ul>
           <span className="title card-DND-handler">{title}</span>
-          { commentCounter > 0 &&
-            <span className="comment-counter card-DND-handler">☰ {commentCounter}</span>
-          }
+          { commentCounter > 0 && (
+            <span className="comment-counter card-DND-handler">
+              {`☰ ${commentCounter}`}
+            </span>
+          )}
           <div className="members">
             { memberIds.map(memberId => (
               <Avatar
@@ -83,12 +74,12 @@ export default class Card extends React.Component {
         {detailsOpened &&
           <div
             className="card-details-full-screen-wrapper"
-            onClick={(e) => { this.clickedOverlay(e); }}
-            ref={(r) => { this.dismissOverlayElement = r; }}
+            onClick={this.clickedOverlay}
+            ref={(e) => { this.dismissOverlayElement = e; }}
           >
             <CardDetails
               card={card}
-              onClose={() => { this.closeDetails(); }}
+              onClose={this.closeDetails}
               deps={this.deps}
             />
           </div>

@@ -3,67 +3,60 @@ import PropTypes from 'prop-types';
 import 'components/EditableInput/styles.scss';
 
 export default class EditableInput extends React.Component {
-  static get propTypes() {
-    return {
-      value: PropTypes.string,
-      placeholder: PropTypes.string,
-      type: PropTypes.string,
-      onChange: PropTypes.func,
-    };
+  static propTypes = {
+    value: PropTypes.string,
+    placeholder: PropTypes.string,
+    type: PropTypes.string,
+    onChange: PropTypes.func,
+    className: PropTypes.string,
   }
 
-  static get defaultProps() {
-    return {
-      value: '',
-      placeholder: '',
-      type: '',
-      onChange: (() => {}),
-    };
+  static defaultProps = {
+    value: '',
+    placeholder: '',
+    type: '',
+    onChange: (() => {}),
   }
 
   constructor(props) {
     super(props);
+    const { value } = props;
+
     this.state = {
-      value: this.props.value,
+      value,
       currentlyEditing: false,
     };
   }
 
   componentWillReceiveProps(nextProps) {
-    const value = nextProps.value;
-    if (value && !this.state.currentlyEditing) {
-      this.setState({ value: value });
+    const { value } = nextProps;
+    const { currentlyEditing } = this.state;
+    if (value && !currentlyEditing) {
+      this.setState({ value });
     }
   }
 
-  onEnterCheck(e) {
-    if (e.key === 'Enter') {
-      this.input.blur();
-    }
-  }
+  onEnterCheck = e => (e.key === 'Enter') && this.input.blur();
 
-  onFocus() {
-    this.setState({ currentlyEditing: true });
-  }
+  onFocus = () => this.setState({ currentlyEditing: true });
 
-  onBlur() {
+  onBlur = () => {
     this.setState({ currentlyEditing: false });
     this.onFinalizedEditing();
   }
 
-  onFinalizedEditing() {
-    const { value } = this.input;
-    this.props.onChange(value);
-  }
+  onInputChange = e => this.setState({ value: e.target.value });
 
-  onInputChange(e) {
-    const { value } = e.target;
-    this.setState({ value: value });
+  onFinalizedEditing = () => {
+    const { value } = this.input;
+    const { onChange } = this.props;
+    onChange(value);
   }
 
   cssClasses() {
     const { className } = this.props;
-    const editingCssClass = this.state.currentlyEditing ? 'editing' : '';
+    const { currentlyEditing } = this.state;
+    const editingCssClass = currentlyEditing ? 'editing' : '';
     return `editable-input ${className} ${editingCssClass}`;
   }
 
@@ -75,9 +68,9 @@ export default class EditableInput extends React.Component {
         value={value}
         placeholder={placeholder}
         ref={(e) => { this.input = e; }}
-        onBlur={() => { this.onBlur(); }}
-        onFocus={() => { this.onFocus(); }}
-        onChange={(e) => { this.onInputChange(e); }}
+        onBlur={this.onBlur}
+        onFocus={this.onFocus}
+        onChange={this.onInputChange}
       />
     );
   }
@@ -92,10 +85,10 @@ export default class EditableInput extends React.Component {
         value={value}
         placeholder={placeholder}
         ref={(e) => { this.input = e; }}
-        onBlur={() => { this.onBlur(); }}
-        onFocus={() => { this.onFocus(); }}
-        onKeyPress={(e) => { this.onEnterCheck(e); }}
-        onChange={(e) => { this.onInputChange(e); }}
+        onBlur={this.onBlur}
+        onFocus={this.onFocus}
+        onKeyPress={this.onEnterCheck}
+        onChange={this.onInputChange}
       />
     );
   }
@@ -103,9 +96,6 @@ export default class EditableInput extends React.Component {
   render() {
     const { value } = this.state;
     const { type } = this.props;
-    return (type === 'textarea') ?
-      this.textareaJSX(value)
-    :
-      this.inputJSX(value);
+    return (type === 'textarea') ? this.textareaJSX(value) : this.inputJSX(value);
   }
 }

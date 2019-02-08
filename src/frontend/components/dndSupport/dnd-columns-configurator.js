@@ -10,7 +10,7 @@ export default class DndColumnsConfigurator {
 
   configure() {
     return this.setup()
-               .on('drop', (el) => { this.onDrop(el); });
+      .on('drop', el => this.onDrop(el));
   }
 
   // private
@@ -18,15 +18,13 @@ export default class DndColumnsConfigurator {
   setup() {
     return Dragula([], {
       direction: 'horizontal',
-      moves: (_el, _container, handle) => {
-        return handle.classList.contains(this.dndHandlerCssClass);
-      },
+      moves: (_el, _container, handle) => handle.classList.contains(this.dndHandlerCssClass),
     });
   }
 
   onDrop(el) {
     const columnId = el.getAttribute(this.dndElColumnIdDataAttr);
-    const newPosition = positionAmongDOMSiblings(el);
-    this.columnsRepo.updateColumn(columnId, { position: newPosition });
+    const position = positionAmongDOMSiblings(el);
+    this.columnsRepo.updateColumn(columnId, { position });
   }
 }

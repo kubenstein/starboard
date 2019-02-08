@@ -42,8 +42,7 @@ deps
     dataEventStorage: di.get('eventStorage'),
     appEventStorage: di.get('appEventStorage'),
     userId: di.get('userSessionService').userId(),
-  }))
-;
+  }));
 
 
 ReactDOM.render(

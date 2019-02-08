@@ -7,7 +7,7 @@ export default class DndSpaceRegistrator {
   registerRefAsSpace(el) {
     if (!el) return;
 
-    const containers = this.dndManager.containers;
+    const { containers } = this.dndManager;
     if (this.elRef) {
       this.remove(this.elRef, containers);
     }

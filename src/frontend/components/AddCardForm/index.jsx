@@ -1,14 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import serialize from 'form-serialize';
+import FunctionLink from 'components/FunctionLink';
 import 'components/AddCardForm/styles.scss';
 
 export default class AddCardForm extends React.Component {
-  static get propTypes() {
-    return {
-      deps: PropTypes.object.isRequired,
-      columnId: PropTypes.string.isRequired,
-    };
+  static propTypes = {
+    deps: PropTypes.object.isRequired,
+    columnId: PropTypes.string.isRequired,
   }
 
   constructor(props) {
@@ -18,35 +17,30 @@ export default class AddCardForm extends React.Component {
     this.uiRepo = deps.get('uiRepository');
   }
 
-  isOpen() {
+  isOpen = () => {
     const { columnId } = this.props;
     return this.uiRepo.get(`cards:addForm:opened:${columnId}`);
   }
 
-  open() {
+  open = () => {
     const { columnId } = this.props;
     this.uiRepo.set(`cards:addForm:opened:${columnId}`, true);
   }
 
-  close() {
+  close = () => {
     const { columnId } = this.props;
     this.uiRepo.set(`cards:addForm:opened:${columnId}`, false);
   }
 
-  submitFormOnEnter(e) {
-    if (e.key === 'Enter') {
-      this.submit(e);
-    }
-  }
+  submitFormOnEnter = e => (e.key === 'Enter') && this.submit(e);
 
-  submit(e) {
+  submit = (e) => {
     e.preventDefault();
     const { columnId } = this.props;
     const { title } = serialize(this.formElement, { hash: true });
     if (title) {
-      this.cardsRepo.addCard(title, columnId).then(() => {
-        this.close();
-      });
+      this.cardsRepo.addCard(title, columnId)
+        .then(() => this.close());
     }
   }
 
@@ -54,26 +48,38 @@ export default class AddCardForm extends React.Component {
     const opened = this.isOpen();
     return (
       <div className="add-card-form">
-        { opened ?
+        { opened ? (
           <form
             className="form"
             ref={(e) => { this.formElement = e; }}
-            onSubmit={(e) => { this.submit(e); }}
+            onSubmit={this.submit}
           >
             <input
               className="card-title"
               name="title"
               autoComplete="off"
-              onKeyPress={(e) => { this.submitFormOnEnter(e); }}
+              onKeyPress={this.submitFormOnEnter}
               placeholder="Type a card title..."
               autoFocus
             />
             <input className="btn btn-success" type="submit" value="Add" />
-            <button className="btn btn-raw-icon" onClick={(e) => { e.preventDefault(); this.close(); }}>✕</button>
+            <button
+              type="button"
+              className="btn btn-raw-icon"
+              onClick={this.close}
+            >
+              ✕
+            </button>
           </form>
-        :
-          <p className="prompt" onClick={() => { this.open(); }}>Add a Card...</p>
-        }
+        ) : (
+          <FunctionLink
+            component="p"
+            className="prompt"
+            onClick={this.open}
+          >
+            Add a Card...
+          </FunctionLink>
+        )}
       </div>
     );
   }

@@ -67,8 +67,7 @@ export default class State {
     if (!this.data[bucketName]) {
       this.data[bucketName] = [];
     }
-    return this.data[bucketName]
-           .slice(0);
+    return this.data[bucketName].slice(0);
   }
 
   // Event handlers helpers
@@ -129,7 +128,7 @@ export default class State {
     const handlerName = event.type;
     const eventHandler = this.eventHandlers[handlerName];
     const allEventsHandler = this.eventHandlers.allEventTypes;
-    const handlerParmas = { stateManager: this, event: event };
+    const handlerParmas = { stateManager: this, event };
 
     if (allEventsHandler) allEventsHandler.execute(handlerParmas);
     if (eventHandler) eventHandler.execute(handlerParmas);

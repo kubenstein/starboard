@@ -11,40 +11,42 @@ export default class DndCardsConfigurator {
 
   configure() {
     return this.setup()
-               .on('drag', (el) => { this.onDragStart(el); })
-               .on('drop', (el, target) => { this.onDrop(el, target); })
-               .on('cancel', (el) => { this.onCancel(el); });
+      .on('drag', el => this.onDragStart(el))
+      .on('drop', (el, target) => this.onDrop(el, target))
+      .on('cancel', el => this.onCancel(el));
   }
 
   // private
 
   setup() {
     return Dragula([], {
-      moves: (_el, _container, handle) => {
-        return handle.classList.contains(this.dndHandlerCssClass);
-      },
-      copy: true, // Instruct Dragula to copy dragged element, so it will still persist on an old column.
-                  // It has to stay there so React can clean it in its react-ish way.
-                  // The source element (this.sourceDraggedEl) will be hidden by css.
+      moves: (_el, _container, handle) => handle.classList.contains(this.dndHandlerCssClass),
+
+      // Instruct Dragula to copy dragged element, so it will still persist on an old column.
+      // It has to stay there so React can clean it in its react-ish way.
+      // The source element (this.sourceDraggedEl) will be hidden by css.
+      copy: true,
       copySortSource: true,
     });
   }
 
   onDragStart(el) {
     this.sourceDraggedEl = el;
-    setTimeout(() => { // Source element has to be hidden by css, however though
-                       // draggable clone el dimentions are calculated based
-                       // on source element dimentions. So the source el
-                       // has to be visible during that calculation.
-                       // We postpone applying hiding css class via setTimeout(..., 0)
-      this.sourceDraggedEl.classList.add('card-dragging');
-    }, 0);
+
+    // Source element has to be hidden by css, however though
+    // draggable clone el dimentions are calculated based
+    // on source element dimentions. So the source el
+    // has to be visible during that calculation.
+    // We postpone applying hiding css class via setTimeout(..., 0)
+    setTimeout(() => this.sourceDraggedEl.classList.add('card-dragging'), 0);
   }
 
   onDrop(el, target) {
     this.sourceDraggedEl.classList.remove('card-dragging');
-    if (!target) return; // No target means draggable element was dropped outside
-                         // of any container. Return due to no meaningful dnd.
+
+    // No target means draggable element was dropped outside
+    // of any container. Return due to no meaningful dnd.
+    if (!target) return;
 
     const cardId = el.getAttribute(this.dndElCardIdDataAttr);
     const newColumnId = target.getAttribute(this.dndSpaceColumnIdDataAttr);

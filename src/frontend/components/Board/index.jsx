@@ -9,11 +9,13 @@ import DndCardsConfigurator from 'components/dndSupport/dnd-cards-configurator';
 import 'components/Board/styles.scss';
 
 export default class Board extends React.Component {
-  static get propTypes() {
-    return {
-      deps: PropTypes.object.isRequired,
-    };
+  static propTypes = {
+    deps: PropTypes.object.isRequired,
   }
+
+  state = {
+    columns: [],
+  };
 
   constructor(props) {
     super(props);
@@ -26,9 +28,6 @@ export default class Board extends React.Component {
     this.uiRepo = this.deps.get('uiRepository');
     this.browserSettingsService = this.deps.get('browserSettingsService');
     this.configureDND();
-    this.state = {
-      columns: [],
-    };
   }
 
   componentWillMount() {
@@ -106,15 +105,15 @@ export default class Board extends React.Component {
             className="columns"
             ref={(e) => { this.dndColumnsSpaceRegistrator.registerRefAsSpace(e); }}
           >
-            { columns.map(column =>
+            { columns.map(column => (
               <Column
                 className="column column-DND-handler"
                 key={column.id}
                 column={column}
                 DNDManager={this.cardsDNDManager}
                 deps={this.deps}
-              />,
-            )}
+              />
+            ))}
           </div>
 
           <AddColumnForm
@@ -141,11 +140,7 @@ export default class Board extends React.Component {
     return (
       <div className="board-wrapper">
         <style>{this.themeStyler.generateStyles()}</style>
-        { loaded ?
-          this.renderLoadedBoard()
-        :
-          this.renderLoadingBoard()
-        }
+        { loaded ? this.renderLoadedBoard() : this.renderLoadingBoard()}
       </div>
     );
   }
