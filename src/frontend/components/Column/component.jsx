@@ -3,77 +3,68 @@ import PropTypes from 'prop-types';
 import AddCardForm from 'components/AddCardForm';
 import Card from 'components/Card';
 import EditableInput from 'components/EditableInput';
-import DndSpaceRegistrator from 'components/dndSupport/dnd-space-registrator';
+import DndSpaceRegistrator from 'lib/dndSupport/dnd-space-registrator';
 import 'components/Column/styles.scss';
 
 export default class Column extends React.Component {
   static propTypes = {
-    deps: PropTypes.object.isRequired,
+    cards: PropTypes.arrayOf(PropTypes.object).isRequired,
     column: PropTypes.object.isRequired, // TODO replace with shape
     DNDManager: PropTypes.object.isRequired,
     className: PropTypes.string,
+    onNameUpdate: PropTypes.func.isRequired,
+    onColumnRemove: PropTypes.func.isRequired,
   }
 
-  constructor(props) {
-    super(props);
+  componentWillMount() {
     const { DNDManager } = this.props;
-    this.deps = this.props.deps;
     this.dndSpaceRegistrator = new DndSpaceRegistrator(DNDManager);
-    this.cardsRepo = this.deps.get('cardsRepository');
-    this.columnsRepo = this.deps.get('columnsRepository');
   }
 
-  updateName = (name) => {
-    const { column: { name: oldName, id } } = this.props;
-    if (name !== oldName) {
-      this.columnsRepo.updateColumn(id, { name });
-    }
-  }
-
-  removeColumn = (id) => {
+  onColumnRemove = () => {
+    const { onColumnRemove } = this.props;
     if (window.confirm('Do you want to remove this column?')) {
-      this.columnsRepo.removeColumn(id);
+      onColumnRemove();
     }
-  }
-
-  cssClasses() {
-    const { className } = this.props;
-    return `column ${className}`;
   }
 
   render() {
-    const { column: { name, id } } = this.props;
-    const cards = this.cardsRepo.cardsSortedByPosition(id);
+    const {
+      cards,
+      className,
+      onNameUpdate,
+      column: { name, id },
+    } = this.props;
     return (
       <div
-        className={this.cssClasses()}
-        data-DND-data-column-id={id}
+        className={`column ${className}`}
+        data-dnd-data-column-id={id}
       >
         <div className="clearfix">
           <EditableInput
             className="column-title column-DND-handler"
             value={name}
-            onChange={this.updateName}
+            onChange={onNameUpdate}
           />
           <button
             className="btn btn-remove btn-raw-icon"
             title="remove column"
             type="button"
-            onClick={() => this.removeColumn(id)}
+            onClick={this.onColumnRemove}
           >
             ✕
           </button>
         </div>
         <div
           className="card-list"
-          data-DND-data-column-id={id}
+          data-dnd-data-column-id={id}
           ref={ref => this.dndSpaceRegistrator.registerRefAsSpace(ref)}
         >
           { cards.map(card => (
-            <Card key={card.id} card={card} deps={this.deps} />
+            <Card key={card.id} card={card} />
           ))}
         </div>
-        <AddCardForm columnId={id} deps={this.deps} />
+        <AddCardForm columnId={id} />
       </div>
     );
   }

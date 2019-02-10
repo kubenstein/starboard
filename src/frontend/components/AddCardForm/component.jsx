@@ -2,63 +2,50 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import serialize from 'form-serialize';
 import FunctionLink from 'components/FunctionLink';
+import 'components/AddCardForm/styles.scss';
 
-import 'components/AddColumnForm/styles.scss';
-
-export default class AddColumnForm extends React.Component {
+export default class AddCardForm extends React.Component {
   static propTypes = {
-    deps: PropTypes.object.isRequired,
-  }
-
-  constructor(props) {
-    super(props);
-    const deps = this.props.deps;
-    this.columnsRepo = deps.get('columnsRepository');
-    this.uiRepo = deps.get('uiRepository');
-  }
-
-  isOpen = () => this.uiRepo.get('columns:addForm:opened');
-
-  open = () => this.uiRepo.set('columns:addForm:opened', true);
-
-  close = (e) => {
-    e.preventDefault();
-    this.uiRepo.set('columns:addForm:opened', false);
+    isOpen: PropTypes.bool,
+    onOpen: PropTypes.func.isRequired,
+    onClose: PropTypes.func.isRequired,
+    addCard: PropTypes.func.isRequired,
   }
 
   submitFormOnEnter = e => (e.key === 'Enter') && this.submit(e);
 
   submit = (e) => {
     e.preventDefault();
+    const { addCard, onClose } = this.props;
     const { title } = serialize(this.formElement, { hash: true });
     if (title) {
-      this.columnsRepo.addColumn(title)
-        .then(() => this.close());
+      addCard(title).then(() => onClose());
     }
   }
 
   render() {
-    const opened = this.isOpen();
+    const { isOpen, onOpen, onClose } = this.props;
     return (
-      <div className="add-column-form">
-        { opened ? (
+      <div className="add-card-form">
+        { isOpen ? (
           <form
             className="form"
             ref={(e) => { this.formElement = e; }}
             onSubmit={this.submit}
           >
             <input
-              className="column-title"
+              className="card-title"
               name="title"
+              autoComplete="off"
               onKeyPress={this.submitFormOnEnter}
-              placeholder="Type a column name..."
+              placeholder="Type a card title..."
               autoFocus
             />
-            <input className="btn btn-success" type="submit" value="Add Column" />
+            <input className="btn btn-success" type="submit" value="Add" />
             <button
               type="button"
               className="btn btn-raw-icon"
-              onClick={this.close}
+              onClick={(e) => { e.preventDefault(); onClose(); }}
             >
               ✕
             </button>
@@ -67,9 +54,9 @@ export default class AddColumnForm extends React.Component {
           <FunctionLink
             component="p"
             className="prompt"
-            onClick={this.open}
+            onClick={onOpen}
           >
-            Add a Column...
+            Add a Card...
           </FunctionLink>
         )}
       </div>

@@ -6,43 +6,38 @@ import 'components/AvatarEditor/styles.scss';
 
 export default class AvatarEditor extends React.Component {
   static propTypes = {
-    deps: PropTypes.object.isRequired,
+    avatarUrl: PropTypes.string,
+    onAvatarRemove: PropTypes.func.isRequired,
+    onAvatarUpload: PropTypes.func.isRequired,
   }
 
   state = {
     uploading: false,
   };
 
-  constructor(props) {
-    super(props);
-    this.repo = this.props.deps.get('usersRepository');
-  }
+  onAvatarUpload = () => {
+    const { onAvatarUpload } = this.props;
 
-  removeAvatar = () => {
-    this.repo.setCurrentUserAvatar(null);
-  }
-
-  handleAvatarUpload = () => {
     this.setState({ uploading: true });
     const file = this.fileInput.files[0];
-    const avatar = { blob: file };
-    this.repo.setCurrentUserAvatar(avatar)
+    onAvatarUpload(file)
       .then(() => this.setState({ uploading: false }));
   }
 
   render() {
     const { uploading } = this.state;
-    const avatarUrl = this.repo.currentUserAvatarUrl();
+    const { onAvatarRemove, avatarUrl } = this.props;
     const displayedAvatarUrl = avatarUrl || placeholderAvatar;
+
     return (
       <div className="avatar-editor">
-        { uploading && <span className="badge">~</span>}
+        {uploading && <span className="badge">~</span>}
 
-        { avatarUrl && (
+        {avatarUrl && (
           <FunctionLink
             component="button"
             className="badge btn-remove"
-            onClick={this.removeAvatar}
+            onClick={onAvatarRemove}
           >
             ✕
           </FunctionLink>
@@ -52,13 +47,13 @@ export default class AvatarEditor extends React.Component {
           htmlFor="avatar-file"
           style={{ backgroundImage: `url('${displayedAvatarUrl}')` }}
         >
-          { !uploading && (
+          {!uploading && (
             <input
               className="file-input"
               type="file"
               id="avatar-file"
               ref={(e) => { this.fileInput = e; }}
-              onChange={this.handleAvatarUpload}
+              onChange={this.onAvatarUpload}
             />
           )}
         </label>

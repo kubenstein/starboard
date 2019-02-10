@@ -6,49 +6,41 @@ import AvatarEditor from 'components/AvatarEditor';
 import FunctionLink from 'components/FunctionLink';
 import 'components/SideMenu/styles.scss';
 
+const labelCssClasses = (color) => {
+  const labelId = color.replace('#', '');
+  return `label-input-${labelId}`;
+};
+
+const colorPickerCssClasses = (color) => {
+  const pickerId = color.replace('#', '');
+  return `color theme-color-picker-input-${pickerId}`;
+};
+
 export default class SideMenu extends React.Component {
   static propTypes = {
-    deps: PropTypes.object.isRequired,
-  }
-
-  constructor(props) {
-    super(props);
-    this.deps = this.props.deps;
-    this.settingsRepo = this.deps.get('settingsRepository');
-    this.usersRepo = this.deps.get('usersRepository');
-    this.activitiesRepo = this.deps.get('activitiesRepository');
-    this.userSessionService = this.deps.get('userSessionService');
-    this.browserSettingsService = this.deps.get('browserSettingsService');
-  }
-
-  textForLabel = color => this.settingsRepo.textForLabel(color);
-
-  updateThemeColor = color => this.settingsRepo.setThemeColor(color);
-
-  updateLabelText = (color, value) => this.settingsRepo.setTextForLabel(color, value);
-
-  updateNickname = nickname => this.usersRepo.setCurrentUserNickname(nickname);
-
-  logout = () => {
-    this.userSessionService.logout();
-    this.browserSettingsService.reloadPage();
-  }
-
-  labelCssClasses = (color) => {
-    const labelId = color.replace('#', '');
-    return `label-input-${labelId}`;
-  }
-
-  colorPickerCssClasses = (color) => {
-    const pickerId = color.replace('#', '');
-    return `color theme-color-picker-input-${pickerId}`;
+    availableColors: PropTypes.arrayOf(PropTypes.string).isRequired,
+    userId: PropTypes.string.isRequired,
+    nickname: PropTypes.string.isRequired,
+    activities: PropTypes.arrayOf(PropTypes.object).isRequired,
+    textForLabel: PropTypes.func.isRequired,
+    onThemeColorChange: PropTypes.func.isRequired,
+    onLabelTextChange: PropTypes.func.isRequired,
+    onNicknameChange: PropTypes.func.isRequired,
+    onLogout: PropTypes.func.isRequired,
   }
 
   render() {
-    const availableColors = this.settingsRepo.availableColors();
-    const userId = this.usersRepo.currentUserId();
-    const nickname = this.usersRepo.currentUserNickname();
-    const activities = this.activitiesRepo.latestEvents(10);
+    const {
+      availableColors,
+      userId,
+      nickname,
+      activities,
+      textForLabel,
+      onThemeColorChange,
+      onLabelTextChange,
+      onNicknameChange,
+      onLogout,
+    } = this.props;
     return (
       <div className="side-menu">
         <div className="section user-section">
@@ -57,15 +49,15 @@ export default class SideMenu extends React.Component {
             className="btn-link btn-small btn-logout"
             type="button"
             value="log out"
-            onClick={this.logout}
+            onClick={onLogout}
           />
           <br className="clearfix" />
-          <AvatarEditor className="avatar-editor" deps={this.deps} />
+          <AvatarEditor className="avatar-editor" />
           <EditableInput
             className="input-nickname"
             value={nickname}
             placeholder="Set Nickname..."
-            onChange={this.updateNickname}
+            onChange={onNicknameChange}
           />
           <small className="user-id">{userId}</small>
         </div>
@@ -78,8 +70,8 @@ export default class SideMenu extends React.Component {
                 component="li"
                 key={color}
                 style={{ backgroundColor: color }}
-                className={this.colorPickerCssClasses(color)}
-                onClick={() => this.updateThemeColor(color)}
+                className={colorPickerCssClasses(color)}
+                onClick={() => onThemeColorChange(color)}
               />
             ))}
           </ul>
@@ -91,9 +83,9 @@ export default class SideMenu extends React.Component {
             { availableColors.map(color => (
               <div key={color} className="label" style={{ backgroundColor: color }}>
                 <EditableInput
-                  className={this.labelCssClasses(color)}
-                  value={this.textForLabel(color)}
-                  onChange={value => this.updateLabelText(color, value)}
+                  className={labelCssClasses(color)}
+                  value={textForLabel(color)}
+                  onChange={value => onLabelTextChange(color, value)}
                 />
               </div>
             ))}
@@ -107,7 +99,6 @@ export default class SideMenu extends React.Component {
               <ActivityItem
                 key={activity.id}
                 activity={activity}
-                deps={this.deps}
               />
             ))}
           </div>

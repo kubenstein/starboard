@@ -22,17 +22,6 @@ $background-color: rgba(222, 222, 222, 0.95);
     display: flex;
     flex-direction: column;
   }
-
-  .loading-text {
-    position: absolute;
-    top: 50%;
-    left: 0;
-    right: 0;
-    text-align: center;
-    z-index: 20;
-    font-size: 40px;
-    color: $grey;
-  }
 }
 
 //

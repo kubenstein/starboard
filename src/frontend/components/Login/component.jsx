@@ -5,12 +5,14 @@ import 'components/Login/styles.scss';
 
 export default class Login extends React.Component {
   static propTypes = {
+    loginError: PropTypes.bool,
+    rehydrateFromCookie: PropTypes.func.isRequired,
     onLogIn: PropTypes.func.isRequired,
-    displayError: PropTypes.bool,
   }
 
-  static defaultProps = {
-    displayError: false,
+  componentWillMount() {
+    const { rehydrateFromCookie } = this.props;
+    rehydrateFromCookie();
   }
 
   submit = (e) => {
@@ -23,7 +25,7 @@ export default class Login extends React.Component {
   }
 
   render() {
-    const { displayError } = this.props;
+    const { loginError } = this.props;
     return (
       <div className="login">
         <form
@@ -35,7 +37,7 @@ export default class Login extends React.Component {
           <input className="input" name="email" type="email" placeholder="Email..." />
           <input className="input" name="password" type="password" placeholder="password..." />
           <input className="btn btn-success" type="submit" value="log in" />
-          { displayError && (
+          { loginError && (
             <p className="error-msg">Unable to log in with given credentials.</p>
           )}
         </form>

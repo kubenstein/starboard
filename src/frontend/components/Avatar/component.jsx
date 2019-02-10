@@ -5,20 +5,13 @@ import 'components/Avatar/styles.scss';
 
 export default class Avatar extends React.Component {
   static propTypes = {
-    deps: PropTypes.object.isRequired,
     userId: PropTypes.string.isRequired,
+    avatarUrl: PropTypes.string,
     className: PropTypes.string,
   }
 
-  constructor(props) {
-    super(props);
-    const { deps } = this.props;
-    this.repo = deps.get('usersRepository');
-  }
-
   render() {
-    const { userId, className } = this.props;
-    const avatarUrl = this.repo.userAvatarUrl(userId) || placeholderAvatar;
+    const { userId, className, avatarUrl = placeholderAvatar } = this.props;
 
     return (
       <div

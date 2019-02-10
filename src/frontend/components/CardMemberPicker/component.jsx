@@ -6,24 +6,14 @@ import 'components/CardMemberPicker/styles.scss';
 
 export default class CardMemberPicker extends React.Component {
   static propTypes = {
-    deps: PropTypes.object.isRequired,
-    onMemberPicked: PropTypes.func.isRequired,
+    users: PropTypes.arrayOf(PropTypes.object).isRequired,
     className: PropTypes.string,
-  }
-
-  constructor(props) {
-    super(props);
-    this.deps = this.props.deps;
-    this.repo = this.deps.get('usersRepository');
-  }
-
-  renderUserName(userId) {
-    return this.repo.userNickname(userId) || userId;
+    onChange: PropTypes.func.isRequired,
+    nickname: PropTypes.func.isRequired,
   }
 
   render() {
-    const { onMemberPicked, className = '' } = this.props;
-    const users = this.repo.all();
+    const { onChange, className, nickname, users } = this.props;
     return (
       <div className={`card-member-picker ${className}`}>
         <h1 className="header">Add a member to the card:</h1>
@@ -32,15 +22,14 @@ export default class CardMemberPicker extends React.Component {
             <FunctionLink
               component="li"
               key={user.id}
-              onClick={() => onMemberPicked(user)}
+              onClick={() => onChange(user)}
               className="member"
             >
               <Avatar
                 className="avatar"
                 userId={user.id}
-                deps={this.deps}
               />
-              {this.renderUserName(user.id)}
+              {nickname(user.id) || user.id}
             </FunctionLink>
           ))}
         </ul>

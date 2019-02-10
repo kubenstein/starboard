@@ -5,25 +5,17 @@ import 'components/AddCommentForm/styles.scss';
 
 export default class AddCommentForm extends React.Component {
   static propTypes = {
-    deps: PropTypes.object.isRequired,
-    cardId: PropTypes.string.isRequired,
+    addComment: PropTypes.func.isRequired,
   }
 
   state = {
     uploadingAttachment: false,
   };
 
-  constructor(props) {
-    super(props);
-    const { deps } = this.props;
-    this.repo = deps.get('commentsRepository');
-    this.stateManager = deps.get('stateManager');
-  }
-
   submitFormOnEnter = e => (e.key === 'Enter') && this.submit(e);
 
   handleFileUpload = () => {
-    const { cardId } = this.props;
+    const { addComment } = this.props;
     this.setState({ uploadingAttachment: true });
     const file = this.fileInput.files[0];
     const attachment = {
@@ -32,18 +24,16 @@ export default class AddCommentForm extends React.Component {
       type: file.type,
       blob: file,
     };
-    const authorId = this.stateManager.getUserId();
-    this.repo.addComment(cardId, { attachment, authorId })
+    addComment({ attachment })
       .then(() => this.setState({ uploadingAttachment: false }));
   }
 
   submit = (e) => {
     e.preventDefault();
-    const { cardId } = this.props;
+    const { addComment } = this.props;
     const { content } = serialize(this.form, { hash: true });
     if (content) {
-      const authorId = this.stateManager.getUserId();
-      this.repo.addComment(cardId, { content, authorId })
+      addComment({ content })
         .then(() => this.clear());
     }
   }
