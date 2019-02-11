@@ -1,3 +1,4 @@
+/* eslint-disable import/no-unresolved */
 const path = require('path');
 const cleanTestRepos = require('./specs/support/clean-test-repos.js');
 const lib = require('../../../dist/starboard.js');

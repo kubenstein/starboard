@@ -1,4 +1,4 @@
-/* eslint-disable no-undef, max-len, func-names, prefer-destructuring, arrow-body-style */
+/* eslint-disable import/no-unresolved, no-undef, max-len, func-names, prefer-destructuring, arrow-body-style */
 const lib = require('../../../../../dist/starboard.js');
 
 exports.login = function (loginId) {
