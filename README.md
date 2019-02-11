@@ -3,8 +3,7 @@ Starboard [![Build Status](https://travis-ci.org/kubenstein/starboard.png?branch
 
 Keep all aspects of a project in one place together! A card-based management tool that stores data in a git repo.
 
-[![Starboard Screenshot](https://raw.githubusercontent.com/kubenstein/starboard/master/starboard-screenshot.jpg)](https://vimeo.com/221797050)
-Click the image for a demo video.
+![Starboard demo](https://raw.githubusercontent.com/kubenstein/starboard/master/starboard-demo.gif)
 
 ### Reasoning
 
@@ -24,7 +23,7 @@ npm install -g starboard
 
 ### Usage
 
-Typically Starboard is run on localhost so each user serves Starboard for themselves.
+Typically Starboard runs on localhost so each user serves Starboard for themselves.
 
 ```
 REPO_URL=<path/url to origin repo> starboard
@@ -48,20 +47,24 @@ Starboard is designed as a lib, and `starboard` command is just one of many poss
 ### Technical overview
 Starboard is an event sourced app that use websockets for communication with backend. Frontend is written in React. Git is just one of many event storages that stores event jsons as a commit messages. Both frontend and backend calculate CurrentState from events. Repositories use CurrentState to read requested data.
 
-Events are synced by git rebasing existing events on top on a remote list. After rebasing, events delta is applied (excluding rebased events). Because of that Event Handlers have to be prepared that something may not make any sense, for example, updating a card after the card was removed. Alternatively I could rebase remote events on top on local, or change git history in any other way, but it would require force push which I wanted to avoid. I was considering force push inspired by blockchains mechanic but I still prefer not to modify public repo.
+Events are synced by git-rebasing existing events on top on a remote list. After rebasing, events delta is applied (excluding rebased events). Because of that Event Handlers have to be prepared that something may not make any sense, for example, updating a card after the card was removed. Alternatively I could rebase remote events on top on local, or change git history in any other way, but it would require force push which I wanted to avoid. I was considering force push inspired by blockchains mechanic but I still prefer not to modify public repo.
 
 ### Production Readiness
-I use Starboard for quite a while already but mostly in a single user mode. Storage in my case is usually Dropbox but I successfully ran Starboard with Bitbucket setupas well. Collaborative mode works pretty well also however there are still a few glitches here and there that I have already on my development list.
+Even though Starboard is in very early development stage, I use Starboard for quite a while already but mostly in a single user mode. Storage in my case is usually Dropbox but I successfully ran Starboard with Bitbucket setup as well. Collaborative mode works pretty well also however there are still a few glitches here and there that I have already on my development list.
 
 ### Development
 
 ```
 npm run dev:db:create
-npm run dev
+
+npm run dev:backend  # one terminal
+npm run dev:frontend # second terminal
 ```
 Then visit `http://localhost:8080/`.
 Current version uses `AllowEveryone` Policy so any email is allowed and any text as a password is valid.
 
+### Why no Redux, React Router and X npm package?
+I use all those packages at my work, yes I'm confident with those industry standard libraries. Here though, in my own private universe, I enjoy not pulling 200+ npm modules and building my own solutions/implementations.
 
 ### Tests
 
