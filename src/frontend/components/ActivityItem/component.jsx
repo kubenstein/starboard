@@ -6,7 +6,7 @@ import 'components/ActivityItem/styles.scss';
 
 export default class ActivityItem extends React.Component {
   static propTypes = {
-    activity: PropTypes.object.isRequired, // TODO change to shape
+    activity: PropTypes.shape().isRequired,
     textForLabel: PropTypes.func.isRequired,
     userNickname: PropTypes.func.isRequired,
     isCardExists: PropTypes.func.isRequired,

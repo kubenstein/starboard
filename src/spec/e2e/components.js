@@ -13,23 +13,23 @@ const gitContainer = new lib.GitContainer({
 });
 
 const eventStorage = new lib.GitEventStorage({
-  gitContainer: gitContainer,
+  gitContainer,
   syncingInterval: 10000,
 });
 
 const gitFilesStorage = new lib.GitFilesStorage({
-  gitContainer: gitContainer,
+  gitContainer,
 });
 
 const state = new lib.State({
-  eventStorage: eventStorage,
+  eventStorage,
 });
 
 exports.server = new lib.Starboard({
   port: 19423,
   filesStorage: gitFilesStorage,
-  eventStorage: eventStorage,
-  state: state,
+  eventStorage,
+  state,
   noBanner: true,
 });
 

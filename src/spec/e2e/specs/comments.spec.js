@@ -1,4 +1,4 @@
-/* eslint no-undef: 0 */
+/* eslint-disable no-undef, max-len, func-names, prefer-destructuring */
 
 const path = require('path');
 const server = require('../components.js').server;
@@ -14,8 +14,8 @@ describe('Comment', () => {
     server.start();
     utils.login('test@test.pl');
     return Promise.resolve()
-    .then(() => { return utils.createColumn('column', state); })
-    .then(() => { return utils.createCard('details', {}, state); });
+      .then(() => utils.createColumn('column', state))
+      .then(() => utils.createCard('details', {}, state));
   });
 
   after(() => {
@@ -28,7 +28,7 @@ describe('Comment', () => {
     and.openingCardDetails('details');
   });
 
-  afterEach(() => { return state.purge(); });
+  afterEach(() => state.purge());
 
   it('can be added with an image attachment', () => {
     following.postingAttachmentComment(imageZipBased64);

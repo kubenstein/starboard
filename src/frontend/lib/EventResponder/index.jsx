@@ -4,7 +4,7 @@ import connect from 'lib/dependencyContext/connect';
 
 class EventResponder extends React.Component {
   static propTypes = {
-    state: PropTypes.object.isRequired,
+    state: PropTypes.shape().isRequired,
     children: PropTypes.node,
   }
 

@@ -22,24 +22,14 @@ class FunctionLink extends Component {
     if (!disabled) onClick(e);
   }
 
-  onKeyPress = (e) => {
-    // Check to see if space or enter were pressed
-    if (e.key === ' ' || e.key === 'Enter') {
-      // Prevent the default action to stop scrolling when space is pressed
-      e.preventDefault();
-      this.onClick(e);
-    }
-  }
-
   render() {
     const { children, component, ...props } = this.props;
-    const { onClick, onKeyPress } = this;
+    const { onClick } = this;
 
     return React.createElement(
       component, {
         ...props,
         onClick,
-        onKeyPress,
         role: 'button',
         tabIndex: '0',
       },

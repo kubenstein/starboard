@@ -1,6 +1,5 @@
-/* eslint no-undef: 0 */
+/* eslint-disable no-undef, max-len, func-names, prefer-destructuring */
 
-const path = require('path');
 const server = require('../components.js').server;
 const state = require('../components.js').state;
 const utils = require('./support/utils.js');
@@ -17,8 +16,8 @@ describe('Board', () => {
     server.stop();
   });
 
-  beforeEach(() => { when.visitingPage(); });
-  afterEach(() => { return state.purge(); });
+  beforeEach(() => when.visitingPage());
+  afterEach(() => state.purge());
 
   it('has a changeable title', () => {
     userCanNotSeeBoardTitle('dev board');

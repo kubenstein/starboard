@@ -2,11 +2,12 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import CardDetails from 'components/CardDetails';
 import Avatar from 'components/Avatar';
+import FunctionLink from 'components/FunctionLink';
 import 'components/Card/styles.scss';
 
 export default class Card extends React.Component {
   static propTypes = {
-    card: PropTypes.object.isRequired, // TODO change to shape
+    card: PropTypes.shape().isRequired,
     commentCount: PropTypes.number.isRequired,
     isOpen: PropTypes.bool,
     onOpen: PropTypes.func.isRequired,
@@ -16,7 +17,7 @@ export default class Card extends React.Component {
 
   clickedOverlay = (e) => {
     const { onClose } = this.props;
-    if (e.target === this.dismissOverlayElement) {
+    if (e.target.className === this.dismissOverlayElement.props.className) {
       onClose();
     }
   }
@@ -33,7 +34,8 @@ export default class Card extends React.Component {
     } = this.props;
     return (
       <Fragment>
-        <div
+        <FunctionLink
+          component="div"
           className={`card-wrapper ${isOpen ? 'card-opened' : ''}`}
           data-dnd-data-card-id={id}
           onClick={() => !isOpen && onOpen()}
@@ -65,9 +67,9 @@ export default class Card extends React.Component {
               ))}
             </div>
           </div>
-        </div>
+        </FunctionLink>
         {isOpen && (
-          <div
+          <FunctionLink
             className="card-details-full-screen-wrapper"
             onClick={this.clickedOverlay}
             ref={(e) => { this.dismissOverlayElement = e; }}
@@ -76,9 +78,9 @@ export default class Card extends React.Component {
               card={card}
               onClose={onClose}
             />
-          </div>
+          </FunctionLink>
         )}
-    </Fragment>
+      </Fragment>
     );
   }
 }

@@ -1,4 +1,4 @@
-/* eslint no-undef: 0 */
+/* eslint-disable no-undef, max-len, func-names, prefer-destructuring */
 
 const server = require('../components.js').server;
 const state = require('../components.js').state;
@@ -16,12 +16,12 @@ describe('Card', () => {
     server.stop();
   });
 
-  beforeEach(() => {
-    return utils.createColumn('column with cards', state)
-      .then(() => visitingPage());
-  });
+  beforeEach(() => utils
+    .createColumn('column with cards', state)
+    .then(() => visitingPage()),
+  );
 
-  afterEach(() => { return state.purge(); });
+  afterEach(() => state.purge());
 
   it('can be created', () => {
     userCanNotSee('created card');

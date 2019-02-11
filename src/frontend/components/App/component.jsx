@@ -3,19 +3,12 @@ import PropTypes from 'prop-types';
 import Board from 'components/Board';
 import Login from 'components/Login';
 
-export default class App extends React.Component {
-  static propTypes = {
-    isLoggedIn: PropTypes.bool,
-  }
+const App = ({ isLoggedIn }) => (
+  isLoggedIn ? <Board /> : <Login />
+);
 
-  render() {
-    const { isLoggedIn } = this.props;
-    return (
-      isLoggedIn ? (
-        <Board />
-      ) : (
-        <Login />
-      )
-    );
-  }
-}
+App.propTypes = {
+  isLoggedIn: PropTypes.bool,
+};
+
+export default App;

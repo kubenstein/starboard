@@ -39,7 +39,7 @@ export default class AddCardForm extends React.Component {
               autoComplete="off"
               onKeyPress={this.submitFormOnEnter}
               placeholder="Type a card title..."
-              autoFocus
+              autoFocus // eslint-disable-line jsx-a11y/no-autofocus
             />
             <input className="btn btn-success" type="submit" value="Add" />
             <button

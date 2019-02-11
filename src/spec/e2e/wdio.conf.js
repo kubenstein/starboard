@@ -18,11 +18,11 @@ exports.config = {
   // directory is where your package.json resides, so `wdio` will be called from there.
   //
   specs: [
-    './src/spec/e2e/**/*.spec.js'
+    './src/spec/e2e/**/*.spec.js',
   ],
   // Patterns to exclude.
   exclude: [
-      // 'path/to/excluded/files'
+    // 'path/to/excluded/files'
   ],
   //
   // ============
@@ -47,12 +47,12 @@ exports.config = {
   // https://docs.saucelabs.com/reference/platforms-configurator
   //
   capabilities: [{
-      // maxInstances can get overwritten per capability. So if you have an in-house Selenium
-      // grid with only 5 firefox instances available you can make sure that not more than
-      // 5 instances get started at a time.
-      maxInstances: 1,
-      //
-      browserName: 'chrome',
+    // maxInstances can get overwritten per capability. So if you have an in-house Selenium
+    // grid with only 5 firefox instances available you can make sure that not more than
+    // 5 instances get started at a time.
+    maxInstances: 1,
+    //
+    browserName: 'chrome',
   }],
 
   services: ['selenium-standalone'], // '' / phantomjs
@@ -110,8 +110,8 @@ exports.config = {
   // Options to be passed to Mocha.
   // See the full list at http://mochajs.org/
   mochaOpts: {
-      ui: 'bdd',
-      timeout: 60000
+    ui: 'bdd',
+    timeout: 60000,
   },
   //
   // =====
@@ -230,6 +230,6 @@ exports.config = {
   * @param {String} oldSessionId session ID of the old session
   * @param {String} newSessionId session ID of the new session
   */
-  //onReload: function(oldSessionId, newSessionId) {
-  //}
-}
+  // onReload: function(oldSessionId, newSessionId) {
+  // }
+};

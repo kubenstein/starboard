@@ -10,9 +10,9 @@ import 'components/Board/styles.scss';
 
 export default class Board extends React.Component {
   static propTypes = {
-    deps: PropTypes.object.isRequired,
-    state: PropTypes.object.isRequired,
-    columns: PropTypes.arrayOf(PropTypes.object),
+    deps: PropTypes.shape().isRequired,
+    state: PropTypes.shape().isRequired,
+    columns: PropTypes.arrayOf(PropTypes.shape()),
     themeCSSStyles: PropTypes.string,
     rehydrateOpenedCardFromUrl: PropTypes.func.isRequired,
     updatePageTitle: PropTypes.func.isRequired,

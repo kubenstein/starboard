@@ -11,7 +11,7 @@ export default class CardComment extends React.Component {
   static propTypes = {
     nickname: PropTypes.string,
     removeComment: PropTypes.func.isRequired,
-    comment: PropTypes.object.isRequired, // TODO change to shape
+    comment: PropTypes.shape().isRequired,
   }
 
   removeComment = () => {

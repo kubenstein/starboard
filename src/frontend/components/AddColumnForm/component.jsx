@@ -45,7 +45,7 @@ export default class AddColumnForm extends React.Component {
               name="title"
               onKeyPress={this.submitFormOnEnter}
               placeholder="Type a column name..."
-              autoFocus
+              autoFocus // eslint-disable-line jsx-a11y/no-autofocus
             />
             <input className="btn btn-success" type="submit" value="Add Column" />
             <button

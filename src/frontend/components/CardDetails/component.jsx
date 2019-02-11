@@ -11,9 +11,9 @@ import 'components/CardDetails/styles.scss';
 
 export default class CardDetails extends React.Component {
   static propTypes = {
-    browserSettingsService: PropTypes.object.isRequired,
-    card: PropTypes.object.isRequired, // TODO change to shape
-    comments: PropTypes.arrayOf(PropTypes.object).isRequired,
+    browserSettingsService: PropTypes.shape().isRequired,
+    card: PropTypes.shape().isRequired,
+    comments: PropTypes.arrayOf(PropTypes.shape()).isRequired,
     columnName: PropTypes.string,
     labelPickerOpened: PropTypes.bool,
     memberPickerOpened: PropTypes.bool,

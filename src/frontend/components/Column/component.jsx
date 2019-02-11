@@ -8,9 +8,9 @@ import 'components/Column/styles.scss';
 
 export default class Column extends React.Component {
   static propTypes = {
-    cards: PropTypes.arrayOf(PropTypes.object).isRequired,
-    column: PropTypes.object.isRequired, // TODO replace with shape
-    DNDManager: PropTypes.object.isRequired,
+    cards: PropTypes.arrayOf(PropTypes.shape()).isRequired,
+    column: PropTypes.shape().isRequired,
+    DNDManager: PropTypes.shape().isRequired,
     className: PropTypes.string,
     onNameUpdate: PropTypes.func.isRequired,
     onColumnRemove: PropTypes.func.isRequired,

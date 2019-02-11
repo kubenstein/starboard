@@ -1,4 +1,4 @@
-/* eslint-disable no-undef */
+/* eslint-disable no-undef, max-len, func-names, prefer-destructuring */
 
 const expect = require('chai').expect;
 const avatarZipBase64 = require('./files/zipped/base64ed/').avatar;
@@ -67,7 +67,7 @@ module.exports = function steps() {
 
     const inputs = browser.$$('.columns input.column-title');
 
-    const input = inputs.filter((i) => { return i.getValue() === oldName; })[0];
+    const input = inputs.filter(i => i.getValue() === oldName)[0];
     input.setValue(newName);
     browser.keys(['Enter']);
   };
@@ -76,7 +76,7 @@ module.exports = function steps() {
     userCanSeeColumn(columnTitle);
 
     const columns = browser.$$('.columns .column');
-    const column = columns.filter((c) => { return c.$('input.column-title').getValue() === columnTitle; })[0];
+    const column = columns.filter(c => c.$('input.column-title').getValue() === columnTitle)[0];
     const removeTrigger = column.$('.btn-remove');
     removeTrigger.click();
     browser.acceptAlert();
@@ -93,7 +93,7 @@ module.exports = function steps() {
     userCanSee(cardTitle);
 
     const cards = browser.$$('.card');
-    const card = cards.filter((c) => { return c.$('.title').getText() === cardTitle; })[0];
+    const card = cards.filter(c => c.$('.title').getText() === cardTitle)[0];
     card.click();
   };
 
@@ -136,7 +136,7 @@ module.exports = function steps() {
 
     $(labelsSelector).waitForExist(3000);
     const labels = browser.$$(labelsSelector);
-    const label = labels.filter((l) => { return l.getText() === labelText; })[0];
+    const label = labels.filter(l => l.getText() === labelText)[0];
     label.click();
   };
 
@@ -151,7 +151,7 @@ module.exports = function steps() {
 
     $(membersSelector).waitForExist(3000);
     const members = browser.$$(membersSelector);
-    const member = members.filter((m) => { return m.getText() === memberName; })[0];
+    const member = members.filter(m => m.getText() === memberName)[0];
     member.click();
   };
 
@@ -179,7 +179,7 @@ module.exports = function steps() {
     userCanSee(content);
 
     const comments = browser.$$('.card-comment');
-    const comment = comments.filter((c) => { return c.$('.content').getText() === content; })[0];
+    const comment = comments.filter(c => c.$('.content').getText() === content)[0];
     comment.$('.btn-remove-comment').click();
     browser.acceptAlert();
   };
@@ -234,15 +234,17 @@ module.exports = function steps() {
   };
 
   then.userCanSeeBoardTitle = function (text) {
-    browser.waitUntil(() => {
-      return browser.$(`input.board-name[data-value~="${text}"]`);
-    }, 3000, `Expect board title to be: ${text}`);
+    browser.waitUntil(
+      () => browser.$(`input.board-name[data-value~="${text}"]`),
+      3000,
+      `Expect board title to be: ${text}`);
   };
 
   then.userCanNotSeeBoardTitle = function (text) {
-    browser.waitUntil(() => {
-      return browser.$(`input.board-name[data-value~="${text}"]`);
-    }, 3000, `Expect board title NOT to be: ${text}`);
+    browser.waitUntil(
+      () => browser.$(`input.board-name[data-value~="${text}"]`),
+      3000,
+      `Expect board title NOT to be: ${text}`);
   };
 
   then.userCanSeeLoginPage = function () {
@@ -254,30 +256,31 @@ module.exports = function steps() {
   };
 
   then.userCanSeeColumn = function (columnTitle) {
-    browser.waitUntil(() => {
-      return browser.$(`input.column-title[data-value~="${columnTitle}"]`);
-    }, 3000, `Expect to find a column with a title: ${columnTitle}`);
+    browser.waitUntil(
+      () => browser.$(`input.column-title[data-value~="${columnTitle}"]`),
+      3000,
+      `Expect to find a column with a title: ${columnTitle}`);
   };
 
   then.userCanNotSeeColumn = function (columnTitle) {
-    browser.waitUntil(() => {
-      return browser.$(`input.column-title[data-value~="${columnTitle}"]`);
-    }, 3000, `Expect NOT to find a column with a title: ${columnTitle}`);
+    browser.waitUntil(
+      () => browser.$(`input.column-title[data-value~="${columnTitle}"]`),
+      3000,
+      `Expect NOT to find a column with a title: ${columnTitle}`);
   };
 
   then.userCanSeeCardWithLabels = function (cardTitle, labelsInRGB) {
     userCanSee(cardTitle);
 
     const cards = browser.$$('.card');
-    const card = cards.filter((c) => { return c.$('.title').getText() === cardTitle; })[0];
+    const card = cards.filter(c => c.$('.title').getText() === cardTitle)[0];
 
-    browser.waitUntil(() => {
-      return card.$$('.label').length === labelsInRGB.length;
-    }, 3000, `Expect card: ${cardTitle} to have ${labelsInRGB.length} labels`);
+    browser.waitUntil(
+      () => card.$$('.label').length === labelsInRGB.length,
+      3000,
+      `Expect card: ${cardTitle} to have ${labelsInRGB.length} labels`);
 
-    const colors = card.$$('.label').map((label) => {
-      return label.getCSSProperty('background-color').value;
-    });
+    const colors = card.$$('.label').map(label => label.getCSSProperty('background-color').value);
 
     expect(colors).to.have.ordered.members(labelsInRGB);
   };
@@ -293,7 +296,7 @@ module.exports = function steps() {
     userCanSee(cardTitle);
 
     const cards = browser.$$('.card');
-    const card = cards.filter((c) => { return c.$('.title').getText() === cardTitle; })[0];
+    const card = cards.filter(c => c.$('.title').getText() === cardTitle)[0];
     if (counter > 0) {
       expect(card.getText()).to.include(`☰ ${counter}`);
     } else {
@@ -341,14 +344,16 @@ module.exports = function steps() {
   };
 
   then.userCanSee = function (text) {
-    browser.waitUntil(() => {
-      return browser.$('body').getText().includes(text);
-    }, 3000, `Expect page to have text: ${text}`);
+    browser.waitUntil(
+      () => browser.$('body').getText().includes(text),
+      3000,
+      `Expect page to have text: ${text}`);
   };
 
   then.userCanNotSee = function (text) {
-    browser.waitUntil(() => {
-      return !browser.$('body').getText().includes(text);
-    }, 3000, `Expect page NOT to have text: ${text}`);
+    browser.waitUntil(
+      () => !browser.$('body').getText().includes(text),
+      3000,
+      `Expect page NOT to have text: ${text}`);
   };
 };
