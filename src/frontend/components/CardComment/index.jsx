@@ -28,12 +28,12 @@ export default class CardComment extends React.Component {
     return attachment.type.indexOf('image') !== -1;
   }
 
-  authorNameHtml(authorId) {
+  renderAuthorName(authorId) {
     const nickname = this.usersRepo.userNickname(authorId) || authorId;
     return <span className="author" title={authorId}>{nickname}</span>;
   }
 
-  attachmentCommentHTML(comment) {
+  renderAttachmentComment(comment) {
     return (
       <a href={comment.attachment.dataUrl} className="attachment" target="_blank" rel="noopener noreferrer">
         { this.isImage(comment.attachment) ? (
@@ -55,10 +55,10 @@ export default class CardComment extends React.Component {
           userId={comment.authorId}
           deps={this.deps}
         />
-        {this.authorNameHtml(comment.authorId)}
+        {this.renderAuthorName(comment.authorId)}
         <span className="date">{formattedDate(comment.createdAt)}</span>
         <p className="content">
-          { comment.attachment && this.attachmentCommentHTML(comment) }
+          { comment.attachment && this.renderAttachmentComment(comment) }
           {comment.content}
         </p>
         <FunctionLink

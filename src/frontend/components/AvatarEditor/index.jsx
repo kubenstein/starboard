@@ -36,9 +36,7 @@ export default class AvatarEditor extends React.Component {
     const displayedAvatarUrl = avatarUrl || placeholderAvatar;
     return (
       <div className="avatar-editor">
-        { uploading && (
-          <span className="badge">~</span>
-        )}
+        { uploading && <span className="badge">~</span>}
 
         { avatarUrl && (
           <FunctionLink

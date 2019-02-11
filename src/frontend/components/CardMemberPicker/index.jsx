@@ -17,7 +17,7 @@ export default class CardMemberPicker extends React.Component {
     this.repo = this.deps.get('usersRepository');
   }
 
-  userName(userId) {
+  renderUserName(userId) {
     return this.repo.userNickname(userId) || userId;
   }
 
@@ -40,7 +40,7 @@ export default class CardMemberPicker extends React.Component {
                 userId={user.id}
                 deps={this.deps}
               />
-              {this.userName(user.id)}
+              {this.renderUserName(user.id)}
             </FunctionLink>
           ))}
         </ul>

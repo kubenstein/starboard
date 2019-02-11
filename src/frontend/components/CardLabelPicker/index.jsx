@@ -16,7 +16,7 @@ export default class CardLabelPicker extends React.Component {
     this.repo = deps.get('settingsRepository');
   }
 
-  textForLabel(color) {
+  renderLabelText(color) {
     return this.repo.textForLabel(color);
   }
 
@@ -35,7 +35,7 @@ export default class CardLabelPicker extends React.Component {
               onClick={() => onLabelPicked(color)}
               className="label"
             >
-              {this.textForLabel(color)}
+              {this.renderLabelText(color)}
             </FunctionLink>
           ))}
         </ul>

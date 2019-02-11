@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import FunctionLink from 'components/FunctionLink';
 import { formattedDate } from 'lib/utils';
@@ -23,113 +23,113 @@ export default class ActivityItem extends React.Component {
     this.uiRepo.set('card:openedId', cardId);
   }
 
-  author(activity) {
+  renderAuthor(activity) {
     const { requesterId } = activity;
     return this.usersRepo.userNickname(requesterId) || requesterId;
   }
 
-  content(activity) {
+  renderContent(activity) {
     const type = activity.type.replace(/_/g, '');
-    const handler = this[`${type}ActivityHtml`];
+    const handler = this[`render${type}`];
     return handler ? handler.bind(this)(activity) : '';
   }
 
   // handlers
 
-  CARDADDEDActivityHtml(activity) {
+  renderCARDADDED = (activity) => {
     const { data: { id }, meta: { cardTitle } } = activity;
     return (
-      <span>
+      <Fragment>
         added card&nbsp;
-        {this.cardLink(id, cardTitle)}
-      </span>
+        {this.renderCardLink(id, cardTitle)}
+      </Fragment>
     );
   }
 
-  CARDREMOVEDActivityHtml(activity) {
+  renderCARDREMOVED = (activity) => {
     const { data: { id }, meta: { cardTitle } } = activity;
     return (
-      <span>
+      <Fragment>
         removed card&nbsp;
-        {this.cardLink(id, cardTitle)}
-      </span>
+        {this.renderCardLink(id, cardTitle)}
+      </Fragment>
     );
   }
 
-  CARDLABELUPDATEDActivityHtml(activity) {
+  renderCARDLABELUPDATED = (activity) => {
     const { data: { label, set, cardId }, meta: { cardTitle } } = activity;
     const labelName = this.settingsRepo.textForLabel(label, true);
     return (
-      <span>
+      <Fragment>
         {set ? 'set label:' : 'removed label:'}
         <i>{labelName}</i>
         {set ? ' to card' : ' from card'}
         &nbsp;
-        {this.cardLink(cardId, cardTitle)}
-      </span>
+        {this.renderCardLink(cardId, cardTitle)}
+      </Fragment>
     );
   }
 
-  CARDMEMBERUPDATEDActivityHtml(activity) {
+  renderCARDMEMBERUPDATED = (activity) => {
     const { data: { userId: memberId, set, cardId }, meta: { cardTitle } } = activity;
     const memberName = this.usersRepo.userNickname(memberId) || memberId;
     return (
-      <span>
+      <Fragment>
         {set ? 'assigned ' : 'unassigned '}
         <i>{memberName}</i>
         {set ? ' to ' : ' from '}
         card&nbsp;
-        {this.cardLink(cardId, cardTitle)}
-      </span>
+        {this.renderCardLink(cardId, cardTitle)}
+      </Fragment>
     );
   }
 
-  COMMENTADDEDActivityHtml(activity) {
+  renderCOMMENTADDED = (activity) => {
     const { data: { content, attachment, cardId }, meta: { cardTitle } } = activity;
 
     return (
-      <span>
+      <Fragment>
         { attachment ? (
-          <span>
+          <Fragment>
             added attachment:
             <br />
             <i>{`&quot;${attachment.name}&quot;`}</i>
-          </span>
+          </Fragment>
         ) : (
-          <span>
+          <Fragment>
             added comment:
             <br />
             <i>{`&quot;${content}&quot;`}</i>
-          </span>
+          </Fragment>
         )}
         <br />
         to card&nbsp;
-        {this.cardLink(cardId, cardTitle)}
-      </span>
+        {this.renderCardLink(cardId, cardTitle)}
+      </Fragment>
     );
   }
 
-  COLUMNADDEDActivityHtml(activity) {
+  renderCOLUMNADDED = (activity) => {
     const { meta: { columnName } } = activity;
     return (
-      <span>
-        <span>added column </span>
+      <Fragment>
+        added column&nbsp;
         <i>{columnName}</i>
-      </span>
+      </Fragment>
     );
   }
 
-  COLUMNREMOVEDActivityHtml(activity) {
+  renderCOLUMNREMOVED = (activity) => {
     const { meta: { columnName } } = activity;
     return (
-      <span>
-        <span>removed column </span>
+      <Fragment>
+        removed column&nbsp;
         <i>{columnName}</i>
-      </span>
+      </Fragment>
     );
   }
 
-  cardLink(cardId, cardTitle) {
+  renderCardLink(cardId, cardTitle) {
     return this.cardsRepo.cardExists(cardId) ? (
       <FunctionLink
         className="link"
@@ -146,14 +146,11 @@ export default class ActivityItem extends React.Component {
 
   render() {
     const { activity } = this.props;
-    const date = formattedDate(activity.createdAt);
-    const content = this.content(activity);
-    const author = this.author(activity);
     return (
       <div className="activity-item">
-        <small className="date">{date}</small>
-        <small className="author">{author}</small>
-        <span className="content">{content}</span>
+        <small className="date">{formattedDate(activity.createdAt)}</small>
+        <small className="author">{this.renderAuthor(activity)}</small>
+        <span className="content">{this.renderContent(activity)}</span>
       </div>
     );
   }

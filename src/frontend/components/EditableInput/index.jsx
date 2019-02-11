@@ -60,7 +60,7 @@ export default class EditableInput extends React.Component {
     return `editable-input ${className} ${editingCssClass}`;
   }
 
-  textareaJSX(value) {
+  renderTextarea(value) {
     const { placeholder } = this.props;
     return (
       <textarea
@@ -75,7 +75,7 @@ export default class EditableInput extends React.Component {
     );
   }
 
-  inputJSX(value) {
+  renderInput(value) {
     const { placeholder } = this.props;
     return (
       <input
@@ -96,6 +96,6 @@ export default class EditableInput extends React.Component {
   render() {
     const { value } = this.state;
     const { type } = this.props;
-    return (type === 'textarea') ? this.textareaJSX(value) : this.inputJSX(value);
+    return (type === 'textarea') ? this.renderTextarea(value) : this.renderInput(value);
   }
 }
