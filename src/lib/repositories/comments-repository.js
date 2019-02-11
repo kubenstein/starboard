@@ -17,15 +17,15 @@ export default class CommentsRepository {
   commentsCountForCard(cardId) {
     const bucket = this.stateManager.bucket('comments');
     return bucket
-           .filter(c => c.cardId === cardId)
-           .length;
+      .filter(c => c.cardId === cardId)
+      .length;
   }
 
   commentsForCard(cardId) {
     const bucket = this.stateManager.bucket('comments');
     return bucket
-           .filter(c => c.cardId === cardId)
-           .sort((c1, c2) => c2.createdAt - c1.createdAt);
+      .filter(c => c.cardId === cardId)
+      .sort((c1, c2) => c2.createdAt - c1.createdAt);
   }
 
   addComment(cardId, params) {
@@ -50,24 +50,22 @@ export default class CommentsRepository {
     const { content, attachment } = params;
 
     return this.fileUploader.uploadFileFromFileBlob(attachment.blob)
-    .then((attachmentUrl) => {
-      const event = commentAddedEvent(requesterId, cardId, {
-        content: content,
-        attachmentName: attachment.name,
-        attachmentSize: attachment.size,
-        attachmentType: attachment.type,
-        attachmentUrl: attachmentUrl,
+      .then((attachmentUrl) => {
+        const event = commentAddedEvent(requesterId, cardId, {
+          content,
+          attachmentName: attachment.name,
+          attachmentSize: attachment.size,
+          attachmentType: attachment.type,
+          attachmentUrl,
+        });
+        return this.stateManager.addEvent(event);
       });
-      return this.stateManager.addEvent(event);
-    });
   }
 
   addCommentWithoutAttachment(requesterId, cardId, params) {
     const { content } = params;
 
-    const event = commentAddedEvent(requesterId, cardId, {
-      content: content,
-    });
+    const event = commentAddedEvent(requesterId, cardId, { content });
     return this.stateManager.addEvent(event);
   }
 }

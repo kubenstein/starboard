@@ -1,4 +1,4 @@
-/* eslint no-undef: 0 */
+/* eslint-disable no-undef, max-len, func-names, prefer-destructuring */
 
 const server = require('../components.js').server;
 const state = require('../components.js').state;
@@ -16,12 +16,12 @@ describe('Card Details', () => {
     server.stop();
   });
 
-  beforeEach(() => {
-    visitingPage();
-    return utils.createColumn('column with cards - details', state);
-  });
+  beforeEach(() => utils
+    .createColumn('column with cards - details', state)
+    .then(() => visitingPage()),
+  );
 
-  afterEach(() => { return state.purge(); });
+  afterEach(() => state.purge());
 
   it('allows to change a title', () => {
     utils.createCard('card to rename', {}, state);
@@ -34,12 +34,13 @@ describe('Card Details', () => {
 
   it('allows to change a description', () => {
     utils.createCard('card with description', {}, state);
-    visitingPage(); // There is something wonky about this particular spec.
-                    // Sometimes whole board is just empty like utils.createCard()
-                    // was never triggered (even though it is async, eventually
-                    // a card should appear). I added visitingPage() to reload
-                    // the whole page - doubt it will truly solve the issue.
 
+    // There is something wonky about this particular spec.
+    // Sometimes whole board is just empty like utils.createCard()
+    // was never triggered (even though it is async, eventually
+    // a card should appear). I added visitingPage() to reload
+    // the whole page - doubt it will truly solve the issue.
+    visitingPage();
     when.openingCardDetails('card with description');
     and.changingCardDescription('new desc');
     and.visitingPage();

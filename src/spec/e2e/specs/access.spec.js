@@ -1,4 +1,4 @@
-/* eslint no-undef: 0 */
+/* eslint-disable no-undef, max-len, func-names, prefer-destructuring */
 
 const server = require('../components.js').server;
 const state = require('../components.js').state;
@@ -11,10 +11,9 @@ describe('User', () => {
     when.visitingPage();
     userCanSeeLoginPage();
   });
-  afterEach(() => {
-    browser.deleteCookie();
-    return state.purge();
-  });
+  afterEach(() => state.purge()
+    .then(() => browser.deleteCookies()),
+  );
 
   it('can log in', () => {
     when.loggingIn('test@test.pl', 'abcd');

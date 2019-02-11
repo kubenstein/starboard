@@ -4,7 +4,7 @@ export default class CommentRemoved {
   forEvent() { return commentRemovedEventType; }
 
   execute({ stateManager, event }) {
-    const { commentId } = event.data;
+    const { data: { commentId } } = event;
     stateManager.removeObject('comments', commentId);
   }
 }

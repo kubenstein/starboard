@@ -1,9 +1,11 @@
-/* eslint-disable no-var, vars-on-top */
+/* eslint-disable no-var, vars-on-top, no-use-before-define */
 
-const expect = require('chai').expect;
-const execSync = require('child_process').execSync;
-const utils = require('../support/utils.js');
-const GitEventStorage = require('../../components.js').lib.GitEventStorage;
+import { expect } from 'chai';
+import { execSync } from 'child_process';
+import * as utils from '../support/utils';
+import lib from '../../components';
+
+const { GitEventStorage } = lib;
 
 var remoteRepoPath;
 var tmpRepoPath;
@@ -21,21 +23,22 @@ describe('GitEventStorage', () => {
     });
   });
 
-  it('pushes all local events during sync', () => {
-    return Promise.all([
+  it('pushes all local events during sync', () => (
+    Promise.all([
       storage.addEvent({ eventType: 'event1' }),
       storage.addEvent({ eventType: 'event2' }),
       storage.addEvent({ eventType: 'event3' }),
-    ]).then(() => {
-      expect(gitRemoteLog()).not.to.include('event1');
-    }).then(() => {
-      return storage.sync();
-    }).then(() => {
-      expect(gitRemoteLog()).to.include('event1');
-      expect(gitRemoteLog()).to.include('event2');
-      expect(gitRemoteLog()).to.include('event3');
-    });
-  });
+    ])
+      .then(() => {
+        expect(gitRemoteLog()).not.to.include('event1');
+      })
+      .then(() => storage.sync())
+      .then(() => {
+        expect(gitRemoteLog()).to.include('event1');
+        expect(gitRemoteLog()).to.include('event2');
+        expect(gitRemoteLog()).to.include('event3');
+      })
+  ));
 
   it('pulls new events from remote during sync', () => {
     addEventsToRemote([
@@ -45,12 +48,12 @@ describe('GitEventStorage', () => {
     ]);
 
     return storage.sync()
-    .then(() => {
-      const log = gitLog(tmpRepoPath);
-      expect(log).to.include('event1');
-      expect(log).to.include('event2');
-      expect(log).to.include('event3');
-    });
+      .then(() => {
+        const log = gitLog(tmpRepoPath);
+        expect(log).to.include('event1');
+        expect(log).to.include('event2');
+        expect(log).to.include('event3');
+      });
   });
 
   it('applies only new events from remote after sync', () => {
@@ -88,16 +91,15 @@ describe('GitEventStorage', () => {
     ]);
 
     return storage.addEvent({ id: 'localEvent' })
-    .then(() => {
-      return storage.sync();
-    }).then(() => {
-      const commitsFromNewestToOldest = gitRemoteLog().split('\n');
-      expect(commitsFromNewestToOldest[0]).to.include('localEvent');
-      expect(commitsFromNewestToOldest[1]).to.include('remoteEvent');
-    });
+      .then(() => storage.sync())
+      .then(() => {
+        const commitsFromNewestToOldest = gitRemoteLog().split('\n');
+        expect(commitsFromNewestToOldest[0]).to.include('localEvent');
+        expect(commitsFromNewestToOldest[1]).to.include('remoteEvent');
+      });
   });
 
-  // // private
+  // private
 
   function gitLog(pathToRepo) {
     return execSync(`git -C ${pathToRepo} log --oneline __starboard-data`).toString();

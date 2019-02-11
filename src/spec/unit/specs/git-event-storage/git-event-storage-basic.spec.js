@@ -1,11 +1,13 @@
-/* eslint-disable no-var, vars-on-top */
+/* eslint-disable no-var, vars-on-top, no-use-before-define */
 
-const path = require('path');
-const expect = require('chai').expect;
-const fs = require('fs-extra');
-const execSync = require('child_process').execSync;
-const utils = require('../support/utils.js');
-const GitEventStorage = require('../../components.js').lib.GitEventStorage;
+import path from 'path';
+import { expect } from 'chai';
+import fs from 'fs-extra';
+import { execSync } from 'child_process';
+import * as utils from '../support/utils';
+import lib from '../../components';
+
+const { GitEventStorage } = lib;
 
 var remoteRepoPath;
 var tmpRepoPath;
@@ -52,11 +54,12 @@ describe('GitEventStorage', () => {
       storage.addEvent(event),
       storage.addEvent(event),
       storage.addEvent(event),
-    ]).then(() => {
-      return storage.allPastEvents().then((events) => {
-        expect(getAllDummyEvents(events).length).to.eq(4);
-      });
-    });
+    ])
+      .then(() => (
+        storage.allPastEvents().then((events) => {
+          expect(getAllDummyEvents(events).length).to.eq(4);
+        })
+      ));
   });
 
   it('saves/removes a file', () => {
@@ -69,23 +72,18 @@ describe('GitEventStorage', () => {
       path.join(tmpRepoPath, 'picture.jpg'),
     );
 
-    return Promise.resolve().then(() => {
-      return storage.addFile('image.jpg');
-    })
-    .then(() => {
-      return storage.addFile('picture.jpg');
-    })
-    .then(() => {
-      expect(gitFiles()).to.include('image.jpg');
-      expect(gitFiles()).to.include('picture.jpg');
-    })
-    .then(() => {
-      return storage.removeFile('image.jpg');
-    })
-    .then(() => {
-      expect(gitFiles()).not.to.include('image.jpg');
-      expect(gitFiles()).to.include('picture.jpg');
-    });
+    return Promise.resolve()
+      .then(() => storage.addFile('image.jpg'))
+      .then(() => storage.addFile('picture.jpg'))
+      .then(() => {
+        expect(gitFiles()).to.include('image.jpg');
+        expect(gitFiles()).to.include('picture.jpg');
+      })
+      .then(() => storage.removeFile('image.jpg'))
+      .then(() => {
+        expect(gitFiles()).not.to.include('image.jpg');
+        expect(gitFiles()).to.include('picture.jpg');
+      });
   });
 
   // private

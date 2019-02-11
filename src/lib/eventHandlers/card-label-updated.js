@@ -18,6 +18,6 @@ export default class CardLabelUpdated {
         labels.splice(existedLabelIndex, 1);
       }
     }
-    stateManager.updateObject('cards', cardId, { labels: labels });
+    stateManager.updateObject('cards', cardId, { labels });
   }
 }

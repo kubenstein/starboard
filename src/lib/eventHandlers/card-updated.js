@@ -8,8 +8,7 @@ export default class CardUpdated {
     this.stateManager = stateManager;
 
     const { cardId, changes } = event.data;
-    let newPosition = changes.position;
-    let newColumnId = changes.columnId;
+    let { position: newPosition, columnId: newColumnId } = changes;
 
     const cardOldData = this.stateManager.objectData('cards', cardId);
     if (!cardOldData) return;
@@ -20,9 +19,9 @@ export default class CardUpdated {
 
       this.updatePositionOfOtherCards(cardId, {
         oldPosition: cardOldData.position,
-        newPosition: newPosition,
         oldColumnId: cardOldData.columnId,
-        newColumnId: newColumnId,
+        newPosition,
+        newColumnId,
       });
     }
 
@@ -35,8 +34,7 @@ export default class CardUpdated {
     const { oldPosition, newPosition, oldColumnId, newColumnId } = params;
 
     const cards = this.stateManager.bucket('cards')
-                                   .filter(c => c.columnId === newColumnId &&
-                                                c.id !== movedCardId);
+      .filter(c => c.columnId === newColumnId && c.id !== movedCardId);
 
     if (newColumnId === oldColumnId) {
       //

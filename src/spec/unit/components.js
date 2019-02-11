@@ -1,7 +1,11 @@
-const lib = require('../../../.tmp/specs/src/starboard.js');
+import * as lib from '../../lib';
 
-const storage = new lib.MemoryEventStorage();
+const { MemoryEventStorage, State, eventDefinitions } = lib;
+const storage = new MemoryEventStorage();
+const state = new State({ eventStorage: storage });
 
-exports.state = new lib.State({ eventStorage: storage });
-exports.lib = lib;
-exports.eventDefinitions = lib.eventDefinitions;
+export {
+  state,
+  eventDefinitions,
+  lib,
+};

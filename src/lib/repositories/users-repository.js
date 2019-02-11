@@ -61,9 +61,9 @@ export default class UsersRepository {
     }
 
     return this.fileUploader.uploadFileFromFileBlob(avatar.blob)
-    .then((avatarUrl) => {
-      const event = userUpdatedEvent(requesterId, userId, 'avatarUrl', avatarUrl);
-      return this.stateManager.addEvent(event);
-    });
+      .then((avatarUrl) => {
+        const event = userUpdatedEvent(requesterId, userId, 'avatarUrl', avatarUrl);
+        return this.stateManager.addEvent(event);
+      });
   }
 }

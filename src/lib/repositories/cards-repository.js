@@ -36,9 +36,9 @@ export default class CardsRepository {
     const lastPosition = lastCard.position + 1;
 
     const event = cardAddedEvent(requesterId, {
-      columnId: columnId,
+      columnId,
+      title,
       position: lastPosition,
-      title: title,
     });
     return this.stateManager.addEvent(event);
   }

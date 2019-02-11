@@ -1,7 +1,8 @@
 /* eslint-disable no-var, vars-on-top */
 const fs = require('fs-extra');
 const webpack = require('webpack');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 const env = process.env.NODE_ENV;
 const srcDir = __dirname;
@@ -19,10 +20,11 @@ if (env === 'production') {
 
 
 module.exports = {
+  mode: process.env.NODE_ENV || 'development',
   entry: `${frontendDir}/index.jsx`,
 
   output: {
-    path: path,
+    path,
     publicPath: '/',
     filename: 'starboard-web-client.bundle.js',
   },
@@ -34,8 +36,12 @@ module.exports = {
         use: [
           {
             loader: 'babel-loader',
-            query: {
-              presets: ['stage-0', 'es2015', 'react'],
+            options: {
+              presets: ['@babel/preset-env', '@babel/preset-react'],
+              plugins: [
+                ['@babel/plugin-proposal-class-properties', { loose: true }],
+                '@babel/plugin-proposal-object-rest-spread',
+              ],
             },
           },
         ],
@@ -58,10 +64,13 @@ module.exports = {
       },
       {
         test: /\.s?css$/,
-        use: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: ['css-loader', 'sass-loader'],
-        }),
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader,
+          },
+          'css-loader',
+          'sass-loader',
+        ],
       },
     ],
   },
@@ -77,6 +86,7 @@ module.exports = {
   },
 
   devServer: {
+    disableHostCheck: true,
     proxy: {
       '/socket.io/**': {
         target: 'http://localhost:8081',
@@ -94,19 +104,19 @@ module.exports = {
   },
 
   stats: { children: false },
+  optimization: {
+    minimizer: (env === 'production' || env === 'test') ? [
+      new UglifyJsPlugin(),
+    ] : [],
+  },
   plugins: (env === 'production' || env === 'test') ? [
-    new ExtractTextPlugin({ filename: 'starboard-web-client.bundle.css' }),
-    new webpack.optimize.UglifyJsPlugin({
-      compress: {
-        warnings: false,
-      },
-    }),
+    new MiniCssExtractPlugin({ filename: 'starboard-web-client.bundle.css' }),
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify('production'),
       },
     }),
   ] : [
-    new ExtractTextPlugin({ filename: 'starboard-web-client.bundle.css' }),
+    new MiniCssExtractPlugin({ filename: 'starboard-web-client.bundle.css' }),
   ],
 };

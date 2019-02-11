@@ -1,0 +1,70 @@
+{
+  "parser": "babel-eslint",
+  "extends": "airbnb",
+  "plugins": [
+    "babel",
+    "react",
+    "jsx-a11y",
+    "import",
+    "mocha"
+  ],
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "paths": [
+          "src",
+          "src/frontend",
+          "src/backend"
+        ]
+      }
+    }
+  },
+  "env": {
+    "browser": true,
+    "mocha": true
+  },
+  "globals": {
+    "chai": true,
+    "expect": true
+  },
+  "rules": {
+    "camelcase": ["off"],
+    "no-alert": ["off"],
+    "babel/camelcase": ["error", { "properties": "never" }],
+    "no-unused-expressions": ["off"],
+    "babel/no-unused-expressions": ["error", {
+      "allowShortCircuit": false,
+      "allowTernary": false,
+      "allowTaggedTemplates": false
+    }],
+    "quotes": ["off"],
+    "babel/quotes": ["error", "single", { "avoidEscape": true }],
+    "prefer-destructuring": ["error", { "object": true, "array": false }],
+    "object-curly-newline": ["error", { "consistent": true }],
+    "function-paren-newline": ["off"],
+    "jsx-a11y/label-has-for": [ "error", { "required": { "some": [ "nesting", "id" ] } }],
+    "max-len": ["error", 120, 2, {
+      "ignoreUrls": true,
+      "ignoreComments": false,
+      "ignoreRegExpLiterals": true,
+      "ignoreStrings": true,
+      "ignoreTemplateLiterals": true
+    }],
+    "class-methods-use-this": ["off"],
+    "mocha/max-top-level-suites": ["error"],
+    "mocha/no-exclusive-tests": ["error"],
+    "mocha/no-global-tests": ["error"],
+    "mocha/no-identical-title": ["error"],
+    "mocha/no-nested-tests": ["error"],
+    "mocha/no-sibling-hooks": ["error"],
+    "mocha/no-skipped-tests": ["error"],
+    "mocha/no-top-level-hooks": ["error"],
+    "no-unused-vars": ["error", { "argsIgnorePattern": "^_", "varsIgnorePattern": "^_" }],
+    "multiline-comment-style": ["off"],
+    "react/no-typos": ["off"],
+    "react/no-unused-prop-types": ["error", { "skipShapeProps": true }],
+    "react/require-default-props": ["off"],
+    "import/prefer-default-export": ["off"],
+    "import/no-extraneous-dependencies": ["error", { "devDependencies": true }]
+  }
+}

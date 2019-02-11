@@ -6,10 +6,11 @@ export default class CardAdded {
 
   execute({ stateManager, event }) {
     const card = event.data;
-    const column = stateManager.objectData('columns', card.columnId);
+    const { columnId } = card;
+    const column = stateManager.objectData('columns', columnId);
     if (!column) return;
 
     stateManager.addObject('cards', card);
-    repositionAllCards(stateManager, card.columnId);
+    repositionAllCards(stateManager, columnId);
   }
 }

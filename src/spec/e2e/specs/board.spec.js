@@ -1,6 +1,5 @@
-/* eslint no-undef: 0 */
+/* eslint-disable no-undef, max-len, func-names, prefer-destructuring */
 
-const path = require('path');
 const server = require('../components.js').server;
 const state = require('../components.js').state;
 const utils = require('./support/utils.js');
@@ -17,8 +16,8 @@ describe('Board', () => {
     server.stop();
   });
 
-  beforeEach(() => { when.visitingPage(); });
-  afterEach(() => { return state.purge(); });
+  beforeEach(() => when.visitingPage());
+  afterEach(() => state.purge());
 
   it('has a changeable title', () => {
     userCanNotSeeBoardTitle('dev board');
@@ -51,7 +50,7 @@ describe('Board', () => {
   it('allows to change theme color', () => {
     const color = {
       hex: '0079BF',
-      rgba: 'rgba(0, 121, 191, 1)',
+      rgba: 'rgba(0,121,191,1)',
     };
     when.openingSideMenu();
     and.changingThemeColor(color.hex);
@@ -74,12 +73,10 @@ describe('Board', () => {
   });
 
   it('allows to change user avatar', () => {
-    const avatar = path.join(__dirname, 'support', 'files', 'avatar.jpg');
-
     when.openingSideMenu();
     userCanSeeAvatar('avatar-placeholder.jpg');
 
-    when.changingUserAvatar(avatar);
+    when.changingUserAvatar();
     userCanSeeAvatar('avatar.jpg');
 
     and.then.when.removingUserAvatar();

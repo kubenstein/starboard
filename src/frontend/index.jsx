@@ -2,7 +2,9 @@ import 'es6-promise/auto';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Bootstrap from 'components/Bootstrap';
+import App from 'components/App';
+import DependencyContext from 'lib/dependencyContext';
+import EventResponder from 'lib/EventResponder';
 
 import DependencyInjector from 'lib/dependency-injector';
 import FrontendAppState from 'lib/frontend-app-state';
@@ -42,11 +44,14 @@ deps
     dataEventStorage: di.get('eventStorage'),
     appEventStorage: di.get('appEventStorage'),
     userId: di.get('userSessionService').userId(),
-  }))
-;
+  }));
 
 
 ReactDOM.render(
-  <Bootstrap deps={deps} />,
+  <DependencyContext.Provider value={deps}>
+    <EventResponder>
+      <App />
+    </EventResponder>
+  </DependencyContext.Provider>,
   document.getElementById('app'),
 );

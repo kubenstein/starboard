@@ -4,7 +4,7 @@ export default class SettingsUpdated {
   forEvent() { return settingsUpdatedEventType; }
 
   execute({ stateManager, event }) {
-    const data = event.data;
+    const { data } = event;
     const settings = stateManager.objectData('settings', data.id);
     if (settings) {
       stateManager.removeObject('settings', data.id);

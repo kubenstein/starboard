@@ -6,10 +6,13 @@ export default class ServerEventStorage {
     this.token = params.token;
     this.queue = Promise.resolve();
     this.observers = [];
-    this.addedEventIDs = []; // To have smooth adding flow,
-                             // we notify on success add,
-                             // and ignore that event comming back
-                             // from server (via newEvent channel)
+
+    //
+    // To have smooth adding flow,
+    // we notify on success add,
+    // and ignore that event comming back
+    // from server (via newEvent channel)
+    this.addedEventIDs = [];
     this.socket = io(uri, { query: `token=${this.token}` });
 
     this.start();
@@ -44,14 +47,12 @@ export default class ServerEventStorage {
   // private
 
   start() {
-    this.queue = this.queue.then(() => {
-      return new Promise((resolve, _reject) => {
-        this.socket.on('accessGranted', () => {
-          this.startListeningForEvents();
-          resolve();
-        });
+    this.queue = this.queue.then(() => new Promise((resolve, _reject) => {
+      this.socket.on('accessGranted', () => {
+        this.startListeningForEvents();
+        resolve();
       });
-    });
+    }));
   }
 
   startListeningForEvents() {

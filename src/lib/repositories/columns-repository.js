@@ -25,7 +25,7 @@ export default class ColumnsRepository {
     const lastPosition = lastColumn.position + 1;
 
     const event = columnAddedEvent(requesterId, {
-      name: name,
+      name,
       position: lastPosition,
     });
     return this.stateManager.addEvent(event);

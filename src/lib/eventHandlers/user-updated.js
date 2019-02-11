@@ -4,7 +4,7 @@ export default class UserUpdated {
   forEvent() { return userUpdatedEventType; }
 
   execute({ stateManager, event }) {
-    const data = event.data;
+    const { data } = event;
     const existedUser = stateManager.objectData('users', data.id);
     const userData = existedUser || {};
 

@@ -1,15 +1,32 @@
 /* eslint-disable no-multi-spaces */
-exports.Starboard          = require('backend/server.js').default;
-exports.eventDefinitions   = require('lib/event-definitions.js');
-exports.State              = require('lib/state.js').default;
-exports.GitContainer       = require('lib/git-container.js').default;
-exports.GitFilesStorage    = require('lib/git-files-storage.js').default;
-exports.GitEventStorage    = require('lib/eventStorages/git-event-storage.js').default;
-exports.MemoryEventStorage = require('lib/eventStorages/memory-event-storage.js').default;
-exports.ServerEventStorage = require('lib/eventStorages/server-event-storage.js').default;
-exports.SettingsRepository = require('lib/repositories/settings-repository.js').default;
-exports.CardsRepository    = require('lib/repositories/cards-repository.js').default;
-exports.ColumnsRepository  = require('lib/repositories/columns-repository.js').default;
-exports.CommentsRepository = require('lib/repositories/comments-repository.js').default;
-exports.UsersRepository    = require('lib/repositories/users-repository.js').default;
-exports.DependecyIjector   = require('lib/dependency-injector.js').default;
+import Starboard from 'backend/server';
+import * as eventDefinitions from 'lib/event-definitions';
+import State from 'lib/state';
+import GitContainer from 'lib/git-container';
+import GitFilesStorage from 'lib/git-files-storage';
+import GitEventStorage from 'lib/eventStorages/git-event-storage';
+import MemoryEventStorage from 'lib/eventStorages/memory-event-storage';
+import ServerEventStorage from 'lib/eventStorages/server-event-storage';
+import SettingsRepository from 'lib/repositories/settings-repository';
+import CardsRepository from 'lib/repositories/cards-repository';
+import ColumnsRepository from 'lib/repositories/columns-repository';
+import CommentsRepository from 'lib/repositories/comments-repository';
+import UsersRepository from 'lib/repositories/users-repository';
+import DependecyIjector from 'lib/dependency-injector';
+
+export {
+  Starboard,
+  eventDefinitions,
+  State,
+  GitContainer,
+  GitFilesStorage,
+  GitEventStorage,
+  MemoryEventStorage,
+  ServerEventStorage,
+  SettingsRepository,
+  CardsRepository,
+  ColumnsRepository,
+  CommentsRepository,
+  UsersRepository,
+  DependecyIjector,
+};

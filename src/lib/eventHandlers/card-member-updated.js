@@ -8,17 +8,17 @@ export default class CardMemberUpdated {
     const card = stateManager.objectData('cards', cardId);
     if (!card) return;
 
-    const userIds = card.memberIds || [];
+    const memberIds = card.memberIds || [];
 
     if (shouldBeSet) {
-      userIds.push(userId);
+      memberIds.push(userId);
     } else {
-      const existedUserIdIndex = userIds.indexOf(userId);
+      const existedUserIdIndex = memberIds.indexOf(userId);
       if (existedUserIdIndex !== -1) {
-        userIds.splice(existedUserIdIndex, 1);
+        memberIds.splice(existedUserIdIndex, 1);
       }
     }
 
-    stateManager.updateObject('cards', cardId, { memberIds: userIds });
+    stateManager.updateObject('cards', cardId, { memberIds });
   }
 }

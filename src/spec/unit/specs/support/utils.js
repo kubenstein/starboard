@@ -1,14 +1,14 @@
-const fs = require('fs-extra');
-const execSync = require('child_process').execSync;
-const uuid = require('uuid/v4');
+import fs from 'fs-extra';
+import { execSync } from 'child_process';
+import uuid from 'uuid/v4';
 
-exports.generateTmpRepoPath = function () {
+export function generateTmpRepoPath() {
   return `/tmp/starboard-git-specs/${uuid()}`;
-};
+}
 
-exports.generateRemoteRepoPath = function () {
-  const p = `/tmp/starboard-git-specs/${uuid()}`;
-  fs.ensureDirSync(p);
-  execSync(`git init --bare ${p}`);
-  return p;
-};
+export function generateRemoteRepoPath() {
+  const path = `/tmp/starboard-git-specs/${uuid()}`;
+  fs.ensureDirSync(path);
+  execSync(`git init --bare ${path}`);
+  return path;
+}

@@ -1,4 +1,4 @@
-/* eslint no-undef: 0 */
+/* eslint-disable no-undef, max-len, func-names, prefer-destructuring */
 
 const server = require('../components.js').server;
 const state = require('../components.js').state;
@@ -16,8 +16,8 @@ describe('Column', () => {
     server.stop();
   });
 
-  beforeEach(() => { when.visitingPage(); });
-  afterEach(() => { return state.purge(); });
+  beforeEach(() => when.visitingPage());
+  afterEach(() => state.purge());
 
   it('can be created', () => {
     userCanNotSee('created column');
