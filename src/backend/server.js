@@ -5,38 +5,22 @@ import express from 'express';
 import SocketIo from 'socket.io';
 import multer from 'multer';
 import bodyParser from 'body-parser';
-import StoreFileUsecase from 'lib/usecases/store-file-usecase';
-import SendFileUsecase from 'lib/usecases/send-file-usecase';
-import EventProcessorsQueue from 'lib/event-processors-queue';
-import State from 'lib/state';
-import AllowEveryoneAuth from 'lib/allow-everyone-auth';
 import NullLogger from 'lib/null-logger';
 import { hasToBeSet } from 'lib/utils';
 import { permissionDeniedEvent } from 'lib/event-definitions';
 
 export default class Server {
   constructor(params) {
-    this.eventStorage    = params.eventStorage    || hasToBeSet('eventStorage');
-    this.filesStorage    = params.filesStorage    || hasToBeSet('filesStorage');
     this.serverPort      = params.port            || 9000;
-    this.uploadsDir      = params.uploadsDir      || path.resolve('.tmp/tmpUploads/');
     this.logger          = params.logger          || new NullLogger();
-    this.auth            = params.auth            || new AllowEveryoneAuth();
     this.noBanner        = params.noBanner        || false;
-    this.eventProcessors = params.eventProcessors || [];
-    this.state           = params.state           || new State({ eventStorage: this.eventStorage });
+    this.strategy        = params.strategy        || hasToBeSet('strategy');
+    this.uploadsTmpDir   = path.resolve(params.uploadsTmpDir  || '.tmp/tmpUploads/');
+    this.publicFilesDir  = path.resolve(params.publicFilesDir || '.tmp/public/');
+    this.server          = null;
+    this.sockets         = [];
 
-    this.server           = null;
-    this.sockets          = [];
-    this.sendFileUsecase  = new SendFileUsecase({ filesStorage: this.filesStorage });
-    this.storeFileUsecase = new StoreFileUsecase({
-      filesStorage: this.filesStorage,
-      eventStorage: this.eventStorage,
-    });
-    this.incommingEventProcessors = new EventProcessorsQueue({
-      stateManager: this.state,
-      processors: this.eventProcessors,
-    });
+    this.strategy.onNewAsyncEvent(event => this.broadcastEvent(event));
   }
 
   displayBanner() {
@@ -44,8 +28,7 @@ export default class Server {
     console.log(`
     |
     | Starting Starboard...
-    | ${this.eventStorage.welcomeInfo()}
-    | ${this.auth.welcomeInfo()}
+    | ${this.strategy.info().replace(/\n/g, '\n    | ')}
     |
     | Board available at: http://localhost:${this.serverPort}/
     |
@@ -60,7 +43,7 @@ export default class Server {
     const app    = express();
     const server = app.listen(this.serverPort);
     const io     = SocketIo(server);
-    const upload = multer({ dest: this.uploadsDir });
+    const upload = multer({ dest: this.uploadsTmpDir });
 
     this.server = server;
 
@@ -70,42 +53,39 @@ export default class Server {
 
     // ----------------- http -----------------
     app.get('/attachments/:fileName', (req, res) => {
-      this.sendFileUsecase.sendResponse({
-        fileName: req.params.fileName,
-        expressResponse: res,
+      this.strategy.getFileUrl(req.params.fileName, req.params.token).then((fileUrl) => {
+        if (fileUrl[0] === '/') {
+          const relatveToRoot = fileUrl.replace(this.publicFilesDir, '');
+          res.sendFile(relatveToRoot, { dotfiles: 'deny', root: this.publicFilesDir });
+        } else {
+          res.redirect(fileUrl);
+        }
+      }).catch(() => {
+        res.send(403, 'access denied');
       });
     });
 
     app.post('/attachments/', upload.single('attachment'), (req, res) => {
-      this.storeFileUsecase.addFile(req.file).then((fileUrl) => {
+      this.strategy.storeFile(req.file, req.params.token).then((fileUrl) => {
         res.send({ attachmentUrl: fileUrl });
+      }).catch(() => {
+        res.send(403, 'access denied');
       });
     });
 
     app.post('/login/', (req, res) => {
       const { email, password } = req.body;
-      this.auth.authWithCredentials(email, password).then((authData) => {
+      this.strategy.authWithCredentials(email, password).then((authData) => {
         res.send({ userId: authData.userId, token: authData.token });
       }).catch(() => {
         res.send(403, 'access denied');
       });
     });
 
-
-    // ----------- websockets utils -----------
-    const allClientsNotifier = {
-      onNewEvent: (newEvent) => {
-        this.sockets.forEach((socket) => {
-          socket.emit('newEvent', newEvent);
-        });
-      },
-    };
-    this.eventStorage.addObserver(allClientsNotifier);
-
-
     // -------------- webSockets --------------
     io.on('connection', (socket) => {
-      this.auth.authWithToken(socket.handshake.query.token)
+      const { handshake: { query: { token } } } = socket;
+      this.strategy.authWithToken(token)
         .then(() => {
           this.configureSocket(socket);
           socket.emit('accessGranted');
@@ -124,26 +104,26 @@ export default class Server {
 
   // private
 
+  broadcastEvent(event) {
+    this.sockets.forEach(s => s.emit('newEvent', event));
+  }
+
   configureSocket(socket) {
     this.sockets.push(socket);
+
     socket.on('disconnect', () => {
       this.sockets.splice(this.sockets.indexOf(socket), 1);
     });
 
     socket.on('addEvent', (event, sendBack) => {
-      this.auth.allowEvent(event, socket.handshake.query.token)
-        .then(() => this.incommingEventProcessors.processEvent(event))
-        .then(() => {
-          sendBack(event);
-          this.eventStorage.addEvent(event);
-        })
-        .catch(() => { sendBack(permissionDeniedEvent(event)); });
+      const { handshake: { query: { token } } } = socket;
+      this.strategy.processEvent(event, token)
+        .catch(() => sendBack(permissionDeniedEvent(event)));
     });
 
     socket.on('getAllPastEvents', (sendBack) => {
-      this.eventStorage.allPastEvents().then((events) => {
-        sendBack(events);
-      });
+      const { handshake: { query: { token } } } = socket;
+      this.strategy.allPastEvents(token).then(events => sendBack(events));
     });
   }
 }

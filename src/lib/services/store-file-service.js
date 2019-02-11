@@ -1,14 +1,14 @@
 import { hasToBeSet } from 'lib/utils';
 import { fileAddedEvent } from 'lib/event-definitions';
 
-export default class StoreFileUsecase {
+export default class StoreFileService {
   constructor(params = {}) {
     this.filesStorage = params.filesStorage || hasToBeSet('filesStorage');
     this.eventStorage = params.eventStorage || hasToBeSet('eventStorage');
     this.fileAddingRequester = 'Starboard BOT';
   }
 
-  addFile(multerFile) {
+  storeFile(multerFile) {
     const originalFileName = multerFile.originalname;
     const originalFilePath = multerFile.path;
 

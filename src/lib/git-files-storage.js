@@ -9,12 +9,12 @@ export default class GitFilesStorage {
     this.git = params.gitContainer || hasToBeSet('gitContainer');
   }
 
-  fileUrl(filePath) {
-    return path.resolve(this.git.pathToTempLocalRepo, filePath);
+  info() {
+    return `FilesStorage: Git (remote repo: ${this.git.remoteRepoUrl})`;
   }
 
-  rootPath() {
-    return this.git.pathToTempLocalRepo;
+  fileUrl(filePath) {
+    return path.resolve(this.git.pathToTempLocalRepo, filePath);
   }
 
   addFile(params) {

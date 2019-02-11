@@ -19,8 +19,8 @@ export default class GitEventStorage {
     this.start();
   }
 
-  welcomeInfo() {
-    return `Source GIT repo set to: ${this.git.remoteRepoUrl}`;
+  info() {
+    return `EventStorage: Git (remote repo: ${this.git.remoteRepoUrl})`;
   }
 
   addObserver(observer) {

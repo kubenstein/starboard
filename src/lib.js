@@ -13,6 +13,7 @@ import ColumnsRepository from 'lib/repositories/columns-repository';
 import CommentsRepository from 'lib/repositories/comments-repository';
 import UsersRepository from 'lib/repositories/users-repository';
 import DependecyIjector from 'lib/dependency-injector';
+import GitStrategy from 'lib/strategies/git-strategy';
 
 export {
   Starboard,
@@ -29,4 +30,5 @@ export {
   CommentsRepository,
   UsersRepository,
   DependecyIjector,
+  GitStrategy,
 };

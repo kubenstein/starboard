@@ -7,7 +7,7 @@ export default class MemoryEventStorage {
     this.observers = [];
   }
 
-  welcomeInfo() {
+  info() {
     return 'Using Memory Storage';
   }
 

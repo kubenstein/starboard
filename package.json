@@ -21,7 +21,7 @@
     "dev:db:create": "node ./src/scripts/db-create-development.js",
     "dev:db:clear": "./src/scripts/wipe-development-db.sh",
     "dev:localRelease": "./src/scripts/local-release.sh",
-    "specs": "npm run specs:linter --silent && npm run specs:build && npm run specs:unit-without-rebuild --silent && npm run specs:e2e-without-rebuild --silent",
+    "specs": "npm run specs:linter --silent && npm run specs:unit --silent && npm run specs:e2e --silent",
     "specs:linter": "eslint -c .eslintrc.json \"./src/*.js\" \"./src/backend/**\" \"./src/frontend/**\" \"./src/spec/**\" \"./src/lib/**\"",
     "specs:e2e": "rm -rf ./dist/ && npm run build && wdio ./src/spec/e2e/wdio.conf.js",
     "specs:unit": "mocha-webpack --webpack-config ./src/webpack-lib.config.js ./src/spec/unit/specs/*.spec.js --colors",
