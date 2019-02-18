@@ -11,7 +11,11 @@ Main Starboard idea is to keep, distribute and archive all programming and non-p
 
 Source code is only a one part of a project. Other, also important, is management history like list of grouped and prioritised tasks with their characteristics, comments and related files.
 
-See a blogpost: http://www.jakubniewczas.pl/#/blog/starboard-git-based-task-managment-tool
+See blogposts:
+
+http://www.jakubniewczas.pl/#/blog/current-state-in-event-sourcing
+
+http://www.jakubniewczas.pl/#/blog/starboard-git-based-task-managment-tool
 
 
 ### Installation
@@ -64,7 +68,7 @@ Then visit `http://localhost:8080/`.
 Current version uses `AllowEveryone` Policy so any email is allowed and any text as a password is valid.
 
 ### Why no Redux, React Router and X npm package?
-I use all those packages at my work, yes I'm confident with those industry standard libraries. Here though, in my own private universe, I enjoy not pulling 200+ npm modules and building my own solutions/implementations.
+I use all those packages at my work, yes I'm confident with those industry standard libraries. Here though, in my own private universe, I enjoy not pulling 200+ npm modules and building my own solutions/implementations instead.
 
 ### Tests
 
